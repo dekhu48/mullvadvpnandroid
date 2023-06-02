@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -42,7 +41,7 @@ fun DnsCell(
                 Icon(
                     painter = painterResource(id = R.drawable.icon_alert),
                     contentDescription = stringResource(id = R.string.confirm_local_dns),
-                    tint = MaterialTheme.colorScheme.errorContainer
+                    tint = MaterialTheme.colorScheme.scrim
                 )
             }
         },
@@ -57,7 +56,7 @@ fun DnsCell(
 private fun DnsTitle(address: String, modifier: Modifier = Modifier) {
     Text(
         text = address,
-        color = Color.White,
+        color = MaterialTheme.colorScheme.onSurface,
         style = MaterialTheme.typography.labelLarge,
         textAlign = TextAlign.Start,
         modifier = modifier.wrapContentWidth(align = Alignment.End).wrapContentHeight()

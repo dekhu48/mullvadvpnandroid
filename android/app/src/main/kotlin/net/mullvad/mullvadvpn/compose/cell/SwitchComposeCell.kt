@@ -1,5 +1,6 @@
 package net.mullvad.mullvadvpn.compose.cell
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -32,7 +33,7 @@ import net.mullvad.mullvadvpn.lib.theme.Dimens
 @Composable
 private fun PreviewSwitchComposeCell() {
     AppTheme {
-        SpacedColumn {
+        SpacedColumn(modifier = Modifier.background(MaterialTheme.colorScheme.surface)) {
             HeaderSwitchComposeCell(
                 title = "Checkbox Title",
                 isEnabled = true,
@@ -57,7 +58,8 @@ fun NormalSwitchComposeCell(
     isToggled: Boolean,
     startPadding: Dp = Dimens.indentedCellStartPadding,
     isEnabled: Boolean = true,
-    background: Color = MaterialTheme.colorScheme.primary,
+    background: Color = MaterialTheme.colorScheme.primaryContainer,
+    onBackground: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     onCellClicked: (Boolean) -> Unit = {},
     onInfoClicked: (() -> Unit)? = null
 ) {
@@ -66,13 +68,15 @@ fun NormalSwitchComposeCell(
             BaseCellTitle(
                 title = title,
                 style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.weight(1f, true)
+                modifier = Modifier.weight(1f, true),
+                textColor = onBackground
             )
         },
         isToggled = isToggled,
         startPadding = startPadding,
         isEnabled = isEnabled,
         background = background,
+        onBackground = onBackground,
         onCellClicked = onCellClicked,
         onInfoClicked = onInfoClicked
     )
@@ -86,6 +90,7 @@ fun HeaderSwitchComposeCell(
     startPadding: Dp = Dimens.cellStartPadding,
     isEnabled: Boolean = true,
     background: Color = MaterialTheme.colorScheme.primary,
+    onBackground: Color = MaterialTheme.colorScheme.onPrimary,
     onCellClicked: (Boolean) -> Unit = {},
     onInfoClicked: (() -> Unit)? = null,
 ) {
@@ -94,13 +99,15 @@ fun HeaderSwitchComposeCell(
             BaseCellTitle(
                 title = title,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.weight(1f, fill = true)
+                modifier = Modifier.weight(1f, fill = true),
+                textColor = onBackground
             )
         },
         isToggled = isToggled,
         startPadding = startPadding,
         isEnabled = isEnabled,
         background = background,
+        onBackground = onBackground,
         onCellClicked = onCellClicked,
         onInfoClicked = onInfoClicked,
         modifier,
@@ -114,6 +121,7 @@ private fun SwitchComposeCell(
     startPadding: Dp,
     isEnabled: Boolean,
     background: Color,
+    onBackground: Color,
     onCellClicked: (Boolean) -> Unit,
     onInfoClicked: (() -> Unit)?,
     modifier: Modifier = Modifier,
@@ -127,6 +135,7 @@ private fun SwitchComposeCell(
                 onSwitchClicked = null,
                 isEnabled = isEnabled,
                 isToggled = isToggled,
+                iconColor = onBackground,
                 onInfoClicked = onInfoClicked
             )
         },
@@ -140,6 +149,7 @@ private fun SwitchComposeCell(
 fun SwitchCellView(
     isEnabled: Boolean,
     isToggled: Boolean,
+    iconColor: Color,
     modifier: Modifier = Modifier,
     onSwitchClicked: ((Boolean) -> Unit)? = null,
     onInfoClicked: (() -> Unit)? = null
@@ -163,7 +173,7 @@ fun SwitchCellView(
                         .align(Alignment.CenterVertically),
                 painter = painterResource(id = R.drawable.icon_info),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = iconColor
             )
         }
 
@@ -188,12 +198,12 @@ fun CustomDnsCellSubtitle(isCellClickable: Boolean, modifier: Modifier) {
     Text(
         text = spanned.toAnnotatedString(boldFontWeight = FontWeight.ExtraBold),
         style = MaterialTheme.typography.labelMedium,
-        color = MaterialTheme.colorScheme.onSecondary,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
         modifier = modifier
     )
 }
 
 @Composable
-fun SwitchComposeSubtitleCell(text: String, modifier: Modifier = Modifier) {
-    BaseSubtitleCell(text = text, modifier = modifier)
+fun SwitchComposeSubtitleCell(text: String, modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.onSecondary) {
+    BaseSubtitleCell(text = text, modifier = modifier, color = color)
 }

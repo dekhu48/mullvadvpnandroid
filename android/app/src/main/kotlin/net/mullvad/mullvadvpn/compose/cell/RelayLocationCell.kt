@@ -167,14 +167,22 @@ fun RelayLocationCell(
     val expanded = remember(key1 = relay.expanded.toString()) { mutableStateOf(relay.expanded) }
     val backgroundColor =
         when {
-            selected -> MaterialTheme.colorScheme.inversePrimary
-            relay.type == RelayItemType.Country -> MaterialTheme.colorScheme.primary
+            selected -> MaterialTheme.colorScheme.secondary
+            relay.type == RelayItemType.Country -> MaterialTheme.colorScheme.primaryContainer
             relay.type == RelayItemType.City ->
-                MaterialTheme.colorScheme.primary
+                MaterialTheme.colorScheme.secondaryContainer
                     .copy(alpha = Alpha40)
                     .compositeOver(MaterialTheme.colorScheme.background)
-            relay.type == RelayItemType.Relay -> MaterialTheme.colorScheme.secondaryContainer
+            relay.type == RelayItemType.Relay -> MaterialTheme.colorScheme.tertiaryContainer
             else -> MaterialTheme.colorScheme.primary
+        }
+    val onBackgroundColor =
+        when {
+            selected -> MaterialTheme.colorScheme.onSecondary
+            relay.type == RelayItemType.Country -> MaterialTheme.colorScheme.onPrimaryContainer
+            relay.type == RelayItemType.City -> MaterialTheme.colorScheme.onSecondaryContainer
+            relay.type == RelayItemType.Relay -> MaterialTheme.colorScheme.onTertiaryContainer
+            else -> MaterialTheme.colorScheme.onPrimary
         }
     Column(
         modifier =
@@ -238,7 +246,7 @@ fun RelayLocationCell(
                 }
                 Text(
                     text = relay.name,
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = onBackgroundColor,
                     modifier =
                         Modifier.weight(1f)
                             .align(Alignment.CenterVertically)
@@ -262,6 +270,7 @@ fun RelayLocationCell(
                 )
                 ChevronView(
                     isExpanded = expanded.value,
+                    color = onBackgroundColor,
                     modifier =
                         Modifier.fillMaxHeight()
                             .clickable { expanded.value = !expanded.value }

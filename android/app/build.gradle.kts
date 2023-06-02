@@ -330,6 +330,7 @@ dependencies {
     implementation(Dependencies.AndroidX.lifecycleRuntimeKtx)
     implementation(Dependencies.AndroidX.lifecycleViewmodelKtx)
     implementation(Dependencies.AndroidX.recyclerview)
+    implementation(Dependencies.AndroidX.dataStorePreferences)
     implementation(Dependencies.Compose.constrainLayout)
     implementation(Dependencies.Compose.foundation)
     implementation(Dependencies.Compose.viewModelLifecycle)

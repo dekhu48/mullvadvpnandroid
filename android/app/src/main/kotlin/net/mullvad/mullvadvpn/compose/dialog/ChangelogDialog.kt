@@ -29,6 +29,7 @@ fun ChangelogDialog(changesList: List<String>, version: String, onDismiss: () ->
             Text(
                 text = version,
                 style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -42,7 +43,7 @@ fun ChangelogDialog(changesList: List<String>, version: String, onDismiss: () ->
                 Text(
                     text = stringResource(R.string.changes_dialog_subtitle),
                     style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.fillMaxWidth()
                 )
 
@@ -52,7 +53,7 @@ fun ChangelogDialog(changesList: List<String>, version: String, onDismiss: () ->
         confirmButton = {
             PrimaryButton(text = stringResource(R.string.got_it), onClick = onDismiss)
         },
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.surface,
         titleContentColor = MaterialTheme.colorScheme.onBackground
     )
 }

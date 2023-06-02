@@ -33,6 +33,7 @@ class SettingsFragment : BaseFragment() {
                         onVpnSettingCellClick = { openVpnSettingsFragment() },
                         onSplitTunnelingCellClick = { openSplitTunnelingFragment() },
                         onReportProblemCellClick = { openReportProblemFragment() },
+                        onUseMaterialYouThemeClick = vm::setUseMaterialYouTheme,
                         onBackClick = { activity?.onBackPressed() }
                     )
                 }

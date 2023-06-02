@@ -37,7 +37,7 @@ private fun PreviewInformationComposeCell() {
 fun InformationComposeCell(
     title: String,
     isEnabled: Boolean = true,
-    background: Color = MullvadBlue,
+    background: Color = MaterialTheme.colorScheme.primary,
     onCellClicked: () -> Unit = {},
     onInfoClicked: (() -> Unit)? = null
 ) {
@@ -80,7 +80,7 @@ private fun InformationComposeCellBody(modifier: Modifier, onInfoClicked: (() ->
                         .align(Alignment.CenterVertically),
                 painter = painterResource(id = R.drawable.icon_info),
                 contentDescription = null,
-                tint = MullvadWhite
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
     }

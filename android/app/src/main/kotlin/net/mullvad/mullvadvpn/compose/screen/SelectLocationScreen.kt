@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -51,6 +52,8 @@ import net.mullvad.mullvadvpn.compose.test.CIRCULAR_PROGRESS_INDICATOR
 import net.mullvad.mullvadvpn.compose.textfield.SearchTextField
 import net.mullvad.mullvadvpn.lib.theme.AppTheme
 import net.mullvad.mullvadvpn.lib.theme.Dimens
+import net.mullvad.mullvadvpn.lib.theme.color.Alpha10
+import net.mullvad.mullvadvpn.lib.theme.color.AlphaDescription
 import net.mullvad.mullvadvpn.lib.theme.color.AlphaScrollbar
 import net.mullvad.mullvadvpn.relaylist.RelayCountry
 import net.mullvad.mullvadvpn.relaylist.RelayItem
@@ -82,7 +85,7 @@ fun SelectLocationScreen(
     onSearchTermInput: (searchTerm: String) -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
-    val backgroundColor = MaterialTheme.colorScheme.background
+    val backgroundColor = MaterialTheme.colorScheme.surface
     val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(Unit) { uiCloseAction.collect { onBackClick() } }
@@ -102,6 +105,7 @@ fun SelectLocationScreen(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.icon_back),
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant),
                 contentDescription = null,
                 modifier =
                     Modifier.focusRequester(backFocus)
@@ -122,10 +126,11 @@ fun SelectLocationScreen(
                         .padding(end = Dimens.titleIconSize),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.headlineSmall.copy(fontSize = 20.sp),
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
         SearchTextField(
+            backgroundColor = MaterialTheme.colorScheme.onSurface.copy(alpha = Alpha10),
             modifier =
                 Modifier.fillMaxWidth()
                     .focusRequester(searchBarFocus)
@@ -194,7 +199,9 @@ fun SelectLocationScreen(
                                     )
                                 },
                             style = MaterialTheme.typography.labelMedium,
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
+                            color =
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = AlphaDescription)
                         )
                     }
                 }

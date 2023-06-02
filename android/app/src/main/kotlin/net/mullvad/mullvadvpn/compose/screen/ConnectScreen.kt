@@ -174,7 +174,7 @@ fun ConnectScreen(
                             ActionAfterDisconnect.Reconnect)
             ) {
                 MullvadCircularProgressIndicatorLarge(
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier =
                         Modifier.padding(
                                 start = Dimens.sideMargin,

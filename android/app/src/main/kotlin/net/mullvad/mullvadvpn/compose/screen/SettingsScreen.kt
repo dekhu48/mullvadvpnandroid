@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -22,6 +24,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import net.mullvad.mullvadvpn.R
 import net.mullvad.mullvadvpn.compose.cell.DefaultExternalLinkView
+import net.mullvad.mullvadvpn.compose.cell.HeaderSwitchComposeCell
 import net.mullvad.mullvadvpn.compose.cell.NavigationCellBody
 import net.mullvad.mullvadvpn.compose.cell.NavigationComposeCell
 import net.mullvad.mullvadvpn.compose.component.NavigateBackDownIconButton
@@ -45,7 +48,8 @@ private fun PreviewSettings() {
                 SettingsUiState(
                     appVersion = "2222.22",
                     isLoggedIn = true,
-                    isUpdateAvailable = true
+                    isUpdateAvailable = true,
+                    isMaterialYouTheme = false
                 ),
             enterTransitionEndAction = MutableSharedFlow()
         )
@@ -60,10 +64,11 @@ fun SettingsScreen(
     onVpnSettingCellClick: () -> Unit = {},
     onSplitTunnelingCellClick: () -> Unit = {},
     onReportProblemCellClick: () -> Unit = {},
+    onUseMaterialYouThemeClick: (Boolean) -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val backgroundColor = MaterialTheme.colorScheme.background
+    val backgroundColor = MaterialTheme.colorScheme.surface
     val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(Unit) {
@@ -96,6 +101,15 @@ fun SettingsScreen(
                     )
                     Spacer(modifier = Modifier.height(Dimens.cellVerticalSpacing))
                 }
+            }
+            item {
+                HeaderSwitchComposeCell(
+                    title = stringResource(id = R.string.use_material_you),
+                    isToggled = uiState.isMaterialYouTheme,
+                    onCellClicked = onUseMaterialYouThemeClick,
+                    onInfoClicked = null
+                )
+                Spacer(modifier = Modifier.height(Dimens.cellVerticalSpacing))
             }
             item {
                 NavigationComposeCell(
@@ -135,9 +149,10 @@ fun SettingsScreen(
                     Text(
                         text = stringResource(id = R.string.update_available_footer),
                         style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSecondary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier =
-                            Modifier.background(MaterialTheme.colorScheme.secondary)
+                            Modifier.fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.surface)
                                 .padding(
                                     start = Dimens.cellStartPadding,
                                     top = Dimens.cellTopPadding,
@@ -161,7 +176,14 @@ fun SettingsScreen(
                     val faqGuideLabel = stringResource(id = R.string.faqs_and_guides)
                     NavigationComposeCell(
                         title = faqGuideLabel,
-                        bodyView = @Composable { DefaultExternalLinkView(faqGuideLabel) },
+                        bodyView =
+                            @Composable {
+                                DefaultExternalLinkView(
+                                    faqGuideLabel,
+                                    colorFilter =
+                                        ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+                                )
+                            },
                         onClick = {
                             context.openLink(
                                 Uri.parse(context.resources.getString(R.string.faqs_and_guides_url))
@@ -175,7 +197,13 @@ fun SettingsScreen(
                 val privacyPolicyLabel = stringResource(id = R.string.privacy_policy_label)
                 NavigationComposeCell(
                     title = privacyPolicyLabel,
-                    bodyView = @Composable { DefaultExternalLinkView(privacyPolicyLabel) },
+                    bodyView =
+                        @Composable {
+                            DefaultExternalLinkView(
+                                privacyPolicyLabel,
+                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+                            )
+                        },
                     onClick = {
                         context.openLink(
                             Uri.parse(

@@ -10,39 +10,54 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import net.mullvad.mullvadvpn.compose.state.SettingsUiState
+import net.mullvad.mullvadvpn.lib.theme.ThemeRepository
 import net.mullvad.mullvadvpn.model.DeviceState
 import net.mullvad.mullvadvpn.repository.DeviceRepository
 import net.mullvad.mullvadvpn.ui.serviceconnection.ServiceConnectionManager
 
 class SettingsViewModel(
     deviceRepository: DeviceRepository,
-    serviceConnectionManager: ServiceConnectionManager
+    serviceConnectionManager: ServiceConnectionManager,
+    private val themeRepository: ThemeRepository
 ) : ViewModel() {
     private val _enterTransitionEndAction = MutableSharedFlow<Unit>()
 
     private val vmState: StateFlow<SettingsUiState> =
-        combine(deviceRepository.deviceState, serviceConnectionManager.connectionState) {
-                deviceState,
-                versionInfo ->
+        combine(
+                deviceRepository.deviceState,
+                serviceConnectionManager.connectionState,
+                themeRepository.useMaterialYouTheme()
+            ) { deviceState, versionInfo, useMaterialYouTheme ->
                 val cachedVersionInfo = versionInfo.readyContainer()?.appVersionInfoCache
                 SettingsUiState(
                     isLoggedIn = deviceState is DeviceState.LoggedIn,
                     appVersion = cachedVersionInfo?.version ?: "",
                     isUpdateAvailable =
-                        cachedVersionInfo?.let { it.isSupported.not() || it.isOutdated } ?: false
+                        cachedVersionInfo?.let { it.isSupported.not() || it.isOutdated } ?: false,
+                    isMaterialYouTheme = useMaterialYouTheme
                 )
             }
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(),
-                SettingsUiState(appVersion = "", isLoggedIn = false, isUpdateAvailable = false)
+                SettingsUiState(
+                    appVersion = "",
+                    isLoggedIn = false,
+                    isUpdateAvailable = false,
+                    isMaterialYouTheme = false
+                )
             )
 
     val uiState =
         vmState.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(),
-            SettingsUiState(appVersion = "", isLoggedIn = false, isUpdateAvailable = false)
+            SettingsUiState(
+                appVersion = "",
+                isLoggedIn = false,
+                isUpdateAvailable = false,
+                isMaterialYouTheme = false
+            )
         )
 
     @Suppress("konsist.ensure public properties use permitted names")
@@ -50,5 +65,9 @@ class SettingsViewModel(
 
     fun onTransitionAnimationEnd() {
         viewModelScope.launch { _enterTransitionEndAction.emit(Unit) }
+    }
+
+    fun setUseMaterialYouTheme(useMaterialYouTheme: Boolean) {
+        viewModelScope.launch { themeRepository.setUseMaterialYouTheme(useMaterialYouTheme) }
     }
 }

@@ -42,6 +42,7 @@ val MullvadWhite20 = Color(0x33FFFFFF)
 val MullvadWhite60 = Color(0x99FFFFFF)
 
 const val AlphaVisible = 1f
+const val Alpha10 = 0.1f
 const val AlphaDisabled = 0.2f
 const val Alpha20 = 0.2f
 const val AlphaInactive = 0.4f
@@ -55,9 +56,12 @@ const val AlphaInvisible = 0f
 
 // Custom colors, they only link to normal material 3 colors for now
 val ColorScheme.variant: Color
-    @Composable get() = MaterialTheme.colorScheme.surface
+    @Composable get() = MaterialTheme.colorScheme.secondary
 val ColorScheme.onVariant: Color
-    @Composable get() = MaterialTheme.colorScheme.onSurface
+    @Composable get() = MaterialTheme.colorScheme.onSecondary
 
 val ColorScheme.selected: Color
-    @Composable get() = MaterialTheme.colorScheme.surface
+    @Composable get() = MaterialTheme.colorScheme.secondary
+
+val ColorScheme.onSelected: Color
+    @Composable get() = MaterialTheme.colorScheme.onSecondary

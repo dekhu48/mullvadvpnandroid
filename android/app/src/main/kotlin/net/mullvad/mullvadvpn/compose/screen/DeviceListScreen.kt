@@ -91,7 +91,7 @@ fun DeviceListScreen(
     ScaffoldWithTopBar(
         topBarColor = MaterialTheme.colorScheme.primary,
         statusBarColor = MaterialTheme.colorScheme.primary,
-        navigationBarColor = MaterialTheme.colorScheme.background,
+        navigationBarColor = MaterialTheme.colorScheme.surface,
         iconTintColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaTopBar),
         onSettingsClicked = onSettingsClicked,
         onAccountClicked = null,
@@ -102,10 +102,7 @@ fun DeviceListScreen(
             val scrollState = rememberScrollState()
             Column(
                 modifier =
-                    Modifier.drawVerticalScrollbar(
-                            scrollState,
-                            MaterialTheme.colorScheme.onBackground
-                        )
+                    Modifier.drawVerticalScrollbar(scrollState, MaterialTheme.colorScheme.onSurface)
                         .verticalScroll(scrollState)
                         .weight(1f)
             ) {
@@ -210,8 +207,7 @@ private fun DeviceListItem(
                     text =
                         deviceUiState.device.created.parseAsDateTime()?.let { creationDate ->
                             stringResource(id = R.string.created_x, creationDate.formatDate())
-                        }
-                            ?: "",
+                        } ?: "",
                     style = MaterialTheme.typography.listItemSubText,
                     color =
                         MaterialTheme.colorScheme.onPrimary

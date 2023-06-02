@@ -209,6 +209,7 @@ fun MullvadMediumTopBar(
     title: String,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
+    containerColor: Color = MaterialTheme.colorScheme.surface,
     scrollBehavior: TopAppBarScrollBehavior? = null
 ) {
     MediumTopAppBar(
@@ -217,7 +218,7 @@ fun MullvadMediumTopBar(
         scrollBehavior = scrollBehavior,
         colors =
             TopAppBarDefaults.mediumTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background,
+                containerColor = containerColor,
                 actionIconContentColor = MaterialTheme.colorScheme.onPrimary.copy(AlphaTopBar),
             ),
         actions = actions

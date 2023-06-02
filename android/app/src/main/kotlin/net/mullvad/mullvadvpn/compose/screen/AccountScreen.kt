@@ -114,7 +114,7 @@ fun AccountScreen(
     SecureScreenWhileInView()
 
     val context = LocalContext.current
-    val backgroundColor = MaterialTheme.colorScheme.background
+    val backgroundColor = MaterialTheme.colorScheme.surface
     val systemUiController = rememberSystemUiController()
     var showDeviceNameInfoDialog by remember { mutableStateOf(false) }
     var showVerificationPendingDialog by remember { mutableStateOf(false) }

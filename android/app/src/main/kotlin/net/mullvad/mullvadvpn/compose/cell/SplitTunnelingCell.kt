@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.compositeOver
@@ -70,7 +71,7 @@ fun SplitTunnelingCell(
                 .fillMaxWidth()
                 .padding(bottom = Dimens.listItemDivider)
                 .background(
-                    MaterialTheme.colorScheme.primary
+                    MaterialTheme.colorScheme.primaryContainer
                         .copy(alpha = Alpha40)
                         .compositeOver(MaterialTheme.colorScheme.background)
                 )
@@ -80,6 +81,11 @@ fun SplitTunnelingCell(
             painter = icon?.let { iconImage -> BitmapPainter(iconImage) }
                     ?: painterResource(id = R.drawable.ic_icons_missing),
             contentDescription = null,
+            colorFilter = if(icon == null) {
+                ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+            } else {
+                null
+            },
             modifier =
                 Modifier.padding(start = Dimens.cellStartPadding)
                     .align(Alignment.CenterVertically)
@@ -88,7 +94,7 @@ fun SplitTunnelingCell(
         Text(
             text = title,
             style = MaterialTheme.typography.listItemText,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier =
                 Modifier.weight(1f)
                     .padding(horizontal = Dimens.mediumPadding, vertical = Dimens.smallPadding)

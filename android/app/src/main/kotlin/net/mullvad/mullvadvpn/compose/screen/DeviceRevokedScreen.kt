@@ -12,7 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,7 +41,7 @@ fun DeviceRevokedScreen(
 ) {
     val topColor =
         if (state == DeviceRevokedUiState.SECURED) {
-            MaterialTheme.colorScheme.inversePrimary
+            MaterialTheme.colorScheme.secondary
         } else {
             MaterialTheme.colorScheme.error
         }
@@ -50,7 +49,7 @@ fun DeviceRevokedScreen(
     ScaffoldWithTopBar(
         topBarColor = topColor,
         statusBarColor = topColor,
-        navigationBarColor = MaterialTheme.colorScheme.background,
+        navigationBarColor = MaterialTheme.colorScheme.surface,
         onSettingsClicked = onSettingsClicked,
         onAccountClicked = null
     ) {
@@ -59,7 +58,7 @@ fun DeviceRevokedScreen(
                 Modifier.fillMaxHeight()
                     .fillMaxWidth()
                     .padding(it)
-                    .background(color = MaterialTheme.colorScheme.background)
+                    .background(color = MaterialTheme.colorScheme.surface)
         ) {
             val (icon, body, actionButtons) = createRefs()
 
@@ -88,14 +87,14 @@ fun DeviceRevokedScreen(
                 Text(
                     text = stringResource(id = R.string.device_inactive_title),
                     fontSize = 24.sp,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
 
                 Text(
                     text = stringResource(id = R.string.device_inactive_description),
                     fontSize = 12.sp,
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(top = 10.dp)
                 )
 
@@ -103,7 +102,7 @@ fun DeviceRevokedScreen(
                     Text(
                         text = stringResource(id = R.string.device_inactive_unblock_warning),
                         fontSize = 12.sp,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(top = 10.dp)
                     )
                 }

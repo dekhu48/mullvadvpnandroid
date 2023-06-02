@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -64,6 +65,7 @@ fun LoadingScreen(onSettingsCogClicked: () -> Unit = {}) {
                         painter = painterResource(id = R.drawable.logo_text),
                         contentDescription = "",
                         alpha = 0.6f,
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimary),
                         modifier = Modifier.padding(top = 12.dp).height(18.dp)
                     )
                     Text(
