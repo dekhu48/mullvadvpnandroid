@@ -1,5 +1,3 @@
-#![deny(rust_2018_idioms)]
-
 use chrono::{offset::Utc, DateTime};
 #[cfg(target_os = "android")]
 use futures::channel::mpsc;
