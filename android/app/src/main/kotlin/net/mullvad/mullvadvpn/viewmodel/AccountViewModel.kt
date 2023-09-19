@@ -121,6 +121,7 @@ class AccountViewModel(
 
     fun fetchPaymentAvailability() {
         viewModelScope.launch {
+            delay(100L) // So that the ui gets a new state in retries
             paymentRepository?.queryPaymentAvailability()?.collect(_paymentAvailability)
                 ?: run { _paymentAvailability.emit(PaymentAvailability.ProductsUnavailable) }
         }
