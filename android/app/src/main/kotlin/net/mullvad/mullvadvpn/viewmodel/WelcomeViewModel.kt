@@ -6,6 +6,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -14,10 +15,18 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import net.mullvad.mullvadvpn.PaymentProvider
+import net.mullvad.mullvadvpn.compose.state.PaymentState
 import net.mullvad.mullvadvpn.compose.state.WelcomeUiState
 import net.mullvad.mullvadvpn.constant.ACCOUNT_EXPIRY_POLL_INTERVAL
+import net.mullvad.mullvadvpn.lib.payment.PaymentRepository
+import net.mullvad.mullvadvpn.lib.payment.extensions.toPurchaseResult
+import net.mullvad.mullvadvpn.lib.payment.model.PaymentAvailability
+import net.mullvad.mullvadvpn.lib.payment.model.PurchaseResult
+import net.mullvad.mullvadvpn.lib.payment.model.VerificationResult
 import net.mullvad.mullvadvpn.model.TunnelState
 import net.mullvad.mullvadvpn.repository.AccountRepository
 import net.mullvad.mullvadvpn.repository.DeviceRepository
@@ -28,6 +37,7 @@ import net.mullvad.mullvadvpn.ui.serviceconnection.authTokenCache
 import net.mullvad.mullvadvpn.util.UNKNOWN_STATE_DEBOUNCE_DELAY_MILLISECONDS
 import net.mullvad.mullvadvpn.util.addDebounceForUnknownState
 import net.mullvad.mullvadvpn.util.callbackFlowFromNotifier
+import net.mullvad.mullvadvpn.util.toPaymentState
 import org.joda.time.DateTime
 
 @OptIn(FlowPreview::class)
@@ -35,9 +45,14 @@ class WelcomeViewModel(
     private val accountRepository: AccountRepository,
     private val deviceRepository: DeviceRepository,
     private val serviceConnectionManager: ServiceConnectionManager,
+    paymentProvider: PaymentProvider,
     private val pollAccountExpiry: Boolean = true
 ) : ViewModel() {
 
+    private val paymentRepository: PaymentRepository? = paymentProvider.paymentRepository
+
+    private val _paymentAvailability = MutableStateFlow<PaymentAvailability?>(null)
+    private val _purchaseResult = MutableStateFlow<PurchaseResult?>(null)
     private val _uiSideEffect = MutableSharedFlow<UiSideEffect>(extraBufferCapacity = 1)
     val uiSideEffect = _uiSideEffect.asSharedFlow()
 
@@ -55,12 +70,17 @@ class WelcomeViewModel(
                     serviceConnection.connectionProxy.tunnelUiStateFlow(),
                     deviceRepository.deviceState.debounce {
                         it.addDebounceForUnknownState(UNKNOWN_STATE_DEBOUNCE_DELAY_MILLISECONDS)
-                    }
-                ) { tunnelState, deviceState ->
+                    },
+                    _paymentAvailability,
+                    _purchaseResult
+                ) { tunnelState, deviceState, paymentAvailability, purchaseResult ->
                     WelcomeUiState(
                         tunnelState = tunnelState,
                         accountNumber = deviceState.token(),
-                        deviceName = deviceState.deviceName()
+                        deviceName = deviceState.deviceName(),
+                        billingPaymentState =
+                            paymentAvailability?.toPaymentState() ?: PaymentState.Loading,
+                        purchaseResult = purchaseResult
                     )
                 }
             }
@@ -84,6 +104,8 @@ class WelcomeViewModel(
                 delay(ACCOUNT_EXPIRY_POLL_INTERVAL)
             }
         }
+        verifyPurchases(updatePurchaseResult = false)
+        fetchPaymentAvailability()
     }
 
     private fun ConnectionProxy.tunnelUiStateFlow(): Flow<TunnelState> =
@@ -96,6 +118,39 @@ class WelcomeViewModel(
                     serviceConnectionManager.authTokenCache()?.fetchAuthToken() ?: ""
                 )
             )
+        }
+    }
+
+    fun startBillingPayment(productId: String) {
+        viewModelScope.launch {
+            try {
+                paymentRepository?.purchaseBillingProduct(productId)?.collect(_purchaseResult)
+            } finally {
+                // Update payment status in case the payment is pending or the verification failed
+                fetchPaymentAvailability()
+            }
+        }
+    }
+
+    fun verifyPurchases(updatePurchaseResult: Boolean = true) {
+        viewModelScope.launch {
+            if (updatePurchaseResult) {
+                paymentRepository
+                    ?.verifyPurchases()
+                    ?.map(VerificationResult::toPurchaseResult)
+                    ?.collect(_purchaseResult)
+            } else {
+                paymentRepository?.verifyPurchases()
+            }
+        }
+    }
+
+    fun fetchPaymentAvailability() {
+        viewModelScope.launch {
+            _paymentAvailability.emit(PaymentAvailability.Loading)
+            delay(100L) // So that the ui gets a new state in retries
+            paymentRepository?.queryPaymentAvailability()?.collect(_paymentAvailability)
+                ?: run { _paymentAvailability.emit(PaymentAvailability.ProductsUnavailable) }
         }
     }
 
