@@ -28,28 +28,16 @@ class RelayListListener(
     var selectedRelayItem: RelayItem? = null
         private set
 
-    var selectedRelayLocation: GeographicLocationConstraint?
-        get() {
-            val settings = relaySettings as? RelaySettings.Normal
-            val location = settings?.relayConstraints?.location as? Constraint.Only
+    fun updateSelectedRelayLocation(value: GeographicLocationConstraint?) {
+        connection.send(
+            Request.SetRelayLocation(value?.let { Constraint.Only(value) } ?: Constraint.Any())
+                .message
+        )
+    }
 
-            return location?.value?.toGeographicLocationConstraint()
-        }
-        set(value) {
-            connection.send(Request.SetRelayLocation(value).message)
-        }
-
-    var selectedWireguardConstraints: WireguardConstraints?
-        get() {
-            val settings = relaySettings as? RelaySettings.Normal
-
-            return settings?.relayConstraints?.wireguardConstraints?.port?.let { port ->
-                WireguardConstraints(port)
-            }
-        }
-        set(value) {
-            connection.send(Request.SetWireguardConstraints(value).message)
-        }
+    fun updateWireguardConstraints(value: WireguardConstraints) {
+        connection.send(Request.SetWireguardConstraints(value).message)
+    }
 
     var onRelayCountriesChange: ((List<RelayCountry>, RelayItem?) -> Unit)? = null
         set(value) {

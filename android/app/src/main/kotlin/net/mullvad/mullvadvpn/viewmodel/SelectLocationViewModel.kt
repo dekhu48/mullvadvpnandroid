@@ -72,7 +72,7 @@ class SelectLocationViewModel(private val serviceConnectionManager: ServiceConne
     val enterTransitionEndAction = _enterTransitionEndAction.asSharedFlow()
 
     fun selectRelay(relayItem: RelayItem?) {
-        serviceConnectionManager.relayListListener()?.selectedRelayLocation = relayItem?.location
+        serviceConnectionManager.relayListListener()?.updateSelectedRelayLocation(relayItem?.location)
         serviceConnectionManager.connectionProxy()?.connect()
         viewModelScope.launch { _closeAction.emit(Unit) }
     }
