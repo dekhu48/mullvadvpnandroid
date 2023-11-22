@@ -71,6 +71,18 @@ export default class Settings implements Readonly<ISettings> {
     IpcMainEventChannel.settings.handleSetObfuscationSettings((obfuscationSettings) => {
       return this.daemonRpc.setObfuscationSettings(obfuscationSettings);
     });
+    IpcMainEventChannel.settings.handleAddApiAccessMethod((method) => {
+      return this.daemonRpc.addApiAccessMethod(method);
+    });
+    IpcMainEventChannel.settings.handleUpdateApiAccessMethod((method) => {
+      return this.daemonRpc.updateApiAccessMethod(method);
+    });
+    IpcMainEventChannel.settings.handleRemoveApiAccessMethod((id) => {
+      return this.daemonRpc.removeApiAccessMethod(id);
+    });
+    IpcMainEventChannel.settings.handleSetApiAccessMethod((id) => {
+      return this.daemonRpc.setApiAccessMethod(id);
+    });
 
     IpcMainEventChannel.guiSettings.handleSetEnableSystemNotifications((flag: boolean) => {
       this.guiSettings.enableSystemNotifications = flag;
@@ -134,6 +146,9 @@ export default class Settings implements Readonly<ISettings> {
   }
   public get customLists() {
     return this.settingsValue.customLists;
+  }
+  public get apiAccessMethods() {
+    return this.settingsValue.apiAccessMethods;
   }
 
   public get gui() {

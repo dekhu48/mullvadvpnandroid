@@ -2,6 +2,7 @@ import { GetTextTranslations } from 'gettext-parser';
 
 import { ILinuxSplitTunnelingApplication, IWindowsApplication } from './application-types';
 import {
+  AccessMethodSetting,
   AccountDataError,
   AccountToken,
   BridgeSettings,
@@ -18,6 +19,7 @@ import {
   ILocation,
   IRelayListWithEndpointData,
   ISettings,
+  NewAccessMethodSetting,
   ObfuscationSettings,
   RelaySettings,
   TunnelState,
@@ -176,6 +178,10 @@ export const ipcSchema = {
     updateBridgeSettings: invoke<BridgeSettings, void>(),
     setDnsOptions: invoke<IDnsOptions, void>(),
     setObfuscationSettings: invoke<ObfuscationSettings, void>(),
+    addApiAccessMethod: invoke<NewAccessMethodSetting, string>(),
+    updateApiAccessMethod: invoke<AccessMethodSetting, void>(),
+    removeApiAccessMethod: invoke<string, void>(),
+    setApiAccessMethod: invoke<string, void>(),
   },
   guiSettings: {
     '': notifyRenderer<IGuiSettingsState>(),

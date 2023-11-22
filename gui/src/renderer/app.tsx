@@ -6,6 +6,7 @@ import { StyleSheetManager } from 'styled-components';
 import { hasExpired } from '../shared/account-expiry';
 import { ILinuxSplitTunnelingApplication, IWindowsApplication } from '../shared/application-types';
 import {
+  AccessMethodSetting,
   AccountToken,
   BridgeSettings,
   BridgeState,
@@ -21,6 +22,7 @@ import {
   IRelayListWithEndpointData,
   ISettings,
   liftConstraint,
+  NewAccessMethodSetting,
   ObfuscationSettings,
   RelaySettings,
   TunnelState,
@@ -345,6 +347,14 @@ export default class AppRenderer {
     IpcRendererEventChannel.customLists.deleteCustomList(id);
   public updateCustomList = (customList: ICustomList) =>
     IpcRendererEventChannel.customLists.updateCustomList(customList);
+  public addApiAccessMethod = (method: NewAccessMethodSetting) =>
+    IpcRendererEventChannel.settings.addApiAccessMethod(method);
+  public updateApiAccessMethod = (method: AccessMethodSetting) =>
+    IpcRendererEventChannel.settings.updateApiAccessMethod(method);
+  public removeApiAccessMethod = (id: string) =>
+    IpcRendererEventChannel.settings.removeApiAccessMethod(id);
+  public setApiAccessMethod = (id: string) =>
+    IpcRendererEventChannel.settings.setApiAccessMethod(id);
 
   public login = async (accountToken: AccountToken) => {
     const actions = this.reduxActions;
@@ -788,6 +798,7 @@ export default class AppRenderer {
     reduxSettings.updateSplitTunnelingState(newSettings.splitTunnel.enableExclusions);
     reduxSettings.updateObfuscationSettings(newSettings.obfuscationSettings);
     reduxSettings.updateCustomLists(newSettings.customLists);
+    reduxSettings.updateApiAccessMethods(newSettings.apiAccessMethods);
 
     this.setReduxRelaySettings(newSettings.relaySettings);
     this.setBridgeSettings(newSettings.bridgeSettings);
