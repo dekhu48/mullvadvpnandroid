@@ -72,6 +72,10 @@ export default function Support() {
                   )}
 
                   <Cell.Group>
+                    <ApiAccessMethodsButton />
+                  </Cell.Group>
+
+                  <Cell.Group>
                     <SupportButton />
                     <AppVersionButton />
                   </Cell.Group>
@@ -135,6 +139,22 @@ function SplitTunnelingButton() {
         {
           // TRANSLATORS: Navigation button to the 'Split tunneling' view
           messages.pgettext('settings-view', 'Split tunneling')
+        }
+      </Cell.Label>
+    </Cell.CellNavigationButton>
+  );
+}
+
+function ApiAccessMethodsButton() {
+  const history = useHistory();
+  const navigate = useCallback(() => history.push(RoutePath.apiAccessMethods), [history]);
+
+  return (
+    <Cell.CellNavigationButton onClick={navigate}>
+      <Cell.Label>
+        {
+          // TRANSLATORS: Navigation button to the 'API access methods' view
+          messages.pgettext('settings-view', 'API access methods')
         }
       </Cell.Label>
     </Cell.CellNavigationButton>
