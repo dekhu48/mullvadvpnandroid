@@ -33,6 +33,10 @@ on:
         description: Run firebase tests
         type: boolean
         required: false
+      run_mobsf_analysis:
+        description: Run MobSF APK Analysis
+        type: boolean
+        required: false
   # Build if main is updated to ensure up-to-date caches are available
   push:
     branches: [main]
@@ -323,3 +327,33 @@ jobs:
           SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         with:
           arg-spec: 'android/test/firebase-test-lab.yml:default'
+
+  mobsf_analysis:
+    name: MobSF APK Analysis
+    if: github.event_name == 'schedule' || github.event.inputs.run_mobsf_analysis == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [build-app]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: apks
+          path: android
+
+      - name: Run analysis
+        uses: fundacaocerti/mobsf-action@v1.7.2
+        env:
+          INPUT_FILE_NAME: android/app/build/outputs/apk/ossProd/debug/app-oss-prod-debug.apk
+          SCAN_TYPE: apk
+          OUTPUT_FILE_NAME: mobsf-report
+
+      - name: Upload report
+        uses: actions/upload-artifact@v2
+        with:
+          name: mobsf-report
+          path:
+            mobsf-report.pdf
+            mobsf-report.json
