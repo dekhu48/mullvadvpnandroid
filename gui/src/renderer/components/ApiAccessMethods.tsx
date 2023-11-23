@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { AccessMethodSetting } from '../../shared/daemon-rpc-types';
 import { messages } from '../../shared/gettext';
@@ -6,6 +6,7 @@ import { useAppContext } from '../context';
 import { useHistory } from '../lib/history';
 import { useSelector } from '../redux/store';
 import * as Cell from './cell';
+import { ContextMenu, ContextMenuContainer, ContextMenuItem } from './ContextMenu';
 import InfoButton from './InfoButton';
 import { BackAction } from './KeyboardNavigation';
 import { Layout, SettingsContainer } from './Layout';
@@ -69,7 +70,8 @@ interface ApiAccessMethodProps {
 }
 
 function ApiAccessMethod(props: ApiAccessMethodProps) {
-  const { updateApiAccessMethod } = useAppContext();
+  const { setApiAccessMethod, updateApiAccessMethod, removeApiAccessMethod } = useAppContext();
+  const history = useHistory();
 
   const toggle = useCallback(async () => {
     const updatedMethod = cloneMethod(props.method);
@@ -77,9 +79,33 @@ function ApiAccessMethod(props: ApiAccessMethodProps) {
     await updateApiAccessMethod(updatedMethod);
   }, [props.method]);
 
+  const menuItems = useMemo<Array<ContextMenuItem>>(
+    () => [
+      { label: 'Use', onClick: () => setApiAccessMethod(props.method.id) },
+      { label: 'Test', onClick: () => console.log('Test', props.method.name) },
+      ...(props.method.type === 'direct' || props.method.type === 'bridges'
+        ? []
+        : [
+            {
+              label: 'Edit',
+              onClick: () =>
+                history.push(
+                  generateRoutePath(RoutePath.editApiAccessMethods, { id: props.method.id }),
+                ),
+            },
+            { label: 'Delete', onClick: () => removeApiAccessMethod(props.method.id) },
+          ]),
+    ],
+    [props.method.id],
+  );
+
   return (
     <Cell.Row>
       <Cell.Label>{props.method.name}</Cell.Label>
+      <ContextMenuContainer>
+        <Cell.Icon source="icon-close" />
+        <ContextMenu items={menuItems} align="right" />
+      </ContextMenuContainer>
       <Cell.Switch isOn={props.method.enabled} onChange={toggle} />
     </Cell.Row>
   );
