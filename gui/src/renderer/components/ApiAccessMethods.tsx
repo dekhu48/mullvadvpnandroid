@@ -4,6 +4,8 @@ import { AccessMethodSetting } from '../../shared/daemon-rpc-types';
 import { messages } from '../../shared/gettext';
 import { useAppContext } from '../context';
 import { useHistory } from '../lib/history';
+import { generateRoutePath } from '../lib/routeHelpers';
+import { RoutePath } from '../lib/routes';
 import { useSelector } from '../redux/store';
 import * as Cell from './cell';
 import { ContextMenu, ContextMenuContainer, ContextMenuItem } from './ContextMenu';
@@ -18,6 +20,16 @@ import { SmallButton, SmallButtonGroup } from './SmallButton';
 export default function ApiAccessMethods() {
   const history = useHistory();
   const methods = useSelector((state) => state.settings.apiAccessMethods);
+
+  const navigateToEdit = useCallback(
+    (id?: string) => {
+      const path = generateRoutePath(RoutePath.editApiAccessMethods, { id });
+      history.push(path);
+    },
+    [history],
+  );
+
+  const navigateToNew = useCallback(() => navigateToEdit(), [navigateToEdit]);
 
   return (
     <BackAction action={history.pop}>
@@ -58,7 +70,9 @@ export default function ApiAccessMethods() {
                   </Cell.Group>
 
                   <SmallButtonGroup $noMarginTop>
-                    <SmallButton>{messages.pgettext('api-access-methods-view', 'Add')}</SmallButton>
+                    <SmallButton onClick={navigateToNew}>
+                      {messages.pgettext('api-access-methods-view', 'Add')}
+                    </SmallButton>
                   </SmallButtonGroup>
                 </StyledSettingsContent>
               </StyledContent>
