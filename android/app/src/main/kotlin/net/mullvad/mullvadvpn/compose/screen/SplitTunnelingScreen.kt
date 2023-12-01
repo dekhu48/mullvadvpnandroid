@@ -41,30 +41,30 @@ private fun PreviewSplitTunnelingScreen() {
     AppTheme {
         SplitTunnelingScreen(
             uiState =
-                SplitTunnelingUiState.ShowAppList(
-                    excludedApps =
-                        listOf(
-                            AppData(
-                                packageName = "my.package.a",
-                                name = "TitleA",
-                                iconRes = R.drawable.icon_alert,
-                            ),
-                            AppData(
-                                packageName = "my.package.b",
-                                name = "TitleB",
-                                iconRes = R.drawable.icon_chevron,
-                            )
-                        ),
-                    includedApps =
-                        listOf(
-                            AppData(
-                                packageName = "my.package.c",
-                                name = "TitleC",
-                                iconRes = R.drawable.icon_alert
-                            )
-                        ),
-                    showSystemApps = true
-                )
+            SplitTunnelingUiState.ShowAppList(
+                excludedApps =
+                listOf(
+                    AppData(
+                        packageName = "my.package.a",
+                        name = "TitleA",
+                        iconRes = R.drawable.icon_alert,
+                    ),
+                    AppData(
+                        packageName = "my.package.b",
+                        name = "TitleB",
+                        iconRes = R.drawable.icon_chevron,
+                    ),
+                ),
+                includedApps =
+                listOf(
+                    AppData(
+                        packageName = "my.package.c",
+                        name = "TitleC",
+                        iconRes = R.drawable.icon_alert,
+                    ),
+                ),
+                showSystemApps = true,
+            ),
         )
     }
 }
@@ -84,12 +84,12 @@ fun SplitTunnelingScreen(
     ScaffoldWithMediumTopBar(
         modifier = Modifier.fillMaxSize(),
         appBarTitle = stringResource(id = R.string.split_tunneling),
-        navigationIcon = { NavigateBackIconButton(onBackClick) }
+        navigationIcon = { NavigateBackIconButton(onBackClick) },
     ) { modifier, lazyListState ->
         LazyColumn(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
-            state = lazyListState
+            state = lazyListState,
         ) {
             item(key = CommonContentKey.DESCRIPTION, contentType = ContentType.DESCRIPTION) {
                 Box(modifier = Modifier.fillMaxWidth()) {
@@ -97,11 +97,11 @@ fun SplitTunnelingScreen(
                         style = MaterialTheme.typography.labelMedium,
                         text = stringResource(id = R.string.split_tunneling_description),
                         modifier =
-                            Modifier.padding(
-                                start = Dimens.mediumPadding,
-                                end = Dimens.mediumPadding,
-                                bottom = Dimens.mediumPadding
-                            )
+                        Modifier.padding(
+                            start = Dimens.mediumPadding,
+                            end = Dimens.mediumPadding,
+                            bottom = Dimens.mediumPadding,
+                        ),
                     )
                 }
             }
@@ -115,14 +115,14 @@ fun SplitTunnelingScreen(
                     if (uiState.excludedApps.isNotEmpty()) {
                         itemWithDivider(
                             key = SplitTunnelingContentKey.EXCLUDED_APPLICATIONS,
-                            contentType = ContentType.HEADER
+                            contentType = ContentType.HEADER,
                         ) {
                             BaseCell(
                                 title = {
                                     Text(
                                         text = stringResource(id = R.string.exclude_applications),
                                         style = MaterialTheme.typography.titleMedium,
-                                        color = MaterialTheme.colorScheme.onPrimary
+                                        color = MaterialTheme.colorScheme.onPrimary,
                                     )
                                 },
                                 bodyView = {},
@@ -132,14 +132,14 @@ fun SplitTunnelingScreen(
                         itemsIndexed(
                             items = uiState.excludedApps,
                             key = { _, listItem -> listItem.packageName },
-                            contentType = { _, _ -> ContentType.ITEM }
+                            contentType = { _, _ -> ContentType.ITEM },
                         ) { index, listItem ->
                             SplitTunnelingCell(
                                 title = listItem.name,
                                 packageName = listItem.packageName,
                                 isSelected = true,
                                 modifier = Modifier.animateItemPlacement().fillMaxWidth(),
-                                onResolveIcon = onResolveIcon
+                                onResolveIcon = onResolveIcon,
                             ) {
                                 // Move focus down unless the clicked item was the last in this
                                 // section.
@@ -155,25 +155,25 @@ fun SplitTunnelingScreen(
                         item(key = CommonContentKey.SPACER, contentType = ContentType.SPACER) {
                             Spacer(
                                 modifier =
-                                    Modifier.animateItemPlacement().height(Dimens.mediumPadding)
+                                Modifier.animateItemPlacement().height(Dimens.mediumPadding),
                             )
                         }
                     }
 
                     itemWithDivider(
                         key = SplitTunnelingContentKey.SHOW_SYSTEM_APPLICATIONS,
-                        contentType = ContentType.OTHER_ITEM
+                        contentType = ContentType.OTHER_ITEM,
                     ) {
                         HeaderSwitchComposeCell(
                             title = stringResource(id = R.string.show_system_apps),
                             isToggled = uiState.showSystemApps,
                             onCellClicked = { newValue -> onShowSystemAppsClick(newValue) },
-                            modifier = Modifier.animateItemPlacement()
+                            modifier = Modifier.animateItemPlacement(),
                         )
                     }
                     itemWithDivider(
                         key = SplitTunnelingContentKey.INCLUDED_APPLICATIONS,
-                        contentType = ContentType.HEADER
+                        contentType = ContentType.HEADER,
                     ) {
                         BaseCell(
                             modifier = Modifier.animateItemPlacement(),
@@ -181,7 +181,7 @@ fun SplitTunnelingScreen(
                                 Text(
                                     text = stringResource(id = R.string.all_applications),
                                     style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.onPrimary
+                                    color = MaterialTheme.colorScheme.onPrimary,
                                 )
                             },
                             bodyView = {},
@@ -191,14 +191,14 @@ fun SplitTunnelingScreen(
                     itemsIndexed(
                         items = uiState.includedApps,
                         key = { _, listItem -> listItem.packageName },
-                        contentType = { _, _ -> ContentType.ITEM }
+                        contentType = { _, _ -> ContentType.ITEM },
                     ) { index, listItem ->
                         SplitTunnelingCell(
                             title = listItem.name,
                             packageName = listItem.packageName,
                             isSelected = false,
                             modifier = Modifier.animateItemPlacement().fillMaxWidth(),
-                            onResolveIcon = onResolveIcon
+                            onResolveIcon = onResolveIcon,
                         ) {
                             // Move focus down unless the clicked item was the last in this
                             // section.

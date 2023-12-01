@@ -32,7 +32,7 @@ class DeviceListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         deviceListViewModel.accountToken = arguments?.getString(ACCOUNT_TOKEN_ARGUMENT_KEY)
 
@@ -48,7 +48,7 @@ class DeviceListFragment : Fragment() {
                         onDeviceRemovalClicked = deviceListViewModel::stageDeviceForRemoval,
                         onDismissDeviceRemovalDialog = deviceListViewModel::clearStagedDevice,
                         onConfirmDeviceRemovalDialog =
-                            deviceListViewModel::confirmRemovalOfStagedDevice
+                        deviceListViewModel::confirmRemovalOfStagedDevice,
                     )
                 }
             }

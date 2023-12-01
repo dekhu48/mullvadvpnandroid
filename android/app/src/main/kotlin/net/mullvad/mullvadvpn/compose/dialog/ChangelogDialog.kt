@@ -30,7 +30,7 @@ fun ChangelogDialog(changesList: List<String>, version: String, onDismiss: () ->
                 text = version,
                 style = MaterialTheme.typography.headlineLarge,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         },
         text = {
@@ -43,7 +43,7 @@ fun ChangelogDialog(changesList: List<String>, version: String, onDismiss: () ->
                     text = stringResource(R.string.changes_dialog_subtitle),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 changesList.forEach { changeItem -> ChangeListItem(text = changeItem) }
@@ -53,7 +53,7 @@ fun ChangelogDialog(changesList: List<String>, version: String, onDismiss: () ->
             PrimaryButton(text = stringResource(R.string.got_it), onClick = onDismiss)
         },
         containerColor = MaterialTheme.colorScheme.background,
-        titleContentColor = MaterialTheme.colorScheme.onBackground
+        titleContentColor = MaterialTheme.colorScheme.onBackground,
     )
 }
 
@@ -66,12 +66,12 @@ private fun ChangeListItem(text: String) {
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.width(Dimens.buttonSpacing),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             Text(
                 text = text,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }
@@ -95,7 +95,7 @@ private fun PreviewChangelogDialogWithTwoLongItems() {
         ChangelogDialog(
             changesList = listOf(longPreviewText, longPreviewText),
             version = "1111.1",
-            onDismiss = {}
+            onDismiss = {},
         )
     }
 }
@@ -106,20 +106,20 @@ private fun PreviewChangelogDialogWithTenShortItems() {
     AppTheme {
         ChangelogDialog(
             changesList =
-                listOf(
-                    "Item 1",
-                    "Item 2",
-                    "Item 3",
-                    "Item 4",
-                    "Item 5",
-                    "Item 6",
-                    "Item 7",
-                    "Item 8",
-                    "Item 9",
-                    "Item 10"
-                ),
+            listOf(
+                "Item 1",
+                "Item 2",
+                "Item 3",
+                "Item 4",
+                "Item 5",
+                "Item 6",
+                "Item 7",
+                "Item 8",
+                "Item 9",
+                "Item 10",
+            ),
             version = "1111.1",
-            onDismiss = {}
+            onDismiss = {},
         )
     }
 }

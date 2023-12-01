@@ -34,7 +34,9 @@ class LoginViewModelTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     @MockK private lateinit var mockedAccountRepository: AccountRepository
+
     @MockK private lateinit var mockedDeviceRepository: DeviceRepository
+
     @MockK private lateinit var mockedNewDeviceNotificationUseCase: NewDeviceNotificationUseCase
 
     private lateinit var loginViewModel: LoginViewModel
@@ -53,7 +55,7 @@ class LoginViewModelTest {
                 mockedAccountRepository,
                 mockedDeviceRepository,
                 mockedNewDeviceNotificationUseCase,
-                UnconfinedTestDispatcher()
+                UnconfinedTestDispatcher(),
             )
     }
 
@@ -121,7 +123,7 @@ class LoginViewModelTest {
                     any(),
                     any(),
                     any(),
-                    any()
+                    any(),
                 )
             } returns DeviceListEvent.Available(DUMMY_ACCOUNT_TOKEN, listOf())
             coEvery { mockedAccountRepository.login(any()) } returns LoginResult.MaxDevicesReached
@@ -132,7 +134,7 @@ class LoginViewModelTest {
             assertEquals(Loading.LoggingIn, uiStates.awaitItem().loginState)
             assertEquals(
                 LoginUiSideEffect.TooManyDevices(AccountToken(DUMMY_ACCOUNT_TOKEN)),
-                sideEffects.awaitItem()
+                sideEffects.awaitItem(),
             )
         }
     }
@@ -149,7 +151,7 @@ class LoginViewModelTest {
             assertEquals(Loading.LoggingIn, awaitItem().loginState)
             assertEquals(
                 Idle(LoginError.Unknown(EXPECTED_RPC_ERROR_MESSAGE)),
-                awaitItem().loginState
+                awaitItem().loginState,
             )
         }
     }
@@ -166,7 +168,7 @@ class LoginViewModelTest {
             assertEquals(Loading.LoggingIn, awaitItem().loginState)
             assertEquals(
                 Idle(LoginError.Unknown(EXPECTED_OTHER_ERROR_MESSAGE)),
-                awaitItem().loginState
+                awaitItem().loginState,
             )
         }
     }
@@ -179,7 +181,7 @@ class LoginViewModelTest {
             accountHistoryTestEvents.emit(AccountHistory.Available(DUMMY_ACCOUNT_TOKEN))
             assertEquals(
                 LoginUiState.INITIAL.copy(lastUsedAccount = AccountToken(DUMMY_ACCOUNT_TOKEN)),
-                awaitItem()
+                awaitItem(),
             )
         }
     }

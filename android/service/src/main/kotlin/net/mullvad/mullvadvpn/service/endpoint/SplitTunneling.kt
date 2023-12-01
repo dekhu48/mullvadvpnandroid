@@ -1,10 +1,10 @@
 package net.mullvad.mullvadvpn.service.endpoint
 
-import kotlin.properties.Delegates.observable
 import net.mullvad.mullvadvpn.lib.ipc.Event
 import net.mullvad.mullvadvpn.lib.ipc.Request
 import net.mullvad.mullvadvpn.service.persistence.SplitTunnelingPersistence
 import net.mullvad.talpid.util.EventNotifier
+import kotlin.properties.Delegates.observable
 
 class SplitTunneling(persistence: SplitTunnelingPersistence, endpoint: ServiceEndpoint) {
     private val excludedApps = persistence.excludedApps.toMutableSet()

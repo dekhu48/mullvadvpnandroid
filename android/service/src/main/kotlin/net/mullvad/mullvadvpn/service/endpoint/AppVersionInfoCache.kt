@@ -1,9 +1,9 @@
 package net.mullvad.mullvadvpn.service.endpoint
 
-import kotlin.properties.Delegates.observable
 import net.mullvad.mullvadvpn.lib.ipc.Event
 import net.mullvad.mullvadvpn.model.AppVersionInfo
 import net.mullvad.mullvadvpn.service.MullvadDaemon
+import kotlin.properties.Delegates.observable
 
 class AppVersionInfoCache(endpoint: ServiceEndpoint) {
     private val daemon = endpoint.intermittentDaemon

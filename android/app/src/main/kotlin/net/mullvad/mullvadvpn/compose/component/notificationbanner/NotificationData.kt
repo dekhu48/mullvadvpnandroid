@@ -22,13 +22,13 @@ data class NotificationData(
     val title: String,
     val message: AnnotatedString? = null,
     val statusLevel: StatusLevel,
-    val action: NotificationAction? = null
+    val action: NotificationAction? = null,
 ) {
     constructor(
         title: String,
         message: String?,
         statusLevel: StatusLevel,
-        action: NotificationAction?
+        action: NotificationAction?,
     ) : this(title, message?.let { AnnotatedString(it) }, statusLevel, action)
 }
 
@@ -41,29 +41,29 @@ data class NotificationAction(
 fun InAppNotification.toNotificationData(
     onClickUpdateVersion: () -> Unit,
     onClickShowAccount: () -> Unit,
-    onDismissNewDevice: () -> Unit
+    onDismissNewDevice: () -> Unit,
 ) =
     when (this) {
         is InAppNotification.NewDevice ->
             NotificationData(
                 title = stringResource(id = R.string.new_device_notification_title),
                 message =
-                    HtmlCompat.fromHtml(
-                            stringResource(
-                                id = R.string.new_device_notification_message,
-                                deviceName
-                            ),
-                            HtmlCompat.FROM_HTML_MODE_COMPACT
-                        )
-                        .toAnnotatedString(
-                            boldSpanStyle =
-                                SpanStyle(
-                                    color = MaterialTheme.colorScheme.onBackground,
-                                    fontWeight = FontWeight.ExtraBold
-                                ),
+                HtmlCompat.fromHtml(
+                    stringResource(
+                        id = R.string.new_device_notification_message,
+                        deviceName,
+                    ),
+                    HtmlCompat.FROM_HTML_MODE_COMPACT,
+                )
+                    .toAnnotatedString(
+                        boldSpanStyle =
+                        SpanStyle(
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontWeight = FontWeight.ExtraBold,
                         ),
+                    ),
                 statusLevel = StatusLevel.Info,
-                action = NotificationAction(R.drawable.icon_close, onDismissNewDevice)
+                action = NotificationAction(R.drawable.icon_close, onDismissNewDevice),
             )
         is InAppNotification.AccountExpiry ->
             NotificationData(
@@ -71,17 +71,19 @@ fun InAppNotification.toNotificationData(
                 message = LocalContext.current.resources.getExpiryQuantityString(expiry),
                 statusLevel = StatusLevel.Error,
                 action =
-                    if (IS_PLAY_BUILD) null
-                    else
-                        NotificationAction(
-                            R.drawable.icon_extlink,
-                            onClickShowAccount,
-                        ),
+                if (IS_PLAY_BUILD) {
+                    null
+                } else {
+                    NotificationAction(
+                        R.drawable.icon_extlink,
+                        onClickShowAccount,
+                    )
+                },
             )
         InAppNotification.TunnelStateBlocked ->
             NotificationData(
                 title = stringResource(id = R.string.blocking_internet),
-                statusLevel = StatusLevel.Error
+                statusLevel = StatusLevel.Error,
             )
         is InAppNotification.TunnelStateError -> errorMessageBannerData(error)
         is InAppNotification.UnsupportedVersion ->
@@ -90,21 +92,27 @@ fun InAppNotification.toNotificationData(
                 message = stringResource(id = R.string.unsupported_version_description),
                 statusLevel = StatusLevel.Error,
                 action =
-                    if (IS_PLAY_BUILD) null
-                    else NotificationAction(R.drawable.icon_extlink, onClickUpdateVersion)
+                if (IS_PLAY_BUILD) {
+                    null
+                } else {
+                    NotificationAction(R.drawable.icon_extlink, onClickUpdateVersion)
+                },
             )
         is InAppNotification.UpdateAvailable ->
             NotificationData(
                 title = stringResource(id = R.string.update_available),
                 message =
-                    stringResource(
-                        id = R.string.update_available_description,
-                        versionInfo.upgradeVersion ?: "" // TODO Verify
-                    ),
+                stringResource(
+                    id = R.string.update_available_description,
+                    versionInfo.upgradeVersion ?: "", // TODO Verify
+                ),
                 statusLevel = StatusLevel.Warning,
                 action =
-                    if (IS_PLAY_BUILD) null
-                    else NotificationAction(R.drawable.icon_extlink, onClickUpdateVersion)
+                if (IS_PLAY_BUILD) {
+                    null
+                } else {
+                    NotificationAction(R.drawable.icon_extlink, onClickUpdateVersion)
+                },
             )
     }
 
@@ -114,19 +122,19 @@ private fun errorMessageBannerData(error: ErrorState) =
         NotificationData(
             title = stringResource(id = titleResourceId),
             message =
-                HtmlCompat.fromHtml(
-                        optionalMessageArgument?.let { stringResource(id = messageResourceId, it) }
-                            ?: stringResource(id = messageResourceId),
-                        HtmlCompat.FROM_HTML_MODE_COMPACT
-                    )
-                    .toAnnotatedString(
-                        boldSpanStyle =
-                            SpanStyle(
-                                color = MaterialTheme.colorScheme.onBackground,
-                                fontWeight = FontWeight.ExtraBold
-                            )
+            HtmlCompat.fromHtml(
+                optionalMessageArgument?.let { stringResource(id = messageResourceId, it) }
+                    ?: stringResource(id = messageResourceId),
+                HtmlCompat.FROM_HTML_MODE_COMPACT,
+            )
+                .toAnnotatedString(
+                    boldSpanStyle =
+                    SpanStyle(
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontWeight = FontWeight.ExtraBold,
                     ),
+                ),
             statusLevel = StatusLevel.Error,
-            action = null
+            action = null,
         )
     }

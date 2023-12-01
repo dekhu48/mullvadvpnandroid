@@ -26,7 +26,7 @@ fun createCopyToClipboardHandle(
                 snackbarHostState.currentSnackbarData?.dismiss()
                 snackbarHostState.showSnackbar(
                     message = toastMessage,
-                    duration = SnackbarDuration.Short
+                    duration = SnackbarDuration.Short,
                 )
             }
         }

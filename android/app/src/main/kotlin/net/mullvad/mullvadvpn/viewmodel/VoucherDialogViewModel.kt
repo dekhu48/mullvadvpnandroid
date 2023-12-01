@@ -28,7 +28,7 @@ import net.mullvad.mullvadvpn.util.VoucherRegexHelper
 
 class VoucherDialogViewModel(
     private val serviceConnectionManager: ServiceConnectionManager,
-    private val resources: Resources
+    private val resources: Resources,
 ) : ViewModel() {
 
     private val vmState = MutableStateFlow<VoucherDialogState>(VoucherDialogState.Default)
@@ -89,7 +89,7 @@ class VoucherDialogViewModel(
                         VoucherSubmissionError.InvalidVoucher -> R.string.invalid_voucher
                         VoucherSubmissionError.VoucherAlreadyUsed -> R.string.voucher_already_used
                         else -> R.string.error_occurred
-                    }
+                    },
                 )
             vmState.update { VoucherDialogState.Error(message) }
         }

@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class RelayList(
     val countries: ArrayList<RelayListCountry>,
-    val wireguardEndpointData: WireguardEndpointData
+    val wireguardEndpointData: WireguardEndpointData,
 ) : Parcelable

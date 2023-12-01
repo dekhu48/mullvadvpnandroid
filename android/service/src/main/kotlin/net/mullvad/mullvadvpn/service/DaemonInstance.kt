@@ -1,9 +1,5 @@
 package net.mullvad.mullvadvpn.service
 
-import java.io.File
-import kotlin.properties.Delegates.observable
-import kotlin.reflect.KClass
-import kotlin.reflect.safeCast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -13,6 +9,10 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.trySendBlocking
 import net.mullvad.mullvadvpn.lib.common.util.Intermittent
 import net.mullvad.mullvadvpn.lib.endpoint.ApiEndpointConfiguration
+import java.io.File
+import kotlin.properties.Delegates.observable
+import kotlin.reflect.KClass
+import kotlin.reflect.safeCast
 
 private const val RELAYS_FILE = "relays.json"
 
@@ -59,7 +59,7 @@ class DaemonInstance(private val vpnService: MullvadVpnService) {
 
     private suspend fun <T : Command> waitForCommand(
         channel: ReceiveChannel<Command>,
-        command: KClass<T>
+        command: KClass<T>,
     ): T? {
         return try {
             var receivedCommand: T?

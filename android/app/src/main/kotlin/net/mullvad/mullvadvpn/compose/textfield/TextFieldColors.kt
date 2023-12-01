@@ -36,7 +36,7 @@ fun mullvadWhiteTextFieldColors(): TextFieldColors =
         unfocusedSupportingTextColor = Color.Black,
         focusedIndicatorColor = MaterialTheme.colorScheme.onPrimary,
         unfocusedIndicatorColor = MaterialTheme.colorScheme.onPrimary,
-        errorIndicatorColor = MaterialTheme.colorScheme.error
+        errorIndicatorColor = MaterialTheme.colorScheme.error,
     )
 
 @Preview
@@ -45,7 +45,7 @@ private fun PreviewDarkTextField() {
     AppTheme {
         Column(
             modifier = Modifier.background(MaterialTheme.colorScheme.background).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             // Normal
             TextField(
@@ -54,7 +54,7 @@ private fun PreviewDarkTextField() {
                 placeholder = { Text(text = "Placeholder") },
                 label = { Text(text = "Label") },
                 colors = mullvadDarkTextFieldColors(),
-                shape = MaterialTheme.shapes.small
+                shape = MaterialTheme.shapes.small,
             )
 
             // Normal empty
@@ -64,7 +64,7 @@ private fun PreviewDarkTextField() {
                 placeholder = { Text(text = "Placeholder") },
                 label = { Text(text = "Label") },
                 colors = mullvadDarkTextFieldColors(),
-                shape = MaterialTheme.shapes.small
+                shape = MaterialTheme.shapes.small,
             )
 
             // Error
@@ -75,7 +75,7 @@ private fun PreviewDarkTextField() {
                 label = { Text(text = "Label") },
                 isError = true,
                 colors = mullvadDarkTextFieldColors(),
-                shape = MaterialTheme.shapes.small
+                shape = MaterialTheme.shapes.small,
             )
         }
     }
@@ -91,9 +91,9 @@ fun mullvadDarkTextFieldColors(): TextFieldColors =
         errorContainerColor = MaterialTheme.colorScheme.onPrimary,
         focusedContainerColor = MaterialTheme.colorScheme.onPrimary,
         unfocusedContainerColor =
-            MaterialTheme.colorScheme.onPrimary
-                .copy(alpha = Alpha20)
-                .compositeOver(MaterialTheme.colorScheme.primary),
+        MaterialTheme.colorScheme.onPrimary
+            .copy(alpha = Alpha20)
+            .compositeOver(MaterialTheme.colorScheme.primary),
         errorTextColor = MaterialTheme.colorScheme.error,
         cursorColor = MaterialTheme.colorScheme.background,
         focusedPlaceholderColor = MaterialTheme.colorScheme.primary,

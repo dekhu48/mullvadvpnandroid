@@ -8,7 +8,7 @@ import net.mullvad.mullvadvpn.repository.ChangelogRepository
 class ChangelogViewModel(
     private val changelogRepository: ChangelogRepository,
     private val buildVersionCode: Int,
-    private val alwaysShowChangelog: Boolean
+    private val alwaysShowChangelog: Boolean,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<ChangelogDialogUiState>(ChangelogDialogUiState.Hide)
     val uiState = _uiState.asStateFlow()

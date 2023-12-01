@@ -17,7 +17,7 @@ private fun PreviewSitePaymentButton() {
     AppTheme {
         SpacedColumn(
             spacing = Dimens.cellVerticalSpacing,
-            modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
+            modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
         ) {
             SitePaymentButton(onClick = {}, isEnabled = true)
             SitePaymentButton(onClick = {}, isEnabled = false)
@@ -35,6 +35,6 @@ fun SitePaymentButton(
         onClick = onClick,
         modifier = modifier,
         isEnabled = isEnabled,
-        text = stringResource(id = R.string.buy_credit)
+        text = stringResource(id = R.string.buy_credit),
     )
 }

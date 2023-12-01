@@ -13,7 +13,7 @@ fun AppVersionInfoCache.appVersionCallbackFlow() = callbackFlow {
                 upgradeVersion = this@appVersionCallbackFlow.upgradeVersion,
                 isOutdated = this@appVersionCallbackFlow.isOutdated,
                 isSupported = this@appVersionCallbackFlow.isSupported,
-            )
+            ),
         )
     }
     awaitClose { onUpdate = null }

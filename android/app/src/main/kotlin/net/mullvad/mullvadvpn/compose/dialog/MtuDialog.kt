@@ -48,7 +48,7 @@ fun MtuDialog(
             Text(
                 text = stringResource(id = R.string.wireguard_mtu),
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
             )
         },
         text = {
@@ -66,19 +66,19 @@ fun MtuDialog(
                     placeholderText = stringResource(R.string.enter_value_placeholder),
                     maxCharLength = 4,
                     isValidValue = isValidMtu,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Text(
                     text =
-                        stringResource(
-                            id = R.string.wireguard_mtu_footer,
-                            MTU_MIN_VALUE,
-                            MTU_MAX_VALUE
-                        ),
+                    stringResource(
+                        id = R.string.wireguard_mtu_footer,
+                        MTU_MIN_VALUE,
+                        MTU_MAX_VALUE,
+                    ),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDescription),
-                    modifier = Modifier.padding(top = Dimens.smallPadding)
+                    modifier = Modifier.padding(top = Dimens.smallPadding),
                 )
             }
         },
@@ -93,19 +93,19 @@ fun MtuDialog(
                         if (mtuInt?.isValidMtu() == true) {
                             onSave(mtuInt)
                         }
-                    }
+                    },
                 )
 
                 PrimaryButton(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.reset_to_default_button),
-                    onClick = onRestoreDefaultValue
+                    onClick = onRestoreDefaultValue,
                 )
 
                 PrimaryButton(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.cancel),
-                    onClick = onDismiss
+                    onClick = onDismiss,
                 )
             }
         },

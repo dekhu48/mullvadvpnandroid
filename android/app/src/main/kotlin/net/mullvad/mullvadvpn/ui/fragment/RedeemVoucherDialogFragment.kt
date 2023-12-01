@@ -22,7 +22,7 @@ class RedeemVoucherDialogFragment(val onDialogDismiss: (Boolean) -> Unit = {}) :
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return inflater.inflate(R.layout.fragment_compose, container, false).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
@@ -34,7 +34,7 @@ class RedeemVoucherDialogFragment(val onDialogDismiss: (Boolean) -> Unit = {}) :
                         onDismiss = {
                             onDismiss(voucherDialog)
                             onDialogDismiss(it)
-                        }
+                        },
                     )
                 }
             }

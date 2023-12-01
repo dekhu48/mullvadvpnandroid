@@ -9,7 +9,7 @@ data class Relay(
     val active: Boolean,
     val owned: Boolean,
     val provider: String,
-    val endpointData: RelayEndpointData
+    val endpointData: RelayEndpointData,
 ) : Parcelable {
     val isWireguardRelay
         get() = endpointData is RelayEndpointData.Wireguard

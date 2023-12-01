@@ -1,6 +1,5 @@
 package net.mullvad.mullvadvpn.repository
 
-import java.net.InetAddress
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,10 +20,11 @@ import net.mullvad.mullvadvpn.ui.serviceconnection.customDns
 import net.mullvad.mullvadvpn.ui.serviceconnection.settingsListener
 import net.mullvad.mullvadvpn.util.callbackFlowFromNotifier
 import net.mullvad.mullvadvpn.util.flatMapReadyConnectionOrDefault
+import java.net.InetAddress
 
 class SettingsRepository(
     private val serviceConnectionManager: ServiceConnectionManager,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     val settingsUpdates: StateFlow<Settings?> =
         serviceConnectionManager.connectionState
@@ -37,17 +37,17 @@ class SettingsRepository(
     fun setDnsOptions(
         isCustomDnsEnabled: Boolean,
         dnsList: List<InetAddress>,
-        contentBlockersOptions: DefaultDnsOptions
+        contentBlockersOptions: DefaultDnsOptions,
     ) {
         serviceConnectionManager
             .customDns()
             ?.setDnsOptions(
                 dnsOptions =
-                    DnsOptions(
-                        state = if (isCustomDnsEnabled) DnsState.Custom else DnsState.Default,
-                        customOptions = CustomDnsOptions(ArrayList(dnsList)),
-                        defaultOptions = contentBlockersOptions
-                    )
+                DnsOptions(
+                    state = if (isCustomDnsEnabled) DnsState.Custom else DnsState.Default,
+                    customOptions = CustomDnsOptions(ArrayList(dnsList)),
+                    defaultOptions = contentBlockersOptions,
+                ),
             )
     }
 

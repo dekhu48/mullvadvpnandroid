@@ -4,8 +4,11 @@ internal object RelayNameComparator : Comparator<Relay> {
     override fun compare(o1: Relay, o2: Relay): Int {
         val partitions1 = o1.name.split(regex)
         val partitions2 = o2.name.split(regex)
-        return if (partitions1.size > partitions2.size) partitions1 compareWith partitions2
-        else -(partitions2 compareWith partitions1)
+        return if (partitions1.size > partitions2.size) {
+            partitions1 compareWith partitions2
+        } else {
+            -(partitions2 compareWith partitions1)
+        }
     }
 
     private infix fun List<String>.compareWith(other: List<String>): Int {

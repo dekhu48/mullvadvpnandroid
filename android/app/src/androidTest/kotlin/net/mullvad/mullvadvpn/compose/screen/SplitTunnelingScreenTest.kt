@@ -72,11 +72,11 @@ class SplitTunnelingScreenTest {
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
                 uiState =
-                    SplitTunnelingUiState.ShowAppList(
-                        excludedApps = listOf(excludedApp),
-                        includedApps = listOf(includedApp),
-                        showSystemApps = false
-                    )
+                SplitTunnelingUiState.ShowAppList(
+                    excludedApps = listOf(excludedApp),
+                    includedApps = listOf(includedApp),
+                    showSystemApps = false,
+                ),
             )
         }
 
@@ -100,11 +100,11 @@ class SplitTunnelingScreenTest {
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
                 uiState =
-                    SplitTunnelingUiState.ShowAppList(
-                        excludedApps = emptyList(),
-                        includedApps = listOf(includedApp),
-                        showSystemApps = false
-                    )
+                SplitTunnelingUiState.ShowAppList(
+                    excludedApps = emptyList(),
+                    includedApps = listOf(includedApp),
+                    showSystemApps = false,
+                ),
             )
         }
 
@@ -131,12 +131,12 @@ class SplitTunnelingScreenTest {
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
                 uiState =
-                    SplitTunnelingUiState.ShowAppList(
-                        excludedApps = listOf(excludedApp),
-                        includedApps = listOf(includedApp),
-                        showSystemApps = false
-                    ),
-                onExcludeAppClick = mockedClickHandler
+                SplitTunnelingUiState.ShowAppList(
+                    excludedApps = listOf(excludedApp),
+                    includedApps = listOf(includedApp),
+                    showSystemApps = false,
+                ),
+                onExcludeAppClick = mockedClickHandler,
             )
         }
 
@@ -158,12 +158,12 @@ class SplitTunnelingScreenTest {
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
                 uiState =
-                    SplitTunnelingUiState.ShowAppList(
-                        excludedApps = listOf(excludedApp),
-                        includedApps = listOf(includedApp),
-                        showSystemApps = false
-                    ),
-                onIncludeAppClick = mockedClickHandler
+                SplitTunnelingUiState.ShowAppList(
+                    excludedApps = listOf(excludedApp),
+                    includedApps = listOf(includedApp),
+                    showSystemApps = false,
+                ),
+                onIncludeAppClick = mockedClickHandler,
             )
         }
 
@@ -185,12 +185,12 @@ class SplitTunnelingScreenTest {
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
                 uiState =
-                    SplitTunnelingUiState.ShowAppList(
-                        excludedApps = listOf(excludedApp),
-                        includedApps = listOf(includedApp),
-                        showSystemApps = false
-                    ),
-                onShowSystemAppsClick = mockedClickHandler
+                SplitTunnelingUiState.ShowAppList(
+                    excludedApps = listOf(excludedApp),
+                    includedApps = listOf(includedApp),
+                    showSystemApps = false,
+                ),
+                onShowSystemAppsClick = mockedClickHandler,
             )
         }
 

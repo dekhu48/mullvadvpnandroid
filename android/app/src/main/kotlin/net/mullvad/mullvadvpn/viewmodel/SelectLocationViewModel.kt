@@ -18,7 +18,7 @@ import net.mullvad.mullvadvpn.usecase.RelayListUseCase
 
 class SelectLocationViewModel(
     private val serviceConnectionManager: ServiceConnectionManager,
-    private val relayListUseCase: RelayListUseCase
+    private val relayListUseCase: RelayListUseCase,
 ) : ViewModel() {
     private val _closeAction = MutableSharedFlow<Unit>()
     private val _enterTransitionEndAction = MutableSharedFlow<Unit>()
@@ -27,26 +27,28 @@ class SelectLocationViewModel(
     val uiState =
         combine(relayListUseCase.relayListWithSelection(), _searchTerm) {
                 (relayCountries, relayItem),
-                searchTerm ->
-                val filteredRelayCountries =
-                    relayCountries.filterOnSearchTerm(searchTerm, relayItem)
-                if (searchTerm.isNotEmpty() && filteredRelayCountries.isEmpty()) {
-                    SelectLocationUiState.NoSearchResultFound(searchTerm = searchTerm)
-                } else {
-                    SelectLocationUiState.ShowData(
-                        countries = filteredRelayCountries,
-                        selectedRelay = relayItem
-                    )
-                }
+                searchTerm,
+            ->
+            val filteredRelayCountries =
+                relayCountries.filterOnSearchTerm(searchTerm, relayItem)
+            if (searchTerm.isNotEmpty() && filteredRelayCountries.isEmpty()) {
+                SelectLocationUiState.NoSearchResultFound(searchTerm = searchTerm)
+            } else {
+                SelectLocationUiState.ShowData(
+                    countries = filteredRelayCountries,
+                    selectedRelay = relayItem,
+                )
             }
+        }
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(),
-                SelectLocationUiState.Loading
+                SelectLocationUiState.Loading,
             )
 
     @Suppress("konsist.ensure public properties use permitted names")
     val uiCloseAction = _closeAction.asSharedFlow()
+
     @Suppress("konsist.ensure public properties use permitted names")
     val enterTransitionEndAction = _enterTransitionEndAction.asSharedFlow()
 

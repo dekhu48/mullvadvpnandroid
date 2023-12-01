@@ -20,7 +20,7 @@ class VersionNotificationUseCase(
                 it.container.appVersionInfoCache.appVersionCallbackFlow().map { versionInfo ->
                     listOfNotNull(
                         unsupportedVersionNotification(versionInfo),
-                        updateAvailableNotification(versionInfo)
+                        updateAvailableNotification(versionInfo),
                     )
                 }
             }
@@ -33,7 +33,9 @@ class VersionNotificationUseCase(
 
         return if (versionInfo.isOutdated) {
             InAppNotification.UpdateAvailable(versionInfo)
-        } else null
+        } else {
+            null
+        }
     }
 
     private fun unsupportedVersionNotification(versionInfo: VersionInfo): InAppNotification? {
@@ -43,6 +45,8 @@ class VersionNotificationUseCase(
 
         return if (!versionInfo.isSupported) {
             InAppNotification.UnsupportedVersion(versionInfo)
-        } else null
+        } else {
+            null
+        }
     }
 }

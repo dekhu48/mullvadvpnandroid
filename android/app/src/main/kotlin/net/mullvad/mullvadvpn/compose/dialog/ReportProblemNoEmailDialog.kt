@@ -38,7 +38,7 @@ fun ReportProblemNoEmailDialog(onDismiss: () -> Unit, onConfirm: () -> Unit) {
                 painter = painterResource(id = R.drawable.icon_alert),
                 contentDescription = null,
                 modifier = Modifier.size(Dimens.dialogIconHeight),
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
             )
         },
         text = {
@@ -46,23 +46,23 @@ fun ReportProblemNoEmailDialog(onDismiss: () -> Unit, onConfirm: () -> Unit) {
                 text = stringResource(id = R.string.confirm_no_email),
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         },
         dismissButton = {
             NegativeButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = onConfirm,
-                text = stringResource(id = R.string.send_anyway)
+                text = stringResource(id = R.string.send_anyway),
             )
         },
         confirmButton = {
             PrimaryButton(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { onDismiss() },
-                text = stringResource(id = R.string.back)
+                text = stringResource(id = R.string.back),
             )
         },
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.background,
     )
 }

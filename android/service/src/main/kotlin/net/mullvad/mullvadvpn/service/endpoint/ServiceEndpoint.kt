@@ -25,7 +25,7 @@ class ServiceEndpoint(
     looper: Looper,
     internal val intermittentDaemon: Intermittent<MullvadDaemon>,
     val connectivityListener: ConnectivityListener,
-    context: Context
+    context: Context,
 ) {
 
     private val listeners = mutableMapOf<Int, Messenger>()
@@ -133,7 +133,7 @@ class ServiceEndpoint(
                     Event.AppVersionInfo(appVersionInfoCache.appVersionInfo),
                     Event.NewRelayList(relayListListener.relayList),
                     Event.AuthToken(authTokenCache.authToken),
-                    Event.ListenerReady(messenger, listenerId)
+                    Event.ListenerReady(messenger, listenerId),
                 )
 
             if (vpnPermission.waitingForResponse) {

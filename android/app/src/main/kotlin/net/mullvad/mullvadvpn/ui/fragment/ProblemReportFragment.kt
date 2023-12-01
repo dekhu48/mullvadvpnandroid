@@ -18,9 +18,8 @@ class ProblemReportFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
-
         return inflater.inflate(R.layout.fragment_compose, container, false).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
                 AppTheme {
@@ -32,7 +31,7 @@ class ProblemReportFragment : BaseFragment() {
                         onClearSendResult = vm::clearSendResult,
                         onNavigateToViewLogs = { showLogs() },
                         updateEmail = vm::updateEmail,
-                        updateDescription = vm::updateDescription
+                        updateDescription = vm::updateDescription,
                     ) {
                         activity?.onBackPressed()
                     }
@@ -47,7 +46,7 @@ class ProblemReportFragment : BaseFragment() {
                 R.anim.fragment_enter_from_right,
                 R.anim.fragment_half_exit_to_left,
                 R.anim.fragment_half_enter_from_left,
-                R.anim.fragment_exit_to_right
+                R.anim.fragment_exit_to_right,
             )
             replace(R.id.main_fragment, ViewLogsFragment())
             addToBackStack(null)

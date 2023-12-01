@@ -23,9 +23,8 @@ class LoginFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
-
         // TODO: Remove this when we have a better solution for login after clearing max devices
         val accountTokenArgument = arguments?.getString(ACCOUNT_TOKEN_ARGUMENT_KEY)
         if (accountTokenArgument != null) {
@@ -43,7 +42,8 @@ class LoginFragment : BaseFragment() {
                             when (it) {
                                 LoginUiSideEffect.NavigateToWelcome,
                                 LoginUiSideEffect
-                                    .NavigateToConnect -> {} // TODO Fix when we redo navigation
+                                    .NavigateToConnect,
+                                -> {} // TODO Fix when we redo navigation
                                 is LoginUiSideEffect.TooManyDevices -> {
                                     navigateToDeviceListFragment(it.accountToken)
                                 }
@@ -56,7 +56,7 @@ class LoginFragment : BaseFragment() {
                         vm::createAccount,
                         vm::clearAccountHistory,
                         vm::onAccountNumberChange,
-                        ::openSettingsView
+                        ::openSettingsView,
                     )
                 }
             }
@@ -75,7 +75,7 @@ class LoginFragment : BaseFragment() {
                 R.anim.fragment_enter_from_right,
                 R.anim.fragment_exit_to_left,
                 R.anim.fragment_half_enter_from_left,
-                R.anim.fragment_exit_to_right
+                R.anim.fragment_exit_to_right,
             )
             replace(R.id.main_fragment, deviceFragment)
             addToBackStack(null)

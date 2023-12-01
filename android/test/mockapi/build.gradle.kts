@@ -19,7 +19,7 @@ android {
         testInstrumentationRunnerArguments.putAll(
             mapOf(
                 "clearPackageData" to "true",
-            )
+            ),
         )
     }
 

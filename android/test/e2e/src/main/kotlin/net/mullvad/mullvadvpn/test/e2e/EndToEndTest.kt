@@ -19,14 +19,15 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 abstract class EndToEndTest {
 
-    @Rule @JvmField val rule = CaptureScreenshotOnFailedTestRule(LOG_TAG)
+    @Rule @JvmField
+    val rule = CaptureScreenshotOnFailedTestRule(LOG_TAG)
 
     @Rule
     @JvmField
     val permissionRule: GrantPermissionRule =
         GrantPermissionRule.grant(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE,
         )
 
     lateinit var device: UiDevice

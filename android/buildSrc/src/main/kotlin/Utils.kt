@@ -1,7 +1,7 @@
-import java.io.ByteArrayOutputStream
-import java.util.*
 import org.gradle.api.Project
 import org.gradle.process.ExecSpec
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 fun Project.generateVersionCode(localProperties: Properties): Int {
     return localProperties.getProperty("OVERRIDE_VERSION_CODE")?.toIntOrNull()

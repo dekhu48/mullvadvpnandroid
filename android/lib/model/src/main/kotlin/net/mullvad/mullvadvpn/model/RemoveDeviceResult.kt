@@ -8,5 +8,5 @@ enum class RemoveDeviceResult : Parcelable {
     Ok,
     NotFound,
     RpcError,
-    OtherError
+    OtherError,
 }

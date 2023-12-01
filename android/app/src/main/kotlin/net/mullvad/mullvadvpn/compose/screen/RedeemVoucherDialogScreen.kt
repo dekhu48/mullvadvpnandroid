@@ -16,7 +16,7 @@ private fun PreviewRedeemVoucherDialogScreen() {
             uiState = VoucherDialogUiState.INITIAL,
             onVoucherInputChange = {},
             onRedeem = {},
-            onDismiss = {}
+            onDismiss = {},
         )
     }
 }
@@ -26,7 +26,7 @@ internal fun RedeemVoucherDialogScreen(
     uiState: VoucherDialogUiState,
     onVoucherInputChange: (String) -> Unit = {},
     onRedeem: (voucherCode: String) -> Unit,
-    onDismiss: (isTimeAdded: Boolean) -> Unit
+    onDismiss: (isTimeAdded: Boolean) -> Unit,
 ) {
     RedeemVoucherDialog(uiState, onVoucherInputChange, onRedeem, onDismiss)
 }

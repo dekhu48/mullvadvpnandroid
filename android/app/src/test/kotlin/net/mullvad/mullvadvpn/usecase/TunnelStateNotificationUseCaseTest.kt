@@ -5,8 +5,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import net.mullvad.mullvadvpn.lib.common.test.TestCoroutineRule
@@ -23,6 +21,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class TunnelStateNotificationUseCaseTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -84,7 +84,7 @@ class TunnelStateNotificationUseCaseTest {
                 serviceConnectionState.value =
                     ServiceConnectionState.ConnectedReady(mockServiceConnectionContainer)
                 eventNotifierTunnelUiState.notify(
-                    TunnelState.Disconnecting(ActionAfterDisconnect.Block)
+                    TunnelState.Disconnecting(ActionAfterDisconnect.Block),
                 )
 
                 // Assert

@@ -36,7 +36,7 @@ data class VpnSettingsViewModelState(
             quantumResistant,
             selectedWireguardPort,
             availablePortRanges,
-            dialogState.toUi(this@VpnSettingsViewModelState)
+            dialogState.toUi(this@VpnSettingsViewModelState),
         )
 
     companion object {
@@ -55,13 +55,13 @@ data class VpnSettingsViewModelState(
                 selectedObfuscation = SelectedObfuscation.Auto,
                 quantumResistant = QuantumResistantState.Off,
                 selectedWireguardPort = Constraint.Any(),
-                availablePortRanges = emptyList()
+                availablePortRanges = emptyList(),
             )
     }
 }
 
 private fun VpnSettingsDialogState?.toUi(
-    vpnSettingsViewModelState: VpnSettingsViewModelState
+    vpnSettingsViewModelState: VpnSettingsViewModelState,
 ): VpnSettingsDialog? =
     when (this) {
         VpnSettingsDialogState.ContentBlockersInfoDialog -> VpnSettingsDialog.ContentBlockersInfo
@@ -116,7 +116,7 @@ sealed interface StagedDns {
     data class EditDns(
         override val item: CustomDnsItem,
         override val validationResult: ValidationResult = ValidationResult.Success,
-        val index: Int
+        val index: Int,
     ) : StagedDns
 
     sealed class ValidationResult {

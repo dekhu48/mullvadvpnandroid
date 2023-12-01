@@ -29,7 +29,7 @@ private fun PreviewInformationComposeCell() {
         title = "Information row title",
         isEnabled = true,
         onCellClicked = {},
-        onInfoClicked = {}
+        onInfoClicked = {},
     )
 }
 
@@ -39,7 +39,7 @@ fun InformationComposeCell(
     isEnabled: Boolean = true,
     background: Color = MullvadBlue,
     onCellClicked: () -> Unit = {},
-    onInfoClicked: (() -> Unit)? = null
+    onInfoClicked: (() -> Unit)? = null,
 ) {
     val titleModifier = Modifier.alpha(if (isEnabled) AlphaVisible else AlphaInactive)
     val bodyViewModifier = Modifier
@@ -49,14 +49,14 @@ fun InformationComposeCell(
             BaseCellTitle(
                 title = title,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = titleModifier.weight(1f, true)
+                modifier = titleModifier.weight(1f, true),
             )
         },
         background = background,
         bodyView = {
             InformationComposeCellBody(modifier = bodyViewModifier, onInfoClicked = onInfoClicked)
         },
-        onCellClicked = onCellClicked
+        onCellClicked = onCellClicked,
     )
 }
 
@@ -65,22 +65,22 @@ private fun InformationComposeCellBody(modifier: Modifier, onInfoClicked: (() ->
     val verticalPadding = 13.dp
     Row(
         modifier = modifier.wrapContentWidth().wrapContentHeight(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onInfoClicked != null) {
             Icon(
                 modifier =
-                    Modifier.clickable { onInfoClicked() }
-                        .padding(
-                            start = Dimens.mediumPadding,
-                            end = Dimens.mediumPadding,
-                            top = verticalPadding,
-                            bottom = verticalPadding
-                        )
-                        .align(Alignment.CenterVertically),
+                Modifier.clickable { onInfoClicked() }
+                    .padding(
+                        start = Dimens.mediumPadding,
+                        end = Dimens.mediumPadding,
+                        top = verticalPadding,
+                        bottom = verticalPadding,
+                    )
+                    .align(Alignment.CenterVertically),
                 painter = painterResource(id = R.drawable.icon_info),
                 contentDescription = null,
-                tint = MullvadWhite
+                tint = MullvadWhite,
             )
         }
     }

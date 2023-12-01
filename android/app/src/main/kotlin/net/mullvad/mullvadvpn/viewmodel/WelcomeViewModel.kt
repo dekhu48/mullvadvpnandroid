@@ -41,7 +41,7 @@ class WelcomeViewModel(
     private val deviceRepository: DeviceRepository,
     private val serviceConnectionManager: ServiceConnectionManager,
     private val paymentUseCase: PaymentUseCase,
-    private val pollAccountExpiry: Boolean = true
+    private val pollAccountExpiry: Boolean = true,
 ) : ViewModel() {
     private val _uiSideEffect = MutableSharedFlow<UiSideEffect>(extraBufferCapacity = 1)
     val uiSideEffect = _uiSideEffect.asSharedFlow()
@@ -62,14 +62,14 @@ class WelcomeViewModel(
                         it.addDebounceForUnknownState(UNKNOWN_STATE_DEBOUNCE_DELAY_MILLISECONDS)
                     },
                     paymentUseCase.paymentAvailability,
-                    paymentUseCase.purchaseResult
+                    paymentUseCase.purchaseResult,
                 ) { tunnelState, deviceState, paymentAvailability, purchaseResult ->
                     WelcomeUiState(
                         tunnelState = tunnelState,
                         accountNumber = deviceState.token(),
                         deviceName = deviceState.deviceName(),
                         billingPaymentState = paymentAvailability?.toPaymentState(),
-                        paymentDialogData = purchaseResult?.toPaymentDialogData()
+                        paymentDialogData = purchaseResult?.toPaymentDialogData(),
                     )
                 }
             }
@@ -106,8 +106,8 @@ class WelcomeViewModel(
         viewModelScope.launch {
             _uiSideEffect.tryEmit(
                 UiSideEffect.OpenAccountView(
-                    serviceConnectionManager.authTokenCache()?.fetchAuthToken() ?: ""
-                )
+                    serviceConnectionManager.authTokenCache()?.fetchAuthToken() ?: "",
+                ),
             )
         }
     }

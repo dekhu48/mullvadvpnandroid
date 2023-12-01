@@ -1,8 +1,8 @@
 package net.mullvad.mullvadvpn.lib.ipc
 
 import android.os.Bundle
-import android.os.Message as RawMessage
 import android.os.Parcelable
+import android.os.Message as RawMessage
 
 sealed class Message(private val messageId: Int) : Parcelable {
     abstract class EventMessage : Message(1)

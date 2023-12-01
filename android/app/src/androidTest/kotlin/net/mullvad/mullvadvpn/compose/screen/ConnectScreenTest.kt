@@ -57,7 +57,7 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState = ConnectUiState.INITIAL,
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -75,20 +75,20 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connecting(null, null),
-                        tunnelRealState = TunnelState.Connecting(null, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = InAppNotification.TunnelStateBlocked
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connecting(null, null),
+                    tunnelRealState = TunnelState.Connecting(null, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = InAppNotification.TunnelStateBlocked,
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -110,21 +110,21 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connecting(endpoint = mockTunnelEndpoint, null),
-                        tunnelRealState =
-                            TunnelState.Connecting(endpoint = mockTunnelEndpoint, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = InAppNotification.TunnelStateBlocked
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connecting(endpoint = mockTunnelEndpoint, null),
+                    tunnelRealState =
+                    TunnelState.Connecting(endpoint = mockTunnelEndpoint, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = InAppNotification.TunnelStateBlocked,
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -145,20 +145,20 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -178,20 +178,20 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -212,20 +212,20 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = mockRelayLocation,
-                        tunnelUiState = TunnelState.Disconnecting(ActionAfterDisconnect.Nothing),
-                        tunnelRealState = TunnelState.Disconnecting(ActionAfterDisconnect.Nothing),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = true,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = mockRelayLocation,
+                    tunnelUiState = TunnelState.Disconnecting(ActionAfterDisconnect.Nothing),
+                    tunnelRealState = TunnelState.Disconnecting(ActionAfterDisconnect.Nothing),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = true,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -246,20 +246,20 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = mockRelayLocation,
-                        tunnelUiState = TunnelState.Disconnected,
-                        tunnelRealState = TunnelState.Disconnected,
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = true,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = mockRelayLocation,
+                    tunnelUiState = TunnelState.Disconnected,
+                    tunnelRealState = TunnelState.Disconnected,
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = true,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -280,25 +280,25 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = mockRelayLocation,
-                        tunnelUiState =
-                            TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, true)),
-                        tunnelRealState =
-                            TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, true)),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = true,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification =
-                            InAppNotification.TunnelStateError(
-                                ErrorState(ErrorStateCause.StartTunnelError, true)
-                            )
+                ConnectUiState(
+                    location = null,
+                    relayLocation = mockRelayLocation,
+                    tunnelUiState =
+                    TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, true)),
+                    tunnelRealState =
+                    TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, true)),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = true,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification =
+                    InAppNotification.TunnelStateError(
+                        ErrorState(ErrorStateCause.StartTunnelError, true),
                     ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -320,25 +320,25 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = mockRelayLocation,
-                        tunnelUiState =
-                            TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, false)),
-                        tunnelRealState =
-                            TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, false)),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = true,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification =
-                            InAppNotification.TunnelStateError(
-                                ErrorState(ErrorStateCause.StartTunnelError, false)
-                            )
+                ConnectUiState(
+                    location = null,
+                    relayLocation = mockRelayLocation,
+                    tunnelUiState =
+                    TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, false)),
+                    tunnelRealState =
+                    TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, false)),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = true,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification =
+                    InAppNotification.TunnelStateError(
+                        ErrorState(ErrorStateCause.StartTunnelError, false),
                     ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -358,21 +358,21 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Disconnecting(ActionAfterDisconnect.Reconnect),
-                        tunnelRealState =
-                            TunnelState.Disconnecting(ActionAfterDisconnect.Reconnect),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = InAppNotification.TunnelStateBlocked
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Disconnecting(ActionAfterDisconnect.Reconnect),
+                    tunnelRealState =
+                    TunnelState.Disconnecting(ActionAfterDisconnect.Reconnect),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = InAppNotification.TunnelStateBlocked,
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -395,20 +395,20 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = mockRelayLocation,
-                        tunnelUiState = TunnelState.Disconnecting(ActionAfterDisconnect.Block),
-                        tunnelRealState = TunnelState.Disconnecting(ActionAfterDisconnect.Block),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = true,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = InAppNotification.TunnelStateBlocked
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = mockRelayLocation,
+                    tunnelUiState = TunnelState.Disconnecting(ActionAfterDisconnect.Block),
+                    tunnelRealState = TunnelState.Disconnecting(ActionAfterDisconnect.Block),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = true,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = InAppNotification.TunnelStateBlocked,
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -431,21 +431,21 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = mockRelayLocation,
-                        tunnelUiState = TunnelState.Disconnected,
-                        tunnelRealState = TunnelState.Disconnected,
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
+                ConnectUiState(
+                    location = null,
+                    relayLocation = mockRelayLocation,
+                    tunnelUiState = TunnelState.Disconnected,
+                    tunnelRealState = TunnelState.Disconnected,
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
                 uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
-                onSwitchLocationClick = mockedClickHandler
+                onSwitchLocationClick = mockedClickHandler,
             )
         }
 
@@ -464,21 +464,21 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
                 uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
-                onDisconnectClick = mockedClickHandler
+                onDisconnectClick = mockedClickHandler,
             )
         }
 
@@ -497,21 +497,21 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
                 uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
-                onReconnectClick = mockedClickHandler
+                onReconnectClick = mockedClickHandler,
             )
         }
 
@@ -529,21 +529,21 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Disconnected,
-                        tunnelRealState = TunnelState.Disconnected,
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Disconnected,
+                    tunnelRealState = TunnelState.Disconnected,
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
                 uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
-                onConnectClick = mockedClickHandler
+                onConnectClick = mockedClickHandler,
             )
         }
 
@@ -561,21 +561,21 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connecting(null, null),
-                        tunnelRealState = TunnelState.Connecting(null, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connecting(null, null),
+                    tunnelRealState = TunnelState.Connecting(null, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
                 uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
-                onCancelClick = mockedClickHandler
+                onCancelClick = mockedClickHandler,
             )
         }
 
@@ -594,21 +594,21 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = dummyLocation,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connecting(null, null),
-                        tunnelRealState = TunnelState.Connecting(null, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
+                ConnectUiState(
+                    location = dummyLocation,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connecting(null, null),
+                    tunnelRealState = TunnelState.Connecting(null, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
                 uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
-                onToggleTunnelInfo = mockedClickHandler
+                onToggleTunnelInfo = mockedClickHandler,
             )
         }
 
@@ -634,20 +634,20 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = mockLocation,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
-                        inAddress = mockInAddress,
-                        outAddress = mockOutAddress,
-                        showLocation = false,
-                        isTunnelInfoExpanded = true,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = null
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = mockLocation,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    tunnelRealState = TunnelState.Connected(mockTunnelEndpoint, null),
+                    inAddress = mockInAddress,
+                    outAddress = mockOutAddress,
+                    showLocation = false,
+                    isTunnelInfoExpanded = true,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = null,
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -668,25 +668,25 @@ class ConnectScreenTest {
                 currentVersion = "1.0",
                 upgradeVersion = "1.1",
                 isOutdated = true,
-                isSupported = true
+                isSupported = true,
             )
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connecting(null, null),
-                        tunnelRealState = TunnelState.Connecting(null, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = InAppNotification.UpdateAvailable(versionInfo)
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connecting(null, null),
+                    tunnelRealState = TunnelState.Connecting(null, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = InAppNotification.UpdateAvailable(versionInfo),
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -705,25 +705,25 @@ class ConnectScreenTest {
                 currentVersion = "1.0",
                 upgradeVersion = "1.1",
                 isOutdated = true,
-                isSupported = false
+                isSupported = false,
             )
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connecting(null, null),
-                        tunnelRealState = TunnelState.Connecting(null, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = InAppNotification.UnsupportedVersion(versionInfo)
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connecting(null, null),
+                    tunnelRealState = TunnelState.Connecting(null, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = InAppNotification.UnsupportedVersion(versionInfo),
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -731,8 +731,8 @@ class ConnectScreenTest {
         composeTestRule.apply {
             onNodeWithText("UNSUPPORTED VERSION").assertExists()
             onNodeWithText(
-                    "Your privacy might be at risk with this unsupported app version. Please update now."
-                )
+                "Your privacy might be at risk with this unsupported app version. Please update now.",
+            )
                 .assertExists()
         }
     }
@@ -744,20 +744,20 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connecting(null, null),
-                        tunnelRealState = TunnelState.Connecting(null, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = InAppNotification.AccountExpiry(expiryDate)
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connecting(null, null),
+                    tunnelRealState = TunnelState.Connecting(null, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = InAppNotification.AccountExpiry(expiryDate),
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -777,26 +777,26 @@ class ConnectScreenTest {
                 currentVersion = "1.0",
                 upgradeVersion = "1.1",
                 isOutdated = true,
-                isSupported = false
+                isSupported = false,
             )
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 onUpdateVersionClick = mockedClickHandler,
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connecting(null, null),
-                        tunnelRealState = TunnelState.Connecting(null, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = InAppNotification.UnsupportedVersion(versionInfo)
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connecting(null, null),
+                    tunnelRealState = TunnelState.Connecting(null, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = InAppNotification.UnsupportedVersion(versionInfo),
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -816,20 +816,20 @@ class ConnectScreenTest {
             ConnectScreen(
                 onManageAccountClick = mockedClickHandler,
                 uiState =
-                    ConnectUiState(
-                        location = null,
-                        relayLocation = null,
-                        tunnelUiState = TunnelState.Connecting(null, null),
-                        tunnelRealState = TunnelState.Connecting(null, null),
-                        inAddress = null,
-                        outAddress = "",
-                        showLocation = false,
-                        isTunnelInfoExpanded = false,
-                        deviceName = "",
-                        daysLeftUntilExpiry = null,
-                        inAppNotification = InAppNotification.AccountExpiry(expiryDate)
-                    ),
-                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow()
+                ConnectUiState(
+                    location = null,
+                    relayLocation = null,
+                    tunnelUiState = TunnelState.Connecting(null, null),
+                    tunnelRealState = TunnelState.Connecting(null, null),
+                    inAddress = null,
+                    outAddress = "",
+                    showLocation = false,
+                    isTunnelInfoExpanded = false,
+                    deviceName = "",
+                    daysLeftUntilExpiry = null,
+                    inAppNotification = InAppNotification.AccountExpiry(expiryDate),
+                ),
+                uiSideEffect = MutableSharedFlow<ConnectViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
 
@@ -847,9 +847,9 @@ class ConnectScreenTest {
             ConnectScreen(
                 uiState = ConnectUiState.INITIAL,
                 uiSideEffect =
-                    MutableStateFlow(
-                        ConnectViewModel.UiSideEffect.OpenAccountManagementPageInBrowser("222")
-                    )
+                MutableStateFlow(
+                    ConnectViewModel.UiSideEffect.OpenAccountManagementPageInBrowser("222"),
+                ),
             )
         }
 
@@ -865,7 +865,7 @@ class ConnectScreenTest {
             ConnectScreen(
                 uiState = ConnectUiState.INITIAL,
                 uiSideEffect = MutableStateFlow(ConnectViewModel.UiSideEffect.OpenOutOfTimeView),
-                onOpenOutOfTimeScreen = mockedOpenScreenHandler
+                onOpenOutOfTimeScreen = mockedOpenScreenHandler,
             )
         }
 

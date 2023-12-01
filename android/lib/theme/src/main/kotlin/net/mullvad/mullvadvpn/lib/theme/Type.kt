@@ -21,13 +21,13 @@ internal val MullvadMaterial3Typography =
         bodyMedium = TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.SemiBold),
         bodySmall = TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.SemiBold),
         labelLarge =
-            TextStyle(
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp,
-                lineHeight = 23.sp
-            ),
+        TextStyle(
+            fontFamily = FontFamily.SansSerif,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 18.sp,
+            lineHeight = 23.sp,
+        ),
         labelMedium =
-            TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.SemiBold),
-        labelSmall = TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.SemiBold)
+        TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.SemiBold),
+        labelSmall = TextStyle(fontFamily = FontFamily.SansSerif, fontWeight = FontWeight.SemiBold),
     )

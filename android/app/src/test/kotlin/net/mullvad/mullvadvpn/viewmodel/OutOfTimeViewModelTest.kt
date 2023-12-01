@@ -10,9 +10,6 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
-import kotlin.test.assertNull
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
@@ -46,6 +43,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertNull
 
 class OutOfTimeViewModelTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -96,7 +96,7 @@ class OutOfTimeViewModelTest {
                 serviceConnectionManager = mockServiceConnectionManager,
                 deviceRepository = mockDeviceRepository,
                 paymentUseCase = mockPaymentUseCase,
-                pollAccountExpiry = false
+                pollAccountExpiry = false,
             )
     }
 

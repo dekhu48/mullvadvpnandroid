@@ -58,7 +58,7 @@ sealed class Event : Message.EventMessage() {
     @Parcelize
     data class VoucherSubmissionResult(
         val voucher: String,
-        val result: net.mullvad.mullvadvpn.model.VoucherSubmissionResult
+        val result: net.mullvad.mullvadvpn.model.VoucherSubmissionResult,
     ) : Event()
 
     @Parcelize data class PlayPurchaseInitResultEvent(val result: PlayPurchaseInitResult) : Event()

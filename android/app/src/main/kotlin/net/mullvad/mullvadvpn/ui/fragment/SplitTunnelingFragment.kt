@@ -21,7 +21,7 @@ class SplitTunnelingFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_compose, container, false).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
@@ -35,7 +35,7 @@ class SplitTunnelingFragment : BaseFragment() {
                         onBackClick = { activity?.onBackPressedDispatcher?.onBackPressed() },
                         onResolveIcon = { packageName ->
                             applicationsIconManager.getAppIcon(packageName)
-                        }
+                        },
                     )
                 }
             }

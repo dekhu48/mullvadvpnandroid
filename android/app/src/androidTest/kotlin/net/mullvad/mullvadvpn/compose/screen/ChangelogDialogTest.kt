@@ -39,7 +39,7 @@ class ChangelogDialogTest {
             ChangelogDialog(
                 changesList = listOf(CHANGELOG_ITEM),
                 version = CHANGELOG_VERSION,
-                onDismiss = { mockedViewModel.dismissChangelogDialog() }
+                onDismiss = { mockedViewModel.dismissChangelogDialog() },
             )
         }
 

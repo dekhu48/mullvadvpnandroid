@@ -11,7 +11,7 @@ fun Fragment.requireMainActivity(): MainActivity {
         this.activity as MainActivity
     } else {
         throw IllegalStateException(
-            "Fragment $this not attached to ${MainActivity::class.simpleName}."
+            "Fragment $this not attached to ${MainActivity::class.simpleName}.",
         )
     }
 }

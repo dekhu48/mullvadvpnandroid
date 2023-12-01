@@ -16,16 +16,16 @@ import com.android.billingclient.api.QueryProductDetailsParams.Product
 import com.android.billingclient.api.QueryPurchasesParams
 import com.android.billingclient.api.queryProductDetails
 import com.android.billingclient.api.queryPurchasesAsync
-import kotlin.coroutines.Continuation
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import net.mullvad.mullvadvpn.lib.billing.model.BillingException
 import net.mullvad.mullvadvpn.lib.billing.model.PurchaseEvent
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class BillingRepository(context: Context) {
 
@@ -36,7 +36,7 @@ class BillingRepository(context: Context) {
             when (result.responseCode) {
                 BillingResponseCode.OK -> {
                     _purchaseEvents.tryEmit(
-                        PurchaseEvent.Completed(purchases?.toList() ?: emptyList())
+                        PurchaseEvent.Completed(purchases?.toList() ?: emptyList()),
                     )
                 }
                 BillingResponseCode.USER_CANCELED -> {
@@ -46,11 +46,11 @@ class BillingRepository(context: Context) {
                     _purchaseEvents.tryEmit(
                         PurchaseEvent.Error(
                             exception =
-                                BillingException(
-                                    responseCode = result.responseCode,
-                                    message = result.debugMessage
-                                )
-                        )
+                            BillingException(
+                                responseCode = result.responseCode,
+                                message = result.debugMessage,
+                            ),
+                        ),
                     )
                 }
             }
@@ -74,7 +74,7 @@ class BillingRepository(context: Context) {
             suspendCoroutine {
                 if (
                     billingClient.isReady &&
-                        billingClient.connectionState == BillingClient.ConnectionState.CONNECTED
+                    billingClient.connectionState == BillingClient.ConnectionState.CONNECTED
                 ) {
                     it.resume(Unit)
                 } else {
@@ -95,11 +95,11 @@ class BillingRepository(context: Context) {
                         continuation.resume(Unit)
                     } else {
                         continuation.resumeWithException(
-                            BillingException(result.responseCode, result.debugMessage)
+                            BillingException(result.responseCode, result.debugMessage),
                         )
                     }
                 }
-            }
+            },
         )
     }
 
@@ -110,7 +110,7 @@ class BillingRepository(context: Context) {
     suspend fun startPurchaseFlow(
         productDetails: ProductDetails,
         obfuscatedId: String,
-        activityProvider: () -> Activity
+        activityProvider: () -> Activity,
     ): BillingResult {
         return try {
             ensureConnected()
@@ -119,7 +119,7 @@ class BillingRepository(context: Context) {
                 listOf(
                     BillingFlowParams.ProductDetailsParams.newBuilder()
                         .setProductDetails(productDetails)
-                        .build()
+                        .build(),
                 )
 
             val billingFlowParams =
@@ -180,7 +180,7 @@ class BillingRepository(context: Context) {
             } else {
                 return ProductDetailsResult(
                     BillingResult.newBuilder().setResponseCode(BillingResponseCode.ERROR).build(),
-                    null
+                    null,
                 )
             }
         }

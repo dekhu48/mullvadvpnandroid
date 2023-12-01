@@ -29,7 +29,8 @@ sealed class TunnelState : Parcelable {
         return when (this) {
             is Connected,
             is Connecting,
-            is Disconnecting, -> true
+            is Disconnecting,
+            -> true
             is Disconnected -> false
             is Error -> this.errorState.isBlocking
         }
@@ -77,16 +78,16 @@ sealed class TunnelState : Parcelable {
                     Error(
                         ErrorState(
                             ErrorStateCause.SetFirewallPolicyError(FirewallPolicyError.Generic),
-                            false
-                        )
+                            false,
+                        ),
                     )
                 }
                 else ->
                     Error(
                         ErrorState(
                             ErrorStateCause.SetFirewallPolicyError(FirewallPolicyError.Generic),
-                            false
-                        )
+                            false,
+                        ),
                     )
             }
         }

@@ -11,8 +11,6 @@ import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
 import io.mockk.verifyAll
-import java.util.concurrent.TimeUnit
-import kotlin.test.assertEquals
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
@@ -29,6 +27,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.Timeout
+import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
 
 class SplitTunnelingViewModelTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -76,7 +76,7 @@ class SplitTunnelingViewModelTest {
                 SplitTunnelingUiState.ShowAppList(
                     excludedApps = emptyList(),
                     includedApps = emptyList(),
-                    showSystemApps = false
+                    showSystemApps = false,
                 )
             testSubject.uiState.test { assertEquals(expectedState, awaitItem()) }
         }
@@ -97,7 +97,7 @@ class SplitTunnelingViewModelTest {
                 SplitTunnelingUiState.ShowAppList(
                     excludedApps = listOf(appExcluded),
                     includedApps = listOf(appNotExcluded),
-                    showSystemApps = false
+                    showSystemApps = false,
                 )
 
             testSubject.uiState.test {
@@ -128,13 +128,13 @@ class SplitTunnelingViewModelTest {
                 SplitTunnelingUiState.ShowAppList(
                     excludedApps = listOf(app),
                     includedApps = emptyList(),
-                    showSystemApps = false
+                    showSystemApps = false,
                 )
             val expectedStateAfterAction =
                 SplitTunnelingUiState.ShowAppList(
                     excludedApps = emptyList(),
                     includedApps = listOf(app),
-                    showSystemApps = false
+                    showSystemApps = false,
                 )
 
             testSubject.uiState.test {
@@ -169,14 +169,14 @@ class SplitTunnelingViewModelTest {
                 SplitTunnelingUiState.ShowAppList(
                     excludedApps = emptyList(),
                     includedApps = listOf(app),
-                    showSystemApps = false
+                    showSystemApps = false,
                 )
 
             val expectedStateAfterAction =
                 SplitTunnelingUiState.ShowAppList(
                     excludedApps = listOf(app),
                     includedApps = emptyList(),
-                    showSystemApps = false
+                    showSystemApps = false,
                 )
 
             testSubject.uiState.test {
@@ -197,14 +197,14 @@ class SplitTunnelingViewModelTest {
         every { mockedApplicationsProvider.getAppsList() } returns appList
         every { mockedServiceConnectionManager.connectionState } returns
             MutableStateFlow(
-                ServiceConnectionState.ConnectedReady(mockedServiceConnectionContainer)
+                ServiceConnectionState.ConnectedReady(mockedServiceConnectionContainer),
             )
         every { mockedServiceConnectionContainer.splitTunneling } returns mockedSplitTunneling
         testSubject =
             SplitTunnelingViewModel(
                 mockedApplicationsProvider,
                 mockedServiceConnectionManager,
-                testCoroutineRule.testDispatcher
+                testCoroutineRule.testDispatcher,
             )
     }
 }

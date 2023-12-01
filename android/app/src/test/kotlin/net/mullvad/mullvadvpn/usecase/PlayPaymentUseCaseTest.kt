@@ -4,8 +4,6 @@ import app.cash.turbine.test
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import net.mullvad.mullvadvpn.lib.payment.PaymentRepository
@@ -13,6 +11,8 @@ import net.mullvad.mullvadvpn.lib.payment.model.PaymentAvailability
 import net.mullvad.mullvadvpn.lib.payment.model.ProductId
 import net.mullvad.mullvadvpn.lib.payment.model.PurchaseResult
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class PlayPaymentUseCaseTest {
 

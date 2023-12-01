@@ -20,7 +20,7 @@ class ViewModelTests {
     @Test
     fun `ensure public properties use permitted names`() =
         allViewModels().properties(includeNested = false).withPublicOrDefaultModifier().assert {
-            property ->
+                property ->
             property.name == "uiState" || property.name == "uiSideEffect"
         }
 

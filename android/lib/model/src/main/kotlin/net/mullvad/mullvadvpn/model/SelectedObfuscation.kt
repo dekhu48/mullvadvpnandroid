@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 enum class SelectedObfuscation : Parcelable {
     Auto,
     Off,
-    Udp2Tcp
+    Udp2Tcp,
 }

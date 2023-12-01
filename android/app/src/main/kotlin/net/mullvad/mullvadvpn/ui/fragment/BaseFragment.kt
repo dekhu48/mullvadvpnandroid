@@ -65,7 +65,7 @@ abstract class BaseFragment : Fragment {
                 R.anim.fragment_enter_from_right,
                 R.anim.fragment_exit_to_right,
                 R.anim.fragment_enter_from_bottom,
-                R.anim.fragment_exit_to_bottom
+                R.anim.fragment_exit_to_bottom,
             )
     }
 }

@@ -43,13 +43,13 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState(
-                        deviceName = DUMMY_DEVICE_NAME,
-                        accountNumber = DUMMY_ACCOUNT_NUMBER,
-                        accountExpiry = null
-                    ),
+                AccountUiState(
+                    deviceName = DUMMY_DEVICE_NAME,
+                    accountNumber = DUMMY_ACCOUNT_NUMBER,
+                    accountExpiry = null,
+                ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -68,14 +68,14 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState(
-                        deviceName = DUMMY_DEVICE_NAME,
-                        accountNumber = DUMMY_ACCOUNT_NUMBER,
-                        accountExpiry = null
-                    ),
+                AccountUiState(
+                    deviceName = DUMMY_DEVICE_NAME,
+                    accountNumber = DUMMY_ACCOUNT_NUMBER,
+                    accountExpiry = null,
+                ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
                 enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
-                onManageAccountClick = mockedClickHandler
+                onManageAccountClick = mockedClickHandler,
             )
         }
 
@@ -94,14 +94,14 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState(
-                        deviceName = DUMMY_DEVICE_NAME,
-                        accountNumber = DUMMY_ACCOUNT_NUMBER,
-                        accountExpiry = null
-                    ),
+                AccountUiState(
+                    deviceName = DUMMY_DEVICE_NAME,
+                    accountNumber = DUMMY_ACCOUNT_NUMBER,
+                    accountExpiry = null,
+                ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
                 enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
-                onRedeemVoucherClick = mockedClickHandler
+                onRedeemVoucherClick = mockedClickHandler,
             )
         }
 
@@ -120,14 +120,14 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState(
-                        deviceName = DUMMY_DEVICE_NAME,
-                        accountNumber = DUMMY_ACCOUNT_NUMBER,
-                        accountExpiry = null
-                    ),
+                AccountUiState(
+                    deviceName = DUMMY_DEVICE_NAME,
+                    accountNumber = DUMMY_ACCOUNT_NUMBER,
+                    accountExpiry = null,
+                ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
                 enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
-                onLogoutClick = mockedClickHandler
+                onLogoutClick = mockedClickHandler,
             )
         }
 
@@ -145,13 +145,13 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState.default()
-                        .copy(
-                            paymentDialogData =
-                                PurchaseResult.Completed.Success.toPaymentDialogData()
-                        ),
+                AccountUiState.default()
+                    .copy(
+                        paymentDialogData =
+                        PurchaseResult.Completed.Success.toPaymentDialogData(),
+                    ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -166,13 +166,13 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState.default()
-                        .copy(
-                            paymentDialogData =
-                                PurchaseResult.Error.VerificationError(null).toPaymentDialogData()
-                        ),
+                AccountUiState.default()
+                    .copy(
+                        paymentDialogData =
+                        PurchaseResult.Error.VerificationError(null).toPaymentDialogData(),
+                    ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -187,14 +187,14 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState.default()
-                        .copy(
-                            paymentDialogData =
-                                PurchaseResult.Error.FetchProductsError(ProductId(""), null)
-                                    .toPaymentDialogData()
-                        ),
+                AccountUiState.default()
+                    .copy(
+                        paymentDialogData =
+                        PurchaseResult.Error.FetchProductsError(ProductId(""), null)
+                            .toPaymentDialogData(),
+                    ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -209,9 +209,9 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState.default().copy(billingPaymentState = PaymentState.Error.Billing),
+                AccountUiState.default().copy(billingPaymentState = PaymentState.Error.Billing),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -229,13 +229,13 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
+                AccountUiState.default()
+                    .copy(
+                        billingPaymentState =
+                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                    ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -253,13 +253,13 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
+                AccountUiState.default()
+                    .copy(
+                        billingPaymentState =
+                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                    ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -277,13 +277,13 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
+                AccountUiState.default()
+                    .copy(
+                        billingPaymentState =
+                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                    ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -293,7 +293,7 @@ class AccountScreenTest {
         // Assert
         composeTestRule
             .onNodeWithText(
-                "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful."
+                "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful.",
             )
             .assertExists()
     }
@@ -308,13 +308,13 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
+                AccountUiState.default()
+                    .copy(
+                        billingPaymentState =
+                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                    ),
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -334,14 +334,14 @@ class AccountScreenTest {
             AccountScreen(
                 showSitePayment = true,
                 uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
+                AccountUiState.default()
+                    .copy(
+                        billingPaymentState =
+                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                    ),
                 onPurchaseBillingProductClick = clickHandler,
                 uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 

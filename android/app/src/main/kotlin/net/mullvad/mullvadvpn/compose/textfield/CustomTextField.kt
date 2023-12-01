@@ -35,9 +35,8 @@ fun CustomTextField(
     maxCharLength: Int = Int.MAX_VALUE,
     isValidValue: Boolean,
     isDigitsOnlyAllowed: Boolean,
-    visualTransformation: VisualTransformation = VisualTransformation.None
+    visualTransformation: VisualTransformation = VisualTransformation.None,
 ) {
-
     val scope = rememberCoroutineScope()
 
     // Pass initial text range ensure cursor position is correct when entering a TextField with a
@@ -58,24 +57,24 @@ fun CustomTextField(
         singleLine = true,
         placeholder = placeholderText?.let { { Text(text = it) } },
         keyboardOptions =
-            KeyboardOptions(
-                keyboardType = keyboardType,
-                imeAction = ImeAction.Done,
-                autoCorrect = false,
-            ),
+        KeyboardOptions(
+            keyboardType = keyboardType,
+            imeAction = ImeAction.Done,
+            autoCorrect = false,
+        ),
         keyboardActions =
-            KeyboardActions(
-                onDone = {
-                    scope.launch {
-                        // https://issuetracker.google.com/issues/305518328
-                        delay(100)
-                        onSubmit(value)
-                    }
+        KeyboardActions(
+            onDone = {
+                scope.launch {
+                    // https://issuetracker.google.com/issues/305518328
+                    delay(100)
+                    onSubmit(value)
                 }
-            ),
+            },
+        ),
         visualTransformation = visualTransformation,
         colors = mullvadDarkTextFieldColors(),
         isError = !isValidValue,
-        modifier = modifier.clip(MaterialTheme.shapes.small).fillMaxWidth()
+        modifier = modifier.clip(MaterialTheme.shapes.small).fillMaxWidth(),
     )
 }

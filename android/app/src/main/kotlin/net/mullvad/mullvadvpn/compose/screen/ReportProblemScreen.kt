@@ -65,7 +65,7 @@ private fun PreviewReportProblemConfirmNoEmailScreen() {
 private fun PreviewReportProblemSuccessScreen() {
     AppTheme {
         ReportProblemScreen(
-            uiState = ReportProblemUiState(false, SendingReportUiState.Success("email@mail.com"))
+            uiState = ReportProblemUiState(false, SendingReportUiState.Success("email@mail.com")),
         )
     }
 }
@@ -76,10 +76,10 @@ private fun PreviewReportProblemErrorScreen() {
     AppTheme {
         ReportProblemScreen(
             uiState =
-                ReportProblemUiState(
-                    false,
-                    SendingReportUiState.Error(SendProblemReportResult.Error.CollectLog)
-                )
+            ReportProblemUiState(
+                false,
+                SendingReportUiState.Error(SendProblemReportResult.Error.CollectLog),
+            ),
         )
     }
 }
@@ -93,36 +93,36 @@ fun ReportProblemScreen(
     onNavigateToViewLogs: () -> Unit = {},
     updateEmail: (String) -> Unit = {},
     updateDescription: (String) -> Unit = {},
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
 ) {
     // Dialog to show confirm if no email was added
     if (uiState.showConfirmNoEmail) {
         ReportProblemNoEmailDialog(
             onDismiss = onDismissNoEmailDialog,
-            onConfirm = { onSendReport(uiState.email, uiState.description) }
+            onConfirm = { onSendReport(uiState.email, uiState.description) },
         )
     }
 
     ScaffoldWithMediumTopBar(
         appBarTitle = stringResource(id = R.string.report_a_problem),
-        navigationIcon = { NavigateBackIconButton(onBackClick) }
+        navigationIcon = { NavigateBackIconButton(onBackClick) },
     ) { modifier ->
 
         // Show sending states
         if (uiState.sendingState != null) {
             Column(
                 modifier =
-                    modifier.padding(
-                        vertical = Dimens.mediumPadding,
-                        horizontal = Dimens.sideMargin
-                    )
+                modifier.padding(
+                    vertical = Dimens.mediumPadding,
+                    horizontal = Dimens.sideMargin,
+                ),
             ) {
                 when (uiState.sendingState) {
                     SendingReportUiState.Sending -> SendingContent()
                     is SendingReportUiState.Error ->
                         ErrorContent(
                             { onSendReport(uiState.email, uiState.description) },
-                            onClearSendResult
+                            onClearSendResult,
                         )
                     is SendingReportUiState.Success -> SentContent(uiState.sendingState)
                 }
@@ -132,14 +132,14 @@ fun ReportProblemScreen(
 
         Column(
             modifier =
-                modifier
-                    .padding(
-                        start = Dimens.sideMargin,
-                        end = Dimens.sideMargin,
-                        bottom = Dimens.verticalSpace,
-                    )
-                    .height(IntrinsicSize.Max),
-            verticalArrangement = Arrangement.spacedBy(Dimens.mediumPadding)
+            modifier
+                .padding(
+                    start = Dimens.sideMargin,
+                    end = Dimens.sideMargin,
+                    bottom = Dimens.verticalSpace,
+                )
+                .height(IntrinsicSize.Max),
+            verticalArrangement = Arrangement.spacedBy(Dimens.mediumPadding),
         ) {
             Text(text = stringResource(id = R.string.problem_report_description))
 
@@ -150,7 +150,7 @@ fun ReportProblemScreen(
                 maxLines = 1,
                 singleLine = true,
                 placeholder = { Text(text = stringResource(id = R.string.user_email_hint)) },
-                colors = mullvadWhiteTextFieldColors()
+                colors = mullvadWhiteTextFieldColors(),
             )
 
             TextField(
@@ -158,19 +158,19 @@ fun ReportProblemScreen(
                 value = uiState.description,
                 onValueChange = updateDescription,
                 placeholder = { Text(stringResource(R.string.user_message_hint)) },
-                colors = mullvadWhiteTextFieldColors()
+                colors = mullvadWhiteTextFieldColors(),
             )
 
             Column {
                 PrimaryButton(
                     onClick = onNavigateToViewLogs,
-                    text = stringResource(id = R.string.view_logs)
+                    text = stringResource(id = R.string.view_logs),
                 )
                 Spacer(modifier = Modifier.height(Dimens.buttonSpacing))
                 VariantButton(
                     onClick = { onSendReport(uiState.email, uiState.description) },
                     isEnabled = uiState.description.isNotEmpty(),
-                    text = stringResource(id = R.string.send)
+                    text = stringResource(id = R.string.send),
                 )
             }
         }
@@ -186,7 +186,7 @@ private fun ColumnScope.SendingContent() {
     Text(
         text = stringResource(id = R.string.sending),
         style = MaterialTheme.typography.headlineLarge,
-        color = MaterialTheme.colorScheme.onBackground
+        color = MaterialTheme.colorScheme.onBackground,
     )
 }
 
@@ -197,28 +197,28 @@ private fun ColumnScope.SentContent(sendingState: SendingReportUiState.Success) 
         painter = painterResource(id = R.drawable.icon_success),
         contentDescription = stringResource(id = R.string.sent),
         modifier = Modifier.align(Alignment.CenterHorizontally).size(Dimens.dialogIconHeight),
-        tint = Color.Unspecified
+        tint = Color.Unspecified,
     )
 
     Spacer(modifier = Modifier.height(Dimens.problemReportIconToTitlePadding))
     Text(
         text = stringResource(id = R.string.sent),
         style = MaterialTheme.typography.headlineLarge,
-        color = MaterialTheme.colorScheme.onBackground
+        color = MaterialTheme.colorScheme.onBackground,
     )
     Text(
         text =
-            buildAnnotatedString {
-                withStyle(SpanStyle(color = MaterialTheme.colorScheme.surface)) {
-                    append(stringResource(id = R.string.sent_thanks))
-                }
-                append(" ")
-                withStyle(SpanStyle(color = MaterialTheme.colorScheme.onPrimary)) {
-                    append(stringResource(id = R.string.we_will_look_into_this))
-                }
-            },
+        buildAnnotatedString {
+            withStyle(SpanStyle(color = MaterialTheme.colorScheme.surface)) {
+                append(stringResource(id = R.string.sent_thanks))
+            }
+            append(" ")
+            withStyle(SpanStyle(color = MaterialTheme.colorScheme.onPrimary)) {
+                append(stringResource(id = R.string.we_will_look_into_this))
+            }
+        },
         style = MaterialTheme.typography.bodySmall,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     )
 
     Spacer(modifier = Modifier.height(Dimens.smallPadding))
@@ -240,7 +240,7 @@ private fun ColumnScope.SentContent(sendingState: SendingReportUiState.Success) 
             text = annotatedEmailString,
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -251,7 +251,7 @@ private fun ColumnScope.ErrorContent(retry: () -> Unit, onDismiss: () -> Unit) {
         painter = painterResource(id = R.drawable.icon_fail),
         contentDescription = stringResource(id = R.string.failed_to_send),
         modifier = Modifier.size(Dimens.dialogIconHeight).align(Alignment.CenterHorizontally),
-        tint = Color.Unspecified
+        tint = Color.Unspecified,
     )
     Spacer(modifier = Modifier.height(Dimens.problemReportIconToTitlePadding))
     Text(
@@ -263,19 +263,19 @@ private fun ColumnScope.ErrorContent(retry: () -> Unit, onDismiss: () -> Unit) {
         text = stringResource(id = R.string.failed_to_send_details),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onBackground,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     )
     Spacer(modifier = Modifier.weight(1f))
     PrimaryButton(
         modifier =
-            Modifier.fillMaxWidth()
-                .padding(top = Dimens.mediumPadding, bottom = Dimens.buttonSpacing),
+        Modifier.fillMaxWidth()
+            .padding(top = Dimens.mediumPadding, bottom = Dimens.buttonSpacing),
         onClick = onDismiss,
-        text = stringResource(id = R.string.edit_message)
+        text = stringResource(id = R.string.edit_message),
     )
     VariantButton(
         modifier = Modifier.fillMaxWidth(),
         onClick = retry,
-        text = stringResource(id = R.string.try_again)
+        text = stringResource(id = R.string.try_again),
     )
 }

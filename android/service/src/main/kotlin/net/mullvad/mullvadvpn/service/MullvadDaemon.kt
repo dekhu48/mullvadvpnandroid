@@ -29,7 +29,7 @@ import net.mullvad.talpid.util.EventNotifier
 
 class MullvadDaemon(
     vpnService: MullvadVpnService,
-    apiEndpointConfiguration: ApiEndpointConfiguration
+    apiEndpointConfiguration: ApiEndpointConfiguration,
 ) {
     protected var daemonInterfaceAddress = 0L
 
@@ -53,7 +53,7 @@ class MullvadDaemon(
             vpnService = vpnService,
             cacheDirectory = vpnService.cacheDir.absolutePath,
             resourceDirectory = vpnService.filesDir.absolutePath,
-            apiEndpoint = apiEndpointConfiguration.apiEndpoint()
+            apiEndpoint = apiEndpointConfiguration.apiEndpoint(),
         )
 
         onSettingsChange.notify(getSettings())
@@ -130,7 +130,7 @@ class MullvadDaemon(
                     DeviceListEvent.Error
                 } else {
                     DeviceListEvent.Available(accountToken, deviceList)
-                }
+                },
             )
         }
     }
@@ -209,7 +209,7 @@ class MullvadDaemon(
         vpnService: MullvadVpnService,
         cacheDirectory: String,
         resourceDirectory: String,
-        apiEndpoint: ApiEndpoint?
+        apiEndpoint: ApiEndpoint?,
     )
 
     private external fun deinitialize()
@@ -222,7 +222,7 @@ class MullvadDaemon(
 
     private external fun getAccountData(
         daemonInterfaceAddress: Long,
-        accountToken: String
+        accountToken: String,
     ): GetAccountDataResult
 
     private external fun getAccountHistory(daemonInterfaceAddress: Long): String?
@@ -247,14 +247,14 @@ class MullvadDaemon(
 
     private external fun loginAccount(
         daemonInterfaceAddress: Long,
-        accountToken: String?
+        accountToken: String?,
     ): LoginResult
 
     private external fun logoutAccount(daemonInterfaceAddress: Long)
 
     private external fun listDevices(
         daemonInterfaceAddress: Long,
-        accountToken: String?
+        accountToken: String?,
     ): List<Device>?
 
     // TODO: Review this method when redoing Daemon communication, it can be null which was not
@@ -266,7 +266,7 @@ class MullvadDaemon(
     private external fun removeDevice(
         daemonInterfaceAddress: Long,
         accountToken: String?,
-        deviceId: String
+        deviceId: String,
     ): RemoveDeviceResult
 
     private external fun setAllowLan(daemonInterfaceAddress: Long, allowLan: Boolean)
@@ -281,7 +281,7 @@ class MullvadDaemon(
 
     private external fun submitVoucher(
         daemonInterfaceAddress: Long,
-        voucher: String
+        voucher: String,
     ): VoucherSubmissionResult
 
     private external fun initPlayPurchase(daemonInterfaceAddress: Long): PlayPurchaseInitResult
@@ -295,12 +295,12 @@ class MullvadDaemon(
 
     private external fun setObfuscationSettings(
         daemonInterfaceAddress: Long,
-        settings: ObfuscationSettings?
+        settings: ObfuscationSettings?,
     )
 
     private external fun setQuantumResistantTunnel(
         daemonInterfaceAddress: Long,
-        quantumResistant: QuantumResistantState
+        quantumResistant: QuantumResistantState,
     )
 
     private fun notifyAppVersionInfoEvent(appVersionInfo: AppVersionInfo) {

@@ -67,7 +67,7 @@ class SettingsListener(endpoint: ServiceEndpoint) {
 
             registerHandler(Request.SetWireGuardQuantumResistant::class) { request ->
                 commandChannel.trySendBlocking(
-                    Command.SetQuantumResistant(request.quantumResistant)
+                    Command.SetQuantumResistant(request.quantumResistant),
                 )
             }
         }

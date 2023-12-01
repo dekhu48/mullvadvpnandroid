@@ -27,7 +27,7 @@ class JobTracker {
                     job.join()
 
                     synchronized(jobs) { jobs.remove(jobId) }
-                }
+                },
             )
 
             return jobId

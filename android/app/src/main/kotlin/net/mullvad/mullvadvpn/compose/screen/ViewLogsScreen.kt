@@ -67,7 +67,7 @@ fun ViewLogsScreen(
         snackbarHost = {
             SnackbarHost(
                 snackbarHostState,
-                snackbar = { snackbarData -> MullvadSnackbar(snackbarData = snackbarData) }
+                snackbar = { snackbarData -> MullvadSnackbar(snackbarData = snackbarData) },
             )
         },
         topBar = {
@@ -77,46 +77,46 @@ fun ViewLogsScreen(
                 actions = {
                     val clipboardToastMessage = stringResource(R.string.copied_logs_to_clipboard)
                     IconButton(
-                        onClick = { clipboardHandle(uiState.text(), clipboardToastMessage) }
+                        onClick = { clipboardHandle(uiState.text(), clipboardToastMessage) },
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.icon_copy),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                     IconButton(onClick = { scope.launch { shareText(context, uiState.text()) } }) {
                         Icon(imageVector = Icons.Default.Share, contentDescription = null)
                     }
-                }
+                },
             )
-        }
+        },
     ) {
         Card(
             modifier =
-                Modifier.fillMaxSize()
-                    .padding(it)
-                    .padding(
-                        start = Dimens.sideMargin,
-                        end = Dimens.sideMargin,
-                        bottom = Dimens.screenVerticalMargin
-                    ),
+            Modifier.fillMaxSize()
+                .padding(it)
+                .padding(
+                    start = Dimens.sideMargin,
+                    end = Dimens.sideMargin,
+                    bottom = Dimens.screenVerticalMargin,
+                ),
         ) {
             if (uiState.isLoading) {
                 MullvadCircularProgressIndicatorMedium(
                     modifier =
-                        Modifier.padding(Dimens.mediumPadding).align(Alignment.CenterHorizontally),
-                    color = MaterialTheme.colorScheme.primary
+                    Modifier.padding(Dimens.mediumPadding).align(Alignment.CenterHorizontally),
+                    color = MaterialTheme.colorScheme.primary,
                 )
             } else {
                 val state = rememberLazyListState()
                 LazyColumn(
                     state = state,
                     modifier =
-                        Modifier.drawVerticalScrollbar(
-                                state,
-                                MaterialTheme.colorScheme.primary.copy(alpha = AlphaScrollbar)
-                            )
-                            .padding(horizontal = Dimens.smallPadding)
+                    Modifier.drawVerticalScrollbar(
+                        state,
+                        MaterialTheme.colorScheme.primary.copy(alpha = AlphaScrollbar),
+                    )
+                        .padding(horizontal = Dimens.smallPadding),
                 ) {
                     items(uiState.allLines) {
                         Text(text = it, style = MaterialTheme.typography.bodySmall)

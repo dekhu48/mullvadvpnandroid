@@ -35,25 +35,25 @@ fun CopyableObfuscationView(content: String, modifier: Modifier = Modifier) {
         AccountNumberView(
             accountNumber = content,
             obfuscateWithPasswordDots = obfuscationEnabled,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         )
         AnimatedIconButton(
             defaultIcon = painterResource(id = R.drawable.icon_hide),
             secondaryIcon = painterResource(id = R.drawable.icon_show),
             isToggleButton = true,
             contentDescription = stringResource(id = R.string.hide_account_number),
-            onClick = { obfuscationEnabled = !obfuscationEnabled }
+            onClick = { obfuscationEnabled = !obfuscationEnabled },
         )
 
         val context = LocalContext.current
         val copy = {
             context.copyToClipboard(
                 content = content,
-                clipboardLabel = context.getString(R.string.mullvad_account_number)
+                clipboardLabel = context.getString(R.string.mullvad_account_number),
             )
             SdkUtils.showCopyToastIfNeeded(
                 context,
-                context.getString(R.string.copied_mullvad_account_number)
+                context.getString(R.string.copied_mullvad_account_number),
             )
         }
 
@@ -67,9 +67,9 @@ fun CopyAnimatedIconButton(onClick: () -> Unit) {
         defaultIcon = painterResource(id = R.drawable.icon_copy),
         secondaryIcon = painterResource(id = R.drawable.icon_tick),
         secondaryIconColorFilter =
-            ColorFilter.tint(color = MaterialTheme.colorScheme.inversePrimary),
+        ColorFilter.tint(color = MaterialTheme.colorScheme.inversePrimary),
         isToggleButton = false,
         contentDescription = stringResource(id = R.string.copy_account_number),
-        onClick = onClick
+        onClick = onClick,
     )
 }

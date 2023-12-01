@@ -38,14 +38,14 @@ private fun PreviewSwitchComposeCell() {
                 isEnabled = true,
                 isToggled = true,
                 onCellClicked = {},
-                onInfoClicked = {}
+                onInfoClicked = {},
             )
             NormalSwitchComposeCell(
                 title = "Checkbox Item",
                 isEnabled = true,
                 isToggled = true,
                 onCellClicked = {},
-                onInfoClicked = {}
+                onInfoClicked = {},
             )
         }
     }
@@ -59,14 +59,14 @@ fun NormalSwitchComposeCell(
     isEnabled: Boolean = true,
     background: Color = MaterialTheme.colorScheme.primary,
     onCellClicked: (Boolean) -> Unit = {},
-    onInfoClicked: (() -> Unit)? = null
+    onInfoClicked: (() -> Unit)? = null,
 ) {
     SwitchComposeCell(
         titleView = {
             BaseCellTitle(
                 title = title,
                 style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.weight(1f, true)
+                modifier = Modifier.weight(1f, true),
             )
         },
         isToggled = isToggled,
@@ -74,7 +74,7 @@ fun NormalSwitchComposeCell(
         isEnabled = isEnabled,
         background = background,
         onCellClicked = onCellClicked,
-        onInfoClicked = onInfoClicked
+        onInfoClicked = onInfoClicked,
     )
 }
 
@@ -94,7 +94,7 @@ fun HeaderSwitchComposeCell(
             BaseCellTitle(
                 title = title,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.weight(1f, fill = true)
+                modifier = Modifier.weight(1f, fill = true),
             )
         },
         isToggled = isToggled,
@@ -127,12 +127,12 @@ private fun SwitchComposeCell(
                 onSwitchClicked = null,
                 isEnabled = isEnabled,
                 isToggled = isToggled,
-                onInfoClicked = onInfoClicked
+                onInfoClicked = onInfoClicked,
             )
         },
         background = background,
         onCellClicked = { onCellClicked(!isToggled) },
-        startPadding = startPadding
+        startPadding = startPadding,
     )
 }
 
@@ -142,28 +142,28 @@ fun SwitchCellView(
     isToggled: Boolean,
     modifier: Modifier = Modifier,
     onSwitchClicked: ((Boolean) -> Unit)? = null,
-    onInfoClicked: (() -> Unit)? = null
+    onInfoClicked: (() -> Unit)? = null,
 ) {
     val horizontalPadding = Dimens.mediumPadding
     val verticalPadding = 13.dp
     Row(
         modifier = modifier.wrapContentWidth().wrapContentHeight(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onInfoClicked != null) {
             Icon(
                 modifier =
-                    Modifier.clickable { onInfoClicked() }
-                        .padding(
-                            start = horizontalPadding,
-                            end = horizontalPadding,
-                            top = verticalPadding,
-                            bottom = verticalPadding
-                        )
-                        .align(Alignment.CenterVertically),
+                Modifier.clickable { onInfoClicked() }
+                    .padding(
+                        start = horizontalPadding,
+                        end = horizontalPadding,
+                        top = verticalPadding,
+                        bottom = verticalPadding,
+                    )
+                    .align(Alignment.CenterVertically),
                 painter = painterResource(id = R.drawable.icon_info),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = MaterialTheme.colorScheme.onPrimary,
             )
         }
 
@@ -180,16 +180,16 @@ fun CustomDnsCellSubtitle(isCellClickable: Boolean, modifier: Modifier) {
             } else {
                 textResource(
                     id = R.string.custom_dns_disable_mode_subtitle,
-                    textResource(id = R.string.dns_content_blockers_title)
+                    textResource(id = R.string.dns_content_blockers_title),
                 )
             },
-            FROM_HTML_MODE_COMPACT
+            FROM_HTML_MODE_COMPACT,
         )
     Text(
         text = spanned.toAnnotatedString(boldFontWeight = FontWeight.ExtraBold),
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onSecondary,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 

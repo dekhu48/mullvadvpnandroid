@@ -37,17 +37,17 @@ private fun PreviewBaseCell() {
                 title = {
                     BaseCellTitle(
                         title = "Header title",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
                     )
-                }
+                },
             )
             BaseCell(
                 title = {
                     BaseCellTitle(
                         title = "Normal title",
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
-                }
+                },
             )
         }
     }
@@ -65,20 +65,20 @@ internal fun BaseCell(
     startPadding: Dp = Dimens.cellStartPadding,
     endPadding: Dp = Dimens.cellEndPadding,
     minHeight: Dp = Dimens.cellHeight,
-    testTag: String = ""
+    testTag: String = "",
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
         modifier =
-            modifier
-                .clickable(isRowEnabled, onClick = onCellClicked)
-                .wrapContentHeight()
-                .defaultMinSize(minHeight = minHeight)
-                .fillMaxWidth()
-                .background(background)
-                .testTag(testTag)
-                .padding(start = startPadding, end = endPadding)
+        modifier
+            .clickable(isRowEnabled, onClick = onCellClicked)
+            .wrapContentHeight()
+            .defaultMinSize(minHeight = minHeight)
+            .fillMaxWidth()
+            .background(background)
+            .testTag(testTag)
+            .padding(start = startPadding, end = endPadding),
     ) {
         iconView()
 
@@ -93,7 +93,7 @@ internal fun BaseCellTitle(
     title: String,
     style: TextStyle,
     modifier: Modifier = Modifier,
-    textAlign: TextAlign = TextAlign.Start
+    textAlign: TextAlign = TextAlign.Start,
 ) {
     Text(
         text = title,
@@ -102,7 +102,7 @@ internal fun BaseCellTitle(
         color = MaterialTheme.colorScheme.onPrimary,
         overflow = TextOverflow.Ellipsis,
         maxLines = 1,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -113,14 +113,14 @@ fun BaseSubtitleCell(text: String, modifier: Modifier = Modifier) {
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onSecondary,
         modifier =
-            modifier
-                .padding(
-                    start = Dimens.cellStartPadding,
-                    top = Dimens.cellFooterTopPadding,
-                    end = Dimens.cellEndPadding,
-                    bottom = Dimens.cellLabelVerticalPadding
-                )
-                .fillMaxWidth()
-                .wrapContentHeight()
+        modifier
+            .padding(
+                start = Dimens.cellStartPadding,
+                top = Dimens.cellFooterTopPadding,
+                end = Dimens.cellEndPadding,
+                bottom = Dimens.cellLabelVerticalPadding,
+            )
+            .fillMaxWidth()
+            .wrapContentHeight(),
     )
 }

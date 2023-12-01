@@ -21,7 +21,9 @@ class AccountExpiryNotificationUseCase(
     private fun accountExpiryNotification(accountExpiry: AccountExpiry) =
         if (accountExpiry.isCloseToExpiring()) {
             InAppNotification.AccountExpiry(accountExpiry.date() ?: DateTime.now())
-        } else null
+        } else {
+            null
+        }
 
     private fun AccountExpiry.isCloseToExpiring(): Boolean {
         val threeDaysFromNow =

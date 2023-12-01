@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.os.Looper
 import android.os.Message
 import android.os.Parcelable
-import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class HandlerFlowTest {
     val looper by lazy { Looper.getMainLooper() }

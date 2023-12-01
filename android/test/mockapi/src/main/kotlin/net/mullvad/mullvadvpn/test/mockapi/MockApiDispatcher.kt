@@ -33,9 +33,11 @@ class MockApiDispatcher : Dispatcher() {
             DEVICES_URL_PATH -> {
                 when (request.method) {
                     "get",
-                    "GET" -> handleDeviceListRequest()
+                    "GET",
+                    -> handleDeviceListRequest()
                     "post",
-                    "POST" -> handleDeviceCreationRequest(request.body)
+                    "POST",
+                    -> handleDeviceCreationRequest(request.body)
                     else -> MockResponse().setResponseCode(404)
                 }
             }
@@ -56,15 +58,15 @@ class MockApiDispatcher : Dispatcher() {
                 .addJsonHeader()
                 .setBody(
                     accessTokenJsonResponse(
-                            accessToken = DUMMY_ACCESS_TOKEN,
-                            expiry = currentUtcTimeWithOffsetZero().plusDays(1)
-                        )
-                        .toString()
+                        accessToken = DUMMY_ACCESS_TOKEN,
+                        expiry = currentUtcTimeWithOffsetZero().plusDays(1),
+                    )
+                        .toString(),
                 )
         } else {
             Log.e(
                 LOG_TAG,
-                "Unexpected account token (expected=$expectedAccountToken was=$accountToken)"
+                "Unexpected account token (expected=$expectedAccountToken was=$accountToken)",
             )
             MockResponse().setResponseCode(400)
         }
@@ -87,12 +89,12 @@ class MockApiDispatcher : Dispatcher() {
                 .addJsonHeader()
                 .setBody(
                     deviceJson(
-                            id = DUMMY_ID,
-                            name = DUMMY_DEVICE_NAME,
-                            publicKey = cachedKey,
-                            creationDate = currentUtcTimeWithOffsetZero().minusDays(1)
-                        )
-                        .toString()
+                        id = DUMMY_ID,
+                        name = DUMMY_DEVICE_NAME,
+                        publicKey = cachedKey,
+                        creationDate = currentUtcTimeWithOffsetZero().minusDays(1),
+                    )
+                        .toString(),
                 )
         }
             ?: MockResponse().setResponseCode(400)
@@ -108,12 +110,12 @@ class MockApiDispatcher : Dispatcher() {
                     .addJsonHeader()
                     .setBody(
                         deviceJson(
-                                id = DUMMY_ID,
-                                name = DUMMY_DEVICE_NAME,
-                                publicKey = newKey,
-                                creationDate = currentUtcTimeWithOffsetZero().minusDays(1)
-                            )
-                            .toString()
+                            id = DUMMY_ID,
+                            name = DUMMY_DEVICE_NAME,
+                            publicKey = newKey,
+                            creationDate = currentUtcTimeWithOffsetZero().minusDays(1),
+                        )
+                            .toString(),
                     )
             }
             ?: MockResponse().setResponseCode(400)
@@ -131,10 +133,10 @@ class MockApiDispatcher : Dispatcher() {
                                 id = DUMMY_ID,
                                 name = DUMMY_DEVICE_NAME,
                                 publicKey = cachedKey,
-                                creationDate = currentUtcTimeWithOffsetZero().minusDays(1)
-                            )
+                                creationDate = currentUtcTimeWithOffsetZero().minusDays(1),
+                            ),
                         )
-                        .toString()
+                        .toString(),
                 )
         }
             ?: MockResponse().setResponseCode(400)

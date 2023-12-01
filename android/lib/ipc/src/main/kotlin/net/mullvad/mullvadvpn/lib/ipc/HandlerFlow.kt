@@ -30,7 +30,8 @@ class HandlerFlow<T>(looper: Looper, private val extractor: (Message) -> T) :
         } catch (exception: Exception) {
             when (exception) {
                 is ClosedSendChannelException,
-                is CancellationException -> {
+                is CancellationException,
+                -> {
                     Log.w("mullvad", "Received a message after HandlerFlow was closed", exception)
                     removeCallbacksAndMessages(null)
                 }

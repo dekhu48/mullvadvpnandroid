@@ -10,7 +10,7 @@ import net.mullvad.mullvadvpn.lib.ipc.extensions.trySendRequest
 
 class ServiceConnectionDeviceDataSource(
     private val connection: Messenger,
-    private val dispatcher: EventDispatcher
+    private val dispatcher: EventDispatcher,
 ) {
     val deviceStateUpdates = callbackFlow {
         val handler: (Event.DeviceStateEvent) -> Unit = { event -> trySend(event.newState) }

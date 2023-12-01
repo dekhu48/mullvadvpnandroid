@@ -32,7 +32,7 @@ android {
             pickFirsts += setOf(
                 // Fixes packaging error caused by: jetified-junit-*
                 "META-INF/LICENSE.md",
-                "META-INF/LICENSE-notice.md"
+                "META-INF/LICENSE-notice.md",
             )
         }
     }
@@ -45,16 +45,16 @@ dependencies {
     implementation(Dependencies.Koin.core)
     implementation(Dependencies.Koin.android)
 
-    //Billing library
+    // Billing library
     implementation(Dependencies.billingClient)
 
-    //Model
+    // Model
     implementation(project(Dependencies.Mullvad.modelLib))
 
-    //IPC
+    // IPC
     implementation(project(Dependencies.Mullvad.ipcLib))
 
-    //Payment library
+    // Payment library
     implementation(project(Dependencies.Mullvad.paymentLib))
 
     // Test dependencies

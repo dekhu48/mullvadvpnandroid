@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.FileProvider
-import java.io.File
 import net.mullvad.mullvadvpn.R
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
+import java.io.File
 
 // https://developer.android.com/reference/androidx/core/content/FileProvider
 // From link: It is possible to use FileProvider directly instead of extending it. However, this is
@@ -21,7 +21,7 @@ class MullvadFileProvider : FileProvider(R.xml.provider_paths) {
 }
 
 enum class ProviderCacheDirectory(val directoryName: String) {
-    LOGS("logs")
+    LOGS("logs"),
 }
 
 fun Context.getLogsShareIntent(shareTitle: String, logContent: String): Intent {
@@ -55,5 +55,5 @@ fun Context.createCacheFile(
 
 fun createShareLogFileName(): String {
     val datetime = ISODateTimeFormat.basicOrdinalDateTimeNoMillis().print(DateTime.now())
-    return "mullvad_log-${datetime}.txt"
+    return "mullvad_log-$datetime.txt"
 }

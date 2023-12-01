@@ -38,7 +38,7 @@ private fun PreviewDeviceRevokedScreen() {
 fun DeviceRevokedScreen(
     state: DeviceRevokedUiState,
     onSettingsClicked: () -> Unit = {},
-    onGoToLoginClicked: () -> Unit = {}
+    onGoToLoginClicked: () -> Unit = {},
 ) {
     val topColor =
         if (state == DeviceRevokedUiState.SECURED) {
@@ -52,14 +52,14 @@ fun DeviceRevokedScreen(
         statusBarColor = topColor,
         navigationBarColor = MaterialTheme.colorScheme.background,
         onSettingsClicked = onSettingsClicked,
-        onAccountClicked = null
+        onAccountClicked = null,
     ) {
         ConstraintLayout(
             modifier =
-                Modifier.fillMaxHeight()
-                    .fillMaxWidth()
-                    .padding(it)
-                    .background(color = MaterialTheme.colorScheme.background)
+            Modifier.fillMaxHeight()
+                .fillMaxWidth()
+                .padding(it)
+                .background(color = MaterialTheme.colorScheme.background),
         ) {
             val (icon, body, actionButtons) = createRefs()
 
@@ -67,36 +67,36 @@ fun DeviceRevokedScreen(
                 painter = painterResource(id = R.drawable.icon_fail),
                 contentDescription = null, // No meaningful user info or action.
                 modifier =
-                    Modifier.constrainAs(icon) {
-                            top.linkTo(parent.top, margin = 30.dp)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .padding(horizontal = 12.dp)
-                        .size(Dimens.bigIconSize)
+                Modifier.constrainAs(icon) {
+                    top.linkTo(parent.top, margin = 30.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+                    .padding(horizontal = 12.dp)
+                    .size(Dimens.bigIconSize),
             )
 
             Column(
                 modifier =
-                    Modifier.constrainAs(body) {
-                        top.linkTo(icon.bottom, margin = 22.dp)
-                        start.linkTo(parent.start, margin = 22.dp)
-                        end.linkTo(parent.end, margin = 22.dp)
-                        width = Dimension.fillToConstraints
-                    },
+                Modifier.constrainAs(body) {
+                    top.linkTo(icon.bottom, margin = 22.dp)
+                    start.linkTo(parent.start, margin = 22.dp)
+                    end.linkTo(parent.end, margin = 22.dp)
+                    width = Dimension.fillToConstraints
+                },
             ) {
                 Text(
                     text = stringResource(id = R.string.device_inactive_title),
                     fontSize = 24.sp,
                     color = Color.White,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
 
                 Text(
                     text = stringResource(id = R.string.device_inactive_description),
                     fontSize = 12.sp,
                     color = Color.White,
-                    modifier = Modifier.padding(top = 10.dp)
+                    modifier = Modifier.padding(top = 10.dp),
                 )
 
                 if (state == DeviceRevokedUiState.SECURED) {
@@ -104,19 +104,19 @@ fun DeviceRevokedScreen(
                         text = stringResource(id = R.string.device_inactive_unblock_warning),
                         fontSize = 12.sp,
                         color = Color.White,
-                        modifier = Modifier.padding(top = 10.dp)
+                        modifier = Modifier.padding(top = 10.dp),
                     )
                 }
             }
 
             Column(
                 modifier =
-                    Modifier.constrainAs(actionButtons) {
-                        bottom.linkTo(parent.bottom, margin = 22.dp)
-                        start.linkTo(parent.start, margin = 22.dp)
-                        end.linkTo(parent.end, margin = 22.dp)
-                        width = Dimension.fillToConstraints
-                    }
+                Modifier.constrainAs(actionButtons) {
+                    bottom.linkTo(parent.bottom, margin = 22.dp)
+                    start.linkTo(parent.start, margin = 22.dp)
+                    end.linkTo(parent.end, margin = 22.dp)
+                    width = Dimension.fillToConstraints
+                },
             ) {
                 DeviceRevokedLoginButton(onClick = onGoToLoginClicked, state = state)
             }

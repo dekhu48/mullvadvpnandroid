@@ -56,14 +56,14 @@ fun PrivacyDisclaimerScreen(
         statusBarColor = topColor,
         navigationBarColor = MaterialTheme.colorScheme.background,
         onAccountClicked = null,
-        onSettingsClicked = null
+        onSettingsClicked = null,
     ) {
         ConstraintLayout(
             modifier =
-                Modifier.fillMaxHeight()
-                    .fillMaxWidth()
-                    .padding(it)
-                    .background(color = MaterialTheme.colorScheme.background)
+            Modifier.fillMaxHeight()
+                .fillMaxWidth()
+                .padding(it)
+                .background(color = MaterialTheme.colorScheme.background),
         ) {
             val (body, actionButtons) = createRefs()
             val sideMargin = Dimens.sideMargin
@@ -71,26 +71,26 @@ fun PrivacyDisclaimerScreen(
 
             Column(
                 modifier =
-                    Modifier.constrainAs(body) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(actionButtons.top)
-                            width = Dimension.fillToConstraints
-                            height = Dimension.fillToConstraints
-                        }
-                        .drawVerticalScrollbar(
-                            state = scrollState,
-                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaScrollbar)
-                        )
-                        .verticalScroll(scrollState)
-                        .padding(sideMargin),
+                Modifier.constrainAs(body) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(actionButtons.top)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.fillToConstraints
+                }
+                    .drawVerticalScrollbar(
+                        state = scrollState,
+                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaScrollbar),
+                    )
+                    .verticalScroll(scrollState)
+                    .padding(sideMargin),
             ) {
                 Text(
                     text = stringResource(id = R.string.privacy_disclaimer_title),
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onBackground,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
 
                 val fontSize = 14.sp
@@ -98,7 +98,7 @@ fun PrivacyDisclaimerScreen(
                     text = stringResource(id = R.string.privacy_disclaimer_body_first_paragraph),
                     fontSize = fontSize,
                     color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(top = 10.dp)
+                    modifier = Modifier.padding(top = 10.dp),
                 )
 
                 Spacer(modifier = Modifier.height(fontSize.toDp() + Dimens.smallPadding))
@@ -114,39 +114,39 @@ fun PrivacyDisclaimerScreen(
                         text = AnnotatedString(stringResource(id = R.string.privacy_policy_label)),
                         onClick = { onPrivacyPolicyLinkClicked() },
                         style =
-                            TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White,
-                                textDecoration = TextDecoration.Underline
-                            )
+                        TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White,
+                            textDecoration = TextDecoration.Underline,
+                        ),
                     )
 
                     Image(
                         painter = painterResource(id = R.drawable.icon_extlink),
                         contentDescription = null,
                         modifier =
-                            Modifier.align(Alignment.CenterVertically)
-                                .padding(start = 2.dp, top = 2.dp)
-                                .width(10.dp)
-                                .height(10.dp)
+                        Modifier.align(Alignment.CenterVertically)
+                            .padding(start = 2.dp, top = 2.dp)
+                            .width(10.dp)
+                            .height(10.dp),
                     )
                 }
             }
 
             Column(
                 modifier =
-                    Modifier.constrainAs(actionButtons) {
-                        top.linkTo(body.bottom, margin = sideMargin)
-                        start.linkTo(parent.start, margin = sideMargin)
-                        end.linkTo(parent.end, margin = sideMargin)
-                        bottom.linkTo(parent.bottom, margin = sideMargin)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.preferredWrapContent
-                    }
+                Modifier.constrainAs(actionButtons) {
+                    top.linkTo(body.bottom, margin = sideMargin)
+                    start.linkTo(parent.start, margin = sideMargin)
+                    end.linkTo(parent.end, margin = sideMargin)
+                    bottom.linkTo(parent.bottom, margin = sideMargin)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.preferredWrapContent
+                },
             ) {
                 PrimaryButton(
                     text = stringResource(id = R.string.agree_and_continue),
-                    onClick = onAcceptClicked::invoke
+                    onClick = onAcceptClicked::invoke,
                 )
             }
         }

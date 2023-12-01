@@ -32,14 +32,17 @@ class TunnelStateNotificationUseCase(
             is TunnelState.Disconnecting -> {
                 if (
                     tunnelUiState.actionAfterDisconnect == ActionAfterDisconnect.Block ||
-                        tunnelUiState.actionAfterDisconnect == ActionAfterDisconnect.Reconnect
+                    tunnelUiState.actionAfterDisconnect == ActionAfterDisconnect.Reconnect
                 ) {
                     InAppNotification.TunnelStateBlocked
-                } else null
+                } else {
+                    null
+                }
             }
             is TunnelState.Error -> InAppNotification.TunnelStateError(tunnelUiState.errorState)
             is TunnelState.Connected,
-            TunnelState.Disconnected -> null
+            TunnelState.Disconnected,
+            -> null
         }
 
     private fun ConnectionProxy.tunnelUiStateFlow(): Flow<TunnelState> =

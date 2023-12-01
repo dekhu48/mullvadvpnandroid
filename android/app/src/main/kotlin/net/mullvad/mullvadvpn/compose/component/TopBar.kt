@@ -52,7 +52,7 @@ private fun PreviewTopBar() {
             containerColor = MaterialTheme.colorScheme.inversePrimary,
             iconTintColor = MaterialTheme.colorScheme.onPrimary,
             onSettingsClicked = null,
-            onAccountClicked = {}
+            onAccountClicked = {},
         )
     }
 }
@@ -65,7 +65,7 @@ private fun PreviewSlimTopBar() {
             containerColor = MaterialTheme.colorScheme.inversePrimary,
             iconTintColor = MaterialTheme.colorScheme.onPrimary,
             onSettingsClicked = null,
-            onAccountClicked = {}
+            onAccountClicked = {},
         )
     }
 }
@@ -93,7 +93,7 @@ private fun PreviewNothingTopBar() {
             iconTintColor = MaterialTheme.colorScheme.onPrimary,
             isIconAndLogoVisible = false,
             onSettingsClicked = null,
-            onAccountClicked = null
+            onAccountClicked = null,
         )
     }
 }
@@ -105,7 +105,7 @@ fun MullvadTopBar(
     onAccountClicked: (() -> Unit)?,
     modifier: Modifier = Modifier,
     iconTintColor: Color,
-    isIconAndLogoVisible: Boolean = true
+    isIconAndLogoVisible: Boolean = true,
 ) {
     TopAppBar(
         modifier = modifier,
@@ -116,7 +116,7 @@ fun MullvadTopBar(
                         painter = painterResource(id = R.drawable.logo_icon),
                         contentDescription = null, // No meaningful user info or action.
                         modifier = Modifier.size(40.dp),
-                        tint = Color.Unspecified
+                        tint = Color.Unspecified,
                     )
                     // Dynamically show Mullvad VPN Text if it fits, to avoid overlapping icons.
                     BoxWithConstraints {
@@ -139,8 +139,8 @@ fun MullvadTopBar(
                                 tint = iconTintColor,
                                 contentDescription = null, // No meaningful user info or action.
                                 modifier =
-                                    Modifier.padding(horizontal = Dimens.mediumPadding)
-                                        .height(logoHeight)
+                                Modifier.padding(horizontal = Dimens.mediumPadding)
+                                    .height(logoHeight),
                             )
                         }
                     }
@@ -169,10 +169,10 @@ fun MullvadTopBar(
             }
         },
         colors =
-            TopAppBarDefaults.topAppBarColors(
-                containerColor = containerColor,
-                actionIconContentColor = iconTintColor,
-            ),
+        TopAppBarDefaults.topAppBarColors(
+            containerColor = containerColor,
+            actionIconContentColor = iconTintColor,
+        ),
     )
 }
 
@@ -196,10 +196,10 @@ private fun PreviewSlimMediumTopBar() {
                 IconButton(onClick = {}) {
                     Icon(
                         painter = painterResource(id = R.drawable.icon_settings),
-                        contentDescription = null
+                        contentDescription = null,
                     )
                 }
-            }
+            },
         )
     }
 }
@@ -209,18 +209,18 @@ fun MullvadMediumTopBar(
     title: String,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
-    scrollBehavior: TopAppBarScrollBehavior? = null
+    scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
     MediumTopAppBar(
         title = { Text(text = title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
         navigationIcon = navigationIcon,
         scrollBehavior = scrollBehavior,
         colors =
-            TopAppBarDefaults.mediumTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background,
-                actionIconContentColor = MaterialTheme.colorScheme.onPrimary.copy(AlphaTopBar),
-            ),
-        actions = actions
+        TopAppBarDefaults.mediumTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background,
+            actionIconContentColor = MaterialTheme.colorScheme.onPrimary.copy(AlphaTopBar),
+        ),
+        actions = actions,
     )
 }
 
@@ -235,7 +235,7 @@ private fun PreviewMullvadTopBarWithLongDeviceName() {
                 onSettingsClicked = null,
                 onAccountClicked = null,
                 deviceName = "Superstitious Hippopotamus with extra weight",
-                daysLeftUntilExpiry = 1
+                daysLeftUntilExpiry = 1,
             )
         }
     }
@@ -252,7 +252,7 @@ private fun PreviewMullvadTopBarWithShortDeviceName() {
                 onSettingsClicked = null,
                 onAccountClicked = null,
                 deviceName = "Fit Ant",
-                daysLeftUntilExpiry = 1
+                daysLeftUntilExpiry = 1,
             )
         }
     }
@@ -266,7 +266,7 @@ fun MullvadTopBarWithDeviceName(
     iconTintColor: Color,
     isIconAndLogoVisible: Boolean = true,
     deviceName: String?,
-    daysLeftUntilExpiry: Int?
+    daysLeftUntilExpiry: Int?,
 ) {
     Column {
         MullvadTopBar(
@@ -283,49 +283,49 @@ fun MullvadTopBarWithDeviceName(
             animateColorAsState(
                 targetValue = containerColor,
                 animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-                label = "ColorAnimation"
+                label = "ColorAnimation",
             )
         Row(
             modifier =
-                Modifier.background(appBarContainerColor)
-                    .padding(
-                        bottom = Dimens.smallPadding,
-                        start = Dimens.mediumPadding,
-                        end = Dimens.mediumPadding
-                    )
-                    .fillMaxWidth()
-                    .animateContentSize(),
-            horizontalArrangement = Arrangement.spacedBy(Dimens.mediumPadding)
+            Modifier.background(appBarContainerColor)
+                .padding(
+                    bottom = Dimens.smallPadding,
+                    start = Dimens.mediumPadding,
+                    end = Dimens.mediumPadding,
+                )
+                .fillMaxWidth()
+                .animateContentSize(),
+            horizontalArrangement = Arrangement.spacedBy(Dimens.mediumPadding),
         ) {
             Text(
                 modifier = Modifier.weight(1f, fill = false),
                 text =
-                    deviceName?.let {
-                        stringResource(id = R.string.top_bar_device_name, deviceName)
-                    }
-                        ?: "",
+                deviceName?.let {
+                    stringResource(id = R.string.top_bar_device_name, deviceName)
+                }
+                    ?: "",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaTopBar)
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaTopBar),
             )
             if (daysLeftUntilExpiry != null) {
                 Text(
                     text =
-                        stringResource(
-                            id = R.string.top_bar_time_left,
-                            if (daysLeftUntilExpiry >= 0) {
-                                pluralStringResource(
-                                    id = R.plurals.days,
-                                    daysLeftUntilExpiry,
-                                    daysLeftUntilExpiry
-                                )
-                            } else {
-                                stringResource(id = R.string.out_of_time)
-                            }
-                        ),
+                    stringResource(
+                        id = R.string.top_bar_time_left,
+                        if (daysLeftUntilExpiry >= 0) {
+                            pluralStringResource(
+                                id = R.plurals.days,
+                                daysLeftUntilExpiry,
+                                daysLeftUntilExpiry,
+                            )
+                        } else {
+                            stringResource(id = R.string.out_of_time)
+                        },
+                    ),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaTopBar)
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaTopBar),
                 )
             } else {
                 Spacer(Modifier)

@@ -5,5 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class ObfuscationType : Parcelable {
-    Udp2Tcp
+    Udp2Tcp,
 }

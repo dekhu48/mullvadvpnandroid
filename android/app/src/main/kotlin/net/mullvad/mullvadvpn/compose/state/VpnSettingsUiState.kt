@@ -21,7 +21,7 @@ data class VpnSettingsUiState(
     val quantumResistant: QuantumResistantState,
     val selectedWireguardPort: Constraint<Port>,
     val availablePortRanges: List<PortRange>,
-    val dialog: VpnSettingsDialog?
+    val dialog: VpnSettingsDialog?,
 ) {
 
     companion object {
@@ -37,7 +37,7 @@ data class VpnSettingsUiState(
             quantumResistant: QuantumResistantState = QuantumResistantState.Off,
             selectedWireguardPort: Constraint<Port> = Constraint.Any(),
             availablePortRanges: List<PortRange> = emptyList(),
-            dialog: VpnSettingsDialog? = null
+            dialog: VpnSettingsDialog? = null,
         ) =
             VpnSettingsUiState(
                 mtu,
@@ -51,7 +51,7 @@ data class VpnSettingsUiState(
                 quantumResistant,
                 selectedWireguardPort,
                 availablePortRanges,
-                dialog
+                dialog,
             )
     }
 }

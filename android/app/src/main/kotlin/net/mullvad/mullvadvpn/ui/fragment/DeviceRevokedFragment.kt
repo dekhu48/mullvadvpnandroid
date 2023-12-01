@@ -20,7 +20,7 @@ class DeviceRevokedFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_compose, container, false).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
@@ -29,7 +29,7 @@ class DeviceRevokedFragment : Fragment() {
                     DeviceRevokedScreen(
                         state = state,
                         onSettingsClicked = this@DeviceRevokedFragment::openSettingsView,
-                        onGoToLoginClicked = deviceRevokedViewModel::onGoToLoginClicked
+                        onGoToLoginClicked = deviceRevokedViewModel::onGoToLoginClicked,
                     )
                 }
             }

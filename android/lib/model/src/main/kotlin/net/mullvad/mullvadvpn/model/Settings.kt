@@ -10,5 +10,5 @@ data class Settings(
     val allowLan: Boolean,
     val autoConnect: Boolean,
     val tunnelOptions: TunnelOptions,
-    val showBetaReleases: Boolean
+    val showBetaReleases: Boolean,
 ) : Parcelable

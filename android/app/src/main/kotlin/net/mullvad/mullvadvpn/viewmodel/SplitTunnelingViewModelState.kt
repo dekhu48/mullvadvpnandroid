@@ -6,7 +6,7 @@ import net.mullvad.mullvadvpn.compose.state.SplitTunnelingUiState
 data class SplitTunnelingViewModelState(
     val excludedApps: Set<String> = emptySet(),
     val allApps: List<AppData>? = null,
-    val showSystemApps: Boolean = false
+    val showSystemApps: Boolean = false,
 ) {
     fun toUiState(): SplitTunnelingUiState {
         return allApps
@@ -15,13 +15,13 @@ data class SplitTunnelingViewModelState(
                 SplitTunnelingUiState.ShowAppList(
                     excludedApps = excluded.sortedBy { it.name },
                     includedApps =
-                        if (showSystemApps) {
-                                included
-                            } else {
-                                included.filter { appData -> !appData.isSystemApp }
-                            }
-                            .sortedBy { it.name },
-                    showSystemApps = showSystemApps
+                    if (showSystemApps) {
+                        included
+                    } else {
+                        included.filter { appData -> !appData.isSystemApp }
+                    }
+                        .sortedBy { it.name },
+                    showSystemApps = showSystemApps,
                 )
             }
             ?: SplitTunnelingUiState.Loading

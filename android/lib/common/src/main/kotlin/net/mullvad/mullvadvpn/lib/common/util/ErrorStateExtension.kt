@@ -15,7 +15,7 @@ fun ErrorState.getErrorNotificationResources(context: Context): ErrorNotificatio
                 cause.errorMessageId(),
                 (cause as ErrorStateCause.InvalidDnsServers).addresses.joinToString { address ->
                     address.addressString()
-                }
+                },
             )
         }
         cause is ErrorStateCause.VpnPermissionDenied -> {
@@ -27,18 +27,18 @@ fun ErrorState.getErrorNotificationResources(context: Context): ErrorNotificatio
 }
 
 private fun resolveAlwaysOnVpnErrorNotificationMessage(
-    alwaysOnVpnAppName: String?
+    alwaysOnVpnAppName: String?,
 ): ErrorNotificationMessage {
     return if (alwaysOnVpnAppName != null) {
         ErrorNotificationMessage(
             R.string.always_on_vpn_error_notification_title,
             R.string.always_on_vpn_error_notification_content,
-            alwaysOnVpnAppName
+            alwaysOnVpnAppName,
         )
     } else {
         ErrorNotificationMessage(
             R.string.vpn_permission_error_notification_title,
-            R.string.vpn_permission_error_notification_message
+            R.string.vpn_permission_error_notification_message,
         )
     }
 }
@@ -55,7 +55,8 @@ fun ErrorStateCause.errorMessageId(): Int {
         is ErrorStateCause.TunnelParameterError -> {
             when (error) {
                 ParameterGenerationError.NoMatchingRelay,
-                ParameterGenerationError.NoMatchingBridgeRelay -> {
+                ParameterGenerationError.NoMatchingBridgeRelay,
+                -> {
                     R.string.no_matching_relay
                 }
                 ParameterGenerationError.NoWireguardKey -> R.string.no_wireguard_key

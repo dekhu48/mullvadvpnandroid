@@ -58,7 +58,7 @@ private fun PreviewOutOfTimeScreenDisconnected() {
         OutOfTimeScreen(
             showSitePayment = true,
             uiState = OutOfTimeUiState(tunnelState = TunnelState.Disconnected, "Heroic Frog"),
-            uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow()
+            uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow(),
         )
     }
 }
@@ -70,8 +70,8 @@ private fun PreviewOutOfTimeScreenConnecting() {
         OutOfTimeScreen(
             showSitePayment = true,
             uiState =
-                OutOfTimeUiState(tunnelState = TunnelState.Connecting(null, null), "Strong Rabbit"),
-            uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow()
+            OutOfTimeUiState(tunnelState = TunnelState.Connecting(null, null), "Strong Rabbit"),
+            uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow(),
         )
     }
 }
@@ -83,14 +83,14 @@ private fun PreviewOutOfTimeScreenError() {
         OutOfTimeScreen(
             showSitePayment = true,
             uiState =
-                OutOfTimeUiState(
-                    tunnelState =
-                        TunnelState.Error(
-                            ErrorState(cause = ErrorStateCause.IsOffline, isBlocking = true)
-                        ),
-                    deviceName = "Stable Horse"
+            OutOfTimeUiState(
+                tunnelState =
+                TunnelState.Error(
+                    ErrorState(cause = ErrorStateCause.IsOffline, isBlocking = true),
                 ),
-            uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow()
+                deviceName = "Stable Horse",
+            ),
+            uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow(),
         )
     }
 }
@@ -108,7 +108,7 @@ fun OutOfTimeScreen(
     onAccountClick: () -> Unit = {},
     onPurchaseBillingProductClick: (ProductId, activityProvider: () -> Activity) -> Unit = { _, _ ->
     },
-    onClosePurchaseResultDialog: (success: Boolean) -> Unit = {}
+    onClosePurchaseResultDialog: (success: Boolean) -> Unit = {},
 ) {
     val context = LocalContext.current
     val openAccountPage = LocalUriHandler.current.createOpenAccountPageHook()
@@ -131,79 +131,79 @@ fun OutOfTimeScreen(
         PaymentDialog(
             paymentDialogData = uiState.paymentDialogData,
             retryPurchase = { onPurchaseBillingProductClick(it) { context as Activity } },
-            onCloseDialog = onClosePurchaseResultDialog
+            onCloseDialog = onClosePurchaseResultDialog,
         )
     }
 
     val scrollState = rememberScrollState()
     ScaffoldWithTopBarAndDeviceName(
         topBarColor =
-            if (uiState.tunnelState.isSecured()) {
-                MaterialTheme.colorScheme.inversePrimary
-            } else {
-                MaterialTheme.colorScheme.error
-            },
+        if (uiState.tunnelState.isSecured()) {
+            MaterialTheme.colorScheme.inversePrimary
+        } else {
+            MaterialTheme.colorScheme.error
+        },
         statusBarColor =
-            if (uiState.tunnelState.isSecured()) {
-                MaterialTheme.colorScheme.inversePrimary
-            } else {
-                MaterialTheme.colorScheme.error
-            },
+        if (uiState.tunnelState.isSecured()) {
+            MaterialTheme.colorScheme.inversePrimary
+        } else {
+            MaterialTheme.colorScheme.error
+        },
         navigationBarColor = MaterialTheme.colorScheme.background,
         iconTintColor =
-            if (uiState.tunnelState.isSecured()) {
-                    MaterialTheme.colorScheme.onPrimary
-                } else {
-                    MaterialTheme.colorScheme.onError
-                }
-                .copy(alpha = AlphaTopBar),
+        if (uiState.tunnelState.isSecured()) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.onError
+        }
+            .copy(alpha = AlphaTopBar),
         onSettingsClicked = onSettingsClick,
         onAccountClicked = onAccountClick,
         deviceName = uiState.deviceName,
-        timeLeft = null
+        timeLeft = null,
     ) {
         Column(
             modifier =
-                Modifier.fillMaxSize()
-                    .padding(it)
-                    .verticalScroll(scrollState)
-                    .drawVerticalScrollbar(
-                        state = scrollState,
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaScrollbar)
-                    )
-                    .background(color = MaterialTheme.colorScheme.background)
+            Modifier.fillMaxSize()
+                .padding(it)
+                .verticalScroll(scrollState)
+                .drawVerticalScrollbar(
+                    state = scrollState,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaScrollbar),
+                )
+                .background(color = MaterialTheme.colorScheme.background),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.icon_fail),
                 contentDescription = null,
                 modifier =
-                    Modifier.align(Alignment.CenterHorizontally)
-                        .padding(vertical = Dimens.screenVerticalMargin)
-                        .size(Dimens.bigIconSize)
+                Modifier.align(Alignment.CenterHorizontally)
+                    .padding(vertical = Dimens.screenVerticalMargin)
+                    .size(Dimens.bigIconSize),
             )
             Text(
                 text = stringResource(id = R.string.out_of_time),
                 style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.padding(horizontal = Dimens.sideMargin)
+                modifier = Modifier.padding(horizontal = Dimens.sideMargin),
             )
             Text(
                 text =
-                    buildString {
-                        append(stringResource(R.string.account_credit_has_expired))
-                        if (showSitePayment) {
-                            append(" ")
-                            append(stringResource(R.string.add_time_to_account))
-                        }
-                    },
+                buildString {
+                    append(stringResource(R.string.account_credit_has_expired))
+                    if (showSitePayment) {
+                        append(" ")
+                        append(stringResource(R.string.add_time_to_account))
+                    }
+                },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier =
-                    Modifier.padding(
-                        top = Dimens.mediumPadding,
-                        start = Dimens.sideMargin,
-                        end = Dimens.sideMargin
-                    )
+                Modifier.padding(
+                    top = Dimens.mediumPadding,
+                    start = Dimens.sideMargin,
+                    end = Dimens.sideMargin,
+                ),
             )
             Spacer(modifier = Modifier.weight(1f).defaultMinSize(minHeight = Dimens.verticalSpace))
             // Button area
@@ -212,11 +212,11 @@ fun OutOfTimeScreen(
                     onClick = onDisconnectClick,
                     text = stringResource(id = R.string.disconnect),
                     modifier =
-                        Modifier.padding(
-                            start = Dimens.sideMargin,
-                            end = Dimens.sideMargin,
-                            bottom = Dimens.buttonSpacing
-                        )
+                    Modifier.padding(
+                        start = Dimens.sideMargin,
+                        end = Dimens.sideMargin,
+                        bottom = Dimens.buttonSpacing,
+                    ),
                 )
             }
             uiState.billingPaymentState?.let {
@@ -227,12 +227,12 @@ fun OutOfTimeScreen(
                     },
                     onInfoClick = { showVerificationPendingDialog = true },
                     modifier =
-                        Modifier.padding(
-                                start = Dimens.sideMargin,
-                                end = Dimens.sideMargin,
-                                bottom = Dimens.buttonSpacing
-                            )
-                            .align(Alignment.CenterHorizontally)
+                    Modifier.padding(
+                        start = Dimens.sideMargin,
+                        end = Dimens.sideMargin,
+                        bottom = Dimens.buttonSpacing,
+                    )
+                        .align(Alignment.CenterHorizontally),
                 )
             }
             if (showSitePayment) {
@@ -240,22 +240,22 @@ fun OutOfTimeScreen(
                     onClick = onSitePaymentClick,
                     isEnabled = uiState.tunnelState.enableSitePaymentButton(),
                     modifier =
-                        Modifier.padding(
-                            start = Dimens.sideMargin,
-                            end = Dimens.sideMargin,
-                            bottom = Dimens.buttonSpacing
-                        )
+                    Modifier.padding(
+                        start = Dimens.sideMargin,
+                        end = Dimens.sideMargin,
+                        bottom = Dimens.buttonSpacing,
+                    ),
                 )
             }
             RedeemVoucherButton(
                 onClick = onRedeemVoucherClick,
                 modifier =
-                    Modifier.padding(
-                        start = Dimens.sideMargin,
-                        end = Dimens.sideMargin,
-                        bottom = Dimens.screenVerticalMargin
-                    ),
-                isEnabled = uiState.tunnelState.enableRedeemButton()
+                Modifier.padding(
+                    start = Dimens.sideMargin,
+                    end = Dimens.sideMargin,
+                    bottom = Dimens.screenVerticalMargin,
+                ),
+                isEnabled = uiState.tunnelState.enableRedeemButton(),
             )
         }
     }
@@ -265,7 +265,8 @@ private fun TunnelState.showDisconnectButton(): Boolean =
     when (this) {
         is TunnelState.Disconnected -> false
         is TunnelState.Connecting,
-        is TunnelState.Connected -> true
+        is TunnelState.Connected,
+        -> true
         is TunnelState.Disconnecting -> {
             this.actionAfterDisconnect != ActionAfterDisconnect.Nothing
         }

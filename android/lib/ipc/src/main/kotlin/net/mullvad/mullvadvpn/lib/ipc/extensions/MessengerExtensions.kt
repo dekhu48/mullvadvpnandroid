@@ -24,7 +24,7 @@ private fun Messenger.trySend(message: Message, logErrors: Boolean, messageName:
         if (logErrors) {
             Log.e(
                 "mullvad",
-                "Failed to send message ${messageName ?: "<missing>"} due to DeadObjectException"
+                "Failed to send message ${messageName ?: "<missing>"} due to DeadObjectException",
             )
         }
         false
@@ -32,7 +32,7 @@ private fun Messenger.trySend(message: Message, logErrors: Boolean, messageName:
         if (logErrors) {
             Log.e(
                 "mullvad",
-                "Failed to send message ${messageName ?: "<missing>"} due to RemoteException"
+                "Failed to send message ${messageName ?: "<missing>"} due to RemoteException",
             )
         }
         false

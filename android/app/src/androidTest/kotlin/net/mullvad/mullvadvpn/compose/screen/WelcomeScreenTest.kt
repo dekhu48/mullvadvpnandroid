@@ -49,7 +49,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -74,16 +74,16 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
         // Assert
         composeTestRule.apply {
             onNodeWithText(
-                    "Either buy credit on our website or redeem a voucher.",
-                    substring = true
-                )
+                "Either buy credit on our website or redeem a voucher.",
+                substring = true,
+            )
                 .assertDoesNotExist()
             onNodeWithText("Buy credit").assertDoesNotExist()
         }
@@ -105,7 +105,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -121,14 +121,14 @@ class WelcomeScreenTest {
                 showSitePayment = true,
                 uiState = WelcomeUiState(),
                 uiSideEffect =
-                    MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenAccountView("222")),
+                MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenAccountView("222")),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
                 onSettingsClick = {},
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -151,7 +151,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = mockClickListener,
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -174,7 +174,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -200,7 +200,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -218,9 +218,9 @@ class WelcomeScreenTest {
             WelcomeScreen(
                 showSitePayment = true,
                 uiState =
-                    WelcomeUiState(
-                        paymentDialogData = PurchaseResult.Completed.Success.toPaymentDialogData()
-                    ),
+                WelcomeUiState(
+                    paymentDialogData = PurchaseResult.Completed.Success.toPaymentDialogData(),
+                ),
                 uiSideEffect = MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -228,7 +228,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -243,10 +243,10 @@ class WelcomeScreenTest {
             WelcomeScreen(
                 showSitePayment = true,
                 uiState =
-                    WelcomeUiState(
-                        paymentDialogData =
-                            PurchaseResult.Error.VerificationError(null).toPaymentDialogData()
-                    ),
+                WelcomeUiState(
+                    paymentDialogData =
+                    PurchaseResult.Error.VerificationError(null).toPaymentDialogData(),
+                ),
                 uiSideEffect = MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -254,7 +254,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -269,12 +269,12 @@ class WelcomeScreenTest {
             WelcomeScreen(
                 showSitePayment = true,
                 uiState =
-                    WelcomeUiState()
-                        .copy(
-                            paymentDialogData =
-                                PurchaseResult.Error.FetchProductsError(ProductId(""), null)
-                                    .toPaymentDialogData()
-                        ),
+                WelcomeUiState()
+                    .copy(
+                        paymentDialogData =
+                        PurchaseResult.Error.FetchProductsError(ProductId(""), null)
+                            .toPaymentDialogData(),
+                    ),
                 uiSideEffect = MutableSharedFlow<WelcomeViewModel.UiSideEffect>().asSharedFlow(),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -282,7 +282,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -304,7 +304,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onClosePurchaseResultDialog = {},
-                onPurchaseBillingProductClick = { _, _ -> }
+                onPurchaseBillingProductClick = { _, _ -> },
             )
         }
 
@@ -322,10 +322,10 @@ class WelcomeScreenTest {
             WelcomeScreen(
                 showSitePayment = true,
                 uiState =
-                    WelcomeUiState(
-                        billingPaymentState =
-                            PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                    ),
+                WelcomeUiState(
+                    billingPaymentState =
+                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                ),
                 uiSideEffect = MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -333,7 +333,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -351,11 +351,11 @@ class WelcomeScreenTest {
             WelcomeScreen(
                 showSitePayment = true,
                 uiState =
-                    WelcomeUiState()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
+                WelcomeUiState()
+                    .copy(
+                        billingPaymentState =
+                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                    ),
                 uiSideEffect = MutableSharedFlow<WelcomeViewModel.UiSideEffect>().asSharedFlow(),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -363,7 +363,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -381,11 +381,11 @@ class WelcomeScreenTest {
             WelcomeScreen(
                 showSitePayment = true,
                 uiState =
-                    WelcomeUiState()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
+                WelcomeUiState()
+                    .copy(
+                        billingPaymentState =
+                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                    ),
                 uiSideEffect = MutableSharedFlow<WelcomeViewModel.UiSideEffect>().asSharedFlow(),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -393,7 +393,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -403,7 +403,7 @@ class WelcomeScreenTest {
         // Assert
         composeTestRule
             .onNodeWithText(
-                "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful."
+                "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful.",
             )
             .assertExists()
     }
@@ -418,11 +418,11 @@ class WelcomeScreenTest {
             WelcomeScreen(
                 showSitePayment = true,
                 uiState =
-                    WelcomeUiState()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
+                WelcomeUiState()
+                    .copy(
+                        billingPaymentState =
+                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                    ),
                 uiSideEffect = MutableSharedFlow<WelcomeViewModel.UiSideEffect>().asSharedFlow(),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -430,7 +430,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = { _, _ -> },
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 
@@ -450,10 +450,10 @@ class WelcomeScreenTest {
             WelcomeScreen(
                 showSitePayment = true,
                 uiState =
-                    WelcomeUiState(
-                        billingPaymentState =
-                            PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                    ),
+                WelcomeUiState(
+                    billingPaymentState =
+                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                ),
                 uiSideEffect = MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -461,7 +461,7 @@ class WelcomeScreenTest {
                 onAccountClick = {},
                 openConnectScreen = {},
                 onPurchaseBillingProductClick = clickHandler,
-                onClosePurchaseResultDialog = {}
+                onClosePurchaseResultDialog = {},
             )
         }
 

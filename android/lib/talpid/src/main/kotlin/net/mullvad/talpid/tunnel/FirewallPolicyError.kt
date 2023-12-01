@@ -5,5 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class FirewallPolicyError : Parcelable {
-    Generic
+    Generic,
 }

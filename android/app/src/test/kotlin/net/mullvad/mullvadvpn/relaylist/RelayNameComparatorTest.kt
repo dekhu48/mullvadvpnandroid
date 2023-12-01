@@ -22,7 +22,7 @@ class RelayNameComparatorTest {
                 name = "se10-wireguard",
                 location = mockk(),
                 locationName = "mock",
-                active = false
+                active = false,
             )
 
         relay9 assertOrderBothDirection relay10
@@ -72,14 +72,14 @@ class RelayNameComparatorTest {
                 name = "se001-wireguard",
                 location = mockk(),
                 locationName = "mock",
-                active = false
+                active = false,
             )
         val relay005 =
             Relay(
                 name = "se005-wireguard",
                 location = mockk(),
                 locationName = "mock",
-                active = false
+                active = false,
             )
 
         relay001 assertOrderBothDirection relay005
@@ -98,7 +98,7 @@ class RelayNameComparatorTest {
                 name = "se10-wireguard",
                 location = mockk(),
                 locationName = "mock",
-                active = false
+                active = false,
             )
 
         relayAr2 assertOrderBothDirection relayAr8
@@ -125,7 +125,7 @@ class RelayNameComparatorTest {
                 name = "se22-wireguard",
                 location = mockk(),
                 locationName = "mock",
-                active = false
+                active = false,
             )
 
         relay22a assertOrderBothDirection relay22b

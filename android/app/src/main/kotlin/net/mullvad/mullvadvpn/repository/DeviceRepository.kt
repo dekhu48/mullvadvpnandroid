@@ -25,7 +25,7 @@ import net.mullvad.mullvadvpn.ui.serviceconnection.deviceDataSource
 
 class DeviceRepository(
     private val serviceConnectionManager: ServiceConnectionManager,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     private val cachedDeviceList = MutableStateFlow<DeviceList>(DeviceList.Unavailable)
 
@@ -41,7 +41,7 @@ class DeviceRepository(
             .stateIn(
                 CoroutineScope(dispatcher),
                 SharingStarted.WhileSubscribed(),
-                DeviceState.Initial
+                DeviceState.Initial,
             )
 
     private val deviceListEvents =

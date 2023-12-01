@@ -24,14 +24,14 @@ class PrivacyDisclaimerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return inflater.inflate(R.layout.fragment_compose, container, false).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
                 AppTheme {
                     PrivacyDisclaimerScreen(
                         onPrivacyPolicyLinkClicked = { openPrivacyPolicy() },
-                        onAcceptClicked = { handleAcceptedPrivacyDisclaimer() }
+                        onAcceptClicked = { handleAcceptedPrivacyDisclaimer() },
                     )
                 }
             }
@@ -41,7 +41,7 @@ class PrivacyDisclaimerFragment : Fragment() {
     private fun handleAcceptedPrivacyDisclaimer() {
         privacyDisclaimerViewModel.setPrivacyDisclosureAccepted()
         (activity as? MainActivity)?.initializeStateHandlerAndServiceConnection(
-            apiEndpointConfiguration = activity?.intent?.getApiEndpointConfigurationExtras()
+            apiEndpointConfiguration = activity?.intent?.getApiEndpointConfigurationExtras(),
         )
     }
 
@@ -49,7 +49,7 @@ class PrivacyDisclaimerFragment : Fragment() {
         val privacyPolicyUrlIntent =
             Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.privacy_policy_url).appendHideNavOnPlayBuild())
+                Uri.parse(getString(R.string.privacy_policy_url).appendHideNavOnPlayBuild()),
             )
         context?.startActivity(privacyPolicyUrlIntent)
     }

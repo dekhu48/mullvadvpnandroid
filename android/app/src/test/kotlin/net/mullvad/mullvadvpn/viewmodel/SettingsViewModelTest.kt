@@ -6,7 +6,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
-import kotlin.test.assertEquals
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
@@ -23,6 +22,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class SettingsViewModelTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -40,8 +40,8 @@ class SettingsViewModelTest {
                 currentVersion = null,
                 upgradeVersion = null,
                 isOutdated = false,
-                isSupported = false
-            )
+                isSupported = false,
+            ),
         )
 
     private lateinit var viewModel: SettingsViewModel
@@ -63,7 +63,7 @@ class SettingsViewModelTest {
         viewModel =
             SettingsViewModel(
                 deviceRepository = mockDeviceRepository,
-                serviceConnectionManager = mockServiceConnectionManager
+                serviceConnectionManager = mockServiceConnectionManager,
             )
     }
 
@@ -87,7 +87,7 @@ class SettingsViewModelTest {
                 currentVersion = "1.0",
                 upgradeVersion = "1.0",
                 isOutdated = false,
-                isSupported = true
+                isSupported = true,
             )
         every { mockAppVersionInfoCache.version } returns "1.0"
         every { mockAppVersionInfoCache.isSupported } returns true

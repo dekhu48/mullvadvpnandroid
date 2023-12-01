@@ -21,7 +21,7 @@ class OutOfTimeFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_compose, container, false).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
@@ -38,7 +38,7 @@ class OutOfTimeFragment : BaseFragment() {
                         openConnectScreen = ::advanceToConnectScreen,
                         onDisconnectClick = vm::onDisconnectClick,
                         onPurchaseBillingProductClick = vm::startBillingPayment,
-                        onClosePurchaseResultDialog = vm::onClosePurchaseResultDialog
+                        onClosePurchaseResultDialog = vm::onClosePurchaseResultDialog,
                     )
                 }
             }

@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
-import kotlin.properties.Delegates.observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -27,6 +26,7 @@ import net.mullvad.mullvadvpn.service.notifications.AccountExpiryNotification
 import net.mullvad.talpid.TalpidVpnService
 import org.koin.android.ext.android.get
 import org.koin.core.context.loadKoinModules
+import kotlin.properties.Delegates.observable
 
 class MullvadVpnService : TalpidVpnService() {
 
@@ -77,7 +77,7 @@ class MullvadVpnService : TalpidVpnService() {
                 Looper.getMainLooper(),
                 daemonInstance.intermittentDaemon,
                 connectivityListener,
-                this
+                this,
             )
 
         endpoint.splitTunneling.onChange.subscribe(this@MullvadVpnService) { excludedApps ->
@@ -93,7 +93,7 @@ class MullvadVpnService : TalpidVpnService() {
             AccountExpiryNotification(
                 this,
                 daemonInstance.intermittentDaemon,
-                endpoint.accountCache
+                endpoint.accountCache,
             )
 
         // Remove any leftover tunnel state persistence data

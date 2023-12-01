@@ -55,59 +55,59 @@ private fun PreviewRelayLocationCell() {
                     code = "RC1",
                     expanded = false,
                     cities =
-                        listOf(
-                            RelayCity(
-                                name = "Relay city 1",
-                                code = "RI1",
-                                expanded = false,
-                                location = GeographicLocationConstraint.City("RC1", "RI1"),
-                                relays =
-                                    listOf(
-                                        Relay(
-                                            name = "Relay 1",
-                                            active = true,
-                                            locationName = "",
-                                            location =
-                                                GeographicLocationConstraint.Hostname(
-                                                    "RC1",
-                                                    "RI1",
-                                                    "NER"
-                                                )
-                                        )
-                                    )
+                    listOf(
+                        RelayCity(
+                            name = "Relay city 1",
+                            code = "RI1",
+                            expanded = false,
+                            location = GeographicLocationConstraint.City("RC1", "RI1"),
+                            relays =
+                            listOf(
+                                Relay(
+                                    name = "Relay 1",
+                                    active = true,
+                                    locationName = "",
+                                    location =
+                                    GeographicLocationConstraint.Hostname(
+                                        "RC1",
+                                        "RI1",
+                                        "NER",
+                                    ),
+                                ),
                             ),
-                            RelayCity(
-                                name = "Relay city 2",
-                                code = "RI2",
-                                expanded = true,
-                                location = GeographicLocationConstraint.City("RC1", "RI2"),
-                                relays =
-                                    listOf(
-                                        Relay(
-                                            name = "Relay 2",
-                                            active = true,
-                                            locationName = "",
-                                            location =
-                                                GeographicLocationConstraint.Hostname(
-                                                    "RC1",
-                                                    "RI2",
-                                                    "NER"
-                                                )
-                                        ),
-                                        Relay(
-                                            name = "Relay 3",
-                                            active = true,
-                                            locationName = "",
-                                            location =
-                                                GeographicLocationConstraint.Hostname(
-                                                    "RC1",
-                                                    "RI1",
-                                                    "NER"
-                                                )
-                                        )
-                                    )
-                            )
-                        )
+                        ),
+                        RelayCity(
+                            name = "Relay city 2",
+                            code = "RI2",
+                            expanded = true,
+                            location = GeographicLocationConstraint.City("RC1", "RI2"),
+                            relays =
+                            listOf(
+                                Relay(
+                                    name = "Relay 2",
+                                    active = true,
+                                    locationName = "",
+                                    location =
+                                    GeographicLocationConstraint.Hostname(
+                                        "RC1",
+                                        "RI2",
+                                        "NER",
+                                    ),
+                                ),
+                                Relay(
+                                    name = "Relay 3",
+                                    active = true,
+                                    locationName = "",
+                                    location =
+                                    GeographicLocationConstraint.Hostname(
+                                        "RC1",
+                                        "RI1",
+                                        "NER",
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 )
             val countryNotActive =
                 RelayCountry(
@@ -115,28 +115,28 @@ private fun PreviewRelayLocationCell() {
                     code = "RC3",
                     expanded = true,
                     cities =
-                        listOf(
-                            RelayCity(
-                                name = "Not Enabled city",
-                                code = "RI3",
-                                expanded = true,
-                                location = GeographicLocationConstraint.City("RC3", "RI3"),
-                                relays =
-                                    listOf(
-                                        Relay(
-                                            name = "Not Enabled Relay",
-                                            active = false,
-                                            locationName = "",
-                                            location =
-                                                GeographicLocationConstraint.Hostname(
-                                                    "RC3",
-                                                    "RI3",
-                                                    "NER"
-                                                )
-                                        )
-                                    )
-                            )
-                        )
+                    listOf(
+                        RelayCity(
+                            name = "Not Enabled city",
+                            code = "RI3",
+                            expanded = true,
+                            location = GeographicLocationConstraint.City("RC3", "RI3"),
+                            relays =
+                            listOf(
+                                Relay(
+                                    name = "Not Enabled Relay",
+                                    active = false,
+                                    locationName = "",
+                                    location =
+                                    GeographicLocationConstraint.Hostname(
+                                        "RC3",
+                                        "RI3",
+                                        "NER",
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 )
             // Active relay list not expanded
             RelayLocationCell(countryActive)
@@ -155,7 +155,7 @@ fun RelayLocationCell(
     activeColor: Color = MaterialTheme.colorScheme.selected,
     inactiveColor: Color = MaterialTheme.colorScheme.error,
     selectedItem: RelayItem? = null,
-    onSelectRelay: (item: RelayItem) -> Unit = {}
+    onSelectRelay: (item: RelayItem) -> Unit = {},
 ) {
     val startPadding =
         when (relay.type) {
@@ -179,95 +179,95 @@ fun RelayLocationCell(
         }
     Column(
         modifier =
-            modifier.then(
-                Modifier.fillMaxWidth()
-                    .padding(top = Dimens.listItemDivider)
-                    .wrapContentHeight()
-                    .fillMaxWidth()
-            )
+        modifier.then(
+            Modifier.fillMaxWidth()
+                .padding(top = Dimens.listItemDivider)
+                .wrapContentHeight()
+                .fillMaxWidth(),
+        ),
     ) {
         Row(
             modifier =
-                Modifier.align(Alignment.Start)
-                    .wrapContentHeight()
-                    .height(IntrinsicSize.Min)
-                    .fillMaxWidth()
-                    .background(backgroundColor)
+            Modifier.align(Alignment.Start)
+                .wrapContentHeight()
+                .height(IntrinsicSize.Min)
+                .fillMaxWidth()
+                .background(backgroundColor),
         ) {
             Row(
                 modifier =
-                    Modifier.weight(1f)
-                        .then(
-                            if (relay.active) {
-                                Modifier.clickable { onSelectRelay(relay) }
-                            } else {
-                                Modifier
-                            }
-                        )
+                Modifier.weight(1f)
+                    .then(
+                        if (relay.active) {
+                            Modifier.clickable { onSelectRelay(relay) }
+                        } else {
+                            Modifier
+                        },
+                    ),
             ) {
                 Box(
                     modifier =
-                        Modifier.align(Alignment.CenterVertically).padding(start = startPadding)
+                    Modifier.align(Alignment.CenterVertically).padding(start = startPadding),
                 ) {
                     Box(
                         modifier =
-                            Modifier.align(Alignment.CenterStart)
-                                .size(Dimens.relayCircleSize)
-                                .background(
-                                    color =
-                                        when {
-                                            selected -> Color.Transparent
-                                            relay.active -> activeColor
-                                            else -> inactiveColor
-                                        },
-                                    shape = CircleShape
-                                )
+                        Modifier.align(Alignment.CenterStart)
+                            .size(Dimens.relayCircleSize)
+                            .background(
+                                color =
+                                when {
+                                    selected -> Color.Transparent
+                                    relay.active -> activeColor
+                                    else -> inactiveColor
+                                },
+                                shape = CircleShape,
+                            ),
                     )
                     Image(
                         painter = painterResource(id = R.drawable.icon_tick),
                         modifier =
-                            Modifier.align(Alignment.CenterStart)
-                                .alpha(
-                                    if (selected) {
-                                        AlphaVisible
-                                    } else {
-                                        AlphaInvisible
-                                    }
-                                ),
-                        contentDescription = null
+                        Modifier.align(Alignment.CenterStart)
+                            .alpha(
+                                if (selected) {
+                                    AlphaVisible
+                                } else {
+                                    AlphaInvisible
+                                },
+                            ),
+                        contentDescription = null,
                     )
                 }
                 Text(
                     text = relay.name,
                     color = MaterialTheme.colorScheme.onPrimary,
                     modifier =
-                        Modifier.weight(1f)
-                            .align(Alignment.CenterVertically)
-                            .alpha(
-                                if (relay.active) {
-                                    AlphaVisible
-                                } else {
-                                    AlphaInactive
-                                }
-                            )
-                            .padding(
-                                horizontal = Dimens.smallPadding,
-                                vertical = Dimens.mediumPadding
-                            )
+                    Modifier.weight(1f)
+                        .align(Alignment.CenterVertically)
+                        .alpha(
+                            if (relay.active) {
+                                AlphaVisible
+                            } else {
+                                AlphaInactive
+                            },
+                        )
+                        .padding(
+                            horizontal = Dimens.smallPadding,
+                            vertical = Dimens.mediumPadding,
+                        ),
                 )
             }
             if (relay.hasChildren) {
                 VerticalDivider(
                     color = MaterialTheme.colorScheme.background,
-                    modifier = Modifier.padding(vertical = Dimens.verticalDividerPadding)
+                    modifier = Modifier.padding(vertical = Dimens.verticalDividerPadding),
                 )
                 ChevronView(
                     isExpanded = expanded.value,
                     modifier =
-                        Modifier.fillMaxHeight()
-                            .clickable { expanded.value = !expanded.value }
-                            .padding(horizontal = Dimens.largePadding)
-                            .align(Alignment.CenterVertically)
+                    Modifier.fillMaxHeight()
+                        .clickable { expanded.value = !expanded.value }
+                        .padding(horizontal = Dimens.largePadding)
+                        .align(Alignment.CenterVertically),
                 )
             }
         }
@@ -279,7 +279,7 @@ fun RelayLocationCell(
                             relay = relayCity,
                             selectedItem = selectedItem,
                             onSelectRelay = onSelectRelay,
-                            modifier = Modifier.animateContentSize()
+                            modifier = Modifier.animateContentSize(),
                         )
                     }
                 }
@@ -289,7 +289,7 @@ fun RelayLocationCell(
                             relay = relay,
                             selectedItem = selectedItem,
                             onSelectRelay = onSelectRelay,
-                            modifier = Modifier.animateContentSize()
+                            modifier = Modifier.animateContentSize(),
                         )
                     }
                 }

@@ -4,7 +4,6 @@ import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import java.net.InetAddress
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -34,6 +33,7 @@ import net.mullvad.mullvadvpn.usecase.PortRangeUseCase
 import net.mullvad.mullvadvpn.usecase.RelayListUseCase
 import net.mullvad.mullvadvpn.util.isValidMtu
 import org.apache.commons.validator.routines.InetAddressValidator
+import java.net.InetAddress
 
 class VpnSettingsViewModel(
     private val repository: SettingsRepository,
@@ -41,10 +41,11 @@ class VpnSettingsViewModel(
     private val resources: Resources,
     portRangeUseCase: PortRangeUseCase,
     private val relayListUseCase: RelayListUseCase,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
 
     private val _toastMessages = MutableSharedFlow<String>(extraBufferCapacity = 1)
+
     @Suppress("konsist.ensure public properties use permitted names")
     val toastMessages = _toastMessages.asSharedFlow()
 
@@ -54,28 +55,29 @@ class VpnSettingsViewModel(
         combine(repository.settingsUpdates, portRangeUseCase.portRanges(), dialogState) {
                 settings,
                 portRanges,
-                dialogState ->
-                VpnSettingsViewModelState(
-                    mtuValue = settings?.mtuString() ?: "",
-                    isAutoConnectEnabled = settings?.autoConnect ?: false,
-                    isLocalNetworkSharingEnabled = settings?.allowLan ?: false,
-                    isCustomDnsEnabled = settings?.isCustomDnsEnabled() ?: false,
-                    customDnsList = settings?.addresses()?.asStringAddressList() ?: listOf(),
-                    contentBlockersOptions = settings?.contentBlockersSettings()
-                            ?: DefaultDnsOptions(),
-                    isAllowLanEnabled = settings?.allowLan ?: false,
-                    selectedObfuscation = settings?.selectedObfuscationSettings()
-                            ?: SelectedObfuscation.Off,
-                    dialogState = dialogState,
-                    quantumResistant = settings?.quantumResistant() ?: QuantumResistantState.Off,
-                    selectedWireguardPort = settings?.getWireguardPort() ?: Constraint.Any(),
-                    availablePortRanges = portRanges
-                )
-            }
+                dialogState,
+            ->
+            VpnSettingsViewModelState(
+                mtuValue = settings?.mtuString() ?: "",
+                isAutoConnectEnabled = settings?.autoConnect ?: false,
+                isLocalNetworkSharingEnabled = settings?.allowLan ?: false,
+                isCustomDnsEnabled = settings?.isCustomDnsEnabled() ?: false,
+                customDnsList = settings?.addresses()?.asStringAddressList() ?: listOf(),
+                contentBlockersOptions = settings?.contentBlockersSettings()
+                    ?: DefaultDnsOptions(),
+                isAllowLanEnabled = settings?.allowLan ?: false,
+                selectedObfuscation = settings?.selectedObfuscationSettings()
+                    ?: SelectedObfuscation.Off,
+                dialogState = dialogState,
+                quantumResistant = settings?.quantumResistant() ?: QuantumResistantState.Off,
+                selectedWireguardPort = settings?.getWireguardPort() ?: Constraint.Any(),
+                availablePortRanges = portRanges,
+            )
+        }
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(),
-                VpnSettingsViewModelState.default()
+                VpnSettingsViewModelState.default(),
             )
 
     val uiState =
@@ -84,7 +86,7 @@ class VpnSettingsViewModel(
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(),
-                VpnSettingsUiState.createDefault()
+                VpnSettingsUiState.createDefault(),
             )
 
     fun onMtuCellClick() {
@@ -134,7 +136,7 @@ class VpnSettingsViewModel(
             if (index == null) {
                 StagedDns.NewDns(
                     item = CustomDnsItem.default(),
-                    validationResult = StagedDns.ValidationResult.InvalidAddress
+                    validationResult = StagedDns.ValidationResult.InvalidAddress,
                 )
             } else {
                 vmState.value.customDnsList.getOrNull(index)?.let { listItem ->
@@ -164,26 +166,26 @@ class VpnSettingsViewModel(
 
             return@update VpnSettingsDialogState.DnsDialog(
                 stagedDns =
-                    if (dialog.stagedDns is StagedDns.EditDns) {
-                        StagedDns.EditDns(
-                            item =
-                                CustomDnsItem(
-                                    address = ipAddress,
-                                    isLocal = ipAddress.isLocalAddress()
-                                ),
-                            validationResult = error,
-                            index = dialog.stagedDns.index
-                        )
-                    } else {
-                        StagedDns.NewDns(
-                            item =
-                                CustomDnsItem(
-                                    address = ipAddress,
-                                    isLocal = ipAddress.isLocalAddress()
-                                ),
-                            validationResult = error
-                        )
-                    }
+                if (dialog.stagedDns is StagedDns.EditDns) {
+                    StagedDns.EditDns(
+                        item =
+                        CustomDnsItem(
+                            address = ipAddress,
+                            isLocal = ipAddress.isLocalAddress(),
+                        ),
+                        validationResult = error,
+                        index = dialog.stagedDns.index,
+                    )
+                } else {
+                    StagedDns.NewDns(
+                        item =
+                        CustomDnsItem(
+                            address = ipAddress,
+                            isLocal = ipAddress.isLocalAddress(),
+                        ),
+                        validationResult = error,
+                    )
+                },
             )
         }
     }
@@ -217,7 +219,7 @@ class VpnSettingsViewModel(
             repository.setDnsOptions(
                 isCustomDnsEnabled = true,
                 dnsList = updatedList,
-                contentBlockersOptions = vmState.value.contentBlockersOptions
+                contentBlockersOptions = vmState.value.contentBlockersOptions,
             )
 
             hideDialog()
@@ -241,42 +243,42 @@ class VpnSettingsViewModel(
 
     fun onToggleBlockAds(isEnabled: Boolean) {
         updateDefaultDnsOptionsViaRepository(
-            vmState.value.contentBlockersOptions.copy(blockAds = isEnabled)
+            vmState.value.contentBlockersOptions.copy(blockAds = isEnabled),
         )
         showApplySettingChangesWarningToast()
     }
 
     fun onToggleBlockTrackers(isEnabled: Boolean) {
         updateDefaultDnsOptionsViaRepository(
-            vmState.value.contentBlockersOptions.copy(blockTrackers = isEnabled)
+            vmState.value.contentBlockersOptions.copy(blockTrackers = isEnabled),
         )
         showApplySettingChangesWarningToast()
     }
 
     fun onToggleBlockMalware(isEnabled: Boolean) {
         updateDefaultDnsOptionsViaRepository(
-            vmState.value.contentBlockersOptions.copy(blockMalware = isEnabled)
+            vmState.value.contentBlockersOptions.copy(blockMalware = isEnabled),
         )
         showApplySettingChangesWarningToast()
     }
 
     fun onToggleBlockAdultContent(isEnabled: Boolean) {
         updateDefaultDnsOptionsViaRepository(
-            vmState.value.contentBlockersOptions.copy(blockAdultContent = isEnabled)
+            vmState.value.contentBlockersOptions.copy(blockAdultContent = isEnabled),
         )
         showApplySettingChangesWarningToast()
     }
 
     fun onToggleBlockGambling(isEnabled: Boolean) {
         updateDefaultDnsOptionsViaRepository(
-            vmState.value.contentBlockersOptions.copy(blockGambling = isEnabled)
+            vmState.value.contentBlockersOptions.copy(blockGambling = isEnabled),
         )
         showApplySettingChangesWarningToast()
     }
 
     fun onToggleBlockSocialMedia(isEnabled: Boolean) {
         updateDefaultDnsOptionsViaRepository(
-            vmState.value.contentBlockersOptions.copy(blockSocialMedia = isEnabled)
+            vmState.value.contentBlockersOptions.copy(blockSocialMedia = isEnabled),
         )
         showApplySettingChangesWarningToast()
     }
@@ -296,7 +298,7 @@ class VpnSettingsViewModel(
             repository.setDnsOptions(
                 isCustomDnsEnabled = vmState.value.isCustomDnsEnabled && updatedList.isNotEmpty(),
                 dnsList = updatedList,
-                contentBlockersOptions = vmState.value.contentBlockersOptions
+                contentBlockersOptions = vmState.value.contentBlockersOptions,
             )
             hideDialog()
         }
@@ -312,8 +314,8 @@ class VpnSettingsViewModel(
             repository.setObfuscationOptions(
                 ObfuscationSettings(
                     selectedObfuscation = selectedObfuscation,
-                    udp2tcp = Udp2TcpObfuscationSettings(Constraint.Any())
-                )
+                    udp2tcp = Udp2TcpObfuscationSettings(Constraint.Any()),
+                ),
             )
         }
     }
@@ -350,7 +352,7 @@ class VpnSettingsViewModel(
             repository.setDnsOptions(
                 isCustomDnsEnabled = vmState.value.isCustomDnsEnabled,
                 dnsList = vmState.value.customDnsList.map { it.address }.asInetAddressList(),
-                contentBlockersOptions = contentBlockersOption
+                contentBlockersOptions = contentBlockersOption,
             )
         }
 
@@ -361,7 +363,7 @@ class VpnSettingsViewModel(
     fun onCancelDns() {
         if (
             vmState.value.dialogState is VpnSettingsDialogState.DnsDialog &&
-                vmState.value.customDnsList.isEmpty()
+            vmState.value.customDnsList.isEmpty()
         ) {
             onToggleDnsClick(false)
         }
@@ -425,7 +427,7 @@ class VpnSettingsViewModel(
             repository.setDnsOptions(
                 isEnabled,
                 dnsList = vmState.value.customDnsList.map { it.address }.asInetAddressList(),
-                contentBlockersOptions = vmState.value.contentBlockersOptions
+                contentBlockersOptions = vmState.value.contentBlockersOptions,
             )
         }
     }

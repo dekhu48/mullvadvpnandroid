@@ -1,8 +1,8 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.gradle.configurationcache.extensions.capitalized
 import java.io.FileInputStream
 import java.util.*
-import org.gradle.configurationcache.extensions.capitalized
 
 plugins {
     id(Dependencies.Plugin.androidApplicationId)
@@ -69,7 +69,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         create(BuildTypes.FDROID) {
@@ -135,7 +135,7 @@ android {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
                 // Opt-in option for Koin annotation of KoinComponent.
-                "-opt-in=kotlin.RequiresOptIn"
+                "-opt-in=kotlin.RequiresOptIn",
             )
     }
 
@@ -167,7 +167,7 @@ android {
                     "META-INF/LGPL2.1",
                     // Fixes packaging error caused by: jetified-junit-*
                     "META-INF/LICENSE.md",
-                    "META-INF/LICENSE-notice.md"
+                    "META-INF/LICENSE-notice.md",
                 )
         }
     }
@@ -187,7 +187,7 @@ android {
         buildConfigField(
             "boolean",
             "ENABLE_IN_APP_VERSION_NOTIFICATIONS",
-            enableInAppVersionNotifications
+            enableInAppVersionNotifications,
         )
     }
 
@@ -212,7 +212,7 @@ android {
 
         val variantName = name
         val capitalizedVariantName = variantName.capitalized()
-        val artifactName = "MullvadVPN-${versionName}${artifactSuffix}"
+        val artifactName = "MullvadVPN-${versionName}$artifactSuffix"
 
         tasks.register<Copy>("create${capitalizedVariantName}DistApk") {
             from(packageApplicationProvider)

@@ -65,17 +65,17 @@ private fun PreviewWelcomeScreen() {
         WelcomeScreen(
             showSitePayment = true,
             uiState =
-                WelcomeUiState(
-                    accountNumber = "4444555566667777",
-                    deviceName = "Happy Mole",
-                    billingPaymentState =
-                        PaymentState.PaymentAvailable(
-                            products =
-                                listOf(
-                                    PaymentProduct(ProductId("product"), ProductPrice("$44"), null)
-                                )
-                        )
+            WelcomeUiState(
+                accountNumber = "4444555566667777",
+                deviceName = "Happy Mole",
+                billingPaymentState =
+                PaymentState.PaymentAvailable(
+                    products =
+                    listOf(
+                        PaymentProduct(ProductId("product"), ProductPrice("$44"), null),
+                    ),
                 ),
+            ),
             uiSideEffect = MutableSharedFlow<WelcomeViewModel.UiSideEffect>().asSharedFlow(),
             onSitePaymentClick = {},
             onRedeemVoucherClick = {},
@@ -83,7 +83,7 @@ private fun PreviewWelcomeScreen() {
             onAccountClick = {},
             openConnectScreen = {},
             onPurchaseBillingProductClick = { _, _ -> },
-            onClosePurchaseResultDialog = {}
+            onClosePurchaseResultDialog = {},
         )
     }
 }
@@ -99,7 +99,7 @@ fun WelcomeScreen(
     onAccountClick: () -> Unit,
     openConnectScreen: () -> Unit,
     onPurchaseBillingProductClick: (productId: ProductId, activityProvider: () -> Activity) -> Unit,
-    onClosePurchaseResultDialog: (success: Boolean) -> Unit
+    onClosePurchaseResultDialog: (success: Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     LaunchedEffect(Unit) {
@@ -121,7 +121,7 @@ fun WelcomeScreen(
         PaymentDialog(
             paymentDialogData = uiState.paymentDialogData,
             retryPurchase = { onPurchaseBillingProductClick(it) { context as Activity } },
-            onCloseDialog = onClosePurchaseResultDialog
+            onCloseDialog = onClosePurchaseResultDialog,
         )
     }
 
@@ -130,39 +130,39 @@ fun WelcomeScreen(
 
     ScaffoldWithTopBar(
         topBarColor =
-            if (uiState.tunnelState.isSecured()) {
-                MaterialTheme.colorScheme.inversePrimary
-            } else {
-                MaterialTheme.colorScheme.error
-            },
+        if (uiState.tunnelState.isSecured()) {
+            MaterialTheme.colorScheme.inversePrimary
+        } else {
+            MaterialTheme.colorScheme.error
+        },
         statusBarColor =
-            if (uiState.tunnelState.isSecured()) {
-                MaterialTheme.colorScheme.inversePrimary
-            } else {
-                MaterialTheme.colorScheme.error
-            },
+        if (uiState.tunnelState.isSecured()) {
+            MaterialTheme.colorScheme.inversePrimary
+        } else {
+            MaterialTheme.colorScheme.error
+        },
         navigationBarColor = MaterialTheme.colorScheme.background,
         iconTintColor =
-            if (uiState.tunnelState.isSecured()) {
-                    MaterialTheme.colorScheme.onPrimary
-                } else {
-                    MaterialTheme.colorScheme.onError
-                }
-                .copy(alpha = AlphaTopBar),
+        if (uiState.tunnelState.isSecured()) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.onError
+        }
+            .copy(alpha = AlphaTopBar),
         onSettingsClicked = onSettingsClick,
         onAccountClicked = onAccountClick,
-        snackbarHostState = snackbarHostState
+        snackbarHostState = snackbarHostState,
     ) {
         Column(
             modifier =
-                Modifier.fillMaxSize()
-                    .padding(it)
-                    .verticalScroll(scrollState)
-                    .drawVerticalScrollbar(
-                        state = scrollState,
-                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaScrollbar)
-                    )
-                    .background(color = MaterialTheme.colorScheme.primary)
+            Modifier.fillMaxSize()
+                .padding(it)
+                .verticalScroll(scrollState)
+                .drawVerticalScrollbar(
+                    state = scrollState,
+                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaScrollbar),
+                )
+                .background(color = MaterialTheme.colorScheme.primary),
         ) {
             // Welcome info area
             WelcomeInfo(snackbarHostState, uiState, showSitePayment)
@@ -176,7 +176,7 @@ fun WelcomeScreen(
                 onSitePaymentClick = onSitePaymentClick,
                 onRedeemVoucherClick = onRedeemVoucherClick,
                 onPurchaseBillingProductClick = onPurchaseBillingProductClick,
-                onPaymentInfoClick = { showVerificationPendingDialog = true }
+                onPaymentInfoClick = { showVerificationPendingDialog = true },
             )
         }
     }
@@ -186,33 +186,33 @@ fun WelcomeScreen(
 private fun WelcomeInfo(
     snackbarHostState: SnackbarHostState,
     uiState: WelcomeUiState,
-    showSitePayment: Boolean
+    showSitePayment: Boolean,
 ) {
     Column {
         Text(
             text = stringResource(id = R.string.congrats),
             modifier =
-                Modifier.fillMaxWidth()
-                    .padding(
-                        top = Dimens.screenVerticalMargin,
-                        start = Dimens.sideMargin,
-                        end = Dimens.sideMargin
-                    ),
+            Modifier.fillMaxWidth()
+                .padding(
+                    top = Dimens.screenVerticalMargin,
+                    start = Dimens.sideMargin,
+                    end = Dimens.sideMargin,
+                ),
             style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.onPrimary,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
         )
         Text(
             text = stringResource(id = R.string.here_is_your_account_number),
             modifier =
-                Modifier.fillMaxWidth()
-                    .padding(
-                        horizontal = Dimens.sideMargin,
-                        vertical = Dimens.smallPadding,
-                    ),
+            Modifier.fillMaxWidth()
+                .padding(
+                    horizontal = Dimens.sideMargin,
+                    vertical = Dimens.smallPadding,
+                ),
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
         )
 
         AccountNumberRow(snackbarHostState, uiState)
@@ -221,22 +221,22 @@ private fun WelcomeInfo(
 
         Text(
             text =
-                buildString {
-                    append(stringResource(id = R.string.pay_to_start_using))
-                    if (showSitePayment) {
-                        append(" ")
-                        append(stringResource(id = R.string.add_time_to_account))
-                    }
-                },
+            buildString {
+                append(stringResource(id = R.string.pay_to_start_using))
+                if (showSitePayment) {
+                    append(" ")
+                    append(stringResource(id = R.string.add_time_to_account))
+                }
+            },
             modifier =
-                Modifier.padding(
-                    top = Dimens.smallPadding,
-                    bottom = Dimens.verticalSpace,
-                    start = Dimens.sideMargin,
-                    end = Dimens.sideMargin
-                ),
+            Modifier.padding(
+                top = Dimens.smallPadding,
+                bottom = Dimens.verticalSpace,
+                start = Dimens.sideMargin,
+                end = Dimens.sideMargin,
+            ),
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     }
 }
@@ -253,15 +253,15 @@ private fun AccountNumberRow(snackbarHostState: SnackbarHostState, uiState: Welc
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier =
-            Modifier.fillMaxWidth()
-                .clickable(onClick = onCopyToClipboard)
-                .padding(horizontal = Dimens.sideMargin)
+        Modifier.fillMaxWidth()
+            .clickable(onClick = onCopyToClipboard)
+            .padding(horizontal = Dimens.sideMargin),
     ) {
         Text(
             text = uiState.accountNumber?.groupWithSpaces() ?: "",
             modifier = Modifier.weight(1f).padding(vertical = Dimens.smallPadding),
             style = MaterialTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
         )
 
         CopyAnimatedIconButton(onCopyToClipboard)
@@ -277,26 +277,26 @@ fun DeviceNameRow(deviceName: String?) {
         Text(
             modifier = Modifier.weight(1f, fill = false),
             text =
-                buildString {
-                    append(stringResource(id = R.string.device_name))
-                    append(": ")
-                    append(deviceName)
-                },
+            buildString {
+                append(stringResource(id = R.string.device_name))
+                append(": ")
+                append(deviceName)
+            },
             style = MaterialTheme.typography.bodySmall,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
         )
 
         var showDeviceNameDialog by remember { mutableStateOf(false) }
         IconButton(
             modifier = Modifier.align(Alignment.CenterVertically),
-            onClick = { showDeviceNameDialog = true }
+            onClick = { showDeviceNameDialog = true },
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_info),
                 contentDescription = null,
-                tint = MullvadWhite
+                tint = MullvadWhite,
             )
         }
         if (showDeviceNameDialog) {
@@ -312,14 +312,14 @@ private fun PaymentPanel(
     onSitePaymentClick: () -> Unit,
     onRedeemVoucherClick: () -> Unit,
     onPurchaseBillingProductClick: (productId: ProductId, activityProvider: () -> Activity) -> Unit,
-    onPaymentInfoClick: () -> Unit
+    onPaymentInfoClick: () -> Unit,
 ) {
     val context = LocalContext.current
     Column(
         modifier =
-            Modifier.fillMaxWidth()
-                .padding(top = Dimens.mediumPadding)
-                .background(color = MaterialTheme.colorScheme.background)
+        Modifier.fillMaxWidth()
+            .padding(top = Dimens.mediumPadding)
+            .background(color = MaterialTheme.colorScheme.background),
     ) {
         Spacer(modifier = Modifier.padding(top = Dimens.screenVerticalMargin))
         billingPaymentState?.let {
@@ -330,12 +330,12 @@ private fun PaymentPanel(
                 },
                 onInfoClick = onPaymentInfoClick,
                 modifier =
-                    Modifier.padding(
-                            start = Dimens.sideMargin,
-                            end = Dimens.sideMargin,
-                            bottom = Dimens.buttonSpacing
-                        )
-                        .align(Alignment.CenterHorizontally)
+                Modifier.padding(
+                    start = Dimens.sideMargin,
+                    end = Dimens.sideMargin,
+                    bottom = Dimens.buttonSpacing,
+                )
+                    .align(Alignment.CenterHorizontally),
             )
         }
         if (showSitePayment) {
@@ -343,22 +343,22 @@ private fun PaymentPanel(
                 onClick = onSitePaymentClick,
                 isEnabled = true,
                 modifier =
-                    Modifier.padding(
-                        start = Dimens.sideMargin,
-                        end = Dimens.sideMargin,
-                        bottom = Dimens.buttonSpacing
-                    )
+                Modifier.padding(
+                    start = Dimens.sideMargin,
+                    end = Dimens.sideMargin,
+                    bottom = Dimens.buttonSpacing,
+                ),
             )
         }
         RedeemVoucherButton(
             onClick = onRedeemVoucherClick,
             isEnabled = true,
             modifier =
-                Modifier.padding(
-                    start = Dimens.sideMargin,
-                    end = Dimens.sideMargin,
-                    bottom = Dimens.screenVerticalMargin
-                )
+            Modifier.padding(
+                start = Dimens.sideMargin,
+                end = Dimens.sideMargin,
+                bottom = Dimens.screenVerticalMargin,
+            ),
         )
     }
 }

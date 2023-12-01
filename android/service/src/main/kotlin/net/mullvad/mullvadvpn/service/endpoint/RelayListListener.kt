@@ -1,6 +1,5 @@
 package net.mullvad.mullvadvpn.service.endpoint
 
-import kotlin.properties.Delegates.observable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,10 +16,11 @@ import net.mullvad.mullvadvpn.model.RelayList
 import net.mullvad.mullvadvpn.model.RelaySettings
 import net.mullvad.mullvadvpn.model.WireguardConstraints
 import net.mullvad.mullvadvpn.service.MullvadDaemon
+import kotlin.properties.Delegates.observable
 
 class RelayListListener(
     endpoint: ServiceEndpoint,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
     private val daemon = endpoint.intermittentDaemon
@@ -47,9 +47,9 @@ class RelayListListener(
                         getCurrentRelayConstraints()
                             .copy(
                                 location =
-                                    Constraint.Only(
-                                        LocationConstraint.Location(request.relayLocation)
-                                    )
+                                Constraint.Only(
+                                    LocationConstraint.Location(request.relayLocation),
+                                ),
                             )
                     daemon.await().setRelaySettings(RelaySettings.Normal(update))
                 }
@@ -109,7 +109,7 @@ class RelayListListener(
                     location = Constraint.Any(),
                     providers = Constraint.Any(),
                     ownership = Constraint.Any(),
-                    wireguardConstraints = WireguardConstraints(Constraint.Any())
+                    wireguardConstraints = WireguardConstraints(Constraint.Any()),
                 )
         }
 }

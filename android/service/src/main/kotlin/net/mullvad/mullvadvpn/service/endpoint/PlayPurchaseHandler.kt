@@ -13,7 +13,7 @@ import net.mullvad.mullvadvpn.model.PlayPurchase
 
 class PlayPurchaseHandler(
     private val endpoint: ServiceEndpoint,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
     private val daemon

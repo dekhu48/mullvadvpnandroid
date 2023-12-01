@@ -18,7 +18,7 @@ import net.mullvad.mullvadvpn.ui.serviceconnection.RelayListListener
 
 class RelayListUseCase(
     private val relayListListener: RelayListListener,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
 ) {
 
     fun updateSelectedRelayLocation(value: GeographicLocationConstraint) {
@@ -31,8 +31,9 @@ class RelayListUseCase(
 
     fun relayListWithSelection(): Flow<RelayList> =
         combine(relayListListener.relayListEvents, settingsRepository.settingsUpdates) {
-            relayList,
-            settings ->
+                relayList,
+                settings,
+            ->
             val ownership =
                 settings?.relaySettings?.relayConstraints()?.ownership ?: Constraint.Any()
             val providers =

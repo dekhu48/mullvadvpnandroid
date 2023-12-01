@@ -6,13 +6,13 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
-import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import net.mullvad.mullvadvpn.model.ServiceResult
+import kotlin.coroutines.EmptyCoroutineContext
 
 fun <T> SendChannel<T>.safeOffer(element: T): Boolean {
     return runCatching { trySend(element).isSuccess }.getOrDefault(false)

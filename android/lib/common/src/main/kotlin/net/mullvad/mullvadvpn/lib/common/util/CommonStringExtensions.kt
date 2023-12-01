@@ -17,11 +17,11 @@ fun String.parseAsDateTime(): DateTime? {
 
 fun String.groupWithSpaces(groupCharSize: Int = 4): String {
     return fold(StringBuilder()) { formattedText, nextDigit ->
-            if ((formattedText.length % (groupCharSize + 1)) == groupCharSize) {
-                formattedText.append(SPACE_CHAR)
-            }
-            formattedText.append(nextDigit)
+        if ((formattedText.length % (groupCharSize + 1)) == groupCharSize) {
+            formattedText.append(SPACE_CHAR)
         }
+        formattedText.append(nextDigit)
+    }
         .toString()
 }
 

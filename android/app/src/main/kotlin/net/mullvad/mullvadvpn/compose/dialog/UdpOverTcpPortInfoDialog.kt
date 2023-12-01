@@ -15,6 +15,6 @@ private fun PreviewUdpOverTcpPortInfoDialog() {
 fun UdpOverTcpPortInfoDialog(onDismiss: () -> Unit) {
     InfoDialog(
         message = stringResource(id = R.string.udp_over_tcp_port_info),
-        onDismiss = onDismiss
+        onDismiss = onDismiss,
     )
 }

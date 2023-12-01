@@ -55,16 +55,16 @@ fun ScaffoldWithTopBar(
                 iconTintColor = iconTintColor,
                 onSettingsClicked = onSettingsClicked,
                 onAccountClicked = onAccountClicked,
-                isIconAndLogoVisible = isIconAndLogoVisible
+                isIconAndLogoVisible = isIconAndLogoVisible,
             )
         },
         snackbarHost = {
             SnackbarHost(
                 snackbarHostState,
-                snackbar = { snackbarData -> MullvadSnackbar(snackbarData = snackbarData) }
+                snackbar = { snackbarData -> MullvadSnackbar(snackbarData = snackbarData) },
             )
         },
-        content = content
+        content = content,
     )
 }
 
@@ -102,17 +102,17 @@ fun ScaffoldWithTopBarAndDeviceName(
                     onAccountClicked = onAccountClicked,
                     isIconAndLogoVisible = isIconAndLogoVisible,
                     deviceName = deviceName,
-                    daysLeftUntilExpiry = timeLeft
+                    daysLeftUntilExpiry = timeLeft,
                 )
             }
         },
         snackbarHost = {
             SnackbarHost(
                 snackbarHostState,
-                snackbar = { snackbarData -> MullvadSnackbar(snackbarData = snackbarData) }
+                snackbar = { snackbarData -> MullvadSnackbar(snackbarData = snackbarData) },
             )
         },
-        content = content
+        content = content,
     )
 }
 
@@ -130,9 +130,8 @@ fun ScaffoldWithMediumTopBar(
     actions: @Composable RowScope.() -> Unit = {},
     lazyListState: LazyListState = rememberLazyListState(),
     scrollbarColor: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaScrollbar),
-    content: @Composable (modifier: Modifier, lazyListState: LazyListState) -> Unit
+    content: @Composable (modifier: Modifier, lazyListState: LazyListState) -> Unit,
 ) {
-
     val appBarState = rememberTopAppBarState()
     val canScroll = lazyListState.canScrollForward || lazyListState.canScrollBackward
     val scrollBehavior =
@@ -144,7 +143,7 @@ fun ScaffoldWithMediumTopBar(
                 title = appBarTitle,
                 navigationIcon = navigationIcon,
                 actions,
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
             )
         },
         content = {
@@ -152,9 +151,9 @@ fun ScaffoldWithMediumTopBar(
                 Modifier.fillMaxSize()
                     .padding(it)
                     .drawVerticalScrollbar(state = lazyListState, color = scrollbarColor),
-                lazyListState
+                lazyListState,
             )
-        }
+        },
     )
 }
 
@@ -166,7 +165,7 @@ fun ScaffoldWithMediumTopBar(
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
     scrollbarColor: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaScrollbar),
-    content: @Composable (modifier: Modifier) -> Unit
+    content: @Composable (modifier: Modifier) -> Unit,
 ) {
     val appBarState = rememberTopAppBarState()
     val scrollState = rememberScrollState()
@@ -180,7 +179,7 @@ fun ScaffoldWithMediumTopBar(
                 title = appBarTitle,
                 navigationIcon = navigationIcon,
                 actions,
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
             )
         },
         content = {
@@ -188,8 +187,8 @@ fun ScaffoldWithMediumTopBar(
                 Modifier.fillMaxSize()
                     .padding(it)
                     .drawVerticalScrollbar(state = scrollState, color = scrollbarColor)
-                    .verticalScroll(scrollState)
+                    .verticalScroll(scrollState),
             )
-        }
+        },
     )
 }

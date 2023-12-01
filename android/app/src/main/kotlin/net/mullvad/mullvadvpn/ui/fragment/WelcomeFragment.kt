@@ -21,7 +21,7 @@ class WelcomeFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_compose, container, false).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
@@ -37,7 +37,7 @@ class WelcomeFragment : BaseFragment() {
                         onAccountClick = ::openAccountView,
                         openConnectScreen = ::advanceToConnectScreen,
                         onPurchaseBillingProductClick = vm::startBillingPayment,
-                        onClosePurchaseResultDialog = vm::onClosePurchaseResultDialog
+                        onClosePurchaseResultDialog = vm::onClosePurchaseResultDialog,
                     )
                 }
             }

@@ -28,12 +28,12 @@ private fun PreviewDnsDialogNew() {
     AppTheme {
         DnsDialog(
             stagedDns =
-                StagedDns.NewDns(CustomDnsItem.default(), StagedDns.ValidationResult.Success),
+            StagedDns.NewDns(CustomDnsItem.default(), StagedDns.ValidationResult.Success),
             isAllowLanEnabled = true,
             onIpAddressChanged = {},
             onAttemptToSave = {},
             onRemove = {},
-            onDismiss = {}
+            onDismiss = {},
         )
     }
 }
@@ -44,16 +44,16 @@ private fun PreviewDnsDialogEdit() {
     AppTheme {
         DnsDialog(
             stagedDns =
-                StagedDns.EditDns(
-                    CustomDnsItem("1.1.1.1", false),
-                    StagedDns.ValidationResult.Success,
-                    0
-                ),
+            StagedDns.EditDns(
+                CustomDnsItem("1.1.1.1", false),
+                StagedDns.ValidationResult.Success,
+                0,
+            ),
             isAllowLanEnabled = true,
             onIpAddressChanged = {},
             onAttemptToSave = {},
             onRemove = {},
-            onDismiss = {}
+            onDismiss = {},
         )
     }
 }
@@ -64,16 +64,16 @@ private fun PreviewDnsDialogEditAllowLanDisabled() {
     AppTheme {
         DnsDialog(
             stagedDns =
-                StagedDns.EditDns(
-                    CustomDnsItem(address = "1.1.1.1", isLocal = true),
-                    StagedDns.ValidationResult.Success,
-                    0
-                ),
+            StagedDns.EditDns(
+                CustomDnsItem(address = "1.1.1.1", isLocal = true),
+                StagedDns.ValidationResult.Success,
+                0,
+            ),
             isAllowLanEnabled = false,
             onIpAddressChanged = {},
             onAttemptToSave = {},
             onRemove = {},
-            onDismiss = {}
+            onDismiss = {},
         )
     }
 }
@@ -85,19 +85,19 @@ fun DnsDialog(
     onIpAddressChanged: (String) -> Unit,
     onAttemptToSave: () -> Unit,
     onRemove: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     AlertDialog(
         title = {
             Text(
                 text =
-                    if (stagedDns is StagedDns.NewDns) {
-                        stringResource(R.string.add_dns_server_dialog_title)
-                    } else {
-                        stringResource(R.string.update_dns_server_dialog_title)
-                    },
+                if (stagedDns is StagedDns.NewDns) {
+                    stringResource(R.string.add_dns_server_dialog_title)
+                } else {
+                    stringResource(R.string.update_dns_server_dialog_title)
+                },
                 color = Color.White,
-                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal)
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Normal),
             )
         },
         text = {
@@ -109,13 +109,13 @@ fun DnsDialog(
                     onSubmit = { onAttemptToSave() },
                     isEnabled = true,
                     placeholderText = stringResource(R.string.custom_dns_hint),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 val errorMessage =
                     when {
                         stagedDns.validationResult is
-                            StagedDns.ValidationResult.DuplicateAddress -> {
+                        StagedDns.ValidationResult.DuplicateAddress -> {
                             stringResource(R.string.duplicate_address_warning)
                         }
                         stagedDns.item.isLocal && isAllowLanEnabled.not() -> {
@@ -131,7 +131,7 @@ fun DnsDialog(
                         text = errorMessage,
                         style = MaterialTheme.typography.bodySmall,
                         color = MullvadRed,
-                        modifier = Modifier.padding(top = Dimens.smallPadding)
+                        modifier = Modifier.padding(top = Dimens.smallPadding),
                     )
                 }
             }
@@ -149,14 +149,14 @@ fun DnsDialog(
                     PrimaryButton(
                         modifier = Modifier.fillMaxWidth(),
                         onClick = onRemove,
-                        text = stringResource(id = R.string.remove_button)
+                        text = stringResource(id = R.string.remove_button),
                     )
                 }
 
                 PrimaryButton(
                     modifier = Modifier.fillMaxWidth(),
                     onClick = onDismiss,
-                    text = stringResource(id = R.string.cancel)
+                    text = stringResource(id = R.string.cancel),
                 )
             }
         },

@@ -8,7 +8,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.runner.AndroidJUnit4
 import androidx.test.uiautomator.UiDevice
-import java.net.InetAddress
 import net.mullvad.mullvadvpn.lib.endpoint.CustomApiEndpointConfiguration
 import net.mullvad.mullvadvpn.test.common.interactor.AppInteractor
 import net.mullvad.mullvadvpn.test.common.rule.CaptureScreenshotOnFailedTestRule
@@ -18,11 +17,13 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
+import java.net.InetAddress
 
 @RunWith(AndroidJUnit4::class)
 abstract class MockApiTest {
 
-    @Rule @JvmField val rule = CaptureScreenshotOnFailedTestRule(LOG_TAG)
+    @Rule @JvmField
+    val rule = CaptureScreenshotOnFailedTestRule(LOG_TAG)
 
     @Rule
     @JvmField
@@ -60,7 +61,7 @@ abstract class MockApiTest {
             port,
             disableAddressCache = true,
             disableTls = true,
-            forceDirectConnection = true
+            forceDirectConnection = true,
         )
     }
 }

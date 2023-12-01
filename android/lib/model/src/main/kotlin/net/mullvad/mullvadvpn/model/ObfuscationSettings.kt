@@ -6,5 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ObfuscationSettings(
     val selectedObfuscation: SelectedObfuscation,
-    val udp2tcp: Udp2TcpObfuscationSettings
+    val udp2tcp: Udp2TcpObfuscationSettings,
 ) : Parcelable

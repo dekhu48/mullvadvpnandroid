@@ -34,7 +34,7 @@ class RedeemVoucherDialogTest {
                 uiState = VoucherDialogUiState.INITIAL,
                 onVoucherInputChange = {},
                 onRedeem = {},
-                onDismiss = mockedClickHandler
+                onDismiss = mockedClickHandler,
             )
         }
 
@@ -52,10 +52,10 @@ class RedeemVoucherDialogTest {
         composeTestRule.setContentWithTheme {
             RedeemVoucherDialogScreen(
                 uiState =
-                    VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Success(0)),
+                VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Success(0)),
                 onVoucherInputChange = {},
                 onRedeem = {},
-                onDismiss = mockedClickHandler
+                onDismiss = mockedClickHandler,
             )
         }
 
@@ -75,7 +75,7 @@ class RedeemVoucherDialogTest {
                 uiState = VoucherDialogUiState(),
                 onVoucherInputChange = mockedClickHandler,
                 onRedeem = {},
-                onDismiss = {}
+                onDismiss = {},
             )
         }
 
@@ -92,10 +92,10 @@ class RedeemVoucherDialogTest {
         composeTestRule.setContentWithTheme {
             RedeemVoucherDialogScreen(
                 uiState =
-                    VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Verifying),
+                VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Verifying),
                 onVoucherInputChange = {},
                 onRedeem = {},
-                onDismiss = {}
+                onDismiss = {},
             )
         }
 
@@ -109,10 +109,10 @@ class RedeemVoucherDialogTest {
         composeTestRule.setContentWithTheme {
             RedeemVoucherDialogScreen(
                 uiState =
-                    VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Success(0)),
+                VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Success(0)),
                 onVoucherInputChange = {},
                 onRedeem = {},
-                onDismiss = {}
+                onDismiss = {},
             )
         }
 
@@ -126,12 +126,12 @@ class RedeemVoucherDialogTest {
         composeTestRule.setContentWithTheme {
             RedeemVoucherDialogScreen(
                 uiState =
-                    VoucherDialogUiState(
-                        voucherViewModelState = VoucherDialogState.Error(ERROR_MESSAGE)
-                    ),
+                VoucherDialogUiState(
+                    voucherViewModelState = VoucherDialogState.Error(ERROR_MESSAGE),
+                ),
                 onVoucherInputChange = {},
                 onRedeem = {},
-                onDismiss = {}
+                onDismiss = {},
             )
         }
 

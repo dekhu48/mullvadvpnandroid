@@ -108,7 +108,7 @@ open class MainActivity : FragmentActivity() {
 
         if (privacyDisclaimerRepository.hasAcceptedPrivacyDisclosure()) {
             initializeStateHandlerAndServiceConnection(
-                apiEndpointConfiguration = intent?.getApiEndpointConfigurationExtras()
+                apiEndpointConfiguration = intent?.getApiEndpointConfigurationExtras(),
             )
         } else {
             openPrivacyDisclaimerFragment()
@@ -116,13 +116,13 @@ open class MainActivity : FragmentActivity() {
     }
 
     fun initializeStateHandlerAndServiceConnection(
-        apiEndpointConfiguration: ApiEndpointConfiguration?
+        apiEndpointConfiguration: ApiEndpointConfiguration?,
     ) {
         deviceStateJob = launchDeviceStateHandler()
         checkForNotificationPermission()
         serviceConnectionManager.bind(
             vpnPermissionRequestHandler = ::requestVpnPermission,
-            apiEndpointConfiguration = apiEndpointConfiguration
+            apiEndpointConfiguration = apiEndpointConfiguration,
         )
     }
 
@@ -152,7 +152,7 @@ open class MainActivity : FragmentActivity() {
                 R.anim.fragment_enter_from_bottom,
                 R.anim.do_nothing,
                 R.anim.do_nothing,
-                R.anim.fragment_exit_to_bottom
+                R.anim.fragment_exit_to_bottom,
             )
             replace(R.id.main_fragment, AccountFragment())
             addToBackStack(null)
@@ -166,7 +166,7 @@ open class MainActivity : FragmentActivity() {
                 R.anim.fragment_enter_from_bottom,
                 R.anim.do_nothing,
                 R.anim.do_nothing,
-                R.anim.fragment_exit_to_bottom
+                R.anim.fragment_exit_to_bottom,
             )
             replace(R.id.main_fragment, SettingsFragment())
             addToBackStack(null)
@@ -183,20 +183,22 @@ open class MainActivity : FragmentActivity() {
                         it.addDebounceForUnknownState(UNKNOWN_STATE_DEBOUNCE_DELAY_MILLISECONDS)
                     }
                     .collect { newState ->
-                        if (newState != currentDeviceState)
+                        if (newState != currentDeviceState) {
                             when (newState) {
                                 is DeviceState.Initial,
-                                is DeviceState.Unknown -> openLaunchView()
+                                is DeviceState.Unknown,
+                                -> openLaunchView()
                                 is DeviceState.LoggedOut -> openLoginView()
                                 is DeviceState.Revoked -> openRevokedView()
                                 is DeviceState.LoggedIn -> {
                                     openLoggedInView(
                                         accountToken = newState.accountAndDevice.account_token,
                                         shouldDelayLogin =
-                                            currentDeviceState is DeviceState.LoggedOut
+                                        currentDeviceState is DeviceState.LoggedOut,
                                     )
                                 }
                             }
+                        }
                         currentDeviceState = newState
                     }
             }
@@ -219,7 +221,7 @@ open class MainActivity : FragmentActivity() {
                         ChangelogDialog(
                             changesList = state.changes,
                             version = BuildConfig.VERSION_NAME,
-                            onDismiss = { changelogViewModel.dismissChangelogDialog() }
+                            onDismiss = { changelogViewModel.dismissChangelogDialog() },
                         )
                     }
                 }
@@ -302,7 +304,7 @@ open class MainActivity : FragmentActivity() {
                 R.anim.fragment_enter_from_right,
                 R.anim.fragment_exit_to_left,
                 R.anim.fragment_half_enter_from_left,
-                R.anim.fragment_exit_to_right
+                R.anim.fragment_exit_to_right,
             )
             replace(R.id.main_fragment, DeviceRevokedFragment())
             commitAllowingStateLoss()

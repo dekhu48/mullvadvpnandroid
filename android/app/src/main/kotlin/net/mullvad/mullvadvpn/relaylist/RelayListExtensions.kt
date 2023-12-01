@@ -4,8 +4,8 @@ import net.mullvad.mullvadvpn.model.Constraint
 import net.mullvad.mullvadvpn.model.GeographicLocationConstraint
 import net.mullvad.mullvadvpn.model.Ownership
 import net.mullvad.mullvadvpn.model.Providers
-import net.mullvad.mullvadvpn.model.Relay as DaemonRelay
 import net.mullvad.mullvadvpn.model.RelayList
+import net.mullvad.mullvadvpn.model.Relay as DaemonRelay
 
 /**
  * Convert from a model.RelayList to list of relaylist.RelayCountry Non-wiregaurd relays are
@@ -14,7 +14,7 @@ import net.mullvad.mullvadvpn.model.RelayList
  */
 fun RelayList.toRelayCountries(
     ownership: Constraint<Ownership>,
-    providers: Constraint<Providers>
+    providers: Constraint<Providers>,
 ): List<RelayCountry> {
     val relayCountries =
         this.countries
@@ -30,7 +30,7 @@ fun RelayList.toRelayCountries(
                             code = city.code,
                             location = GeographicLocationConstraint.City(country.code, city.code),
                             expanded = false,
-                            relays = relays
+                            relays = relays,
                         )
 
                     val validCityRelays =
@@ -41,14 +41,14 @@ fun RelayList.toRelayCountries(
                             Relay(
                                 name = relay.hostname,
                                 location =
-                                    GeographicLocationConstraint.Hostname(
-                                        country.code,
-                                        city.code,
-                                        relay.hostname
-                                    ),
+                                GeographicLocationConstraint.Hostname(
+                                    country.code,
+                                    city.code,
+                                    relay.hostname,
+                                ),
                                 locationName = "${city.name} (${relay.hostname})",
-                                active = relay.active
-                            )
+                                active = relay.active,
+                            ),
                         )
                     }
                     relays.sortWith(RelayNameComparator)
@@ -70,7 +70,7 @@ fun RelayList.toRelayCountries(
 }
 
 fun List<RelayCountry>.findItemForLocation(
-    constraint: Constraint<GeographicLocationConstraint>
+    constraint: Constraint<GeographicLocationConstraint>,
 ): RelayItem? {
     return when (constraint) {
         is Constraint.Any -> null
@@ -104,7 +104,7 @@ fun List<RelayCountry>.findItemForLocation(
  */
 fun List<RelayCountry>.filterOnSearchTerm(
     searchTerm: String,
-    selectedItem: RelayItem?
+    selectedItem: RelayItem?,
 ): List<RelayCountry> {
     return if (searchTerm.length >= MIN_SEARCH_LENGTH) {
         val filteredCountries = mutableMapOf<String, RelayCountry>()
@@ -179,7 +179,7 @@ fun List<RelayCountry>.filterOnSearchTerm(
 
 private fun List<DaemonRelay>.filterValidRelays(
     ownership: Constraint<Ownership>,
-    providers: Constraint<Providers>
+    providers: Constraint<Providers>,
 ): List<DaemonRelay> =
     filter { it.isWireguardRelay }
         .filter {
@@ -201,7 +201,7 @@ private fun List<DaemonRelay>.filterValidRelays(
 
 /** Expand the parent(s), if any, for the current selected item */
 private fun List<RelayCountry>.expandItemForSelection(
-    selectedItem: RelayItem?
+    selectedItem: RelayItem?,
 ): List<RelayCountry> {
     return selectedItem?.let {
         when (val location = selectedItem.location) {
@@ -223,13 +223,13 @@ private fun List<RelayCountry>.expandItemForSelection(
                         country.copy(
                             expanded = true,
                             cities =
-                                country.cities.map { city ->
-                                    if (city.code == location.cityCode) {
-                                        city.copy(expanded = true)
-                                    } else {
-                                        city
-                                    }
+                            country.cities.map { city ->
+                                if (city.code == location.cityCode) {
+                                    city.copy(expanded = true)
+                                } else {
+                                    city
                                 }
+                            },
                         )
                     } else {
                         country

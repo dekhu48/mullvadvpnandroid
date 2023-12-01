@@ -26,7 +26,7 @@ class AppInteractor(private val device: UiDevice, private val targetContext: Con
         // Wait for launcher
         device.wait(
             Until.hasObject(By.pkg(device.launcherPackageName).depth(0)),
-            APP_LAUNCH_TIMEOUT
+            APP_LAUNCH_TIMEOUT,
         )
 
         val intent =

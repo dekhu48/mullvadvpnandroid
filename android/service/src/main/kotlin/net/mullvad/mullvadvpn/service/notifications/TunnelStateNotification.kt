@@ -7,7 +7,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
-import kotlin.properties.Delegates.observable
 import net.mullvad.mullvadvpn.lib.common.constant.MAIN_ACTIVITY_CLASS
 import net.mullvad.mullvadvpn.lib.common.util.SdkUtils
 import net.mullvad.mullvadvpn.lib.common.util.SdkUtils.isNotificationPermissionGranted
@@ -16,6 +15,7 @@ import net.mullvad.mullvadvpn.model.TunnelState
 import net.mullvad.mullvadvpn.service.R
 import net.mullvad.talpid.tunnel.ActionAfterDisconnect
 import net.mullvad.talpid.tunnel.ErrorStateCause
+import kotlin.properties.Delegates.observable
 
 class TunnelStateNotification(val context: Context) {
     private val channel =
@@ -27,7 +27,7 @@ class TunnelStateNotification(val context: Context) {
             R.string.foreground_notification_channel_description,
             NotificationManager.IMPORTANCE_MIN,
             false,
-            false
+            false,
         )
 
     private val notificationText: Int
@@ -68,7 +68,8 @@ class TunnelStateNotification(val context: Context) {
                 is TunnelState.Disconnected,
                 is TunnelState.Connecting,
                 is TunnelState.Disconnecting,
-                is TunnelState.Error -> false
+                is TunnelState.Error,
+                -> false
             }
 
     private var reconnecting = false
@@ -100,8 +101,8 @@ class TunnelStateNotification(val context: Context) {
     private fun update() {
         if (
             context.isNotificationPermissionGranted() &&
-                visible &&
-                (!reconnecting || !showingReconnecting)
+            visible &&
+            (!reconnecting || !showingReconnecting)
         ) {
             channel.notificationManager.notify(NOTIFICATION_ID, build())
         }
@@ -127,7 +128,7 @@ class TunnelStateNotification(val context: Context) {
             pendingIntent,
             notificationText,
             actions,
-            isOngoing = shouldDisplayOngoingNotification
+            isOngoing = shouldDisplayOngoingNotification,
         )
     }
 
@@ -140,7 +141,7 @@ class TunnelStateNotification(val context: Context) {
                 context,
                 1,
                 intent,
-                SdkUtils.getSupportedPendingIntentFlags()
+                SdkUtils.getSupportedPendingIntentFlags(),
             )
 
         return NotificationCompat.Action(action.icon, label, pendingIntent)

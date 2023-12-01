@@ -42,12 +42,12 @@ private fun PreviewSettings() {
     AppTheme {
         SettingsScreen(
             uiState =
-                SettingsUiState(
-                    appVersion = "2222.22",
-                    isLoggedIn = true,
-                    isUpdateAvailable = true
-                ),
-            enterTransitionEndAction = MutableSharedFlow()
+            SettingsUiState(
+                appVersion = "2222.22",
+                isLoggedIn = true,
+                isUpdateAvailable = true,
+            ),
+            enterTransitionEndAction = MutableSharedFlow(),
         )
     }
 }
@@ -60,7 +60,7 @@ fun SettingsScreen(
     onVpnSettingCellClick: () -> Unit = {},
     onSplitTunnelingCellClick: () -> Unit = {},
     onReportProblemCellClick: () -> Unit = {},
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val backgroundColor = MaterialTheme.colorScheme.background
@@ -77,14 +77,14 @@ fun SettingsScreen(
     ) { modifier, lazyListState ->
         LazyColumn(
             modifier = modifier.testTag(LAZY_LIST_TEST_TAG).animateContentSize(),
-            state = lazyListState
+            state = lazyListState,
         ) {
             item { Spacer(modifier = Modifier.height(Dimens.cellLabelVerticalPadding)) }
             if (uiState.isLoggedIn) {
                 item {
                     NavigationComposeCell(
                         title = stringResource(id = R.string.settings_vpn),
-                        onClick = { onVpnSettingCellClick() }
+                        onClick = { onVpnSettingCellClick() },
                     )
                 }
 
@@ -92,7 +92,7 @@ fun SettingsScreen(
                     Spacer(modifier = Modifier.height(Dimens.cellVerticalSpacing))
                     NavigationComposeCell(
                         title = stringResource(id = R.string.split_tunneling),
-                        onClick = { onSplitTunnelingCellClick() }
+                        onClick = { onSplitTunnelingCellClick() },
                     )
                     Spacer(modifier = Modifier.height(Dimens.cellVerticalSpacing))
                 }
@@ -105,29 +105,29 @@ fun SettingsScreen(
                             Uri.parse(
                                 context.resources
                                     .getString(R.string.download_url)
-                                    .appendHideNavOnPlayBuild()
-                            )
+                                    .appendHideNavOnPlayBuild(),
+                            ),
                         )
                     },
                     bodyView =
-                        @Composable {
-                            if (IS_PLAY_BUILD.not()) {
-                                NavigationCellBody(
-                                    content = uiState.appVersion,
-                                    contentBodyDescription =
-                                        stringResource(id = R.string.app_version),
-                                    isExternalLink = true,
-                                )
-                            } else {
-                                Text(
-                                    text = uiState.appVersion,
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onSecondary
-                                )
-                            }
-                        },
+                    @Composable {
+                        if (IS_PLAY_BUILD.not()) {
+                            NavigationCellBody(
+                                content = uiState.appVersion,
+                                contentBodyDescription =
+                                stringResource(id = R.string.app_version),
+                                isExternalLink = true,
+                            )
+                        } else {
+                            Text(
+                                text = uiState.appVersion,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSecondary,
+                            )
+                        }
+                    },
                     showWarning = uiState.isUpdateAvailable,
-                    isRowEnabled = IS_PLAY_BUILD.not()
+                    isRowEnabled = IS_PLAY_BUILD.not(),
                 )
             }
             if (uiState.isUpdateAvailable) {
@@ -137,13 +137,13 @@ fun SettingsScreen(
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSecondary,
                         modifier =
-                            Modifier.background(MaterialTheme.colorScheme.secondary)
-                                .padding(
-                                    start = Dimens.cellStartPadding,
-                                    top = Dimens.cellTopPadding,
-                                    end = Dimens.cellStartPadding,
-                                    bottom = Dimens.cellLabelVerticalPadding,
-                                )
+                        Modifier.background(MaterialTheme.colorScheme.secondary)
+                            .padding(
+                                start = Dimens.cellStartPadding,
+                                top = Dimens.cellTopPadding,
+                                end = Dimens.cellStartPadding,
+                                bottom = Dimens.cellLabelVerticalPadding,
+                            ),
                     )
                 }
             }
@@ -152,7 +152,7 @@ fun SettingsScreen(
                 Spacer(modifier = Modifier.height(Dimens.cellVerticalSpacing))
                 NavigationComposeCell(
                     title = stringResource(id = R.string.report_a_problem),
-                    onClick = { onReportProblemCellClick() }
+                    onClick = { onReportProblemCellClick() },
                 )
             }
 
@@ -164,9 +164,9 @@ fun SettingsScreen(
                         bodyView = @Composable { DefaultExternalLinkView(faqGuideLabel) },
                         onClick = {
                             context.openLink(
-                                Uri.parse(context.resources.getString(R.string.faqs_and_guides_url))
+                                Uri.parse(context.resources.getString(R.string.faqs_and_guides_url)),
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -181,10 +181,10 @@ fun SettingsScreen(
                             Uri.parse(
                                 context.resources
                                     .getString(R.string.privacy_policy_url)
-                                    .appendHideNavOnPlayBuild()
-                            )
+                                    .appendHideNavOnPlayBuild(),
+                            ),
                         )
-                    }
+                    },
                 )
             }
         }

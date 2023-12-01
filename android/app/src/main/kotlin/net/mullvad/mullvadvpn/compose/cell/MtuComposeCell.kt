@@ -2,7 +2,6 @@ package net.mullvad.mullvadvpn.compose.cell
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth as wrapContentWidth1
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +12,7 @@ import net.mullvad.mullvadvpn.R
 import net.mullvad.mullvadvpn.constant.MTU_MAX_VALUE
 import net.mullvad.mullvadvpn.constant.MTU_MIN_VALUE
 import net.mullvad.mullvadvpn.lib.theme.AppTheme
+import androidx.compose.foundation.layout.wrapContentWidth as wrapContentWidth1
 
 @Preview
 @Composable
@@ -30,7 +30,7 @@ fun MtuComposeCell(
     BaseCell(
         title = { MtuTitle(modifier = titleModifier.weight(1f, true)) },
         bodyView = { MtuBodyView(mtuValue = mtuValue, modifier = titleModifier) },
-        onCellClicked = { onEditMtu.invoke() }
+        onCellClicked = { onEditMtu.invoke() },
     )
 }
 
@@ -40,7 +40,7 @@ private fun MtuTitle(modifier: Modifier) {
         text = stringResource(R.string.wireguard_mtu),
         style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.onPrimary,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -49,7 +49,7 @@ private fun MtuBodyView(mtuValue: String, modifier: Modifier) {
     Row(modifier = modifier.wrapContentWidth1().wrapContentHeight()) {
         Text(
             text = mtuValue.ifEmpty { stringResource(id = R.string.hint_default) },
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     }
 }
@@ -58,6 +58,6 @@ private fun MtuBodyView(mtuValue: String, modifier: Modifier) {
 fun MtuSubtitle(modifier: Modifier = Modifier) {
     BaseSubtitleCell(
         text = stringResource(R.string.wireguard_mtu_footer, MTU_MIN_VALUE, MTU_MAX_VALUE),
-        modifier
+        modifier,
     )
 }

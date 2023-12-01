@@ -36,7 +36,7 @@ private fun PreviewExpandedEnabledExpandableComposeCell() {
             isExpanded = true,
             isEnabled = true,
             onCellClicked = {},
-            onInfoClicked = {}
+            onInfoClicked = {},
         )
     }
 }
@@ -47,7 +47,7 @@ fun ExpandableComposeCell(
     isExpanded: Boolean,
     isEnabled: Boolean = true,
     onCellClicked: (Boolean) -> Unit = {},
-    onInfoClicked: (() -> Unit)? = null
+    onInfoClicked: (() -> Unit)? = null,
 ) {
     val titleModifier = Modifier.alpha(if (isEnabled) AlphaVisible else AlphaInactive)
     val bodyViewModifier = Modifier
@@ -57,17 +57,17 @@ fun ExpandableComposeCell(
             BaseCellTitle(
                 title = title,
                 style = MaterialTheme.typography.titleMedium,
-                modifier = titleModifier.weight(1f, fill = true)
+                modifier = titleModifier.weight(1f, fill = true),
             )
         },
         bodyView = {
             ExpandableComposeCellBody(
                 isExpanded = isExpanded,
                 modifier = bodyViewModifier,
-                onInfoClicked = onInfoClicked
+                onInfoClicked = onInfoClicked,
             )
         },
-        onCellClicked = { onCellClicked(!isExpanded) }
+        onCellClicked = { onCellClicked(!isExpanded) },
     )
 }
 
@@ -75,32 +75,32 @@ fun ExpandableComposeCell(
 private fun ExpandableComposeCellBody(
     isExpanded: Boolean,
     modifier: Modifier,
-    onInfoClicked: (() -> Unit)? = null
+    onInfoClicked: (() -> Unit)? = null,
 ) {
     Row(
         modifier = modifier.wrapContentWidth().wrapContentHeight(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onInfoClicked != null) {
             Icon(
                 modifier =
-                    Modifier.clickable { onInfoClicked() }
-                        .padding(
-                            start = Dimens.mediumPadding,
-                            end = Dimens.mediumPadding,
-                            top = Dimens.infoButtonVerticalPadding,
-                            bottom = Dimens.infoButtonVerticalPadding
-                        )
-                        .align(Alignment.CenterVertically),
+                Modifier.clickable { onInfoClicked() }
+                    .padding(
+                        start = Dimens.mediumPadding,
+                        end = Dimens.mediumPadding,
+                        top = Dimens.infoButtonVerticalPadding,
+                        bottom = Dimens.infoButtonVerticalPadding,
+                    )
+                    .align(Alignment.CenterVertically),
                 painter = painterResource(id = R.drawable.icon_info),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary
+                tint = MaterialTheme.colorScheme.onPrimary,
             )
         }
 
         ChevronView(
             isExpanded = isExpanded,
-            modifier = Modifier.size(Dimens.expandableCellChevronSize)
+            modifier = Modifier.size(Dimens.expandableCellChevronSize),
         )
     }
 }
@@ -111,14 +111,14 @@ fun ContentBlockersDisableModeCellSubtitle(modifier: Modifier) {
         HtmlCompat.fromHtml(
             textResource(
                 id = R.string.dns_content_blockers_subtitle,
-                stringResource(id = R.string.enable_custom_dns)
+                stringResource(id = R.string.enable_custom_dns),
             ),
-            HtmlCompat.FROM_HTML_MODE_COMPACT
+            HtmlCompat.FROM_HTML_MODE_COMPACT,
         )
     Text(
         text = spanned.toAnnotatedString(boldFontWeight = FontWeight.ExtraBold),
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onSecondary,
-        modifier = modifier
+        modifier = modifier,
     )
 }

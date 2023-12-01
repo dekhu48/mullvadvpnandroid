@@ -1,6 +1,5 @@
 package net.mullvad.mullvadvpn.lib.common.util
 
-import kotlin.properties.Delegates.observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -10,6 +9,7 @@ import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.sync.withPermit
 import net.mullvad.talpid.util.EventNotifier
+import kotlin.properties.Delegates.observable
 
 // Wrapper to allow awaiting for intermittent values.
 //

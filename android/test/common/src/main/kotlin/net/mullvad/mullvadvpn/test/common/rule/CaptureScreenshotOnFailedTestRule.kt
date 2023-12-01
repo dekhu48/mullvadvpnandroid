@@ -10,14 +10,14 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.file.Paths
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
 
 class CaptureScreenshotOnFailedTestRule(private val testTag: String) : TestWatcher() {
 
@@ -38,14 +38,14 @@ class CaptureScreenshotOnFailedTestRule(private val testTag: String) : TestWatch
                     contentValues = contentValues,
                     contentResolver = contentResolver,
                     baseDir = baseDir,
-                    filename = filename
+                    filename = filename,
                 )
             } else {
                 writeToExternalStorage(
                     contentValues = contentValues,
                     contentResolver = contentResolver,
                     baseDir = baseDir,
-                    filename = filename
+                    filename = filename,
                 )
             }
         }
@@ -56,7 +56,7 @@ class CaptureScreenshotOnFailedTestRule(private val testTag: String) : TestWatch
         contentValues: ContentValues,
         contentResolver: ContentResolver,
         baseDir: String,
-        filename: String
+        filename: String,
     ) {
         contentValues.apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
@@ -84,13 +84,13 @@ class CaptureScreenshotOnFailedTestRule(private val testTag: String) : TestWatch
         contentValues: ContentValues,
         contentResolver: ContentResolver,
         baseDir: String,
-        filename: String
+        filename: String,
     ) {
         val screenshotBaseDirectory =
             Paths.get(
-                    Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES).path,
-                    baseDir,
-                )
+                Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES).path,
+                baseDir,
+            )
                 .toFile()
                 .apply {
                     if (exists().not()) {

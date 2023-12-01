@@ -1,10 +1,10 @@
 package net.mullvad.mullvadvpn.dataproxy
 
 import android.content.Context
-import java.io.File
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 
 const val PROBLEM_REPORT_LOGS_FILE = "problem_report.txt"
 
@@ -51,7 +51,7 @@ class MullvadProblemReport(context: Context, val dispatcher: CoroutineDispatcher
                     userReport.email ?: "",
                     userReport.description,
                     logsPath.absolutePath,
-                    cacheDirectory.absolutePath
+                    cacheDirectory.absolutePath,
                 )
             }
 
@@ -88,6 +88,6 @@ class MullvadProblemReport(context: Context, val dispatcher: CoroutineDispatcher
         userEmail: String,
         userMessage: String,
         reportPath: String,
-        cacheDirectory: String
+        cacheDirectory: String,
     ): Boolean
 }

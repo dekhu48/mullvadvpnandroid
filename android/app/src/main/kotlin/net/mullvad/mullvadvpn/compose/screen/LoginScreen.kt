@@ -116,22 +116,22 @@ fun LoginScreen(
         navigationBarColor = MaterialTheme.colorScheme.background,
         iconTintColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaTopBar),
         onSettingsClicked = onSettingsClick,
-        onAccountClicked = null
+        onAccountClicked = null,
     ) {
         val scrollState = rememberScrollState()
         Column(
             modifier =
-                Modifier.padding(it)
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.primary)
-                    .verticalScroll(scrollState)
+            Modifier.padding(it)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primary)
+                .verticalScroll(scrollState),
         ) {
             Spacer(modifier = Modifier.weight(1f))
             LoginIcon(
                 uiState.loginState,
                 modifier =
-                    Modifier.align(Alignment.CenterHorizontally)
-                        .padding(bottom = Dimens.largePadding)
+                Modifier.align(Alignment.CenterHorizontally)
+                    .padding(bottom = Dimens.largePadding),
             )
             LoginContent(uiState, onAccountNumberChange, onLoginClick, onDeleteHistoryClick)
             Spacer(modifier = Modifier.weight(3f))
@@ -146,7 +146,7 @@ private fun LoginContent(
     uiState: LoginUiState,
     onAccountNumberChange: (String) -> Unit,
     onLoginClick: (String) -> Unit,
-    onDeleteHistoryClick: () -> Unit
+    onDeleteHistoryClick: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.sideMargin)) {
         Text(
@@ -154,9 +154,9 @@ private fun LoginContent(
             style = MaterialTheme.typography.headlineLarge,
             color = MaterialTheme.colorScheme.onPrimary,
             modifier =
-                Modifier.testTag(LOGIN_TITLE_TEST_TAG)
-                    .fillMaxWidth()
-                    .padding(bottom = Dimens.smallPadding)
+            Modifier.testTag(LOGIN_TITLE_TEST_TAG)
+                .fillMaxWidth()
+                .padding(bottom = Dimens.smallPadding),
         )
 
         var tfFocusState: FocusState? by remember { mutableStateOf(null) }
@@ -168,44 +168,44 @@ private fun LoginContent(
             text = uiState.loginState.supportingText() ?: "",
             style = MaterialTheme.typography.labelMedium,
             color =
-                if (uiState.loginState.isError()) {
-                    MaterialTheme.colorScheme.error
-                } else {
-                    MaterialTheme.colorScheme.onPrimary
-                },
+            if (uiState.loginState.isError()) {
+                MaterialTheme.colorScheme.error
+            } else {
+                MaterialTheme.colorScheme.onPrimary
+            },
         )
 
         TextField(
             modifier =
-                // Fix for DPad navigation
-                Modifier.onFocusChanged { tfFocusState = it }
-                    .focusProperties {
-                        left = FocusRequester.Cancel
-                        right = FocusRequester.Cancel
+            // Fix for DPad navigation
+            Modifier.onFocusChanged { tfFocusState = it }
+                .focusProperties {
+                    left = FocusRequester.Cancel
+                    right = FocusRequester.Cancel
+                }
+                .fillMaxWidth()
+                .testTag(LOGIN_INPUT_TEST_TAG)
+                .let {
+                    if (!expandedDropdown || uiState.lastUsedAccount == null) {
+                        it.clip(MaterialTheme.shapes.small)
+                    } else {
+                        it
                     }
-                    .fillMaxWidth()
-                    .testTag(LOGIN_INPUT_TEST_TAG)
-                    .let {
-                        if (!expandedDropdown || uiState.lastUsedAccount == null) {
-                            it.clip(MaterialTheme.shapes.small)
-                        } else {
-                            it
-                        }
-                    },
+                },
             value = uiState.accountNumberInput,
             label = {
                 Text(
                     text = stringResource(id = R.string.login_description),
-                    color = Color.Unspecified
+                    color = Color.Unspecified,
                 )
             },
             keyboardActions =
-                KeyboardActions(onDone = { onLoginClick(uiState.accountNumberInput) }),
+            KeyboardActions(onDone = { onLoginClick(uiState.accountNumberInput) }),
             keyboardOptions =
-                KeyboardOptions(
-                    imeAction = if (uiState.loginButtonEnabled) ImeAction.Done else ImeAction.None,
-                    keyboardType = KeyboardType.NumberPassword
-                ),
+            KeyboardOptions(
+                imeAction = if (uiState.loginButtonEnabled) ImeAction.Done else ImeAction.None,
+                keyboardType = KeyboardType.NumberPassword,
+            ),
             onValueChange = onAccountNumberChange,
             singleLine = true,
             maxLines = 1,
@@ -230,7 +230,7 @@ private fun LoginContent(
                         onLoginClick(it.value)
                     }
                 },
-                onDeleteClick = onDeleteHistoryClick
+                onDeleteClick = onDeleteHistoryClick,
             )
         }
 
@@ -239,7 +239,7 @@ private fun LoginContent(
             isEnabled = uiState.loginButtonEnabled,
             onClick = { onLoginClick(uiState.accountNumberInput) },
             text = stringResource(id = R.string.login_title),
-            modifier = Modifier.padding(bottom = Dimens.mediumPadding)
+            modifier = Modifier.padding(bottom = Dimens.mediumPadding),
         )
     }
 }
@@ -253,7 +253,7 @@ private fun LoginIcon(loginState: LoginState, modifier: Modifier = Modifier) {
                     Image(
                         painter = painterResource(id = R.drawable.icon_fail),
                         contentDescription = stringResource(id = R.string.login_fail_title),
-                        contentScale = ContentScale.Inside
+                        contentScale = ContentScale.Inside,
                     )
                 } else {
                     // If view is Idle, we display empty box to keep the same size as other states
@@ -272,15 +272,15 @@ private fun LoginIcon(loginState: LoginState, modifier: Modifier = Modifier) {
 private fun LoginState.title(): String =
     stringResource(
         id =
-            when (this) {
-                is Idle ->
-                    when (this.loginError) {
-                        is LoginError -> R.string.login_fail_title
-                        null -> R.string.login_title
-                    }
-                is Loading -> R.string.logging_in_title
-                Success -> R.string.logged_in_title
-            }
+        when (this) {
+            is Idle ->
+                when (this.loginError) {
+                    is LoginError -> R.string.login_fail_title
+                    null -> R.string.login_title
+                }
+            is Loading -> R.string.logging_in_title
+            Success -> R.string.logged_in_title
+        },
     )
 
 @Composable
@@ -307,28 +307,28 @@ private fun AccountDropDownItem(
     modifier: Modifier = Modifier,
     accountToken: String,
     onClick: () -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
 ) {
     Row(
         modifier =
-            modifier
-                .clip(
-                    MaterialTheme.shapes.medium.copy(
-                        topStart = CornerSize(0f),
-                        topEnd = CornerSize(0f)
-                    )
-                )
-                .background(MaterialTheme.colorScheme.background)
-                .height(IntrinsicSize.Min),
-        verticalAlignment = Alignment.CenterVertically
+        modifier
+            .clip(
+                MaterialTheme.shapes.medium.copy(
+                    topStart = CornerSize(0f),
+                    topEnd = CornerSize(0f),
+                ),
+            )
+            .background(MaterialTheme.colorScheme.background)
+            .height(IntrinsicSize.Min),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             modifier =
-                Modifier.clickable(onClick = onClick)
-                    .fillMaxHeight()
-                    .weight(1f)
-                    .padding(horizontal = Dimens.mediumPadding, vertical = Dimens.smallPadding),
-            contentAlignment = Alignment.CenterStart
+            Modifier.clickable(onClick = onClick)
+                .fillMaxHeight()
+                .weight(1f)
+                .padding(horizontal = Dimens.mediumPadding, vertical = Dimens.smallPadding),
+            contentAlignment = Alignment.CenterStart,
         ) {
             Text(text = accountToken, overflow = TextOverflow.Clip)
         }
@@ -337,7 +337,7 @@ private fun AccountDropDownItem(
                 painter = painterResource(id = R.drawable.account_history_remove_pressed),
                 contentDescription = null,
                 modifier = Modifier.size(Dimens.listIconSize),
-                tint = Color.Unspecified
+                tint = Color.Unspecified,
             )
         }
     }
@@ -359,7 +359,7 @@ private fun CreateAccountPanel(onCreateAccountClick: () -> Unit, isEnabled: Bool
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.create_account),
             isEnabled = isEnabled,
-            onClick = onCreateAccountClick
+            onClick = onCreateAccountClick,
         )
     }
 }

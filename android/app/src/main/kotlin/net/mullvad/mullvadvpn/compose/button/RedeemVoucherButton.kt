@@ -26,13 +26,13 @@ fun RedeemVoucherButton(
     modifier: Modifier = Modifier,
     background: Color = MaterialTheme.colorScheme.background,
     onClick: () -> Unit,
-    isEnabled: Boolean
+    isEnabled: Boolean,
 ) {
     VariantButton(
         background = background,
         text = stringResource(id = R.string.redeem_voucher),
         onClick = onClick,
         modifier = modifier,
-        isEnabled = isEnabled
+        isEnabled = isEnabled,
     )
 }

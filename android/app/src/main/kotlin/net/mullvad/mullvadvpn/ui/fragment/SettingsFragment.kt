@@ -21,7 +21,7 @@ class SettingsFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_compose, container, false).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
@@ -33,7 +33,7 @@ class SettingsFragment : BaseFragment() {
                         onVpnSettingCellClick = { openVpnSettingsFragment() },
                         onSplitTunnelingCellClick = { openSplitTunnelingFragment() },
                         onReportProblemCellClick = { openReportProblemFragment() },
-                        onBackClick = { activity?.onBackPressed() }
+                        onBackClick = { activity?.onBackPressed() },
                     )
                 }
             }
@@ -50,7 +50,7 @@ class SettingsFragment : BaseFragment() {
                 R.anim.fragment_enter_from_right,
                 R.anim.fragment_exit_to_left,
                 R.anim.fragment_half_enter_from_left,
-                R.anim.fragment_exit_to_right
+                R.anim.fragment_exit_to_right,
             )
             replace(R.id.main_fragment, fragment)
             addToBackStack(null)

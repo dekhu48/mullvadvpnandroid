@@ -27,7 +27,7 @@ import net.mullvad.mullvadvpn.model.LoginResult
 
 class AccountRepository(
     private val messageHandler: MessageHandler,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     private val _cachedCreatedAccount = MutableStateFlow<String?>(null)
     val cachedCreatedAccount = _cachedCreatedAccount.asStateFlow()

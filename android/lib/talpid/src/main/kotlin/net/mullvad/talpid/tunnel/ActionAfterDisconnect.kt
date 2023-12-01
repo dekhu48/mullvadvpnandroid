@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 enum class ActionAfterDisconnect : Parcelable {
     Nothing,
     Block,
-    Reconnect
+    Reconnect,
 }

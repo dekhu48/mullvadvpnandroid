@@ -28,7 +28,7 @@ class AccountViewModel(
     private val accountRepository: AccountRepository,
     private val serviceConnectionManager: ServiceConnectionManager,
     private val paymentUseCase: PaymentUseCase,
-    deviceRepository: DeviceRepository
+    deviceRepository: DeviceRepository,
 ) : ViewModel() {
 
     private val _uiSideEffect = MutableSharedFlow<UiSideEffect>(extraBufferCapacity = 1)
@@ -38,19 +38,19 @@ class AccountViewModel(
 
     val uiState: StateFlow<AccountUiState> =
         combine(
-                deviceRepository.deviceState,
-                accountRepository.accountExpiryState,
-                paymentUseCase.purchaseResult,
-                paymentUseCase.paymentAvailability
-            ) { deviceState, accountExpiry, purchaseResult, paymentAvailability ->
-                AccountUiState(
-                    deviceName = deviceState.deviceName() ?: "",
-                    accountNumber = deviceState.token() ?: "",
-                    accountExpiry = accountExpiry.date(),
-                    paymentDialogData = purchaseResult?.toPaymentDialogData(),
-                    billingPaymentState = paymentAvailability?.toPaymentState()
-                )
-            }
+            deviceRepository.deviceState,
+            accountRepository.accountExpiryState,
+            paymentUseCase.purchaseResult,
+            paymentUseCase.paymentAvailability,
+        ) { deviceState, accountExpiry, purchaseResult, paymentAvailability ->
+            AccountUiState(
+                deviceName = deviceState.deviceName() ?: "",
+                accountNumber = deviceState.token() ?: "",
+                accountExpiry = accountExpiry.date(),
+                paymentDialogData = purchaseResult?.toPaymentDialogData(),
+                billingPaymentState = paymentAvailability?.toPaymentState(),
+            )
+        }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), AccountUiState.default())
 
     @Suppress("konsist.ensure public properties use permitted names")
@@ -66,8 +66,8 @@ class AccountViewModel(
         viewModelScope.launch {
             _uiSideEffect.tryEmit(
                 UiSideEffect.OpenAccountManagementPageInBrowser(
-                    serviceConnectionManager.authTokenCache()?.fetchAuthToken() ?: ""
-                )
+                    serviceConnectionManager.authTokenCache()?.fetchAuthToken() ?: "",
+                ),
             )
         }
     }
@@ -124,7 +124,7 @@ data class AccountUiState(
     val accountNumber: String?,
     val accountExpiry: DateTime?,
     val billingPaymentState: PaymentState? = null,
-    val paymentDialogData: PaymentDialogData? = null
+    val paymentDialogData: PaymentDialogData? = null,
 ) {
     companion object {
         fun default() =

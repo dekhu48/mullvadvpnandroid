@@ -9,9 +9,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
-import kotlin.test.assertNull
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
@@ -46,6 +43,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertNull
 
 class WelcomeViewModelTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -96,7 +96,7 @@ class WelcomeViewModelTest {
                 deviceRepository = mockDeviceRepository,
                 serviceConnectionManager = mockServiceConnectionManager,
                 paymentUseCase = mockPaymentUseCase,
-                pollAccountExpiry = false
+                pollAccountExpiry = false,
             )
     }
 
@@ -157,7 +157,7 @@ class WelcomeViewModelTest {
                 deviceState.value =
                     DeviceState.LoggedIn(
                         accountAndDevice =
-                            AccountAndDevice(account_token = expectedAccountNumber, device = device)
+                        AccountAndDevice(account_token = expectedAccountNumber, device = device),
                     )
                 val result = awaitItem()
                 assertEquals(expectedAccountNumber, result.accountNumber)

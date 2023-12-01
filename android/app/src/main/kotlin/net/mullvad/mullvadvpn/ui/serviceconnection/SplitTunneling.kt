@@ -1,10 +1,10 @@
 package net.mullvad.mullvadvpn.ui.serviceconnection
 
 import android.os.Messenger
-import kotlin.properties.Delegates.observable
 import net.mullvad.mullvadvpn.lib.ipc.Event
 import net.mullvad.mullvadvpn.lib.ipc.EventDispatcher
 import net.mullvad.mullvadvpn.lib.ipc.Request
+import kotlin.properties.Delegates.observable
 
 class SplitTunneling(private val connection: Messenger, eventDispatcher: EventDispatcher) {
     private var _excludedApps by

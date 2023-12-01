@@ -88,12 +88,12 @@ private fun PreviewVpnSettings() {
     AppTheme {
         VpnSettingsScreen(
             uiState =
-                VpnSettingsUiState.createDefault(
-                    isAutoConnectEnabled = true,
-                    mtu = "1337",
-                    isCustomDnsEnabled = true,
-                    customDnsItems = listOf(CustomDnsItem("0.0.0.0", false)),
-                ),
+            VpnSettingsUiState.createDefault(
+                isAutoConnectEnabled = true,
+                mtu = "1337",
+                isCustomDnsEnabled = true,
+                customDnsItems = listOf(CustomDnsItem("0.0.0.0", false)),
+            ),
             onMtuCellClick = {},
             onSaveMtuClick = {},
             onRestoreMtuClick = {},
@@ -128,7 +128,7 @@ private fun PreviewVpnSettings() {
             onWireguardPortInfoClicked = {},
             onShowCustomPortDialog = {},
             onCancelCustomPortDialogClick = {},
-            onCloseCustomPortDialog = {}
+            onCloseCustomPortDialog = {},
         )
     }
 }
@@ -172,7 +172,7 @@ fun VpnSettingsScreen(
     onWireguardPortInfoClicked: () -> Unit = {},
     onShowCustomPortDialog: () -> Unit = {},
     onCancelCustomPortDialogClick: () -> Unit = {},
-    onCloseCustomPortDialog: () -> Unit = {}
+    onCloseCustomPortDialog: () -> Unit = {},
 ) {
     val savedCustomPort = rememberSaveable { mutableStateOf<Constraint<Port>>(Constraint.Any()) }
 
@@ -182,7 +182,7 @@ fun VpnSettingsScreen(
                 mtuInitial = dialog.mtuEditValue.toIntOrNull(),
                 onSave = { onSaveMtuClick(it) },
                 onRestoreDefaultValue = { onRestoreMtuClick() },
-                onDismiss = { onCancelMtuDialogClick() }
+                onDismiss = { onCancelMtuDialogClick() },
             )
         }
         is VpnSettingsDialog.Dns -> {
@@ -192,7 +192,7 @@ fun VpnSettingsScreen(
                 onIpAddressChanged = { onDnsInputChange(it) },
                 onAttemptToSave = { onSaveDnsClick() },
                 onRemove = { onRemoveDnsClick() },
-                onDismiss = { onCancelDnsDialogClick() }
+                onDismiss = { onCancelDnsDialogClick() },
             )
         }
         is VpnSettingsDialog.LocalNetworkSharingInfo -> {
@@ -231,7 +231,7 @@ fun VpnSettingsScreen(
                     onCloseCustomPortDialog()
                 },
                 showReset = savedCustomPort.value is Constraint.Only,
-                onDismissRequest = { onCancelCustomPortDialogClick() }
+                onDismissRequest = { onCancelCustomPortDialogClick() },
             )
         }
     }
@@ -243,7 +243,7 @@ fun VpnSettingsScreen(
     LaunchedEffect(uiState.selectedWireguardPort) {
         if (
             uiState.selectedWireguardPort.isCustom() &&
-                uiState.selectedWireguardPort != savedCustomPort.value
+            uiState.selectedWireguardPort != savedCustomPort.value
         ) {
             savedCustomPort.value = uiState.selectedWireguardPort
         }
@@ -270,7 +270,7 @@ fun VpnSettingsScreen(
     ) { modifier, lazyListState ->
         LazyColumn(
             modifier = modifier.testTag(LAZY_LIST_TEST_TAG).animateContentSize(),
-            state = lazyListState
+            state = lazyListState,
         ) {
             item {
                 Spacer(modifier = Modifier.height(Dimens.cellLabelVerticalPadding))
@@ -278,7 +278,7 @@ fun VpnSettingsScreen(
                     title = stringResource(R.string.auto_connect),
                     isToggled = uiState.isAutoConnectEnabled,
                     isEnabled = true,
-                    onCellClicked = { newValue -> onToggleAutoConnect(newValue) }
+                    onCellClicked = { newValue -> onToggleAutoConnect(newValue) },
                 )
             }
             item {
@@ -291,7 +291,7 @@ fun VpnSettingsScreen(
                     isToggled = uiState.isAllowLanEnabled,
                     isEnabled = true,
                     onCellClicked = { newValue -> onToggleLocalNetworkSharing(newValue) },
-                    onInfoClicked = { onLocalNetworkSharingInfoClick() }
+                    onInfoClicked = { onLocalNetworkSharingInfoClick() },
                 )
                 Spacer(modifier = Modifier.height(Dimens.cellLabelVerticalPadding))
             }
@@ -302,7 +302,7 @@ fun VpnSettingsScreen(
                     isExpanded = expandContentBlockersState,
                     isEnabled = !uiState.isCustomDnsEnabled,
                     onInfoClicked = { onContentsBlockersInfoClick() },
-                    onCellClicked = { expandContentBlockersState = !expandContentBlockersState }
+                    onCellClicked = { expandContentBlockersState = !expandContentBlockersState },
                 )
             }
 
@@ -314,7 +314,7 @@ fun VpnSettingsScreen(
                         isEnabled = !uiState.isCustomDnsEnabled,
                         onCellClicked = { onToggleBlockAds(it) },
                         background = MaterialTheme.colorScheme.secondaryContainer,
-                        startPadding = Dimens.indentedCellStartPadding
+                        startPadding = Dimens.indentedCellStartPadding,
                     )
                 }
                 itemWithDivider {
@@ -324,7 +324,7 @@ fun VpnSettingsScreen(
                         isEnabled = !uiState.isCustomDnsEnabled,
                         onCellClicked = { onToggleBlockTrackers(it) },
                         background = MaterialTheme.colorScheme.secondaryContainer,
-                        startPadding = Dimens.indentedCellStartPadding
+                        startPadding = Dimens.indentedCellStartPadding,
                     )
                 }
                 itemWithDivider {
@@ -335,7 +335,7 @@ fun VpnSettingsScreen(
                         onCellClicked = { onToggleBlockMalware(it) },
                         onInfoClicked = { onMalwareInfoClick() },
                         background = MaterialTheme.colorScheme.secondaryContainer,
-                        startPadding = Dimens.indentedCellStartPadding
+                        startPadding = Dimens.indentedCellStartPadding,
                     )
                 }
                 itemWithDivider {
@@ -345,7 +345,7 @@ fun VpnSettingsScreen(
                         isEnabled = !uiState.isCustomDnsEnabled,
                         onCellClicked = { onToggleBlockGambling(it) },
                         background = MaterialTheme.colorScheme.secondaryContainer,
-                        startPadding = Dimens.indentedCellStartPadding
+                        startPadding = Dimens.indentedCellStartPadding,
                     )
                 }
                 itemWithDivider {
@@ -355,7 +355,7 @@ fun VpnSettingsScreen(
                         isEnabled = !uiState.isCustomDnsEnabled,
                         onCellClicked = { onToggleBlockAdultContent(it) },
                         background = MaterialTheme.colorScheme.secondaryContainer,
-                        startPadding = Dimens.indentedCellStartPadding
+                        startPadding = Dimens.indentedCellStartPadding,
                     )
                 }
 
@@ -366,7 +366,7 @@ fun VpnSettingsScreen(
                         isEnabled = !uiState.isCustomDnsEnabled,
                         onCellClicked = { onToggleBlockSocialMedia(it) },
                         background = MaterialTheme.colorScheme.secondaryContainer,
-                        startPadding = Dimens.indentedCellStartPadding
+                        startPadding = Dimens.indentedCellStartPadding,
                     )
                 }
 
@@ -378,8 +378,8 @@ fun VpnSettingsScreen(
                                     start = Dimens.cellStartPadding,
                                     top = topPadding,
                                     end = Dimens.cellEndPadding,
-                                    bottom = Dimens.cellLabelVerticalPadding
-                                )
+                                    bottom = Dimens.cellLabelVerticalPadding,
+                                ),
                         )
                     }
                 }
@@ -391,7 +391,7 @@ fun VpnSettingsScreen(
                     isToggled = uiState.isCustomDnsEnabled,
                     isEnabled = uiState.contentBlockersOptions.isAnyBlockerEnabled().not(),
                     onCellClicked = { newValue -> onToggleDnsClick(newValue) },
-                    onInfoClicked = { onCustomDnsInfoClick() }
+                    onInfoClicked = { onCustomDnsInfoClick() },
                 )
             }
 
@@ -400,9 +400,9 @@ fun VpnSettingsScreen(
                     DnsCell(
                         address = item.address,
                         isUnreachableLocalDnsWarningVisible =
-                            item.isLocal && uiState.isAllowLanEnabled.not(),
+                        item.isLocal && uiState.isAllowLanEnabled.not(),
                         onClick = { onDnsClick(index) },
-                        modifier = Modifier.animateItemPlacement()
+                        modifier = Modifier.animateItemPlacement(),
                     )
                     Divider()
                 }
@@ -427,13 +427,13 @@ fun VpnSettingsScreen(
                 CustomDnsCellSubtitle(
                     isCellClickable = uiState.contentBlockersOptions.isAnyBlockerEnabled().not(),
                     modifier =
-                        Modifier.background(MaterialTheme.colorScheme.secondary)
-                            .padding(
-                                start = Dimens.cellStartPadding,
-                                top = topPadding,
-                                end = Dimens.cellEndPadding,
-                                bottom = Dimens.cellLabelVerticalPadding,
-                            )
+                    Modifier.background(MaterialTheme.colorScheme.secondary)
+                        .padding(
+                            start = Dimens.cellStartPadding,
+                            top = topPadding,
+                            end = Dimens.cellEndPadding,
+                            bottom = Dimens.cellLabelVerticalPadding,
+                        ),
                 )
             }
 
@@ -441,7 +441,7 @@ fun VpnSettingsScreen(
                 Spacer(modifier = Modifier.height(Dimens.cellLabelVerticalPadding))
                 InformationComposeCell(
                     title = stringResource(id = R.string.wireguard_port_title),
-                    onInfoClicked = onWireguardPortInfoClicked
+                    onInfoClicked = onWireguardPortInfoClicked,
                 )
             }
 
@@ -449,7 +449,7 @@ fun VpnSettingsScreen(
                 SelectableCell(
                     title = stringResource(id = R.string.automatic),
                     isSelected = uiState.selectedWireguardPort is Constraint.Any,
-                    onCellClicked = { onWireguardPortSelected(Constraint.Any()) }
+                    onCellClicked = { onWireguardPortSelected(Constraint.Any()) },
                 )
             }
 
@@ -459,7 +459,7 @@ fun VpnSettingsScreen(
                         title = port.toString(),
                         testTag = String.format(LAZY_LIST_WIREGUARD_PORT_ITEM_X_TEST_TAG, port),
                         isSelected = uiState.selectedWireguardPort.hasValue(port),
-                        onCellClicked = { onWireguardPortSelected(Constraint.Only(Port(port))) }
+                        onCellClicked = { onWireguardPortSelected(Constraint.Only(Port(port))) },
                     )
                 }
             }
@@ -469,11 +469,11 @@ fun VpnSettingsScreen(
                     title = stringResource(id = R.string.wireguard_custon_port_title),
                     isSelected = uiState.selectedWireguardPort.isCustom(),
                     port =
-                        if (uiState.selectedWireguardPort.isCustom()) {
-                            uiState.selectedWireguardPort.toDisplayCustomPort()
-                        } else {
-                            savedCustomPort.value.toDisplayCustomPort()
-                        },
+                    if (uiState.selectedWireguardPort.isCustom()) {
+                        uiState.selectedWireguardPort.toDisplayCustomPort()
+                    } else {
+                        savedCustomPort.value.toDisplayCustomPort()
+                    },
                     onMainCellClicked = {
                         if (savedCustomPort.value is Constraint.Only) {
                             onWireguardPortSelected(savedCustomPort.value)
@@ -483,7 +483,7 @@ fun VpnSettingsScreen(
                     },
                     onPortCellClicked = { onShowCustomPortDialog() },
                     mainTestTag = LAZY_LIST_WIREGUARD_CUSTOM_PORT_TEXT_TEST_TAG,
-                    numberTestTag = LAZY_LIST_WIREGUARD_CUSTOM_PORT_NUMBER_TEST_TAG
+                    numberTestTag = LAZY_LIST_WIREGUARD_CUSTOM_PORT_NUMBER_TEST_TAG,
                 )
             }
 
@@ -491,28 +491,28 @@ fun VpnSettingsScreen(
                 Spacer(modifier = Modifier.height(Dimens.cellLabelVerticalPadding))
                 InformationComposeCell(
                     title = stringResource(R.string.obfuscation_title),
-                    onInfoClicked = { onObfuscationInfoClick() }
+                    onInfoClicked = { onObfuscationInfoClick() },
                 )
             }
             itemWithDivider {
                 SelectableCell(
                     title = stringResource(id = R.string.automatic),
                     isSelected = uiState.selectedObfuscation == SelectedObfuscation.Auto,
-                    onCellClicked = { onSelectObfuscationSetting(SelectedObfuscation.Auto) }
+                    onCellClicked = { onSelectObfuscationSetting(SelectedObfuscation.Auto) },
                 )
             }
             itemWithDivider {
                 SelectableCell(
                     title = stringResource(id = R.string.obfuscation_on_udp_over_tcp),
                     isSelected = uiState.selectedObfuscation == SelectedObfuscation.Udp2Tcp,
-                    onCellClicked = { onSelectObfuscationSetting(SelectedObfuscation.Udp2Tcp) }
+                    onCellClicked = { onSelectObfuscationSetting(SelectedObfuscation.Udp2Tcp) },
                 )
             }
             itemWithDivider {
                 SelectableCell(
                     title = stringResource(id = R.string.off),
                     isSelected = uiState.selectedObfuscation == SelectedObfuscation.Off,
-                    onCellClicked = { onSelectObfuscationSetting(SelectedObfuscation.Off) }
+                    onCellClicked = { onSelectObfuscationSetting(SelectedObfuscation.Off) },
                 )
             }
 
@@ -520,14 +520,14 @@ fun VpnSettingsScreen(
                 Spacer(modifier = Modifier.height(Dimens.cellLabelVerticalPadding))
                 InformationComposeCell(
                     title = stringResource(R.string.quantum_resistant_title),
-                    onInfoClicked = { onQuantumResistanceInfoClicked() }
+                    onInfoClicked = { onQuantumResistanceInfoClicked() },
                 )
             }
             itemWithDivider {
                 SelectableCell(
                     title = stringResource(id = R.string.automatic),
                     isSelected = uiState.quantumResistant == QuantumResistantState.Auto,
-                    onCellClicked = { onSelectQuantumResistanceSetting(QuantumResistantState.Auto) }
+                    onCellClicked = { onSelectQuantumResistanceSetting(QuantumResistantState.Auto) },
                 )
             }
             itemWithDivider {
@@ -535,7 +535,7 @@ fun VpnSettingsScreen(
                     title = stringResource(id = R.string.on),
                     testTag = LAZY_LIST_QUANTUM_ITEM_ON_TEST_TAG,
                     isSelected = uiState.quantumResistant == QuantumResistantState.On,
-                    onCellClicked = { onSelectQuantumResistanceSetting(QuantumResistantState.On) }
+                    onCellClicked = { onSelectQuantumResistanceSetting(QuantumResistantState.On) },
                 )
             }
             item {
@@ -543,7 +543,7 @@ fun VpnSettingsScreen(
                     title = stringResource(id = R.string.off),
                     testTag = LAZY_LIST_QUANTUM_ITEM_OFF_TEST_TAG,
                     isSelected = uiState.quantumResistant == QuantumResistantState.Off,
-                    onCellClicked = { onSelectQuantumResistanceSetting(QuantumResistantState.Off) }
+                    onCellClicked = { onSelectQuantumResistanceSetting(QuantumResistantState.Off) },
                 )
                 Spacer(modifier = Modifier.height(Dimens.cellLabelVerticalPadding))
             }

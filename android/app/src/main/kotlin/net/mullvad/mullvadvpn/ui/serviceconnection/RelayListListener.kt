@@ -22,7 +22,7 @@ import net.mullvad.mullvadvpn.model.WireguardEndpointData
 
 class RelayListListener(
     private val messageHandler: MessageHandler,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     val relayListEvents: StateFlow<RelayList> =
         messageHandler
@@ -44,7 +44,7 @@ class RelayListListener(
 
     fun updateSelectedOwnershipAndProviderFilter(
         ownership: Constraint<Ownership>,
-        providers: Constraint<Providers>
+        providers: Constraint<Providers>,
     ) {
         messageHandler.trySendRequest(Request.SetOwnershipAndProviders(ownership, providers))
     }

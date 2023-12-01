@@ -11,7 +11,7 @@ interface PaymentRepository {
 
     fun purchaseProduct(
         productId: ProductId,
-        activityProvider: () -> Activity
+        activityProvider: () -> Activity,
     ): Flow<PurchaseResult>
 
     fun verifyPurchases(): Flow<VerificationResult>

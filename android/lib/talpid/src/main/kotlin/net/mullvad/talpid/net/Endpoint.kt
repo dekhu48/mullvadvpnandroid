@@ -1,8 +1,8 @@
 package net.mullvad.talpid.net
 
 import android.os.Parcelable
-import java.net.InetSocketAddress
 import kotlinx.parcelize.Parcelize
+import java.net.InetSocketAddress
 
 @Parcelize
 data class Endpoint(val address: InetSocketAddress, val protocol: TransportProtocol) : Parcelable

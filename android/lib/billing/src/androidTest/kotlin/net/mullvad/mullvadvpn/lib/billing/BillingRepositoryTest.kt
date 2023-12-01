@@ -24,8 +24,6 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -41,6 +39,8 @@ import org.junit.Test
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class BillingRepositoryTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -164,7 +164,7 @@ class BillingRepositoryTest {
             billingRepository.startPurchaseFlow(
                 mockProductDetails,
                 transactionId,
-                mockActivityProvider
+                mockActivityProvider,
             )
 
         // Assert
@@ -190,7 +190,7 @@ class BillingRepositoryTest {
             billingRepository.startPurchaseFlow(
                 mockProductDetails,
                 transactionId,
-                mockActivityProvider
+                mockActivityProvider,
             )
 
         // Assert
@@ -258,7 +258,7 @@ class BillingRepositoryTest {
         // Assert
         assertEquals(
             expectedError.toBillingResult().responseCode,
-            result.billingResult.responseCode
+            result.billingResult.responseCode,
         )
         assertEquals(expectedError.message, result.billingResult.debugMessage)
     }
@@ -275,7 +275,7 @@ class BillingRepositoryTest {
         billingRepository.purchaseEvents.test {
             purchaseUpdatedListenerSlot.captured.onPurchasesUpdated(
                 mockBillingResult,
-                mockPurchaseList
+                mockPurchaseList,
             )
             val result = awaitItem()
             assertIs<PurchaseEvent.Completed>(result)

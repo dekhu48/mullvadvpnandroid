@@ -10,11 +10,11 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
-import kotlin.test.assertEquals
-import kotlin.test.assertFails
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFails
 
 class ApplicationsIconManagerTest {
     private val mockedPackageManager = mockk<PackageManager>()

@@ -67,28 +67,28 @@ private fun PreviewAccountScreen() {
         AccountScreen(
             showSitePayment = true,
             uiState =
-                AccountUiState(
-                    deviceName = "Test Name",
-                    accountNumber = "1234123412341234",
-                    accountExpiry = null,
-                    billingPaymentState =
-                        PaymentState.PaymentAvailable(
-                            listOf(
-                                PaymentProduct(
-                                    ProductId("productId"),
-                                    price = ProductPrice("34 SEK"),
-                                    status = null
-                                ),
-                                PaymentProduct(
-                                    ProductId("productId_pending"),
-                                    price = ProductPrice("34 SEK"),
-                                    status = PaymentStatus.PENDING
-                                )
-                            ),
-                        )
+            AccountUiState(
+                deviceName = "Test Name",
+                accountNumber = "1234123412341234",
+                accountExpiry = null,
+                billingPaymentState =
+                PaymentState.PaymentAvailable(
+                    listOf(
+                        PaymentProduct(
+                            ProductId("productId"),
+                            price = ProductPrice("34 SEK"),
+                            status = null,
+                        ),
+                        PaymentProduct(
+                            ProductId("productId_pending"),
+                            price = ProductPrice("34 SEK"),
+                            status = PaymentStatus.PENDING,
+                        ),
+                    ),
                 ),
+            ),
             uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-            enterTransitionEndAction = MutableSharedFlow()
+            enterTransitionEndAction = MutableSharedFlow(),
         )
     }
 }
@@ -104,11 +104,11 @@ fun AccountScreen(
     onManageAccountClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {},
     onPurchaseBillingProductClick:
-        (productId: ProductId, activityProvider: () -> Activity) -> Unit =
+    (productId: ProductId, activityProvider: () -> Activity) -> Unit =
         { _, _ ->
         },
     onClosePurchaseResultDialog: (success: Boolean) -> Unit = {},
-    onBackClick: () -> Unit = {}
+    onBackClick: () -> Unit = {},
 ) {
     // This will enable SECURE_FLAG while this screen is visible to preview screenshot
     SecureScreenWhileInView()
@@ -144,7 +144,7 @@ fun AccountScreen(
         PaymentDialog(
             paymentDialogData = uiState.paymentDialogData,
             retryPurchase = { onPurchaseBillingProductClick(it) { context as Activity } },
-            onCloseDialog = onClosePurchaseResultDialog
+            onCloseDialog = onClosePurchaseResultDialog,
         )
     }
 
@@ -158,12 +158,12 @@ fun AccountScreen(
 
     ScaffoldWithMediumTopBar(
         appBarTitle = stringResource(id = R.string.settings_account),
-        navigationIcon = { NavigateBackDownIconButton(onBackClick) }
+        navigationIcon = { NavigateBackDownIconButton(onBackClick) },
     ) { modifier ->
         Column(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(Dimens.accountRowSpacing),
-            modifier = modifier.animateContentSize().padding(horizontal = Dimens.sideMargin)
+            modifier = modifier.animateContentSize().padding(horizontal = Dimens.sideMargin),
         ) {
             DeviceNameRow(deviceName = uiState.deviceName ?: "") { showDeviceNameInfoDialog = true }
 
@@ -181,7 +181,7 @@ fun AccountScreen(
                             onPurchaseBillingProductClick(productId) { context as Activity }
                         },
                         onInfoClick = { showVerificationPendingDialog = true },
-                        modifier = Modifier.padding(bottom = Dimens.buttonSpacing)
+                        modifier = Modifier.padding(bottom = Dimens.buttonSpacing),
                     )
                 }
 
@@ -189,14 +189,14 @@ fun AccountScreen(
                     ExternalButton(
                         text = stringResource(id = R.string.manage_account),
                         onClick = onManageAccountClick,
-                        modifier = Modifier.padding(bottom = Dimens.buttonSpacing)
+                        modifier = Modifier.padding(bottom = Dimens.buttonSpacing),
                     )
                 }
 
                 RedeemVoucherButton(
                     onClick = onRedeemVoucherClick,
                     modifier = Modifier.padding(bottom = Dimens.buttonSpacing),
-                    isEnabled = true
+                    isEnabled = true,
                 )
 
                 NegativeButton(
@@ -222,7 +222,7 @@ private fun DeviceNameRow(deviceName: String, onInfoClick: () -> Unit) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_info),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.inverseSurface
+                    tint = MaterialTheme.colorScheme.inverseSurface,
                 )
             }
         }
@@ -238,7 +238,7 @@ private fun AccountNumberRow(accountNumber: String) {
         )
         CopyableObfuscationView(
             content = accountNumber,
-            modifier = Modifier.heightIn(min = Dimens.accountRowMinHeight).fillMaxWidth()
+            modifier = Modifier.heightIn(min = Dimens.accountRowMinHeight).fillMaxWidth(),
         )
     }
 }
@@ -253,11 +253,11 @@ private fun PaidUntilRow(accountExpiry: DateTime?) {
 
         Row(
             modifier = Modifier.heightIn(min = Dimens.accountRowMinHeight),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             InformationView(
                 content = accountExpiry?.toExpiryDateString() ?: "",
-                whenMissing = MissingPolicy.SHOW_SPINNER
+                whenMissing = MissingPolicy.SHOW_SPINNER,
             )
         }
     }

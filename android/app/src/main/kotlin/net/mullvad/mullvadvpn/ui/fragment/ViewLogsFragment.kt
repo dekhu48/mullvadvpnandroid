@@ -18,16 +18,15 @@ class ViewLogsFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
-
         return inflater.inflate(R.layout.fragment_compose, container, false).apply {
             findViewById<ComposeView>(R.id.compose_view).setContent {
                 AppTheme {
                     val uiState = vm.uiState.collectAsState()
                     ViewLogsScreen(
                         uiState = uiState.value,
-                        onBackClick = { activity?.onBackPressed() }
+                        onBackClick = { activity?.onBackPressed() },
                     )
                 }
             }

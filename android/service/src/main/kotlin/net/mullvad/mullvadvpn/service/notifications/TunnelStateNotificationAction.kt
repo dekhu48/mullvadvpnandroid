@@ -10,7 +10,8 @@ enum class TunnelStateNotificationAction {
     Connect,
     Disconnect,
     Cancel,
-    Dismiss;
+    Dismiss,
+    ;
 
     val text
         get() =

@@ -7,9 +7,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
-import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import net.mullvad.mullvadvpn.compose.state.VoucherDialogState
@@ -26,6 +23,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertTrue
 
 class VoucherDialogViewModelTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -48,7 +48,7 @@ class VoucherDialogViewModelTest {
         viewModel =
             VoucherDialogViewModel(
                 serviceConnectionManager = mockServiceConnectionManager,
-                resources = mockResources
+                resources = mockResources,
             )
     }
 

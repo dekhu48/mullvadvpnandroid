@@ -1,6 +1,5 @@
 package net.mullvad.mullvadvpn.service.endpoint
 
-import java.net.InetAddress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -12,17 +11,21 @@ import net.mullvad.mullvadvpn.model.CustomDnsOptions
 import net.mullvad.mullvadvpn.model.DefaultDnsOptions
 import net.mullvad.mullvadvpn.model.DnsOptions
 import net.mullvad.mullvadvpn.model.DnsState
+import java.net.InetAddress
 
 class CustomDns(private val endpoint: ServiceEndpoint) {
     private sealed class Command {
-        @Deprecated("Use SetDnsOptions") class AddDnsServer(val server: InetAddress) : Command()
+        @Deprecated("Use SetDnsOptions")
+        class AddDnsServer(val server: InetAddress) : Command()
 
-        @Deprecated("Use SetDnsOptions") class RemoveDnsServer(val server: InetAddress) : Command()
+        @Deprecated("Use SetDnsOptions")
+        class RemoveDnsServer(val server: InetAddress) : Command()
 
         @Deprecated("Use SetDnsOptions")
         class ReplaceDnsServer(val oldServer: InetAddress, val newServer: InetAddress) : Command()
 
-        @Deprecated("Use SetDnsOptions") class SetEnabled(val enabled: Boolean) : Command()
+        @Deprecated("Use SetDnsOptions")
+        class SetEnabled(val enabled: Boolean) : Command()
 
         class SetDnsOptions(val dnsOptions: DnsOptions) : Command()
     }
@@ -55,7 +58,7 @@ class CustomDns(private val endpoint: ServiceEndpoint) {
 
             registerHandler(Request.ReplaceCustomDnsServer::class) { request ->
                 commandChannel.trySendBlocking(
-                    Command.ReplaceDnsServer(request.oldAddress, request.newAddress)
+                    Command.ReplaceDnsServer(request.oldAddress, request.newAddress),
                 )
             }
 
@@ -125,7 +128,7 @@ class CustomDns(private val endpoint: ServiceEndpoint) {
             DnsOptions(
                 state = if (enable) DnsState.Custom else DnsState.Default,
                 customOptions = CustomDnsOptions(dnsServers),
-                defaultOptions = DefaultDnsOptions()
+                defaultOptions = DefaultDnsOptions(),
             )
         daemon.await().setDnsOptions(options)
     }

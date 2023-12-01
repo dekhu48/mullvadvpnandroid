@@ -41,15 +41,15 @@ private val MullvadTypography =
         titleSmall = TextStyle(fontSize = TypeScale.TextMedium, fontWeight = FontWeight.SemiBold),
         bodyMedium = TextStyle(fontSize = TypeScale.TextMediumPlus, fontWeight = FontWeight.Bold),
         titleMedium =
-            TextStyle(fontSize = TypeScale.TextMediumPlus, fontWeight = FontWeight.SemiBold),
+        TextStyle(fontSize = TypeScale.TextMediumPlus, fontWeight = FontWeight.SemiBold),
         titleLarge = TextStyle(fontSize = TypeScale.TitleLarge, fontFamily = FontFamily.SansSerif),
         labelMedium = TextStyle(fontSize = TypeScale.TextSmall, fontWeight = FontWeight.SemiBold),
         labelLarge =
-            TextStyle(
-                fontWeight = FontWeight.Normal,
-                letterSpacing = TextUnit.Unspecified,
-                fontSize = TypeScale.TextMedium
-            )
+        TextStyle(
+            fontWeight = FontWeight.Normal,
+            letterSpacing = TextUnit.Unspecified,
+            fontSize = TypeScale.TextMedium,
+        ),
     )
 
 private val darkColorScheme =
@@ -90,7 +90,7 @@ val Shapes =
         small = RoundedCornerShape(4.dp),
         medium = RoundedCornerShape(4.dp),
         large = RoundedCornerShape(0.dp),
-        extraLarge = RoundedCornerShape(11.dp)
+        extraLarge = RoundedCornerShape(11.dp),
     )
 
 val Dimens: Dimensions
@@ -116,7 +116,7 @@ fun AppTheme(content: @Composable () -> Unit) {
             colorScheme = colors,
             shapes = Shapes,
             typography = typography,
-            content = content
+            content = content,
         )
     }
 }

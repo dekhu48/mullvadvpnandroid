@@ -9,12 +9,12 @@ import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
-import kotlin.test.assertEquals
 import kotlinx.coroutines.test.runTest
 import net.mullvad.mullvadvpn.repository.ChangelogRepository
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class ChangelogViewModelTest {
 

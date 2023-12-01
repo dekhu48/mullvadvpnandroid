@@ -1,6 +1,5 @@
 package net.mullvad.mullvadvpn.service.endpoint
 
-import kotlin.properties.Delegates.observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -9,6 +8,7 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.trySendBlocking
 import net.mullvad.mullvadvpn.lib.ipc.Event
 import net.mullvad.mullvadvpn.lib.ipc.Request
+import kotlin.properties.Delegates.observable
 
 class AuthTokenCache(endpoint: ServiceEndpoint) {
     private val daemon = endpoint.intermittentDaemon
@@ -43,7 +43,7 @@ class AuthTokenCache(endpoint: ServiceEndpoint) {
 
     companion object {
         private enum class Command {
-            Fetch
+            Fetch,
         }
     }
 }

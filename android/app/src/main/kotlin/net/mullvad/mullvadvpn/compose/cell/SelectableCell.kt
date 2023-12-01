@@ -43,8 +43,8 @@ fun SelectableCell(
             contentDescription = iconContentDescription,
             tint = MaterialTheme.colorScheme.onPrimary,
             modifier =
-                Modifier.padding(end = Dimens.selectableCellTextMargin)
-                    .alpha(if (isSelected) AlphaVisible else AlphaInvisible)
+            Modifier.padding(end = Dimens.selectableCellTextMargin)
+                .alpha(if (isSelected) AlphaVisible else AlphaInvisible),
         )
     },
     titleStyle: TextStyle = MaterialTheme.typography.labelLarge,
@@ -52,19 +52,19 @@ fun SelectableCell(
     selectedColor: Color = MaterialTheme.colorScheme.selected,
     backgroundColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onCellClicked: () -> Unit = {},
-    testTag: String = ""
+    testTag: String = "",
 ) {
     BaseCell(
         onCellClicked = onCellClicked,
         title = { BaseCellTitle(title = title, style = titleStyle) },
         background =
-            if (isSelected) {
-                selectedColor
-            } else {
-                backgroundColor
-            },
+        if (isSelected) {
+            selectedColor
+        } else {
+            backgroundColor
+        },
         startPadding = startPadding,
         iconView = selectedIcon,
-        testTag = testTag
+        testTag = testTag,
     )
 }

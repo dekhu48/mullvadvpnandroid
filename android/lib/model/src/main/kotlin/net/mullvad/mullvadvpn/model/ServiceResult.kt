@@ -5,7 +5,7 @@ import android.os.IBinder
 data class ServiceResult(val binder: IBinder?) {
     enum class ConnectionState {
         CONNECTED,
-        DISCONNECTED
+        DISCONNECTED,
     }
 
     val connectionState: ConnectionState

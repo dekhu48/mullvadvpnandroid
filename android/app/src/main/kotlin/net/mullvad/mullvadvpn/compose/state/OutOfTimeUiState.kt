@@ -7,5 +7,5 @@ data class OutOfTimeUiState(
     val tunnelState: TunnelState = TunnelState.Disconnected,
     val deviceName: String = "",
     val billingPaymentState: PaymentState? = null,
-    val paymentDialogData: PaymentDialogData? = null
+    val paymentDialogData: PaymentDialogData? = null,
 )

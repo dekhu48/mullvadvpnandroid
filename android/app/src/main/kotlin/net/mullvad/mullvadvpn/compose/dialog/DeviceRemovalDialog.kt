@@ -31,7 +31,7 @@ private fun PreviewShowDeviceRemovalDialog() {
     DeviceRemovalDialog(
         onDismiss = {},
         onConfirm = {},
-        device = Device("test", "test", byteArrayOf(), "test")
+        device = Device("test", "test", byteArrayOf(), "test"),
     )
 }
 
@@ -42,12 +42,12 @@ fun DeviceRemovalDialog(onDismiss: () -> Unit, onConfirm: () -> Unit, device: De
         title = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(top = 0.dp).fillMaxWidth()
+                modifier = Modifier.padding(top = 0.dp).fillMaxWidth(),
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_alert),
                     contentDescription = "Remove",
-                    modifier = Modifier.width(50.dp).height(50.dp)
+                    modifier = Modifier.width(50.dp).height(50.dp),
                 )
             }
         },
@@ -55,7 +55,7 @@ fun DeviceRemovalDialog(onDismiss: () -> Unit, onConfirm: () -> Unit, device: De
             val htmlFormattedDialogText =
                 textResource(
                     id = R.string.max_devices_confirm_removal_description,
-                    device.displayName()
+                    device.displayName(),
                 )
 
             HtmlText(htmlFormattedString = htmlFormattedDialogText, textSize = 16.sp.value)
@@ -63,16 +63,16 @@ fun DeviceRemovalDialog(onDismiss: () -> Unit, onConfirm: () -> Unit, device: De
         dismissButton = {
             NegativeButton(
                 onClick = onConfirm,
-                text = stringResource(id = R.string.confirm_removal)
+                text = stringResource(id = R.string.confirm_removal),
             )
         },
         confirmButton = {
             PrimaryButton(
                 modifier = Modifier.focusRequester(FocusRequester()),
                 onClick = onDismiss,
-                text = stringResource(id = R.string.back)
+                text = stringResource(id = R.string.back),
             )
         },
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.background,
     )
 }

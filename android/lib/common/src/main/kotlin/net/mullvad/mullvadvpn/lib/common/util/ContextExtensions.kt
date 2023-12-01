@@ -11,7 +11,7 @@ private const val ALWAYS_ON_VPN_APP = "always_on_vpn_app"
 
 fun Context.openAccountPageInBrowser(authToken: String) {
     startActivity(
-        Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.account_url) + "?token=$authToken"))
+        Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.account_url) + "?token=$authToken")),
     )
 }
 

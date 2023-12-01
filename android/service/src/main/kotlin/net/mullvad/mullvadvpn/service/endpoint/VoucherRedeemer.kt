@@ -14,7 +14,7 @@ import net.mullvad.mullvadvpn.model.VoucherSubmissionResult
 
 class VoucherRedeemer(
     private val endpoint: ServiceEndpoint,
-    private val accountCache: AccountCache
+    private val accountCache: AccountCache,
 ) {
     private val daemon
         get() = endpoint.intermittentDaemon
@@ -42,7 +42,7 @@ class VoucherRedeemer(
                         val newExpiry = result.submission.newExpiry.parseAsDateTime()
                         if (newExpiry != null) {
                             accountCache.onAccountExpiryChange.notify(
-                                AccountExpiry.Available(newExpiry)
+                                AccountExpiry.Available(newExpiry),
                             )
                         }
                     }

@@ -9,5 +9,5 @@ enum class LoginResult : Parcelable {
     InvalidAccount,
     MaxDevicesReached,
     RpcError,
-    OtherError
+    OtherError,
 }

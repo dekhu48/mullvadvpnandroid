@@ -40,7 +40,7 @@ class SelectLocationScreenTest {
             SelectLocationScreen(
                 uiState = SelectLocationUiState.Loading,
                 uiCloseAction = MutableSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -54,12 +54,12 @@ class SelectLocationScreenTest {
         composeTestRule.setContentWithTheme {
             SelectLocationScreen(
                 uiState =
-                    SelectLocationUiState.ShowData(
-                        countries = DUMMY_RELAY_COUNTRIES,
-                        selectedRelay = null
-                    ),
+                SelectLocationUiState.ShowData(
+                    countries = DUMMY_RELAY_COUNTRIES,
+                    selectedRelay = null,
+                ),
                 uiCloseAction = MutableSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -91,12 +91,12 @@ class SelectLocationScreenTest {
         composeTestRule.setContentWithTheme {
             SelectLocationScreen(
                 uiState =
-                    SelectLocationUiState.ShowData(
-                        countries = updatedDummyList,
-                        selectedRelay = updatedDummyList[0].cities[0].relays[0]
-                    ),
+                SelectLocationUiState.ShowData(
+                    countries = updatedDummyList,
+                    selectedRelay = updatedDummyList[0].cities[0].relays[0],
+                ),
                 uiCloseAction = MutableSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
 
@@ -118,10 +118,10 @@ class SelectLocationScreenTest {
         composeTestRule.setContentWithTheme {
             SelectLocationScreen(
                 uiState =
-                    SelectLocationUiState.ShowData(countries = emptyList(), selectedRelay = null),
+                SelectLocationUiState.ShowData(countries = emptyList(), selectedRelay = null),
                 uiCloseAction = MutableSharedFlow(),
                 enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
-                onSearchTermInput = mockedSearchTermInput
+                onSearchTermInput = mockedSearchTermInput,
             )
         }
         val mockSearchString = "SEARCH"
@@ -143,7 +143,7 @@ class SelectLocationScreenTest {
                 uiState = SelectLocationUiState.NoSearchResultFound(searchTerm = mockSearchString),
                 uiCloseAction = MutableSharedFlow(),
                 enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
-                onSearchTermInput = mockedSearchTermInput
+                onSearchTermInput = mockedSearchTermInput,
             )
         }
 
@@ -161,7 +161,7 @@ class SelectLocationScreenTest {
                 active = true,
                 endpointData = RelayEndpointData.Wireguard(WireguardRelayEndpointData),
                 owned = true,
-                provider = "PROVIDER"
+                provider = "PROVIDER",
             )
         private val DUMMY_RELAY_2 =
             net.mullvad.mullvadvpn.model.Relay(
@@ -169,7 +169,7 @@ class SelectLocationScreenTest {
                 active = true,
                 endpointData = RelayEndpointData.Wireguard(WireguardRelayEndpointData),
                 owned = true,
-                provider = "PROVIDER"
+                provider = "PROVIDER",
             )
         private val DUMMY_RELAY_CITY_1 =
             RelayListCity("Relay City 1", "RCi1", arrayListOf(DUMMY_RELAY_1))
@@ -186,9 +186,9 @@ class SelectLocationScreenTest {
 
         private val DUMMY_RELAY_COUNTRIES =
             RelayList(
-                    arrayListOf(DUMMY_RELAY_COUNTRY_1, DUMMY_RELAY_COUNTRY_2),
-                    DUMMY_WIREGUARD_ENDPOINT_DATA
-                )
+                arrayListOf(DUMMY_RELAY_COUNTRY_1, DUMMY_RELAY_COUNTRY_2),
+                DUMMY_WIREGUARD_ENDPOINT_DATA,
+            )
                 .toRelayCountries(ownership = Constraint.Any(), providers = Constraint.Any())
     }
 }

@@ -86,7 +86,7 @@ val uiModule = module {
     single { DeviceRepository(get()) }
     single {
         PrivacyDisclaimerRepository(
-            androidContext().getSharedPreferences(APP_PREFERENCES_NAME, Context.MODE_PRIVATE)
+            androidContext().getSharedPreferences(APP_PREFERENCES_NAME, Context.MODE_PRIVATE),
         )
     }
     single { SettingsRepository(get()) }

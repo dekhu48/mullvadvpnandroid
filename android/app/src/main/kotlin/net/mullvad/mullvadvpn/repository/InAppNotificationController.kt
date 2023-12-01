@@ -1,6 +1,5 @@
 package net.mullvad.mullvadvpn.repository
 
-import java.util.UUID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -13,6 +12,7 @@ import net.mullvad.mullvadvpn.usecase.TunnelStateNotificationUseCase
 import net.mullvad.mullvadvpn.usecase.VersionNotificationUseCase
 import net.mullvad.talpid.tunnel.ErrorState
 import org.joda.time.DateTime
+import java.util.UUID
 
 enum class StatusLevel {
     Error,
@@ -66,19 +66,19 @@ class InAppNotificationController(
 
     val notifications =
         combine(
-                tunnelStateNotificationUseCase.notifications(),
-                versionNotificationUseCase.notifications(),
-                accountExpiryNotificationUseCase.notifications(),
-                newDeviceNotificationUseCase.notifications(),
-            ) { a, b, c, d ->
-                a + b + c + d
-            }
+            tunnelStateNotificationUseCase.notifications(),
+            versionNotificationUseCase.notifications(),
+            accountExpiryNotificationUseCase.notifications(),
+            newDeviceNotificationUseCase.notifications(),
+        ) { a, b, c, d ->
+            a + b + c + d
+        }
             .map {
                 it.sortedWith(
                     compareBy(
                         { notification -> notification.statusLevel.ordinal },
-                        { notification -> -notification.priority }
-                    )
+                        { notification -> -notification.priority },
+                    ),
                 )
             }
             .stateIn(scope, SharingStarted.Eagerly, emptyList())

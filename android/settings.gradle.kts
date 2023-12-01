@@ -1,7 +1,7 @@
 include(
     ":app",
     ":service",
-    ":tile"
+    ":tile",
 )
 include(
     ":lib:common",
@@ -13,12 +13,12 @@ include(
     ":lib:theme",
     ":lib:common-test",
     ":lib:billing",
-    ":lib:payment"
+    ":lib:payment",
 )
 include(
     ":test",
     ":test:arch",
     ":test:common",
     ":test:e2e",
-    ":test:mockapi"
+    ":test:mockapi",
 )

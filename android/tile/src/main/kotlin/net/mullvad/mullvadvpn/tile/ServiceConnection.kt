@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.IBinder
 import android.os.Looper
 import android.os.Messenger
-import kotlin.reflect.KClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
@@ -32,6 +31,7 @@ import net.mullvad.mullvadvpn.lib.ipc.HandlerFlow
 import net.mullvad.mullvadvpn.lib.ipc.Request
 import net.mullvad.mullvadvpn.model.ServiceResult
 import net.mullvad.mullvadvpn.model.TunnelState
+import kotlin.reflect.KClass
 
 @FlowPreview
 class ServiceConnection(context: Context, scope: CoroutineScope) {
@@ -60,15 +60,16 @@ class ServiceConnection(context: Context, scope: CoroutineScope) {
                     subscribeToState(
                         Event.TunnelStateChange::class,
                         scope,
-                        TunnelState.Disconnected
+                        TunnelState.Disconnected,
                     ) {
                         tunnelState
                     }
 
                 tunnelState =
                     tunnelStateEvents.combine(serviceConnectionStateChannel.consumeAsFlow()) {
-                        tunnelState,
-                        serviceConnectionState ->
+                            tunnelState,
+                            serviceConnectionState,
+                        ->
                         tunnelState to serviceConnectionState
                     }
             }
@@ -120,13 +121,13 @@ class ServiceConnection(context: Context, scope: CoroutineScope) {
     private fun <V : Any, D> DispatchingFlow<in V>.subscribeToState(
         event: KClass<V>,
         scope: CoroutineScope,
-        dataExtractor: suspend V.() -> D
+        dataExtractor: suspend V.() -> D,
     ) = subscribe(event).map(dataExtractor).stateIn(scope, SharingStarted.Lazily, null)
 
     private fun <V : Any, D> DispatchingFlow<in V>.subscribeToState(
         event: KClass<V>,
         scope: CoroutineScope,
         initialValue: D,
-        dataExtractor: suspend V.() -> D
+        dataExtractor: suspend V.() -> D,
     ) = subscribe(event).map(dataExtractor).stateIn(scope, SharingStarted.Lazily, initialValue)
 }

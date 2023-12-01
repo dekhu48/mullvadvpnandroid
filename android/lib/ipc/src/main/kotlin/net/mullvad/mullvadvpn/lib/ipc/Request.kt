@@ -1,8 +1,6 @@
 package net.mullvad.mullvadvpn.lib.ipc
 
-import android.os.Message as RawMessage
 import android.os.Messenger
-import java.net.InetAddress
 import kotlinx.parcelize.Parcelize
 import net.mullvad.mullvadvpn.model.Constraint
 import net.mullvad.mullvadvpn.model.DnsOptions
@@ -13,6 +11,8 @@ import net.mullvad.mullvadvpn.model.PlayPurchase
 import net.mullvad.mullvadvpn.model.Providers
 import net.mullvad.mullvadvpn.model.QuantumResistantState
 import net.mullvad.mullvadvpn.model.WireguardConstraints
+import java.net.InetAddress
+import android.os.Message as RawMessage
 
 // Requests that the service can handle
 sealed class Request : Message.RequestMessage() {
@@ -108,7 +108,7 @@ sealed class Request : Message.RequestMessage() {
     @Parcelize
     data class SetOwnershipAndProviders(
         val ownership: Constraint<Ownership>,
-        val providers: Constraint<Providers>
+        val providers: Constraint<Providers>,
     ) : Request()
 
     companion object {

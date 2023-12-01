@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SYSTEM_EXEMPTED
 import android.net.VpnService
 import android.os.Build
-import kotlin.properties.Delegates.observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -18,11 +17,12 @@ import net.mullvad.mullvadvpn.model.DeviceState
 import net.mullvad.mullvadvpn.model.TunnelState
 import net.mullvad.mullvadvpn.service.endpoint.ConnectionProxy
 import net.mullvad.mullvadvpn.service.notifications.TunnelStateNotification
+import kotlin.properties.Delegates.observable
 
 class ForegroundNotificationManager(
     val service: MullvadVpnService,
     val connectionProxy: ConnectionProxy,
-    val intermittentDaemon: Intermittent<MullvadDaemon>
+    val intermittentDaemon: Intermittent<MullvadDaemon>,
 ) {
     private sealed class UpdaterMessage {
         class UpdateNotification : UpdaterMessage()
@@ -98,7 +98,7 @@ class ForegroundNotificationManager(
                 service.startForeground(
                     TunnelStateNotification.NOTIFICATION_ID,
                     tunnelStateNotification.build(),
-                    FOREGROUND_SERVICE_TYPE_SYSTEM_EXEMPTED
+                    FOREGROUND_SERVICE_TYPE_SYSTEM_EXEMPTED,
                 )
             } else {
                 return

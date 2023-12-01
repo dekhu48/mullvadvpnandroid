@@ -15,7 +15,7 @@ private const val IS_UNACCEPTED_FORMAT = false
 @RunWith(Parameterized::class)
 class VoucherRegexHelperParameterizedTest(
     private val isValid: Boolean,
-    private val voucher: String
+    private val voucher: String,
 ) {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
@@ -39,7 +39,7 @@ class VoucherRegexHelperParameterizedTest(
                 arrayOf(IS_ACCEPTED_FORMAT, "AAAA-AAAA-1111-2222\n"),
                 arrayOf(IS_UNACCEPTED_FORMAT, "@"),
                 arrayOf(IS_UNACCEPTED_FORMAT, "AAAABBBBCCCCDDDD\t"),
-                arrayOf(IS_UNACCEPTED_FORMAT, "AAAA_BBBB_CCCC_DDDD")
+                arrayOf(IS_UNACCEPTED_FORMAT, "AAAA_BBBB_CCCC_DDDD"),
             )
     }
 }

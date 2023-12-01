@@ -34,7 +34,7 @@ private fun PreviewNavigationCell() {
                 )
             },
             onClick = {},
-            showWarning = true
+            showWarning = true,
         )
     }
 }
@@ -50,11 +50,11 @@ private fun PreviewExternalLinkComposeCell() {
                     contentBodyDescription = "content body",
                     content = "content body",
                     contentColor = MaterialTheme.colorScheme.onSecondary,
-                    isExternalLink = true
+                    isExternalLink = true,
                 )
             },
             onClick = {},
-            showWarning = false
+            showWarning = false,
         )
     }
 }
@@ -66,7 +66,7 @@ fun NavigationComposeCell(
     showWarning: Boolean = false,
     bodyView: @Composable () -> Unit = { DefaultNavigationView(chevronContentDescription = title) },
     isRowEnabled: Boolean = true,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     BaseCell(
         onCellClicked = onClick,
@@ -74,11 +74,11 @@ fun NavigationComposeCell(
             NavigationTitleView(
                 title = title,
                 modifier = modifier.weight(1f, true),
-                showWarning = showWarning
+                showWarning = showWarning,
             )
         },
         bodyView = { bodyView() },
-        isRowEnabled = isRowEnabled
+        isRowEnabled = isRowEnabled,
     )
 }
 
@@ -86,20 +86,20 @@ fun NavigationComposeCell(
 internal fun NavigationTitleView(
     title: String,
     modifier: Modifier = Modifier,
-    showWarning: Boolean = false
+    showWarning: Boolean = false,
 ) {
     if (showWarning) {
         Image(
             painter = painterResource(id = R.drawable.icon_alert),
             modifier = Modifier.padding(end = Dimens.smallPadding),
-            contentDescription = stringResource(id = R.string.update_available)
+            contentDescription = stringResource(id = R.string.update_available),
         )
     }
     Text(
         text = title,
         style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.onPrimary,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -107,7 +107,7 @@ internal fun NavigationTitleView(
 internal fun DefaultNavigationView(chevronContentDescription: String) {
     Image(
         painter = painterResource(id = R.drawable.icon_chevron),
-        contentDescription = chevronContentDescription
+        contentDescription = chevronContentDescription,
     )
 }
 
@@ -115,7 +115,7 @@ internal fun DefaultNavigationView(chevronContentDescription: String) {
 internal fun DefaultExternalLinkView(chevronContentDescription: String) {
     Image(
         painter = painterResource(id = R.drawable.icon_extlink),
-        contentDescription = chevronContentDescription
+        contentDescription = chevronContentDescription,
     )
 }
 
@@ -125,11 +125,11 @@ internal fun NavigationCellBody(
     contentBodyDescription: String,
     modifier: Modifier = Modifier,
     contentColor: Color = MaterialTheme.colorScheme.onSecondary,
-    isExternalLink: Boolean = false
+    isExternalLink: Boolean = false,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.wrapContentWidth().wrapContentHeight()
+        modifier = modifier.wrapContentWidth().wrapContentHeight(),
     ) {
         Text(text = content, style = MaterialTheme.typography.labelMedium, color = contentColor)
         Spacer(modifier = Modifier.width(Dimens.sideMargin))

@@ -50,16 +50,16 @@ fun InfoDialog(message: String, additionalInfo: String? = null, onDismiss: () ->
                 modifier = Modifier.fillMaxWidth().height(Dimens.dialogIconHeight),
                 painter = painterResource(id = R.drawable.icon_info),
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         },
         text = {
             val scrollState = rememberScrollState()
             Column(
                 Modifier.drawVerticalScrollbar(
-                        scrollState,
-                        MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaScrollbar)
-                    )
+                    scrollState,
+                    MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaScrollbar),
+                )
                     .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -67,7 +67,7 @@ fun InfoDialog(message: String, additionalInfo: String? = null, onDismiss: () ->
                     text = message,
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
                 if (additionalInfo != null) {
                     Spacer(modifier = Modifier.height(Dimens.verticalSpace))
@@ -80,7 +80,7 @@ fun InfoDialog(message: String, additionalInfo: String? = null, onDismiss: () ->
                         text = trimmed,
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             }
@@ -93,10 +93,10 @@ fun InfoDialog(message: String, additionalInfo: String? = null, onDismiss: () ->
             )
         },
         properties =
-            DialogProperties(
-                dismissOnClickOutside = true,
-                dismissOnBackPress = true,
-            ),
-        containerColor = MaterialTheme.colorScheme.background
+        DialogProperties(
+            dismissOnClickOutside = true,
+            dismissOnBackPress = true,
+        ),
+        containerColor = MaterialTheme.colorScheme.background,
     )
 }

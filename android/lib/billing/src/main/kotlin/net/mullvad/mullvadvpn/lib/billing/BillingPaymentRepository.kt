@@ -27,7 +27,7 @@ import net.mullvad.mullvadvpn.model.PlayPurchaseVerifyResult
 
 class BillingPaymentRepository(
     private val billingRepository: BillingRepository,
-    private val playPurchaseRepository: PlayPurchaseRepository
+    private val playPurchaseRepository: PlayPurchaseRepository,
 ) : PaymentRepository {
 
     override fun queryPaymentAvailability(): Flow<PaymentAvailability> = flow {
@@ -40,13 +40,13 @@ class BillingPaymentRepository(
         emit(
             billingRepository
                 .queryProducts(listOf(ProductIds.OneMonth))
-                .toPaymentAvailability(productIdToPaymentStatus)
+                .toPaymentAvailability(productIdToPaymentStatus),
         )
     }
 
     override fun purchaseProduct(
         productId: ProductId,
-        activityProvider: () -> Activity
+        activityProvider: () -> Activity,
     ): Flow<PurchaseResult> = flow {
         emit(PurchaseResult.FetchingProducts)
 
@@ -65,8 +65,8 @@ class BillingPaymentRepository(
                     emit(
                         PurchaseResult.Error.FetchProductsError(
                             productId,
-                            productDetailsResult.toBillingException()
-                        )
+                            productDetailsResult.toBillingException(),
+                        ),
                     )
                     return@flow
                 }
@@ -87,7 +87,7 @@ class BillingPaymentRepository(
             billingRepository.startPurchaseFlow(
                 productDetails = productDetails,
                 obfuscatedId = obfuscatedId,
-                activityProvider = activityProvider
+                activityProvider = activityProvider,
             )
 
         if (result.responseCode == BillingResponseCode.OK) {
@@ -95,8 +95,8 @@ class BillingPaymentRepository(
         } else {
             emit(
                 PurchaseResult.Error.BillingError(
-                    BillingException(result.responseCode, result.debugMessage)
-                )
+                    BillingException(result.responseCode, result.debugMessage),
+                ),
             )
             return@flow
         }
@@ -141,7 +141,7 @@ class BillingPaymentRepository(
                             is PlayPurchaseVerifyResult.Error ->
                                 VerificationResult.Error.VerificationError(null)
                             PlayPurchaseVerifyResult.Ok -> VerificationResult.Success
-                        }
+                        },
                     )
                 } else {
                     emit(VerificationResult.NothingToVerify)
@@ -161,7 +161,7 @@ class BillingPaymentRepository(
             PlayPurchase(
                 productId = purchase.products.first(),
                 purchaseToken = purchase.purchaseToken,
-            )
+            ),
         )
     }
 }

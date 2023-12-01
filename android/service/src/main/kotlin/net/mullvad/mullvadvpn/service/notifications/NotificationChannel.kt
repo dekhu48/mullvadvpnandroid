@@ -16,7 +16,7 @@ class NotificationChannel(
     description: Int,
     importance: Int,
     isVibrationEnabled: Boolean,
-    isBadgeEnabled: Boolean
+    isBadgeEnabled: Boolean,
 ) {
     private val badgeColor by lazy { context.getColor(R.color.colorPrimary) }
 
@@ -41,7 +41,7 @@ class NotificationChannel(
         intent: PendingIntent,
         title: String,
         deleteIntent: PendingIntent? = null,
-        isOngoing: Boolean = false
+        isOngoing: Boolean = false,
     ): Notification {
         return buildNotification(intent, title, emptyList(), deleteIntent, isOngoing)
     }
@@ -50,7 +50,7 @@ class NotificationChannel(
         intent: PendingIntent,
         title: Int,
         deleteIntent: PendingIntent? = null,
-        isOngoing: Boolean = false
+        isOngoing: Boolean = false,
     ): Notification {
         return buildNotification(intent, title, emptyList(), deleteIntent, isOngoing)
     }
@@ -60,14 +60,14 @@ class NotificationChannel(
         title: Int,
         actions: List<NotificationCompat.Action>,
         deleteIntent: PendingIntent? = null,
-        isOngoing: Boolean = false
+        isOngoing: Boolean = false,
     ): Notification {
         return buildNotification(
             pendingIntent,
             context.getString(title),
             actions,
             deleteIntent,
-            isOngoing
+            isOngoing,
         )
     }
 
@@ -76,7 +76,7 @@ class NotificationChannel(
         title: String,
         actions: List<NotificationCompat.Action>,
         deleteIntent: PendingIntent? = null,
-        isOngoing: Boolean = false
+        isOngoing: Boolean = false,
     ): Notification {
         val builder =
             NotificationCompat.Builder(context, id)

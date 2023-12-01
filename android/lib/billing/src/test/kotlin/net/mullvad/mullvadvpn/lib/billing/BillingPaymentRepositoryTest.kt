@@ -10,8 +10,6 @@ import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.runTest
 import net.mullvad.mullvadvpn.lib.billing.extension.toPaymentProduct
@@ -28,6 +26,8 @@ import net.mullvad.mullvadvpn.model.PlayPurchaseVerifyResult
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class BillingPaymentRepositoryTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -48,7 +48,7 @@ class BillingPaymentRepositoryTest {
         paymentRepository =
             BillingPaymentRepository(
                 billingRepository = mockBillingRepository,
-                playPurchaseRepository = mockPlayPurchaseRepository
+                playPurchaseRepository = mockPlayPurchaseRepository,
             )
     }
 
@@ -194,7 +194,7 @@ class BillingPaymentRepositoryTest {
             mockBillingRepository.startPurchaseFlow(
                 productDetails = any(),
                 obfuscatedId = any(),
-                activityProvider = any()
+                activityProvider = any(),
             )
         } returns mockBillingResult
         coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
@@ -229,7 +229,7 @@ class BillingPaymentRepositoryTest {
             mockBillingRepository.startPurchaseFlow(
                 productDetails = any(),
                 obfuscatedId = mockObfuscatedId,
-                activityProvider = any()
+                activityProvider = any(),
             )
         } returns mockBillingResult
         coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
@@ -269,7 +269,7 @@ class BillingPaymentRepositoryTest {
             mockBillingRepository.startPurchaseFlow(
                 productDetails = any(),
                 obfuscatedId = any(),
-                activityProvider = any()
+                activityProvider = any(),
             )
         } returns mockBillingResult
         coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
@@ -312,7 +312,7 @@ class BillingPaymentRepositoryTest {
             mockBillingRepository.startPurchaseFlow(
                 productDetails = any(),
                 obfuscatedId = any(),
-                activityProvider = any()
+                activityProvider = any(),
             )
         } returns mockBillingResult
         coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
@@ -352,7 +352,7 @@ class BillingPaymentRepositoryTest {
             mockBillingRepository.startPurchaseFlow(
                 productDetails = any(),
                 obfuscatedId = any(),
-                activityProvider = any()
+                activityProvider = any(),
             )
         } returns mockBillingResult
         coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns

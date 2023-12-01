@@ -1,13 +1,13 @@
 package net.mullvad.mullvadvpn.ui.serviceconnection
 
-import kotlin.properties.Delegates.observable
 import net.mullvad.mullvadvpn.lib.ipc.Event
 import net.mullvad.mullvadvpn.lib.ipc.EventDispatcher
 import net.mullvad.mullvadvpn.model.AppVersionInfo
+import kotlin.properties.Delegates.observable
 
 class AppVersionInfoCache(
     eventDispatcher: EventDispatcher,
-    private val settingsListener: SettingsListener
+    private val settingsListener: SettingsListener,
 ) {
     private var appVersionInfo by
         observable<AppVersionInfo?>(null) { _, _, _ -> onUpdate?.invoke() }

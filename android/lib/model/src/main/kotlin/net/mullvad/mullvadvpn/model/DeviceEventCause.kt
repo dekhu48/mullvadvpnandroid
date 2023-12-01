@@ -9,5 +9,5 @@ enum class DeviceEventCause : Parcelable {
     LoggedOut,
     Revoked,
     Updated,
-    RotatedKey
+    RotatedKey,
 }

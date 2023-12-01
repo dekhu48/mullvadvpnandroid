@@ -1,6 +1,5 @@
 package net.mullvad.mullvadvpn.service.endpoint
 
-import kotlin.properties.Delegates.observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
@@ -20,6 +19,7 @@ import net.mullvad.mullvadvpn.model.RelaySettings
 import net.mullvad.mullvadvpn.model.TunnelState
 import net.mullvad.mullvadvpn.service.util.ExponentialBackoff
 import net.mullvad.talpid.tunnel.ActionAfterDisconnect
+import kotlin.properties.Delegates.observable
 
 class LocationInfoCache(private val endpoint: ServiceEndpoint) {
 

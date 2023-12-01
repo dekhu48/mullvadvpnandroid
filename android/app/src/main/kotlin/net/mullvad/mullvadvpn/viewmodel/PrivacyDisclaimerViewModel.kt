@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import net.mullvad.mullvadvpn.repository.PrivacyDisclaimerRepository
 
 class PrivacyDisclaimerViewModel(
-    private val privacyDisclaimerRepository: PrivacyDisclaimerRepository
+    private val privacyDisclaimerRepository: PrivacyDisclaimerRepository,
 ) : ViewModel() {
     fun setPrivacyDisclosureAccepted() = privacyDisclaimerRepository.setPrivacyDisclosureAccepted()
 }

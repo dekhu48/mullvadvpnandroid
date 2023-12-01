@@ -1,10 +1,10 @@
 package net.mullvad.mullvadvpn.util
 
+import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
 import java.text.DateFormat
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.DurationUnit
-import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
 
 fun DateTime.formatDate(): String = ISODateTimeFormat.date().print(this)
 

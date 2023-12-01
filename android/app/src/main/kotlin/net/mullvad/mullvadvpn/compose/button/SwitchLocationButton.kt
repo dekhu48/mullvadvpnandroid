@@ -33,20 +33,22 @@ fun SwitchLocationButton(
     PrimaryButton(
         onClick = onClick,
         colors =
-            ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.inverseSurface.copy(alpha = Alpha20),
-                contentColor = MaterialTheme.colorScheme.inverseSurface
-            ),
+        ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.inverseSurface.copy(alpha = Alpha20),
+            contentColor = MaterialTheme.colorScheme.inverseSurface,
+        ),
         modifier = modifier,
         text = text,
         icon =
-            if (showChevron) {
-                {
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_chevron),
-                        contentDescription = null
-                    )
-                }
-            } else null
+        if (showChevron) {
+            {
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_chevron),
+                    contentDescription = null,
+                )
+            }
+        } else {
+            null
+        },
     )
 }

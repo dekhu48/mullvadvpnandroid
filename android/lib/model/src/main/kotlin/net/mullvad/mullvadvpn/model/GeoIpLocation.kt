@@ -1,8 +1,8 @@
 package net.mullvad.mullvadvpn.model
 
 import android.os.Parcelable
-import java.net.InetAddress
 import kotlinx.parcelize.Parcelize
+import java.net.InetAddress
 
 @Parcelize
 data class GeoIpLocation(
@@ -10,5 +10,5 @@ data class GeoIpLocation(
     val ipv6: InetAddress?,
     val country: String,
     val city: String?,
-    val hostname: String?
+    val hostname: String?,
 ) : Parcelable

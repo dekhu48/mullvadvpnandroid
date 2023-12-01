@@ -48,7 +48,7 @@ class DeviceRevokedViewModelTest {
             DeviceRevokedViewModel(
                 mockedServiceConnectionManager,
                 mockedAccountRepository,
-                UnconfinedTestDispatcher()
+                UnconfinedTestDispatcher(),
             )
     }
 

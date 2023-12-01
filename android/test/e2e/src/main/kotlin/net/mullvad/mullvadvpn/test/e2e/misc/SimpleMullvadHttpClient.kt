@@ -44,7 +44,7 @@ class SimpleMullvadHttpClient(context: Context) {
             sendSimpleSynchronousRequestArray(
                 Request.Method.GET,
                 DEVICE_LIST_URL,
-                token = accessToken
+                token = accessToken,
             )
 
         return response!!
@@ -64,7 +64,7 @@ class SimpleMullvadHttpClient(context: Context) {
         sendSimpleSynchronousRequestString(
             Request.Method.DELETE,
             "$DEVICE_LIST_URL/$deviceId",
-            token = token
+            token = token,
         )
     }
 
@@ -74,7 +74,7 @@ class SimpleMullvadHttpClient(context: Context) {
             ?.let { json ->
                 ConnCheckState(
                     isConnected = json.getBoolean("mullvad_exit_ip"),
-                    ipAddress = json.getString("ip")
+                    ipAddress = json.getString("ip"),
                 )
             }
     }
@@ -83,7 +83,7 @@ class SimpleMullvadHttpClient(context: Context) {
         method: Int,
         url: String,
         body: JSONObject? = null,
-        token: String? = null
+        token: String? = null,
     ): JSONObject? {
         val future = RequestFuture.newFuture<JSONObject>()
         val request =
@@ -114,7 +114,7 @@ class SimpleMullvadHttpClient(context: Context) {
         method: Int,
         url: String,
         body: String? = null,
-        token: String? = null
+        token: String? = null,
     ): String? {
         val future = RequestFuture.newFuture<String>()
         val request =
@@ -143,7 +143,7 @@ class SimpleMullvadHttpClient(context: Context) {
         method: Int,
         url: String,
         body: JSONArray? = null,
-        token: String? = null
+        token: String? = null,
     ): JSONArray? {
         val future = RequestFuture.newFuture<JSONArray>()
         val request =

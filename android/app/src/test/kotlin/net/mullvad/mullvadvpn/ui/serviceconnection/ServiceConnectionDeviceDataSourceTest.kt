@@ -12,7 +12,6 @@ import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
-import kotlin.reflect.KClass
 import net.mullvad.mullvadvpn.lib.common.util.JobTracker
 import net.mullvad.mullvadvpn.lib.ipc.Event
 import net.mullvad.mullvadvpn.lib.ipc.EventDispatcher
@@ -20,6 +19,7 @@ import net.mullvad.mullvadvpn.lib.ipc.Request
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import kotlin.reflect.KClass
 
 class ServiceConnectionDeviceDataSourceTest {
     private val tracker = JobTracker()

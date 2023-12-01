@@ -29,7 +29,7 @@ private fun PreviewMullvadSwitch() {
         Surface(color = MaterialTheme.colorScheme.background) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(Dimens.mediumPadding),
-                modifier = Modifier.padding(Dimens.sideMargin)
+                modifier = Modifier.padding(Dimens.sideMargin),
             ) {
                 MullvadSwitch(checked = true, onCheckedChange = null)
                 MullvadSwitch(checked = false, onCheckedChange = null)
@@ -60,7 +60,7 @@ fun MullvadSwitch(
         thumbContent = thumbContent,
         enabled = enabled,
         colors = colors,
-        interactionSource
+        interactionSource,
     )
 }
 
@@ -76,21 +76,21 @@ fun mullvadSwitchColors(): SwitchColors =
         uncheckedBorderColor = MaterialTheme.colorScheme.onPrimary,
         //    uncheckedIconColor= SwitchTokens.UnselectedIconColor.toColor(),
         disabledCheckedThumbColor =
-            MaterialTheme.colorScheme.selected
-                .copy(alpha = AlphaDisabled)
-                .compositeOver(MaterialTheme.colorScheme.primary),
+        MaterialTheme.colorScheme.selected
+            .copy(alpha = AlphaDisabled)
+            .compositeOver(MaterialTheme.colorScheme.primary),
         disabledCheckedTrackColor = Color.Transparent,
         disabledCheckedBorderColor =
-            MaterialTheme.colorScheme.onPrimary
-                .copy(alpha = AlphaDisabled)
-                .compositeOver(MaterialTheme.colorScheme.primary),
+        MaterialTheme.colorScheme.onPrimary
+            .copy(alpha = AlphaDisabled)
+            .compositeOver(MaterialTheme.colorScheme.primary),
         disabledUncheckedThumbColor =
-            MaterialTheme.colorScheme.error
-                .copy(alpha = AlphaDisabled)
-                .compositeOver(MaterialTheme.colorScheme.primary),
+        MaterialTheme.colorScheme.error
+            .copy(alpha = AlphaDisabled)
+            .compositeOver(MaterialTheme.colorScheme.primary),
         disabledUncheckedTrackColor = Color.Transparent,
         disabledUncheckedBorderColor =
-            MaterialTheme.colorScheme.onPrimary
-                .copy(alpha = AlphaDisabled)
-                .compositeOver(MaterialTheme.colorScheme.primary),
+        MaterialTheme.colorScheme.onPrimary
+            .copy(alpha = AlphaDisabled)
+            .compositeOver(MaterialTheme.colorScheme.primary),
     )

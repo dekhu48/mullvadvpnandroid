@@ -10,8 +10,7 @@ fun LocationConstraint.toGeographicLocationConstraint(): GeographicLocationConst
         is LocationConstraint.CustomList -> null
     }
 
-fun Constraint<LocationConstraint>.toGeographicLocationConstraint():
-    Constraint<GeographicLocationConstraint> =
+fun Constraint<LocationConstraint>.toGeographicLocationConstraint(): Constraint<GeographicLocationConstraint> =
     when (this) {
         is Constraint.Only ->
             when (value) {

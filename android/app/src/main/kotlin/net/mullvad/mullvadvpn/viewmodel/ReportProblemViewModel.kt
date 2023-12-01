@@ -32,7 +32,7 @@ sealed interface SendingReportUiState {
 
 class ReportProblemViewModel(
     private val mullvadProblemReporter: MullvadProblemReport,
-    private val problemReportRepository: ProblemReportRepository
+    private val problemReportRepository: ProblemReportRepository,
 ) : ViewModel() {
 
     private val showConfirmNoEmail = MutableStateFlow(false)
@@ -40,17 +40,17 @@ class ReportProblemViewModel(
 
     val uiState =
         combine(
-                showConfirmNoEmail,
-                sendingState,
-                problemReportRepository.problemReport,
-            ) { showConfirmNoEmail, pendingState, userReport ->
-                ReportProblemUiState(
-                    showConfirmNoEmail = showConfirmNoEmail,
-                    sendingState = pendingState,
-                    email = userReport.email ?: "",
-                    description = userReport.description,
-                )
-            }
+            showConfirmNoEmail,
+            sendingState,
+            problemReportRepository.problemReport,
+        ) { showConfirmNoEmail, pendingState, userReport ->
+            ReportProblemUiState(
+                showConfirmNoEmail = showConfirmNoEmail,
+                sendingState = pendingState,
+                email = userReport.email ?: "",
+                description = userReport.description,
+            )
+        }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), ReportProblemUiState())
 
     fun sendReport(

@@ -37,7 +37,7 @@ private fun PreviewCustomPortDialog() {
             customPort = "",
             allowedPortRanges = listOf(PortRange(10, 10), PortRange(40, 50)),
             showReset = true,
-            onDismissRequest = {}
+            onDismissRequest = {},
         )
     }
 }
@@ -49,7 +49,7 @@ fun CustomPortDialog(
     showReset: Boolean,
     onSave: (customPortString: String) -> Unit,
     onReset: () -> Unit,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     val port = remember { mutableStateOf(customPort) }
 
@@ -57,7 +57,7 @@ fun CustomPortDialog(
         title = {
             Text(
                 text = stringResource(id = R.string.custom_port_dialog_title),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
             )
         },
         confirmButton = {
@@ -66,18 +66,18 @@ fun CustomPortDialog(
                     text = stringResource(id = R.string.custom_port_dialog_submit),
                     onClick = { onSave(port.value) },
                     isEnabled =
-                        port.value.isNotEmpty() &&
-                            allowedPortRanges.isPortInValidRanges(port.value.toIntOrNull() ?: 0)
+                    port.value.isNotEmpty() &&
+                        allowedPortRanges.isPortInValidRanges(port.value.toIntOrNull() ?: 0),
                 )
                 if (showReset) {
                     NegativeButton(
                         text = stringResource(R.string.custom_port_dialog_remove),
-                        onClick = onReset
+                        onClick = onReset,
                     )
                 }
                 PrimaryButton(
                     text = stringResource(id = R.string.cancel),
-                    onClick = onDismissRequest
+                    onClick = onDismissRequest,
                 )
             }
         },
@@ -88,32 +88,32 @@ fun CustomPortDialog(
                     onSubmit = { input ->
                         if (
                             input.isNotEmpty() &&
-                                allowedPortRanges.isPortInValidRanges(input.toIntOrNull() ?: 0)
+                            allowedPortRanges.isPortInValidRanges(input.toIntOrNull() ?: 0)
                         ) {
                             onSave(input)
                         }
                     },
                     onValueChanged = { input -> port.value = input },
                     isValidValue =
-                        port.value.isNotEmpty() &&
-                            allowedPortRanges.isPortInValidRanges(port.value.toIntOrNull() ?: 0),
+                    port.value.isNotEmpty() &&
+                        allowedPortRanges.isPortInValidRanges(port.value.toIntOrNull() ?: 0),
                     maxCharLength = 5,
-                    modifier = Modifier.testTag(CUSTOM_PORT_DIALOG_INPUT_TEST_TAG).fillMaxWidth()
+                    modifier = Modifier.testTag(CUSTOM_PORT_DIALOG_INPUT_TEST_TAG).fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.height(Dimens.smallPadding))
                 Text(
                     text =
-                        stringResource(
-                            id = R.string.custom_port_dialog_valid_ranges,
-                            allowedPortRanges.asString()
-                        ),
+                    stringResource(
+                        id = R.string.custom_port_dialog_valid_ranges,
+                        allowedPortRanges.asString(),
+                    ),
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDescription),
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
         },
         containerColor = MaterialTheme.colorScheme.background,
         titleContentColor = MaterialTheme.colorScheme.onBackground,
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismissRequest,
     )
 }

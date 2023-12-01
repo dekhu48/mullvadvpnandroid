@@ -51,7 +51,7 @@ class ConnectViewModel(
     private val inAppNotificationController: InAppNotificationController,
     private val newDeviceNotificationUseCase: NewDeviceNotificationUseCase,
     private val relayListUseCase: RelayListUseCase,
-    private val paymentUseCase: PaymentUseCase
+    private val paymentUseCase: PaymentUseCase,
 ) : ViewModel() {
     private val _uiSideEffect = MutableSharedFlow<UiSideEffect>(extraBufferCapacity = 1)
     val uiSideEffect = _uiSideEffect.asSharedFlow()
@@ -80,55 +80,56 @@ class ConnectViewModel(
                     serviceConnection.connectionProxy.tunnelRealStateFlow(),
                     accountRepository.accountExpiryState,
                     _isTunnelInfoExpanded,
-                    deviceRepository.deviceState.map { it.deviceName() }
+                    deviceRepository.deviceState.map { it.deviceName() },
                 ) {
-                    location,
-                    relayLocation,
-                    notifications,
-                    tunnelUiState,
-                    tunnelRealState,
-                    accountExpiry,
-                    isTunnelInfoExpanded,
-                    deviceName ->
+                        location,
+                        relayLocation,
+                        notifications,
+                        tunnelUiState,
+                        tunnelRealState,
+                        accountExpiry,
+                        isTunnelInfoExpanded,
+                        deviceName,
+                    ->
                     if (tunnelRealState.isTunnelErrorStateDueToExpiredAccount()) {
                         _uiSideEffect.tryEmit(UiSideEffect.OpenOutOfTimeView)
                     }
                     ConnectUiState(
                         location =
-                            when (tunnelRealState) {
-                                is TunnelState.Connected -> tunnelRealState.location
-                                is TunnelState.Connecting -> tunnelRealState.location
-                                else -> null
-                            }
-                                ?: location,
+                        when (tunnelRealState) {
+                            is TunnelState.Connected -> tunnelRealState.location
+                            is TunnelState.Connecting -> tunnelRealState.location
+                            else -> null
+                        }
+                            ?: location,
                         relayLocation = relayLocation,
                         tunnelUiState = tunnelUiState,
                         tunnelRealState = tunnelRealState,
                         isTunnelInfoExpanded = isTunnelInfoExpanded,
                         inAddress =
-                            when (tunnelRealState) {
-                                is TunnelState.Connected -> tunnelRealState.endpoint.toInAddress()
-                                is TunnelState.Connecting -> tunnelRealState.endpoint?.toInAddress()
-                                else -> null
-                            },
+                        when (tunnelRealState) {
+                            is TunnelState.Connected -> tunnelRealState.endpoint.toInAddress()
+                            is TunnelState.Connecting -> tunnelRealState.endpoint?.toInAddress()
+                            else -> null
+                        },
                         outAddress = location?.toOutAddress() ?: "",
                         showLocation =
-                            when (tunnelUiState) {
-                                is TunnelState.Disconnected -> true
-                                is TunnelState.Disconnecting -> {
-                                    when (tunnelUiState.actionAfterDisconnect) {
-                                        ActionAfterDisconnect.Nothing -> false
-                                        ActionAfterDisconnect.Block -> true
-                                        ActionAfterDisconnect.Reconnect -> false
-                                    }
+                        when (tunnelUiState) {
+                            is TunnelState.Disconnected -> true
+                            is TunnelState.Disconnecting -> {
+                                when (tunnelUiState.actionAfterDisconnect) {
+                                    ActionAfterDisconnect.Nothing -> false
+                                    ActionAfterDisconnect.Block -> true
+                                    ActionAfterDisconnect.Reconnect -> false
                                 }
-                                is TunnelState.Connecting -> false
-                                is TunnelState.Connected -> false
-                                is TunnelState.Error -> true
-                            },
+                            }
+                            is TunnelState.Connecting -> false
+                            is TunnelState.Connected -> false
+                            is TunnelState.Error -> true
+                        },
                         inAppNotification = notifications.firstOrNull(),
                         deviceName = deviceName,
-                        daysLeftUntilExpiry = accountExpiry.date()?.daysFromNow()
+                        daysLeftUntilExpiry = accountExpiry.date()?.daysFromNow(),
                     )
                 }
             }
@@ -185,8 +186,8 @@ class ConnectViewModel(
         viewModelScope.launch {
             _uiSideEffect.tryEmit(
                 UiSideEffect.OpenAccountManagementPageInBrowser(
-                    serviceConnectionManager.authTokenCache()?.fetchAuthToken() ?: ""
-                )
+                    serviceConnectionManager.authTokenCache()?.fetchAuthToken() ?: "",
+                ),
             )
         }
     }

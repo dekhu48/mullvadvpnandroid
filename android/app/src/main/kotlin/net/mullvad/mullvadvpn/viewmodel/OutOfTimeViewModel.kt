@@ -57,13 +57,13 @@ class OutOfTimeViewModel(
                     serviceConnection.connectionProxy.tunnelStateFlow(),
                     deviceRepository.deviceState,
                     paymentUseCase.paymentAvailability,
-                    paymentUseCase.purchaseResult
+                    paymentUseCase.purchaseResult,
                 ) { tunnelState, deviceState, paymentAvailability, purchaseResult ->
                     OutOfTimeUiState(
                         tunnelState = tunnelState,
                         deviceName = deviceState.deviceName() ?: "",
                         billingPaymentState = paymentAvailability?.toPaymentState(),
-                        paymentDialogData = purchaseResult?.toPaymentDialogData()
+                        paymentDialogData = purchaseResult?.toPaymentDialogData(),
                     )
                 }
             }
@@ -100,8 +100,8 @@ class OutOfTimeViewModel(
         viewModelScope.launch {
             _uiSideEffect.tryEmit(
                 UiSideEffect.OpenAccountView(
-                    serviceConnectionManager.authTokenCache()?.fetchAuthToken() ?: ""
-                )
+                    serviceConnectionManager.authTokenCache()?.fetchAuthToken() ?: "",
+                ),
             )
         }
     }

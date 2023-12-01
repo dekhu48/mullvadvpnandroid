@@ -29,7 +29,7 @@ fun AnimatedIconButton(
     secondaryIconColorFilter: ColorFilter? = null,
     contentDescription: String,
     isToggleButton: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     var state by remember { mutableStateOf(ButtonState.IDLE) }
     if (state == ButtonState.PRESSED) {
@@ -40,21 +40,21 @@ fun AnimatedIconButton(
     }
     Box(
         modifier =
-            modifier
-                .clickable {
-                    when (state) {
-                        ButtonState.IDLE -> {
-                            state = if (isToggleButton) ButtonState.TOGGLED else ButtonState.PRESSED
-                            onClick()
-                        }
-                        ButtonState.TOGGLED -> {
-                            state = ButtonState.IDLE
-                            onClick()
-                        }
-                        ButtonState.PRESSED -> {}
+        modifier
+            .clickable {
+                when (state) {
+                    ButtonState.IDLE -> {
+                        state = if (isToggleButton) ButtonState.TOGGLED else ButtonState.PRESSED
+                        onClick()
                     }
+                    ButtonState.TOGGLED -> {
+                        state = ButtonState.IDLE
+                        onClick()
+                    }
+                    ButtonState.PRESSED -> {}
                 }
-                .padding(all = Dimens.smallPadding)
+            }
+            .padding(all = Dimens.smallPadding),
     ) {
         AnimatedContent(targetState = state, label = contentDescription) { targetState ->
             val iconPainter: Painter
@@ -82,7 +82,7 @@ fun AnimatedIconButton(
                 painter = iconPainter,
                 colorFilter = colorFilter,
                 contentDescription = contentDescription,
-                modifier = imageModifier
+                modifier = imageModifier,
             )
         }
     }
@@ -91,5 +91,5 @@ fun AnimatedIconButton(
 enum class ButtonState {
     IDLE,
     TOGGLED,
-    PRESSED
+    PRESSED,
 }

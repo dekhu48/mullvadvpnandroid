@@ -5,7 +5,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
-import kotlin.test.assertEquals
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +22,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class InAppNotificationControllerTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -56,7 +56,7 @@ class InAppNotificationControllerTest {
                 newDeviceNotificationUseCase,
                 versionNotificationUseCase,
                 tunnelStateNotificationUseCase,
-                CoroutineScope(job + testCoroutineRule.testDispatcher)
+                CoroutineScope(job + testCoroutineRule.testDispatcher),
             )
     }
 
@@ -95,7 +95,7 @@ class InAppNotificationControllerTest {
                     newDevice,
                     updateAvailable,
                 ),
-                notifications
+                notifications,
             )
         }
     }

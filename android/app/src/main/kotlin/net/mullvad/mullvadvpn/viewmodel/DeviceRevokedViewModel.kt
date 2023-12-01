@@ -20,7 +20,7 @@ import net.mullvad.talpid.util.callbackFlowFromSubscription
 class DeviceRevokedViewModel(
     private val serviceConnectionManager: ServiceConnectionManager,
     private val accountRepository: AccountRepository,
-    dispatcher: CoroutineDispatcher = Dispatchers.IO
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
 
     val uiState =
@@ -39,7 +39,7 @@ class DeviceRevokedViewModel(
             .stateIn(
                 scope = CoroutineScope(dispatcher),
                 started = SharingStarted.WhileSubscribed(),
-                initialValue = DeviceRevokedUiState.UNKNOWN
+                initialValue = DeviceRevokedUiState.UNKNOWN,
             )
 
     fun onGoToLoginClicked() {

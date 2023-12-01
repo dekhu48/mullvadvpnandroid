@@ -26,7 +26,7 @@ object SdkUtils {
     fun Context.isNotificationPermissionGranted(): Boolean {
         return (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) ||
             checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) ==
-                PackageManager.PERMISSION_GRANTED
+            PackageManager.PERMISSION_GRANTED
     }
 
     fun Tile.setSubtitleIfSupported(subtitleText: CharSequence) {
@@ -39,7 +39,8 @@ object SdkUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             getInstalledPackages(PackageManager.PackageInfoFlags.of(flags.toLong()))
         } else {
-            @Suppress("DEPRECATION") getInstalledPackages(flags)
+            @Suppress("DEPRECATION")
+            getInstalledPackages(flags)
         }
 
     fun showCopyToastIfNeeded(context: Context, message: String) {

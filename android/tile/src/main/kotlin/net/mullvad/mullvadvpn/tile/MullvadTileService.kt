@@ -44,7 +44,7 @@ class MullvadTileService : TileService() {
         // Workaround for the reported bug: https://issuetracker.google.com/issues/236862865
         suspend fun isUnlockStatusPropagatedWithinTimeout(
             unlockTimeoutMillis: Long,
-            unlockCheckDelayMillis: Long
+            unlockCheckDelayMillis: Long,
         ): Boolean {
             return withTimeoutOrNull(unlockTimeoutMillis) {
                 while (isLocked) {
@@ -60,7 +60,7 @@ class MullvadTileService : TileService() {
                 val isUnlockStatusPropagated =
                     isUnlockStatusPropagatedWithinTimeout(
                         unlockTimeoutMillis = 1000L,
-                        unlockCheckDelayMillis = 100L
+                        unlockCheckDelayMillis = 100L,
                     )
 
                 if (isUnlockStatusPropagated) {
@@ -92,8 +92,8 @@ class MullvadTileService : TileService() {
                     setClassName(applicationContext.packageName, MAIN_ACTIVITY_CLASS)
                     flags =
                         Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                            Intent.FLAG_ACTIVITY_SINGLE_TOP or
-                            Intent.FLAG_ACTIVITY_NEW_TASK
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP or
+                        Intent.FLAG_ACTIVITY_NEW_TASK
                     action = Intent.ACTION_MAIN
                 }
             startActivityAndCollapseCompat(intent)
@@ -124,7 +124,7 @@ class MullvadTileService : TileService() {
                     applicationContext,
                     0,
                     intent,
-                    SdkUtils.getSupportedPendingIntentFlags()
+                    SdkUtils.getSupportedPendingIntentFlags(),
                 )
             startActivityAndCollapse(pendingIntent)
         } else {
@@ -143,7 +143,7 @@ class MullvadTileService : TileService() {
 
     private fun mapToTileState(
         tunnelState: TunnelState,
-        connectionState: ServiceResult.ConnectionState
+        connectionState: ServiceResult.ConnectionState,
     ): Int {
         return if (connectionState == ServiceResult.ConnectionState.CONNECTED) {
             when (tunnelState) {

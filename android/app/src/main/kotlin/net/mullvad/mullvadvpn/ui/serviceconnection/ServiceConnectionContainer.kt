@@ -18,7 +18,7 @@ import org.koin.core.component.KoinComponent
 class ServiceConnectionContainer(
     val connection: Messenger,
     onServiceReady: (ServiceConnectionContainer) -> Unit,
-    onVpnPermissionRequest: () -> Unit
+    onVpnPermissionRequest: () -> Unit,
 ) : KoinComponent {
     private val dispatcher =
         DispatchingHandler(Looper.getMainLooper()) { message -> Event.fromMessage(message) }

@@ -8,6 +8,6 @@ sealed interface SplitTunnelingUiState {
     data class ShowAppList(
         val excludedApps: List<AppData> = emptyList(),
         val includedApps: List<AppData> = emptyList(),
-        val showSystemApps: Boolean = false
+        val showSystemApps: Boolean = false,
     ) : SplitTunnelingUiState
 }

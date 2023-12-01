@@ -18,7 +18,7 @@ import net.mullvad.mullvadvpn.lib.theme.color.AlphaChevron
 fun ChevronView(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaChevron),
-    isExpanded: Boolean
+    isExpanded: Boolean,
 ) {
     val resourceId = R.drawable.icon_chevron
 
@@ -27,7 +27,7 @@ fun ChevronView(
         animateFloatAsState(
             targetValue = degree,
             label = "",
-            animationSpec = TweenSpec(100, easing = LinearEasing)
+            animationSpec = TweenSpec(100, easing = LinearEasing),
         )
 
     Icon(

@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.app.NotificationCompat
-import kotlin.properties.Delegates.observable
 import kotlinx.coroutines.delay
 import net.mullvad.mullvadvpn.lib.common.constant.MAIN_ACTIVITY_CLASS
 import net.mullvad.mullvadvpn.lib.common.util.Intermittent
@@ -22,11 +21,12 @@ import net.mullvad.mullvadvpn.service.constant.IS_PLAY_BUILD
 import net.mullvad.mullvadvpn.service.endpoint.AccountCache
 import org.joda.time.DateTime
 import org.joda.time.Duration
+import kotlin.properties.Delegates.observable
 
 class AccountExpiryNotification(
     val context: Context,
     val daemon: Intermittent<MullvadDaemon>,
-    val accountCache: AccountCache
+    val accountCache: AccountCache,
 ) {
 
     private val jobTracker = JobTracker()
@@ -43,7 +43,7 @@ class AccountExpiryNotification(
             R.string.account_time_notification_channel_description,
             NotificationManager.IMPORTANCE_HIGH,
             true,
-            true
+            true,
         )
 
     var accountExpiry by
@@ -122,12 +122,12 @@ class AccountExpiryNotification(
             if (remainingTimeInfo.days >= 1) {
                 return getRemainingText(
                     R.plurals.account_credit_expires_in_days,
-                    remainingTime.standardDays.toInt()
+                    remainingTime.standardDays.toInt(),
                 )
             } else if (remainingTimeInfo.hours >= 1) {
                 return getRemainingText(
                     R.plurals.account_credit_expires_in_hours,
-                    remainingTime.standardHours.toInt()
+                    remainingTime.standardHours.toInt(),
                 )
             } else {
                 return resources.getString(R.string.account_credit_expires_in_a_few_minutes)

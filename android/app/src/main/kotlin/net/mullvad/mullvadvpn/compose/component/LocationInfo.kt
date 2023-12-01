@@ -32,7 +32,7 @@ private fun PreviewLocationInfo() {
             isExpanded = true,
             location = null,
             inAddress = null,
-            outAddress = ""
+            outAddress = "",
         )
     }
 }
@@ -47,48 +47,48 @@ fun LocationInfo(
     isExpanded: Boolean,
     location: GeoIpLocation?,
     inAddress: Triple<String, Int, TransportProtocol>?,
-    outAddress: String
+    outAddress: String,
 ) {
     Column(
         modifier =
-            if (isVisible) {
-                    Modifier.clickable { onToggleTunnelInfo() }.alpha(AlphaVisible)
-                } else {
-                    Modifier.alpha(AlphaInvisible)
-                }
-                .then(modifier)
+        if (isVisible) {
+            Modifier.clickable { onToggleTunnelInfo() }.alpha(AlphaVisible)
+        } else {
+            Modifier.alpha(AlphaInvisible)
+        }
+            .then(modifier),
     ) {
         Row {
             Text(
                 text = location?.hostname ?: "",
                 color =
-                    if (isExpanded) {
-                        colorExpanded
-                    } else {
-                        colorCollapsed
-                    },
-                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold)
+                if (isExpanded) {
+                    colorExpanded
+                } else {
+                    colorCollapsed
+                },
+                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.SemiBold),
             )
             ChevronView(
                 isExpanded = isExpanded,
                 color =
-                    if (isExpanded) {
-                        colorExpanded
-                    } else {
-                        colorCollapsed
-                    },
-                modifier = Modifier.padding(horizontal = Dimens.chevronMargin)
+                if (isExpanded) {
+                    colorExpanded
+                } else {
+                    colorCollapsed
+                },
+                modifier = Modifier.padding(horizontal = Dimens.chevronMargin),
             )
         }
         Text(
             text =
-                if (isExpanded) {
-                    stringResource(id = R.string.wireguard)
-                } else {
-                    ""
-                },
+            if (isExpanded) {
+                stringResource(id = R.string.wireguard)
+            } else {
+                ""
+            },
             color = colorExpanded,
-            style = MaterialTheme.typography.labelMedium
+            style = MaterialTheme.typography.labelMedium,
         )
         val textInAddress =
             inAddress?.let {
@@ -104,16 +104,16 @@ fun LocationInfo(
             text = "${stringResource(id = R.string.in_address)} $textInAddress",
             color = colorExpanded,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.alpha(if (isExpanded) AlphaVisible else AlphaInvisible)
+            modifier = Modifier.alpha(if (isExpanded) AlphaVisible else AlphaInvisible),
         )
         Text(
             text = "${stringResource(id = R.string.out_address)} $outAddress",
             color = colorExpanded,
             style = MaterialTheme.typography.labelMedium,
             modifier =
-                Modifier.alpha(
-                    if (isExpanded && outAddress.isNotEmpty()) AlphaVisible else AlphaInvisible
-                )
+            Modifier.alpha(
+                if (isExpanded && outAddress.isNotEmpty()) AlphaVisible else AlphaInvisible,
+            ),
         )
     }
 }

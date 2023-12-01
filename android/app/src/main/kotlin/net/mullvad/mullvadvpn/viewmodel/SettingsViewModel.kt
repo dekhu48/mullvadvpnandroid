@@ -16,33 +16,34 @@ import net.mullvad.mullvadvpn.ui.serviceconnection.ServiceConnectionManager
 
 class SettingsViewModel(
     deviceRepository: DeviceRepository,
-    serviceConnectionManager: ServiceConnectionManager
+    serviceConnectionManager: ServiceConnectionManager,
 ) : ViewModel() {
     private val _enterTransitionEndAction = MutableSharedFlow<Unit>()
 
     private val vmState: StateFlow<SettingsUiState> =
         combine(deviceRepository.deviceState, serviceConnectionManager.connectionState) {
                 deviceState,
-                versionInfo ->
-                val cachedVersionInfo = versionInfo.readyContainer()?.appVersionInfoCache
-                SettingsUiState(
-                    isLoggedIn = deviceState is DeviceState.LoggedIn,
-                    appVersion = cachedVersionInfo?.version ?: "",
-                    isUpdateAvailable =
-                        cachedVersionInfo?.let { it.isSupported.not() || it.isOutdated } ?: false
-                )
-            }
+                versionInfo,
+            ->
+            val cachedVersionInfo = versionInfo.readyContainer()?.appVersionInfoCache
+            SettingsUiState(
+                isLoggedIn = deviceState is DeviceState.LoggedIn,
+                appVersion = cachedVersionInfo?.version ?: "",
+                isUpdateAvailable =
+                cachedVersionInfo?.let { it.isSupported.not() || it.isOutdated } ?: false,
+            )
+        }
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(),
-                SettingsUiState(appVersion = "", isLoggedIn = false, isUpdateAvailable = false)
+                SettingsUiState(appVersion = "", isLoggedIn = false, isUpdateAvailable = false),
             )
 
     val uiState =
         vmState.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(),
-            SettingsUiState(appVersion = "", isLoggedIn = false, isUpdateAvailable = false)
+            SettingsUiState(appVersion = "", isLoggedIn = false, isUpdateAvailable = false),
         )
 
     @Suppress("konsist.ensure public properties use permitted names")

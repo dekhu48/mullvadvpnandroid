@@ -6,8 +6,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
 import net.mullvad.mullvadvpn.lib.common.test.TestCoroutineRule
@@ -22,6 +20,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class VersionNotificationUseCaseTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -38,8 +38,8 @@ class VersionNotificationUseCaseTest {
                 currentVersion = null,
                 upgradeVersion = null,
                 isOutdated = false,
-                isSupported = true
-            )
+                isSupported = true,
+            ),
         )
     private lateinit var versionNotificationUseCase: VersionNotificationUseCase
 
@@ -59,7 +59,7 @@ class VersionNotificationUseCaseTest {
         versionNotificationUseCase =
             VersionNotificationUseCase(
                 serviceConnectionManager = mockServiceConnectionManager,
-                isVersionInfoNotificationEnabled = true
+                isVersionInfoNotificationEnabled = true,
             )
     }
 
@@ -103,7 +103,7 @@ class VersionNotificationUseCaseTest {
             // Assert
             assertEquals(
                 awaitItem(),
-                listOf(InAppNotification.UnsupportedVersion(upgradeVersionInfo))
+                listOf(InAppNotification.UnsupportedVersion(upgradeVersionInfo)),
             )
         }
     }

@@ -42,7 +42,7 @@ class LoginViewModel(
     private val accountRepository: AccountRepository,
     private val deviceRepository: DeviceRepository,
     private val newDeviceNotificationUseCase: NewDeviceNotificationUseCase,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
     private val _loginState = MutableStateFlow(LoginUiState.INITIAL.loginState)
     private val _loginInput = MutableStateFlow(LoginUiState.INITIAL.accountNumberInput)
@@ -59,7 +59,7 @@ class LoginViewModel(
             LoginUiState(
                 loginInput,
                 accountHistoryState.accountToken()?.let(::AccountToken),
-                loginState
+                loginState,
             )
         }
     val uiState: StateFlow<LoginUiState> =
@@ -101,13 +101,13 @@ class LoginViewModel(
                                 accountToken = accountToken,
                                 shouldClearCache = true,
                                 shouldOverrideCache = true,
-                                timeoutMillis = 5000L
+                                timeoutMillis = 5000L,
                             )
 
                         if (refreshResult.isAvailable()) {
                             // Navigate to device list
                             _uiSideEffect.emit(
-                                LoginUiSideEffect.TooManyDevices(AccountToken(accountToken))
+                                LoginUiSideEffect.TooManyDevices(AccountToken(accountToken)),
                             )
                             return@launch
                         } else {

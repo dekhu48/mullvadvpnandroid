@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.IBinder
 import android.os.Messenger
 import android.util.Log
-import kotlin.reflect.KClass
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +21,7 @@ import net.mullvad.mullvadvpn.lib.ipc.Request
 import net.mullvad.mullvadvpn.service.MullvadVpnService
 import net.mullvad.mullvadvpn.util.flatMapReadyConnectionOrDefault
 import net.mullvad.talpid.util.EventNotifier
+import kotlin.reflect.KClass
 
 class ServiceConnectionManager(private val context: Context) : MessageHandler {
     private val _connectionState =
@@ -49,9 +49,9 @@ class ServiceConnectionManager(private val context: Context) : MessageHandler {
                         ServiceConnectionContainer(
                             Messenger(binder),
                             ::handleNewServiceConnection,
-                            ::handleVpnPermissionRequest
-                        )
-                    )
+                            ::handleVpnPermissionRequest,
+                        ),
+                    ),
                 )
             }
 
@@ -64,7 +64,7 @@ class ServiceConnectionManager(private val context: Context) : MessageHandler {
 
     fun bind(
         vpnPermissionRequestHandler: () -> Unit,
-        apiEndpointConfiguration: ApiEndpointConfiguration?
+        apiEndpointConfiguration: ApiEndpointConfiguration?,
     ) {
         synchronized(this) {
             if (isBound.not()) {

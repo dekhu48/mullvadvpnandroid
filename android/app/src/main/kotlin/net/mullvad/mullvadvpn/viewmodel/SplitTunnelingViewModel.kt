@@ -28,7 +28,7 @@ import net.mullvad.mullvadvpn.ui.serviceconnection.splitTunneling
 class SplitTunnelingViewModel(
     private val appsProvider: ApplicationsProvider,
     private val serviceConnectionManager: ServiceConnectionManager,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
     private val allApps = MutableStateFlow<List<AppData>?>(null)
@@ -51,19 +51,19 @@ class SplitTunnelingViewModel(
                 combine(
                     serviceConnection.splitTunneling.excludedAppsCallbackFlow(),
                     allApps,
-                    showSystemApps
+                    showSystemApps,
                 ) { excludedApps, allApps, showSystemApps ->
                     SplitTunnelingViewModelState(
                         excludedApps = excludedApps,
                         allApps = allApps,
-                        showSystemApps = showSystemApps
+                        showSystemApps = showSystemApps,
                     )
                 }
             }
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(),
-                SplitTunnelingViewModelState()
+                SplitTunnelingViewModelState(),
             )
 
     val uiState =
@@ -72,7 +72,7 @@ class SplitTunnelingViewModel(
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(),
-                SplitTunnelingUiState.Loading
+                SplitTunnelingUiState.Loading,
             )
 
     init {

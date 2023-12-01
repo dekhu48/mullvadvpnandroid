@@ -8,5 +8,5 @@ data class WelcomeUiState(
     val accountNumber: String? = null,
     val deviceName: String? = null,
     val billingPaymentState: PaymentState? = null,
-    val paymentDialogData: PaymentDialogData? = null
+    val paymentDialogData: PaymentDialogData? = null,
 )

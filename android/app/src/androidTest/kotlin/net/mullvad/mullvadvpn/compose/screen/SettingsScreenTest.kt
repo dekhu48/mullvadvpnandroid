@@ -27,8 +27,8 @@ class SettingsScreenTest {
         composeTestRule.setContentWithTheme {
             SettingsScreen(
                 uiState =
-                    SettingsUiState(appVersion = "", isLoggedIn = true, isUpdateAvailable = true),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                SettingsUiState(appVersion = "", isLoggedIn = true, isUpdateAvailable = true),
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
         // Assert
@@ -46,8 +46,8 @@ class SettingsScreenTest {
         composeTestRule.setContentWithTheme {
             SettingsScreen(
                 uiState =
-                    SettingsUiState(appVersion = "", isLoggedIn = false, isUpdateAvailable = true),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                SettingsUiState(appVersion = "", isLoggedIn = false, isUpdateAvailable = true),
+                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
         // Assert

@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class TunnelEndpoint(
     val endpoint: Endpoint,
     val quantumResistant: Boolean,
-    val obfuscation: ObfuscationEndpoint?
+    val obfuscation: ObfuscationEndpoint?,
 ) : Parcelable

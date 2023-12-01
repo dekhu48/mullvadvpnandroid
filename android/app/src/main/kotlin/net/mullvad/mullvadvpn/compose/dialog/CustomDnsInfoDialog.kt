@@ -15,6 +15,6 @@ private fun PreviewCustomDnsInfoDialog() {
 fun CustomDnsInfoDialog(onDismiss: () -> Unit) {
     InfoDialog(
         message = stringResource(id = R.string.settings_changes_effect_warning_content_blocker),
-        onDismiss = onDismiss
+        onDismiss = onDismiss,
     )
 }

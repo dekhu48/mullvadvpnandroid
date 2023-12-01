@@ -16,6 +16,6 @@ fun QuantumResistanceInfoDialog(onDismiss: () -> Unit) {
     InfoDialog(
         message = stringResource(id = R.string.quantum_resistant_info_first_paragaph),
         additionalInfo = stringResource(id = R.string.quantum_resistant_info_second_paragaph),
-        onDismiss = onDismiss
+        onDismiss = onDismiss,
     )
 }

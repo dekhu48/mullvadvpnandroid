@@ -13,11 +13,11 @@ import net.mullvad.mullvadvpn.ui.serviceconnection.RelayListListener
 
 class RelayListFilterUseCase(
     private val relayListListener: RelayListListener,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
 ) {
     fun updateOwnershipAndProviderFilter(
         ownership: Constraint<Ownership>,
-        providers: Constraint<Providers>
+        providers: Constraint<Providers>,
     ) {
         relayListListener.updateSelectedOwnershipAndProviderFilter(ownership, providers)
     }

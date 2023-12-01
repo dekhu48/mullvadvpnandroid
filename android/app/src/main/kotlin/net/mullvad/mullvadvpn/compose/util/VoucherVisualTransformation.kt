@@ -14,8 +14,8 @@ fun vouchersVisualTransformation() = VisualTransformation { text ->
     var out = text.chunked(VOUCHER_CHUNK_SIZE).joinToString(VOUCHER_SEPARATOR)
     if (
         text.length % VOUCHER_CHUNK_SIZE == 0 &&
-            text.isNotEmpty() &&
-            text.length < MAX_VOUCHER_LENGTH
+        text.isNotEmpty() &&
+        text.length < MAX_VOUCHER_LENGTH
     ) {
         out += VOUCHER_SEPARATOR
     }
@@ -27,12 +27,12 @@ fun vouchersVisualTransformation() = VisualTransformation { text ->
                 // Limit max input to 19 characters (16 voucher - 3 dividers)
                 return min(
                     res,
-                    MAX_VOUCHER_LENGTH + MAX_VOUCHER_LENGTH / ACCOUNT_TOKEN_CHUNK_SIZE - 1
+                    MAX_VOUCHER_LENGTH + MAX_VOUCHER_LENGTH / ACCOUNT_TOKEN_CHUNK_SIZE - 1,
                 )
             }
 
             override fun transformedToOriginal(offset: Int): Int =
                 offset - offset / (ACCOUNT_TOKEN_CHUNK_SIZE + 1)
-        }
+        },
     )
 }

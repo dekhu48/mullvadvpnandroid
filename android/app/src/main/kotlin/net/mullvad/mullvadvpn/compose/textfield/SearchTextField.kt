@@ -50,14 +50,14 @@ fun SearchTextField(
     singleLine: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     var searchTerm by rememberSaveable { mutableStateOf("") }
 
     BasicTextField(
         value = searchTerm,
         textStyle =
-            MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onSecondary),
+        MaterialTheme.typography.labelLarge.copy(color = MaterialTheme.colorScheme.onSecondary),
         onValueChange = { text: String ->
             searchTerm = text
             onValueChange.invoke(text)
@@ -65,46 +65,46 @@ fun SearchTextField(
         singleLine = singleLine,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.onSecondary),
         decorationBox =
-            @Composable { innerTextField ->
-                TextFieldDefaults.DecorationBox(
-                    value = searchTerm,
-                    innerTextField = innerTextField,
-                    enabled = enabled,
-                    singleLine = singleLine,
-                    interactionSource = interactionSource,
-                    visualTransformation = visualTransformation,
-                    leadingIcon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.icons_search),
-                            contentDescription = null,
-                            modifier =
-                                Modifier.size(
-                                    width = Dimens.searchIconSize,
-                                    height = Dimens.searchIconSize
-                                ),
-                            colorFilter =
-                                ColorFilter.tint(color = MaterialTheme.colorScheme.onSecondary)
-                        )
-                    },
-                    placeholder = {
-                        Text(text = placeHolder, style = MaterialTheme.typography.labelLarge)
-                    },
-                    shape = MaterialTheme.shapes.medium,
-                    colors =
-                        TextFieldDefaults.colors(
-                            focusedTextColor = MaterialTheme.colorScheme.onSecondary,
-                            unfocusedTextColor = MaterialTheme.colorScheme.onSecondary,
-                            focusedContainerColor = backgroundColor,
-                            unfocusedContainerColor = backgroundColor,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            cursorColor = MaterialTheme.colorScheme.onSecondary,
-                            focusedPlaceholderColor = MaterialTheme.colorScheme.onSecondary,
-                            unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSecondary
+        @Composable { innerTextField ->
+            TextFieldDefaults.DecorationBox(
+                value = searchTerm,
+                innerTextField = innerTextField,
+                enabled = enabled,
+                singleLine = singleLine,
+                interactionSource = interactionSource,
+                visualTransformation = visualTransformation,
+                leadingIcon = {
+                    Image(
+                        painter = painterResource(id = R.drawable.icons_search),
+                        contentDescription = null,
+                        modifier =
+                        Modifier.size(
+                            width = Dimens.searchIconSize,
+                            height = Dimens.searchIconSize,
                         ),
-                    contentPadding = PaddingValues(),
-                )
-            },
-        modifier = modifier
+                        colorFilter =
+                        ColorFilter.tint(color = MaterialTheme.colorScheme.onSecondary),
+                    )
+                },
+                placeholder = {
+                    Text(text = placeHolder, style = MaterialTheme.typography.labelLarge)
+                },
+                shape = MaterialTheme.shapes.medium,
+                colors =
+                TextFieldDefaults.colors(
+                    focusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSecondary,
+                    focusedContainerColor = backgroundColor,
+                    unfocusedContainerColor = backgroundColor,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = MaterialTheme.colorScheme.onSecondary,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSecondary,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSecondary,
+                ),
+                contentPadding = PaddingValues(),
+            )
+        },
+        modifier = modifier,
     )
 }

@@ -26,7 +26,7 @@ class ConnectFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val view = inflater.inflate(R.layout.fragment_compose, container, false)
 
@@ -60,11 +60,11 @@ class ConnectFragment : BaseFragment() {
     private fun openDownloadUrl() {
         val intent =
             Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(
-                        requireContext().getString(R.string.download_url).appendHideNavOnPlayBuild()
-                    )
-                )
+                Intent.ACTION_VIEW,
+                Uri.parse(
+                    requireContext().getString(R.string.download_url).appendHideNavOnPlayBuild(),
+                ),
+            )
                 .apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
         requireContext().startActivity(intent)
     }
@@ -75,7 +75,7 @@ class ConnectFragment : BaseFragment() {
                 R.anim.fragment_enter_from_bottom,
                 R.anim.do_nothing,
                 R.anim.do_nothing,
-                R.anim.fragment_exit_to_bottom
+                R.anim.fragment_exit_to_bottom,
             )
             replace(R.id.main_fragment, SelectLocationFragment())
             addToBackStack(null)

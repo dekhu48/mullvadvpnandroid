@@ -6,7 +6,6 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import kotlin.test.assertEquals
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
@@ -19,12 +18,15 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class ReportProblemModelTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
 
     @MockK private lateinit var mockMullvadProblemReport: MullvadProblemReport
-    @MockK(relaxed = true) private lateinit var mockProblemReportRepository: ProblemReportRepository
+
+    @MockK(relaxed = true)
+    private lateinit var mockProblemReportRepository: ProblemReportRepository
 
     private val problemReportFlow = MutableStateFlow(UserReport("", ""))
 
@@ -57,7 +59,7 @@ class ReportProblemModelTest {
             assertEquals(SendingReportUiState.Sending, awaitItem().sendingState)
             assertEquals(
                 SendingReportUiState.Error(SendProblemReportResult.Error.CollectLog),
-                awaitItem().sendingState
+                awaitItem().sendingState,
             )
         }
     }
@@ -76,7 +78,7 @@ class ReportProblemModelTest {
             assertEquals(SendingReportUiState.Sending, awaitItem().sendingState)
             assertEquals(
                 SendingReportUiState.Error(SendProblemReportResult.Error.SendReport),
-                awaitItem().sendingState
+                awaitItem().sendingState,
             )
         }
     }
@@ -97,7 +99,7 @@ class ReportProblemModelTest {
             assertEquals(ReportProblemUiState(false, SendingReportUiState.Sending), awaitItem())
             assertEquals(
                 ReportProblemUiState(false, SendingReportUiState.Success(null)),
-                awaitItem()
+                awaitItem(),
             )
         }
     }
@@ -118,7 +120,7 @@ class ReportProblemModelTest {
             assertEquals(awaitItem(), ReportProblemUiState(false, SendingReportUiState.Sending))
             assertEquals(
                 awaitItem(),
-                ReportProblemUiState(false, SendingReportUiState.Success(email))
+                ReportProblemUiState(false, SendingReportUiState.Success(email)),
             )
         }
     }

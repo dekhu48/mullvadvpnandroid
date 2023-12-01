@@ -9,9 +9,6 @@ import io.mockk.mockkStatic
 import io.mockk.slot
 import io.mockk.unmockkAll
 import io.mockk.verify
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
-import kotlin.test.assertTrue
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,6 +46,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertTrue
 
 class ConnectViewModelTest {
     @get:Rule val testCoroutineRule = TestCoroutineRule()
@@ -64,8 +64,8 @@ class ConnectViewModelTest {
                 currentVersion = null,
                 upgradeVersion = null,
                 isOutdated = false,
-                isSupported = true
-            )
+                isSupported = true,
+            ),
         )
     private val accountExpiryState = MutableStateFlow<AccountExpiry>(AccountExpiry.Missing)
     private val deviceState = MutableStateFlow<DeviceState>(DeviceState.Initial)
@@ -144,7 +144,7 @@ class ConnectViewModelTest {
                 inAppNotificationController = mockInAppNotificationController,
                 relayListUseCase = mockRelayListUseCase,
                 newDeviceNotificationUseCase = mockk(),
-                paymentUseCase = mockPaymentUseCase
+                paymentUseCase = mockPaymentUseCase,
             )
     }
 
@@ -231,7 +231,7 @@ class ConnectViewModelTest {
                     ipv6 = mockk(relaxed = true),
                     country = "Sweden",
                     city = "Gothenburg",
-                    hostname = "Host"
+                    hostname = "Host",
                 )
 
             viewModel.uiState.test {
