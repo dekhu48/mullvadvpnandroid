@@ -130,6 +130,5 @@ object Dependencies {
         const val detektId = "io.gitlab.arturbosch.detekt"
         const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Plugin.detekt}"
         const val gradleVersionsId = "com.github.ben-manes.versions"
-        const val ktfmtId = "com.ncorti.ktfmt.gradle"
     }
 }
