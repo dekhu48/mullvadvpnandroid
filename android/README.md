@@ -30,14 +30,10 @@ See the [build instructions](BuildInstructions.md) for further information.
 ## Linting and formatting
 
 ### Kotlin formatting
-`ktfmt` is used for kotlin formatting.
+`detekt` is used for kotlin formatting.
 
-See the [official documentation](https://github.com/facebook/ktfmt) for how to use it as default
-formatter in Android Studio. Ensure to set `kotlinLangStyle` as "Code Style" and to set the project
-to rely on the `EditorConfig` (`.editorconfig` file).
-
-Also, see the [`ktfmt` gradle plugin documentation](https://github.com/cortinico/ktfmt-gradle) for
-how to use it as a gradle task.
+See the [official documentation](https://detekt.dev/) for how to use it as default
+formatter in Android Studio. Ensure you've setup your idea to work with the detekt plugin.
 
 ### XML formatting
 In order to format XML files, the script `scripts/tidy.sh` is used. As the script name implies, it's basically a helper script to run the tool called `tidy`. It needs to be installed unless the
@@ -54,8 +50,8 @@ scripts/tidy.sh formatAndCheckDiff
 ```
 
 #### macOS
-Since macOS is using a different version of `sed` running the tidy script (`scripts/tidy.sh`) will 
-lead to the creation of a large number of files ending with `-e`. The recommended fix for this 
+Since macOS is using a different version of `sed` running the tidy script (`scripts/tidy.sh`) will
+lead to the creation of a large number of files ending with `-e`. The recommended fix for this
 issue is to install the gnu version of `sed`. This can be done by running:
 `brew install gnu-sed` and then set `gnu-sed` as your default `sed`.
 
