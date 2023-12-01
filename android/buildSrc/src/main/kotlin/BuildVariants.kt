@@ -44,5 +44,5 @@ val enabledVariantTriples =
         Triple(PLAY, DEVMOLE, DEBUG),
         Triple(PLAY, DEVMOLE, RELEASE),
         Triple(PLAY, STAGEMOLE, DEBUG),
-        Triple(PLAY, STAGEMOLE, RELEASE)
+        Triple(PLAY, STAGEMOLE, RELEASE),
     )

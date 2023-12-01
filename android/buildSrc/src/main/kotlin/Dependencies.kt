@@ -63,7 +63,6 @@ object Dependencies {
             "androidx.compose.ui:ui-tooling-preview:${Versions.Compose.base}"
         const val uiToolingAndroidPreview =
             "androidx.compose.ui:ui-tooling-preview-android:${Versions.Compose.base}"
-
     }
 
     object Koin {
@@ -128,6 +127,8 @@ object Dependencies {
         const val dependencyCheck =
             "org.owasp:dependency-check-gradle:${Versions.Plugin.dependencyCheck}"
         const val dependencyCheckId = "org.owasp.dependencycheck"
+        const val detektId = "io.gitlab.arturbosch.detekt"
+        const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.Plugin.detekt}"
         const val gradleVersionsId = "com.github.ben-manes.versions"
         const val ktfmtId = "com.ncorti.ktfmt.gradle"
     }
