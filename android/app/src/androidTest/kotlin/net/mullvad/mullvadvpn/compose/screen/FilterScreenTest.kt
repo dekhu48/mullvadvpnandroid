@@ -1,8 +1,9 @@
 package net.mullvad.mullvadvpn.compose.screen
 
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import de.mannodermaus.junit5.compose.createComposeExtension
 import io.mockk.MockKAnnotations
 import io.mockk.mockk
 import io.mockk.verify
@@ -11,138 +12,145 @@ import net.mullvad.mullvadvpn.compose.setContentWithTheme
 import net.mullvad.mullvadvpn.compose.state.RelayFilterState
 import net.mullvad.mullvadvpn.model.Ownership
 import net.mullvad.mullvadvpn.relaylist.Provider
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
 
+@OptIn(ExperimentalTestApi::class)
 class FilterScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @JvmField @RegisterExtension val composeExtension = createComposeExtension()
 
     fun setup() {
         MockKAnnotations.init(this)
     }
 
     @Test
-    fun testDefaultState() {
-        composeTestRule.setContentWithTheme {
-            FilterScreen(
-                uiState =
-                    RelayFilterState(
-                        allProviders = DUMMY_RELAY_ALL_PROVIDERS,
-                        selectedOwnership = null,
-                        selectedProviders = DUMMY_SELECTED_PROVIDERS,
-                    ),
-                uiCloseAction = MutableSharedFlow(),
-                onSelectedProviders = { _, _ -> }
-            )
+    fun testDefaultState() =
+        composeExtension.use {
+            setContentWithTheme {
+                FilterScreen(
+                    uiState =
+                        RelayFilterState(
+                            allProviders = DUMMY_RELAY_ALL_PROVIDERS,
+                            selectedOwnership = null,
+                            selectedProviders = DUMMY_SELECTED_PROVIDERS,
+                        ),
+                    uiCloseAction = MutableSharedFlow(),
+                    onSelectedProviders = { _, _ -> }
+                )
+            }
+            apply {
+                onNodeWithText("Ownership").assertExists()
+                onNodeWithText("Providers").assertExists()
+            }
         }
-        composeTestRule.apply {
-            onNodeWithText("Ownership").assertExists()
-            onNodeWithText("Providers").assertExists()
-        }
-    }
 
     @Test
-    fun testIsAnyCellShowing() {
-        composeTestRule.setContentWithTheme {
-            FilterScreen(
-                uiState =
-                    RelayFilterState(
-                        allProviders = DUMMY_RELAY_ALL_PROVIDERS,
-                        selectedOwnership = null,
-                        selectedProviders = DUMMY_SELECTED_PROVIDERS
-                    ),
-                uiCloseAction = MutableSharedFlow(),
-                onSelectedProviders = { _, _ -> }
-            )
+    fun testIsAnyCellShowing() =
+        composeExtension.use {
+            setContentWithTheme {
+                FilterScreen(
+                    uiState =
+                        RelayFilterState(
+                            allProviders = DUMMY_RELAY_ALL_PROVIDERS,
+                            selectedOwnership = null,
+                            selectedProviders = DUMMY_SELECTED_PROVIDERS
+                        ),
+                    uiCloseAction = MutableSharedFlow(),
+                    onSelectedProviders = { _, _ -> }
+                )
+            }
+            apply {
+                onNodeWithText("Ownership").performClick()
+                onNodeWithText("Any").assertExists()
+            }
         }
-        composeTestRule.apply {
-            onNodeWithText("Ownership").performClick()
-            onNodeWithText("Any").assertExists()
-        }
-    }
 
     @Test
-    fun testIsMullvadCellShowing() {
-        composeTestRule.setContentWithTheme {
-            FilterScreen(
-                uiState =
-                    RelayFilterState(
-                        allProviders = DUMMY_RELAY_ALL_PROVIDERS,
-                        selectedOwnership = Ownership.MullvadOwned,
-                        selectedProviders = DUMMY_SELECTED_PROVIDERS
-                    ),
-                uiCloseAction = MutableSharedFlow(),
-                onSelectedProviders = { _, _ -> }
-            )
+    fun testIsMullvadCellShowing() =
+        composeExtension.use {
+            setContentWithTheme {
+                FilterScreen(
+                    uiState =
+                        RelayFilterState(
+                            allProviders = DUMMY_RELAY_ALL_PROVIDERS,
+                            selectedOwnership = Ownership.MullvadOwned,
+                            selectedProviders = DUMMY_SELECTED_PROVIDERS
+                        ),
+                    uiCloseAction = MutableSharedFlow(),
+                    onSelectedProviders = { _, _ -> }
+                )
+            }
+            apply {
+                onNodeWithText("Ownership").performClick()
+                onNodeWithText("Mullvad owned only").assertExists()
+            }
         }
-        composeTestRule.apply {
-            onNodeWithText("Ownership").performClick()
-            onNodeWithText("Mullvad owned only").assertExists()
-        }
-    }
 
     @Test
-    fun testIsRentedCellShowing() {
-        composeTestRule.setContentWithTheme {
-            FilterScreen(
-                uiState =
-                    RelayFilterState(
-                        allProviders = DUMMY_RELAY_ALL_PROVIDERS,
-                        selectedOwnership = Ownership.Rented,
-                        selectedProviders = DUMMY_SELECTED_PROVIDERS
-                    ),
-                uiCloseAction = MutableSharedFlow(),
-                onSelectedProviders = { _, _ -> }
-            )
+    fun testIsRentedCellShowing() =
+        composeExtension.use {
+            setContentWithTheme {
+                FilterScreen(
+                    uiState =
+                        RelayFilterState(
+                            allProviders = DUMMY_RELAY_ALL_PROVIDERS,
+                            selectedOwnership = Ownership.Rented,
+                            selectedProviders = DUMMY_SELECTED_PROVIDERS
+                        ),
+                    uiCloseAction = MutableSharedFlow(),
+                    onSelectedProviders = { _, _ -> }
+                )
+            }
+            apply {
+                onNodeWithText("Ownership").performClick()
+                onNodeWithText("Rented only").assertExists()
+            }
         }
-        composeTestRule.apply {
-            onNodeWithText("Ownership").performClick()
-            onNodeWithText("Rented only").assertExists()
-        }
-    }
 
     @Test
-    fun testShowProviders() {
-        composeTestRule.setContentWithTheme {
-            FilterScreen(
-                uiState =
-                    RelayFilterState(
-                        allProviders = DUMMY_RELAY_ALL_PROVIDERS,
-                        selectedOwnership = null,
-                        selectedProviders = DUMMY_SELECTED_PROVIDERS
-                    ),
-                uiCloseAction = MutableSharedFlow(),
-                onSelectedProviders = { _, _ -> }
-            )
-        }
+    fun testShowProviders() =
+        composeExtension.use {
+            setContentWithTheme {
+                FilterScreen(
+                    uiState =
+                        RelayFilterState(
+                            allProviders = DUMMY_RELAY_ALL_PROVIDERS,
+                            selectedOwnership = null,
+                            selectedProviders = DUMMY_SELECTED_PROVIDERS
+                        ),
+                    uiCloseAction = MutableSharedFlow(),
+                    onSelectedProviders = { _, _ -> }
+                )
+            }
 
-        composeTestRule.apply {
-            onNodeWithText("Providers").performClick()
-            onNodeWithText("Creanova").assertExists()
-            onNodeWithText("Creanova").assertExists()
-            onNodeWithText("100TB").assertExists()
+            apply {
+                onNodeWithText("Providers").performClick()
+                onNodeWithText("Creanova").assertExists()
+                onNodeWithText("Creanova").assertExists()
+                onNodeWithText("100TB").assertExists()
+            }
         }
-    }
 
     @Test
-    fun testApplyButtonClick() {
-        val mockClickListener: () -> Unit = mockk(relaxed = true)
-        composeTestRule.setContentWithTheme {
-            FilterScreen(
-                uiState =
-                    RelayFilterState(
-                        allProviders = listOf(),
-                        selectedOwnership = null,
-                        selectedProviders = listOf(Provider("31173", true))
-                    ),
-                uiCloseAction = MutableSharedFlow(),
-                onSelectedProviders = { _, _ -> },
-                onApplyClick = mockClickListener
-            )
+    fun testApplyButtonClick() =
+        composeExtension.use {
+            val mockClickListener: () -> Unit = mockk(relaxed = true)
+            setContentWithTheme {
+                FilterScreen(
+                    uiState =
+                        RelayFilterState(
+                            allProviders = listOf(),
+                            selectedOwnership = null,
+                            selectedProviders = listOf(Provider("31173", true))
+                        ),
+                    uiCloseAction = MutableSharedFlow(),
+                    onSelectedProviders = { _, _ -> },
+                    onApplyClick = mockClickListener
+                )
+            }
+            onNodeWithText("Apply").performClick()
+            verify { mockClickListener() }
         }
-        composeTestRule.onNodeWithText("Apply").performClick()
-        verify { mockClickListener() }
-    }
 
     companion object {
 

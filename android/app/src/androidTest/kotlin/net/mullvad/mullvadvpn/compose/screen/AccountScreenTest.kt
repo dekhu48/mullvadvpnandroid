@@ -2,10 +2,11 @@ package net.mullvad.mullvadvpn.compose.screen
 
 import android.app.Activity
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import de.mannodermaus.junit5.compose.createComposeExtension
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
@@ -23,334 +24,258 @@ import net.mullvad.mullvadvpn.lib.payment.model.PurchaseResult
 import net.mullvad.mullvadvpn.util.toPaymentDialogData
 import net.mullvad.mullvadvpn.viewmodel.AccountUiState
 import net.mullvad.mullvadvpn.viewmodel.AccountViewModel
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.RegisterExtension
 
+@ExperimentalTestApi
 @OptIn(ExperimentalMaterial3Api::class)
 class AccountScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @JvmField @RegisterExtension val composeExtension = createComposeExtension()
 
-    @Before
+    @BeforeEach
     fun setup() {
         MockKAnnotations.init(this)
     }
 
     @Test
-    fun testDefaultState() {
-        // Arrange
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState(
-                        deviceName = DUMMY_DEVICE_NAME,
-                        accountNumber = DUMMY_ACCOUNT_NUMBER,
-                        accountExpiry = null
-                    ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
-        }
+    fun testDefaultState() =
+        composeExtension.use {
+            // Arrange
+            setContentWithTheme {
+                AccountScreen(
+                    showSitePayment = true,
+                    uiState =
+                        AccountUiState(
+                            deviceName = DUMMY_DEVICE_NAME,
+                            accountNumber = DUMMY_ACCOUNT_NUMBER,
+                            accountExpiry = null
+                        ),
+                    uiSideEffect =
+                        MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
+                    enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                )
+            }
 
-        // Assert
-        composeTestRule.apply {
+            // Assert
             onNodeWithText("Redeem voucher").assertExists()
             onNodeWithText("Log out").assertExists()
         }
-    }
 
     @Test
-    fun testManageAccountClick() {
-        // Arrange
-        val mockedClickHandler: () -> Unit = mockk(relaxed = true)
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState(
-                        deviceName = DUMMY_DEVICE_NAME,
-                        accountNumber = DUMMY_ACCOUNT_NUMBER,
-                        accountExpiry = null
-                    ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
-                onManageAccountClick = mockedClickHandler
-            )
-        }
-
-        // Act
-        composeTestRule.onNodeWithText("Manage account").performClick()
-
-        // Assert
-        verify { mockedClickHandler.invoke() }
-    }
-
-    @Test
-    fun testRedeemVoucherClick() {
-        // Arrange
-        val mockedClickHandler: () -> Unit = mockk(relaxed = true)
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState(
-                        deviceName = DUMMY_DEVICE_NAME,
-                        accountNumber = DUMMY_ACCOUNT_NUMBER,
-                        accountExpiry = null
-                    ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
-                onRedeemVoucherClick = mockedClickHandler
-            )
-        }
-
-        // Act
-        composeTestRule.onNodeWithText("Redeem voucher").performClick()
-
-        // Assert
-        verify { mockedClickHandler.invoke() }
-    }
-
-    @Test
-    fun testLogoutClick() {
-        // Arrange
-        val mockedClickHandler: () -> Unit = mockk(relaxed = true)
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState(
-                        deviceName = DUMMY_DEVICE_NAME,
-                        accountNumber = DUMMY_ACCOUNT_NUMBER,
-                        accountExpiry = null
-                    ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
-                onLogoutClick = mockedClickHandler
-            )
-        }
-
-        // Act
-        composeTestRule.onNodeWithText("Log out").performClick()
-
-        // Assert
-        verify { mockedClickHandler.invoke() }
-    }
-
-    @Test
-    fun testShowPurchaseCompleteDialog() {
-        // Arrange
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState.default()
-                        .copy(
-                            paymentDialogData =
-                                PurchaseResult.Completed.Success.toPaymentDialogData()
+    fun testManageAccountClick() =
+        composeExtension.use {
+            // Arrange
+            val mockedClickHandler: () -> Unit = mockk(relaxed = true)
+            setContentWithTheme {
+                AccountScreen(
+                    showSitePayment = true,
+                    uiState =
+                        AccountUiState(
+                            deviceName = DUMMY_DEVICE_NAME,
+                            accountNumber = DUMMY_ACCOUNT_NUMBER,
+                            accountExpiry = null
                         ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
-        }
+                    uiSideEffect =
+                        MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
+                    enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
+                    onManageAccountClick = mockedClickHandler
+                )
+            }
 
-        // Assert
-        composeTestRule.onNodeWithText("Time was successfully added").assertExists()
-    }
+            // Act
+            onNodeWithText("Manage account").performClick()
+
+            // Assert
+            verify(exactly = 1) { mockedClickHandler.invoke() }
+        }
 
     @Test
-    fun testShowVerificationErrorDialog() {
+    fun testShowFetchProductsErrorDialog() =
         // Arrange
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState.default()
-                        .copy(
-                            paymentDialogData =
-                                PurchaseResult.Error.VerificationError(null).toPaymentDialogData()
-                        ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
-        }
+        composeExtension.use {
+            setContentWithTheme {
+                AccountScreen(
+                    showSitePayment = true,
+                    uiState =
+                        AccountUiState.default()
+                            .copy(
+                                paymentDialogData =
+                                    PurchaseResult.Error.FetchProductsError(ProductId(""), null)
+                                        .toPaymentDialogData()
+                            ),
+                    uiSideEffect =
+                        MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
+                    enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                )
+            }
 
-        // Assert
-        composeTestRule.onNodeWithText("Verifying purchase").assertExists()
-    }
+            // Assert
+            onNodeWithText("Google Play unavailable").assertExists()
+        }
 
     @Test
-    fun testShowFetchProductsErrorDialog() {
-        // Arrange
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState.default()
-                        .copy(
-                            paymentDialogData =
-                                PurchaseResult.Error.FetchProductsError(ProductId(""), null)
-                                    .toPaymentDialogData()
-                        ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
-        }
+    fun testShowBillingErrorPaymentButton() =
+        composeExtension.use {
+            // Arrange
+            setContentWithTheme {
+                AccountScreen(
+                    showSitePayment = true,
+                    uiState =
+                        AccountUiState.default()
+                            .copy(billingPaymentState = PaymentState.Error.Billing),
+                    uiSideEffect =
+                        MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
+                    enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                )
+            }
 
-        // Assert
-        composeTestRule.onNodeWithText("Google Play unavailable").assertExists()
-    }
+            // Assert
+            onNodeWithText("Add 30 days time").assertExists()
+        }
 
     @Test
-    fun testShowBillingErrorPaymentButton() {
-        // Arrange
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState.default().copy(billingPaymentState = PaymentState.Error.Billing),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
-        }
+    fun testShowBillingPaymentAvailable() =
+        composeExtension.use {
+            // Arrange
+            val mockPaymentProduct: PaymentProduct = mockk()
+            every { mockPaymentProduct.price } returns ProductPrice("$10")
+            every { mockPaymentProduct.status } returns null
+            setContentWithTheme {
+                AccountScreen(
+                    showSitePayment = true,
+                    uiState =
+                        AccountUiState.default()
+                            .copy(
+                                billingPaymentState =
+                                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
+                            ),
+                    uiSideEffect =
+                        MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
+                    enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                )
+            }
 
-        // Assert
-        composeTestRule.onNodeWithText("Add 30 days time").assertExists()
-    }
+            // Assert
+            onNodeWithText("Add 30 days time ($10)").assertExists()
+        }
 
     @Test
-    fun testShowBillingPaymentAvailable() {
-        // Arrange
-        val mockPaymentProduct: PaymentProduct = mockk()
-        every { mockPaymentProduct.price } returns ProductPrice("$10")
-        every { mockPaymentProduct.status } returns null
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
-        }
+    fun testShowPendingPayment() =
+        composeExtension.use {
+            // Arrange
+            val mockPaymentProduct: PaymentProduct = mockk()
+            every { mockPaymentProduct.price } returns ProductPrice("$10")
+            every { mockPaymentProduct.status } returns PaymentStatus.PENDING
+            setContentWithTheme {
+                AccountScreen(
+                    showSitePayment = true,
+                    uiState =
+                        AccountUiState.default()
+                            .copy(
+                                billingPaymentState =
+                                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
+                            ),
+                    uiSideEffect =
+                        MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
+                    enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                )
+            }
 
-        // Assert
-        composeTestRule.onNodeWithText("Add 30 days time ($10)").assertExists()
-    }
+            // Assert
+            onNodeWithText("Google Play payment pending").assertExists()
+        }
 
     @Test
-    fun testShowPendingPayment() {
-        // Arrange
-        val mockPaymentProduct: PaymentProduct = mockk()
-        every { mockPaymentProduct.price } returns ProductPrice("$10")
-        every { mockPaymentProduct.status } returns PaymentStatus.PENDING
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
-        }
+    fun testShowPendingPaymentInfoDialog() =
+        composeExtension.use {
+            // Arrange
+            val mockPaymentProduct: PaymentProduct = mockk()
+            every { mockPaymentProduct.price } returns ProductPrice("$10")
+            every { mockPaymentProduct.status } returns PaymentStatus.PENDING
+            setContentWithTheme {
+                AccountScreen(
+                    showSitePayment = true,
+                    uiState =
+                        AccountUiState.default()
+                            .copy(
+                                billingPaymentState =
+                                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
+                            ),
+                    uiSideEffect =
+                        MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
+                    enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                )
+            }
 
-        // Assert
-        composeTestRule.onNodeWithText("Google Play payment pending").assertExists()
-    }
+            // Act
+            onNodeWithTag(PLAY_PAYMENT_INFO_ICON_TEST_TAG).performClick()
+
+            // Assert
+
+            onNodeWithText(
+                    "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful."
+                )
+                .assertExists()
+        }
 
     @Test
-    fun testShowPendingPaymentInfoDialog() {
-        // Arrange
-        val mockPaymentProduct: PaymentProduct = mockk()
-        every { mockPaymentProduct.price } returns ProductPrice("$10")
-        every { mockPaymentProduct.status } returns PaymentStatus.PENDING
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
+    fun testShowVerificationInProgress() =
+        composeExtension.use {
+            // Arrange
+            val mockPaymentProduct: PaymentProduct = mockk()
+            every { mockPaymentProduct.price } returns ProductPrice("$10")
+            every { mockPaymentProduct.status } returns PaymentStatus.VERIFICATION_IN_PROGRESS
+            setContentWithTheme {
+                AccountScreen(
+                    showSitePayment = true,
+                    uiState =
+                        AccountUiState.default()
+                            .copy(
+                                billingPaymentState =
+                                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
+                            ),
+                    uiSideEffect =
+                        MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
+                    enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                )
+            }
+
+            // Assert
+            onNodeWithText("Verifying purchase").assertExists()
         }
-
-        // Act
-        composeTestRule.onNodeWithTag(PLAY_PAYMENT_INFO_ICON_TEST_TAG).performClick()
-
-        // Assert
-        composeTestRule
-            .onNodeWithText(
-                "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful."
-            )
-            .assertExists()
-    }
 
     @Test
-    fun testShowVerificationInProgress() {
-        // Arrange
-        val mockPaymentProduct: PaymentProduct = mockk()
-        every { mockPaymentProduct.price } returns ProductPrice("$10")
-        every { mockPaymentProduct.status } returns PaymentStatus.VERIFICATION_IN_PROGRESS
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
+    fun testOnPurchaseBillingProductClick() =
+        composeExtension.use {
+            // Arrange
+            val clickHandler: (ProductId, () -> Activity) -> Unit = mockk(relaxed = true)
+            val mockPaymentProduct: PaymentProduct = mockk()
+            every { mockPaymentProduct.price } returns ProductPrice("$10")
+            every { mockPaymentProduct.productId } returns ProductId("PRODUCT_ID")
+            every { mockPaymentProduct.status } returns null
+            setContentWithTheme {
+                AccountScreen(
+                    showSitePayment = true,
+                    uiState =
+                        AccountUiState.default()
+                            .copy(
+                                billingPaymentState =
+                                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
+                            ),
+                    onPurchaseBillingProductClick = clickHandler,
+                    uiSideEffect =
+                        MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
+                    enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
+                )
+            }
+
+            // Act
+            onNodeWithText("Add 30 days time ($10)").performClick()
+
+            // Assert
+            verify { clickHandler.invoke(ProductId("PRODUCT_ID"), any()) }
         }
-
-        // Assert
-        composeTestRule.onNodeWithText("Verifying purchase").assertExists()
-    }
-
-    @Test
-    fun testOnPurchaseBillingProductClick() {
-        // Arrange
-        val clickHandler: (ProductId, () -> Activity) -> Unit = mockk(relaxed = true)
-        val mockPaymentProduct: PaymentProduct = mockk()
-        every { mockPaymentProduct.price } returns ProductPrice("$10")
-        every { mockPaymentProduct.productId } returns ProductId("PRODUCT_ID")
-        every { mockPaymentProduct.status } returns null
-        composeTestRule.setContentWithTheme {
-            AccountScreen(
-                showSitePayment = true,
-                uiState =
-                    AccountUiState.default()
-                        .copy(
-                            billingPaymentState =
-                                PaymentState.PaymentAvailable(listOf(mockPaymentProduct))
-                        ),
-                onPurchaseBillingProductClick = clickHandler,
-                uiSideEffect = MutableSharedFlow<AccountViewModel.UiSideEffect>().asSharedFlow(),
-                enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow()
-            )
-        }
-
-        // Act
-        composeTestRule.onNodeWithText("Add 30 days time ($10)").performClick()
-
-        // Assert
-        verify { clickHandler.invoke(ProductId("PRODUCT_ID"), any()) }
-    }
 
     companion object {
         private const val DUMMY_DEVICE_NAME = "fake_name"
