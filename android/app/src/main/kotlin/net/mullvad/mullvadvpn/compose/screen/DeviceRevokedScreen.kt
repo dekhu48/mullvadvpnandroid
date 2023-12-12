@@ -40,12 +40,11 @@ fun DeviceRevokedScreen(
     onSettingsClicked: () -> Unit = {},
     onGoToLoginClicked: () -> Unit = {},
 ) {
-    val topColor =
-        if (state == DeviceRevokedUiState.SECURED) {
-            MaterialTheme.colorScheme.inversePrimary
-        } else {
-            MaterialTheme.colorScheme.error
-        }
+    val topColor = if (state == DeviceRevokedUiState.SECURED) {
+        MaterialTheme.colorScheme.inversePrimary
+    } else {
+        MaterialTheme.colorScheme.error
+    }
 
     ScaffoldWithTopBar(
         topBarColor = topColor,
@@ -55,8 +54,8 @@ fun DeviceRevokedScreen(
         onAccountClicked = null,
     ) {
         ConstraintLayout(
-            modifier =
-            Modifier.fillMaxHeight()
+            modifier = Modifier
+                .fillMaxHeight()
                 .fillMaxWidth()
                 .padding(it)
                 .background(color = MaterialTheme.colorScheme.background),
@@ -66,19 +65,18 @@ fun DeviceRevokedScreen(
             Image(
                 painter = painterResource(id = R.drawable.icon_fail),
                 contentDescription = null, // No meaningful user info or action.
-                modifier =
-                Modifier.constrainAs(icon) {
-                    top.linkTo(parent.top, margin = 30.dp)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
+                modifier = Modifier
+                    .constrainAs(icon) {
+                        top.linkTo(parent.top, margin = 30.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
                     .padding(horizontal = 12.dp)
                     .size(Dimens.bigIconSize),
             )
 
             Column(
-                modifier =
-                Modifier.constrainAs(body) {
+                modifier = Modifier.constrainAs(body) {
                     top.linkTo(icon.bottom, margin = 22.dp)
                     start.linkTo(parent.start, margin = 22.dp)
                     end.linkTo(parent.end, margin = 22.dp)
@@ -110,8 +108,7 @@ fun DeviceRevokedScreen(
             }
 
             Column(
-                modifier =
-                Modifier.constrainAs(actionButtons) {
+                modifier = Modifier.constrainAs(actionButtons) {
                     bottom.linkTo(parent.bottom, margin = 22.dp)
                     start.linkTo(parent.start, margin = 22.dp)
                     end.linkTo(parent.end, margin = 22.dp)

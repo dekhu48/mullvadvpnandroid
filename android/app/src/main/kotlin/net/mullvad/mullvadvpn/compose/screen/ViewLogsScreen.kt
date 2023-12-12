@@ -92,8 +92,8 @@ fun ViewLogsScreen(
         },
     ) {
         Card(
-            modifier =
-            Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(it)
                 .padding(
                     start = Dimens.sideMargin,
@@ -103,19 +103,20 @@ fun ViewLogsScreen(
         ) {
             if (uiState.isLoading) {
                 MullvadCircularProgressIndicatorMedium(
-                    modifier =
-                    Modifier.padding(Dimens.mediumPadding).align(Alignment.CenterHorizontally),
+                    modifier = Modifier
+                        .padding(Dimens.mediumPadding)
+                        .align(Alignment.CenterHorizontally),
                     color = MaterialTheme.colorScheme.primary,
                 )
             } else {
                 val state = rememberLazyListState()
                 LazyColumn(
                     state = state,
-                    modifier =
-                    Modifier.drawVerticalScrollbar(
-                        state,
-                        MaterialTheme.colorScheme.primary.copy(alpha = AlphaScrollbar),
-                    )
+                    modifier = Modifier
+                        .drawVerticalScrollbar(
+                            state,
+                            MaterialTheme.colorScheme.primary.copy(alpha = AlphaScrollbar),
+                        )
                         .padding(horizontal = Dimens.smallPadding),
                 ) {
                     items(uiState.allLines) {

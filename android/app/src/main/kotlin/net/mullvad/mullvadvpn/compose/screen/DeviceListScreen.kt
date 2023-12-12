@@ -48,13 +48,10 @@ import net.mullvad.mullvadvpn.util.formatDate
 private fun PreviewDeviceListScreen() {
     AppTheme {
         DeviceListScreen(
-            state =
-            DeviceListUiState(
-                deviceUiItems =
-                listOf(
+            state = DeviceListUiState(
+                deviceUiItems = listOf(
                     DeviceListItemUiState(
-                        device =
-                        Device(
+                        device = Device(
                             id = "ID",
                             name = "Name",
                             pubkey = ByteArray(10),
@@ -97,15 +94,17 @@ fun DeviceListScreen(
         onAccountClicked = null,
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(it),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it),
         ) {
             val scrollState = rememberScrollState()
             Column(
-                modifier =
-                Modifier.drawVerticalScrollbar(
-                    scrollState,
-                    MaterialTheme.colorScheme.onBackground,
-                )
+                modifier = Modifier
+                    .drawVerticalScrollbar(
+                        scrollState,
+                        MaterialTheme.colorScheme.onBackground,
+                    )
                     .verticalScroll(scrollState)
                     .weight(1f),
             ) {
@@ -130,27 +129,23 @@ fun DeviceListScreen(
 @Composable
 private fun ColumnScope.DeviceListHeader(state: DeviceListUiState) {
     Image(
-        painter =
-        painterResource(
-            id =
-            if (state.hasTooManyDevices) {
+        painter = painterResource(
+            id = if (state.hasTooManyDevices) {
                 R.drawable.icon_fail
             } else {
                 R.drawable.icon_success
             },
         ),
         contentDescription = null, // No meaningful user info or action.
-        modifier =
-        Modifier.align(Alignment.CenterHorizontally)
+        modifier = Modifier
+            .align(Alignment.CenterHorizontally)
             .padding(top = Dimens.iconFailSuccessTopMargin)
             .size(Dimens.bigIconSize),
     )
 
     Text(
-        text =
-        stringResource(
-            id =
-            if (state.hasTooManyDevices) {
+        text = stringResource(
+            id = if (state.hasTooManyDevices) {
                 R.string.max_devices_warning_title
             } else {
                 R.string.max_devices_resolved_title
@@ -158,8 +153,7 @@ private fun ColumnScope.DeviceListHeader(state: DeviceListUiState) {
         ),
         style = MaterialTheme.typography.headlineSmall,
         color = MaterialTheme.colorScheme.onBackground,
-        modifier =
-        Modifier.padding(
+        modifier = Modifier.padding(
             start = Dimens.sideMargin,
             end = Dimens.sideMargin,
             top = Dimens.screenVerticalMargin,
@@ -167,10 +161,8 @@ private fun ColumnScope.DeviceListHeader(state: DeviceListUiState) {
     )
 
     Text(
-        text =
-        stringResource(
-            id =
-            if (state.hasTooManyDevices) {
+        text = stringResource(
+            id = if (state.hasTooManyDevices) {
                 R.string.max_devices_warning_description
             } else {
                 R.string.max_devices_resolved_description
@@ -178,8 +170,8 @@ private fun ColumnScope.DeviceListHeader(state: DeviceListUiState) {
         ),
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onBackground,
-        modifier =
-        Modifier.wrapContentHeight()
+        modifier = Modifier
+            .wrapContentHeight()
             .animateContentSize()
             .padding(
                 top = Dimens.smallPadding,
@@ -207,15 +199,11 @@ private fun DeviceListItem(
                 )
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text =
-                    deviceUiState.device.created.parseAsDateTime()?.let { creationDate ->
+                    text = deviceUiState.device.created.parseAsDateTime()?.let { creationDate ->
                         stringResource(id = R.string.created_x, creationDate.formatDate())
-                    }
-                        ?: "",
+                    } ?: "",
                     style = MaterialTheme.typography.listItemSubText,
-                    color =
-                    MaterialTheme.colorScheme.onPrimary
-                        .copy(alpha = AlphaDescription)
+                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaDescription)
                         .compositeOver(MaterialTheme.colorScheme.primary),
                 )
             }
@@ -245,8 +233,7 @@ private fun DeviceListButtonPanel(
     onBackClick: () -> Unit,
 ) {
     Column(
-        modifier =
-        Modifier.padding(
+        modifier = Modifier.padding(
             start = Dimens.sideMargin,
             end = Dimens.sideMargin,
             top = Dimens.spacingAboveButton,

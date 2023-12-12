@@ -58,11 +58,10 @@ import net.mullvad.mullvadvpn.relaylist.RelayItem
 @Preview
 @Composable
 private fun PreviewSelectLocationScreen() {
-    val state =
-        SelectLocationUiState.ShowData(
-            countries = listOf(RelayCountry("Country 1", "Code 1", false, emptyList())),
-            selectedRelay = null,
-        )
+    val state = SelectLocationUiState.ShowData(
+        countries = listOf(RelayCountry("Country 1", "Code 1", false, emptyList())),
+        selectedRelay = null,
+    )
     AppTheme {
         SelectLocationScreen(
             uiState = state,
@@ -91,20 +90,25 @@ fun SelectLocationScreen(
     }
 
     val (backFocus, listFocus, searchBarFocus) = remember { FocusRequester.createRefs() }
-    Column(modifier = Modifier.background(backgroundColor).fillMaxWidth().fillMaxHeight()) {
+    Column(
+        modifier = Modifier
+            .background(backgroundColor)
+            .fillMaxWidth()
+            .fillMaxHeight(),
+    ) {
         Row(
-            modifier =
-            Modifier.padding(
-                horizontal = Dimens.selectLocationTitlePadding,
-                vertical = Dimens.selectLocationTitlePadding,
-            )
+            modifier = Modifier
+                .padding(
+                    horizontal = Dimens.selectLocationTitlePadding,
+                    vertical = Dimens.selectLocationTitlePadding,
+                )
                 .fillMaxWidth(),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.icon_back),
                 contentDescription = null,
-                modifier =
-                Modifier.focusRequester(backFocus)
+                modifier = Modifier
+                    .focusRequester(backFocus)
                     .focusProperties { next = listFocus }
                     .focusProperties {
                         down = listFocus
@@ -116,8 +120,8 @@ fun SelectLocationScreen(
             )
             Text(
                 text = stringResource(id = R.string.select_location),
-                modifier =
-                Modifier.align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
                     .weight(weight = 1f)
                     .padding(end = Dimens.titleIconSize),
                 textAlign = TextAlign.Center,
@@ -126,8 +130,8 @@ fun SelectLocationScreen(
             )
         }
         SearchTextField(
-            modifier =
-            Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .focusRequester(searchBarFocus)
                 .focusProperties { next = backFocus }
                 .height(Dimens.searchFieldHeight)
@@ -138,8 +142,8 @@ fun SelectLocationScreen(
         Spacer(modifier = Modifier.height(height = Dimens.verticalSpace))
         val lazyListState = rememberLazyListState()
         LazyColumn(
-            modifier =
-            Modifier.focusRequester(listFocus)
+            modifier = Modifier
+                .focusRequester(listFocus)
                 .fillMaxSize()
                 .drawVerticalScrollbar(
                     lazyListState,
@@ -156,6 +160,7 @@ fun SelectLocationScreen(
                         )
                     }
                 }
+
                 is SelectLocationUiState.ShowData -> {
                     items(
                         count = uiState.countries.size,
@@ -171,20 +176,18 @@ fun SelectLocationScreen(
                         )
                     }
                 }
+
                 is SelectLocationUiState.NoSearchResultFound -> {
                     item(contentType = ContentType.EMPTY_TEXT) {
-                        val firstRow =
-                            HtmlCompat.fromHtml(
-                                textResource(
-                                    id = R.string.select_location_empty_text_first_row,
-                                    uiState.searchTerm,
-                                ),
-                                HtmlCompat.FROM_HTML_MODE_COMPACT,
-                            )
-                                .toAnnotatedString(boldFontWeight = FontWeight.ExtraBold)
+                        val firstRow = HtmlCompat.fromHtml(
+                            textResource(
+                                id = R.string.select_location_empty_text_first_row,
+                                uiState.searchTerm,
+                            ),
+                            HtmlCompat.FROM_HTML_MODE_COMPACT,
+                        ).toAnnotatedString(boldFontWeight = FontWeight.ExtraBold)
                         Text(
-                            text =
-                            buildAnnotatedString {
+                            text = buildAnnotatedString {
                                 append(firstRow)
                                 appendLine()
                                 append(

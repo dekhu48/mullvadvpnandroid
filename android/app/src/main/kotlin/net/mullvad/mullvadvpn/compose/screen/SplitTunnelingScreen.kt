@@ -40,10 +40,8 @@ import net.mullvad.mullvadvpn.lib.theme.Dimens
 private fun PreviewSplitTunnelingScreen() {
     AppTheme {
         SplitTunnelingScreen(
-            uiState =
-            SplitTunnelingUiState.ShowAppList(
-                excludedApps =
-                listOf(
+            uiState = SplitTunnelingUiState.ShowAppList(
+                excludedApps = listOf(
                     AppData(
                         packageName = "my.package.a",
                         name = "TitleA",
@@ -55,8 +53,7 @@ private fun PreviewSplitTunnelingScreen() {
                         iconRes = R.drawable.icon_chevron,
                     ),
                 ),
-                includedApps =
-                listOf(
+                includedApps = listOf(
                     AppData(
                         packageName = "my.package.c",
                         name = "TitleC",
@@ -96,8 +93,7 @@ fun SplitTunnelingScreen(
                     Text(
                         style = MaterialTheme.typography.labelMedium,
                         text = stringResource(id = R.string.split_tunneling_description),
-                        modifier =
-                        Modifier.padding(
+                        modifier = Modifier.padding(
                             start = Dimens.mediumPadding,
                             end = Dimens.mediumPadding,
                             bottom = Dimens.mediumPadding,
@@ -111,6 +107,7 @@ fun SplitTunnelingScreen(
                         MullvadCircularProgressIndicatorLarge()
                     }
                 }
+
                 is SplitTunnelingUiState.ShowAppList -> {
                     if (uiState.excludedApps.isNotEmpty()) {
                         itemWithDivider(
@@ -138,7 +135,9 @@ fun SplitTunnelingScreen(
                                 title = listItem.name,
                                 packageName = listItem.packageName,
                                 isSelected = true,
-                                modifier = Modifier.animateItemPlacement().fillMaxWidth(),
+                                modifier = Modifier
+                                    .animateItemPlacement()
+                                    .fillMaxWidth(),
                                 onResolveIcon = onResolveIcon,
                             ) {
                                 // Move focus down unless the clicked item was the last in this
@@ -154,8 +153,9 @@ fun SplitTunnelingScreen(
                         }
                         item(key = CommonContentKey.SPACER, contentType = ContentType.SPACER) {
                             Spacer(
-                                modifier =
-                                Modifier.animateItemPlacement().height(Dimens.mediumPadding),
+                                modifier = Modifier
+                                    .animateItemPlacement()
+                                    .height(Dimens.mediumPadding),
                             )
                         }
                     }
@@ -197,7 +197,9 @@ fun SplitTunnelingScreen(
                             title = listItem.name,
                             packageName = listItem.packageName,
                             isSelected = false,
-                            modifier = Modifier.animateItemPlacement().fillMaxWidth(),
+                            modifier = Modifier
+                                .animateItemPlacement()
+                                .fillMaxWidth(),
                             onResolveIcon = onResolveIcon,
                         ) {
                             // Move focus down unless the clicked item was the last in this

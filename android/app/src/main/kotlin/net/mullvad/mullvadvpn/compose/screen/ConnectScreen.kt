@@ -101,6 +101,7 @@ fun ConnectScreen(
                 is ConnectViewModel.UiSideEffect.OpenAccountManagementPageInBrowser -> {
                     context.openAccountPageInBrowser(uiSideEffect.token)
                 }
+
                 is ConnectViewModel.UiSideEffect.OpenOutOfTimeView -> {
                     onOpenOutOfTimeScreen()
                 }
@@ -120,26 +121,22 @@ fun ConnectScreen(
     }
 
     ScaffoldWithTopBarAndDeviceName(
-        topBarColor =
-        if (uiState.tunnelUiState.isSecured()) {
+        topBarColor = if (uiState.tunnelUiState.isSecured()) {
             MaterialTheme.colorScheme.inversePrimary
         } else {
             MaterialTheme.colorScheme.error
         },
-        statusBarColor =
-        if (uiState.tunnelUiState.isSecured()) {
+        statusBarColor = if (uiState.tunnelUiState.isSecured()) {
             MaterialTheme.colorScheme.inversePrimary
         } else {
             MaterialTheme.colorScheme.error
         },
         navigationBarColor = null,
-        iconTintColor =
-        if (uiState.tunnelUiState.isSecured()) {
+        iconTintColor = if (uiState.tunnelUiState.isSecured()) {
             MaterialTheme.colorScheme.onPrimary
         } else {
             MaterialTheme.colorScheme.onError
-        }
-            .copy(alpha = AlphaTopBar),
+        }.copy(alpha = AlphaTopBar),
         onSettingsClicked = onSettingsClick,
         onAccountClicked = onAccountClick,
         deviceName = uiState.deviceName,
@@ -148,8 +145,8 @@ fun ConnectScreen(
         Column(
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.Start,
-            modifier =
-            Modifier.padding(it)
+            modifier = Modifier
+                .padding(it)
                 .background(color = MaterialTheme.colorScheme.primary)
                 .fillMaxHeight()
                 .drawVerticalScrollbar(
@@ -167,22 +164,15 @@ fun ConnectScreen(
                 onClickDismissNewDevice = onDismissNewDeviceClick,
             )
             Spacer(modifier = Modifier.weight(1f))
-            if (
-                uiState.tunnelRealState is TunnelState.Connecting ||
-                (
-                    uiState.tunnelRealState is TunnelState.Disconnecting &&
-                        uiState.tunnelRealState.actionAfterDisconnect ==
-                        ActionAfterDisconnect.Reconnect
-                    )
-            ) {
+            if (uiState.tunnelRealState is TunnelState.Connecting || (uiState.tunnelRealState is TunnelState.Disconnecting && uiState.tunnelRealState.actionAfterDisconnect == ActionAfterDisconnect.Reconnect)) {
                 MullvadCircularProgressIndicatorLarge(
                     color = MaterialTheme.colorScheme.onPrimary,
-                    modifier =
-                    Modifier.padding(
-                        start = Dimens.sideMargin,
-                        end = Dimens.sideMargin,
-                        top = Dimens.mediumPadding,
-                    )
+                    modifier = Modifier
+                        .padding(
+                            start = Dimens.sideMargin,
+                            end = Dimens.sideMargin,
+                            top = Dimens.mediumPadding,
+                        )
                         .align(Alignment.CenterHorizontally)
                         .testTag(CIRCULAR_PROGRESS_INDICATOR),
                 )
@@ -206,28 +196,25 @@ fun ConnectScreen(
             )
             LocationInfo(
                 onToggleTunnelInfo = onToggleTunnelInfo,
-                isVisible =
-                uiState.tunnelRealState != TunnelState.Disconnected &&
-                    uiState.location?.hostname != null,
+                isVisible = uiState.tunnelRealState != TunnelState.Disconnected && uiState.location?.hostname != null,
                 isExpanded = uiState.isTunnelInfoExpanded,
                 location = uiState.location,
                 inAddress = uiState.inAddress,
                 outAddress = uiState.outAddress,
-                modifier =
-                Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(horizontal = Dimens.sideMargin)
                     .testTag(LOCATION_INFO_TEST_TAG),
             )
             Spacer(modifier = Modifier.height(Dimens.buttonSpacing))
             SwitchLocationButton(
-                modifier =
-                Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(horizontal = Dimens.sideMargin)
                     .testTag(SELECT_LOCATION_BUTTON_TEST_TAG),
                 onClick = onSwitchLocationClick,
                 showChevron = uiState.showLocation,
-                text =
-                if (uiState.showLocation) {
+                text = if (uiState.showLocation) {
                     uiState.relayLocation?.locationName ?: ""
                 } else {
                     stringResource(id = R.string.switch_location)
@@ -236,8 +223,8 @@ fun ConnectScreen(
             Spacer(modifier = Modifier.height(Dimens.buttonSpacing))
             ConnectionButton(
                 state = uiState.tunnelUiState,
-                modifier =
-                Modifier.padding(horizontal = Dimens.sideMargin)
+                modifier = Modifier
+                    .padding(horizontal = Dimens.sideMargin)
                     .testTag(CONNECT_BUTTON_TEST_TAG),
                 disconnectClick = onDisconnectClick,
                 reconnectClick = { handleThrottledAction(onReconnectClick) },

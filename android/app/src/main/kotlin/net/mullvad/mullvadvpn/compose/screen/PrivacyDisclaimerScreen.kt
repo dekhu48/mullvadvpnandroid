@@ -59,8 +59,8 @@ fun PrivacyDisclaimerScreen(
         onSettingsClicked = null,
     ) {
         ConstraintLayout(
-            modifier =
-            Modifier.fillMaxHeight()
+            modifier = Modifier
+                .fillMaxHeight()
                 .fillMaxWidth()
                 .padding(it)
                 .background(color = MaterialTheme.colorScheme.background),
@@ -70,15 +70,15 @@ fun PrivacyDisclaimerScreen(
             val scrollState = rememberScrollState()
 
             Column(
-                modifier =
-                Modifier.constrainAs(body) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(actionButtons.top)
-                    width = Dimension.fillToConstraints
-                    height = Dimension.fillToConstraints
-                }
+                modifier = Modifier
+                    .constrainAs(body) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(actionButtons.top)
+                        width = Dimension.fillToConstraints
+                        height = Dimension.fillToConstraints
+                    }
                     .drawVerticalScrollbar(
                         state = scrollState,
                         color = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaScrollbar),
@@ -113,8 +113,7 @@ fun PrivacyDisclaimerScreen(
                     ClickableText(
                         text = AnnotatedString(stringResource(id = R.string.privacy_policy_label)),
                         onClick = { onPrivacyPolicyLinkClicked() },
-                        style =
-                        TextStyle(
+                        style = TextStyle(
                             fontSize = 12.sp,
                             color = Color.White,
                             textDecoration = TextDecoration.Underline,
@@ -124,8 +123,8 @@ fun PrivacyDisclaimerScreen(
                     Image(
                         painter = painterResource(id = R.drawable.icon_extlink),
                         contentDescription = null,
-                        modifier =
-                        Modifier.align(Alignment.CenterVertically)
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
                             .padding(start = 2.dp, top = 2.dp)
                             .width(10.dp)
                             .height(10.dp),
@@ -134,8 +133,7 @@ fun PrivacyDisclaimerScreen(
             }
 
             Column(
-                modifier =
-                Modifier.constrainAs(actionButtons) {
+                modifier = Modifier.constrainAs(actionButtons) {
                     top.linkTo(body.bottom, margin = sideMargin)
                     start.linkTo(parent.start, margin = sideMargin)
                     end.linkTo(parent.end, margin = sideMargin)

@@ -45,8 +45,8 @@ fun LoadingScreen(onSettingsCogClicked: () -> Unit = {}) {
         content = {
             Box(
                 contentAlignment = Alignment.Center,
-                modifier =
-                Modifier.background(backgroundColor)
+                modifier = Modifier
+                    .background(backgroundColor)
                     .padding(it)
                     .padding(bottom = it.calculateTopPadding())
                     .fillMaxSize(),
@@ -64,14 +64,14 @@ fun LoadingScreen(onSettingsCogClicked: () -> Unit = {}) {
                         painter = painterResource(id = R.drawable.logo_text),
                         contentDescription = "",
                         alpha = 0.6f,
-                        modifier = Modifier.padding(top = 12.dp).height(18.dp),
+                        modifier = Modifier
+                            .padding(top = 12.dp)
+                            .height(18.dp),
                     )
                     Text(
                         text = stringResource(id = R.string.connecting_to_daemon),
                         fontSize = 13.sp,
-                        color =
-                        MaterialTheme.colorScheme.onPrimary
-                            .copy(alpha = AlphaDescription)
+                        color = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaDescription)
                             .compositeOver(backgroundColor),
                         modifier = Modifier.padding(top = 12.dp),
                     )

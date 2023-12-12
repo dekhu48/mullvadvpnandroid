@@ -66,13 +66,11 @@ private fun PreviewAccountScreen() {
     AppTheme {
         AccountScreen(
             showSitePayment = true,
-            uiState =
-            AccountUiState(
+            uiState = AccountUiState(
                 deviceName = "Test Name",
                 accountNumber = "1234123412341234",
                 accountExpiry = null,
-                billingPaymentState =
-                PaymentState.PaymentAvailable(
+                billingPaymentState = PaymentState.PaymentAvailable(
                     listOf(
                         PaymentProduct(
                             ProductId("productId"),
@@ -103,10 +101,8 @@ fun AccountScreen(
     onRedeemVoucherClick: () -> Unit = {},
     onManageAccountClick: () -> Unit = {},
     onLogoutClick: () -> Unit = {},
-    onPurchaseBillingProductClick:
-    (productId: ProductId, activityProvider: () -> Activity) -> Unit =
-        { _, _ ->
-        },
+    onPurchaseBillingProductClick: (productId: ProductId, activityProvider: () -> Activity) -> Unit = { _, _ ->
+    },
     onClosePurchaseResultDialog: (success: Boolean) -> Unit = {},
     onBackClick: () -> Unit = {},
 ) {
@@ -163,7 +159,9 @@ fun AccountScreen(
         Column(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(Dimens.accountRowSpacing),
-            modifier = modifier.animateContentSize().padding(horizontal = Dimens.sideMargin),
+            modifier = modifier
+                .animateContentSize()
+                .padding(horizontal = Dimens.sideMargin),
         ) {
             DeviceNameRow(deviceName = uiState.deviceName ?: "") { showDeviceNameInfoDialog = true }
 
@@ -238,7 +236,9 @@ private fun AccountNumberRow(accountNumber: String) {
         )
         CopyableObfuscationView(
             content = accountNumber,
-            modifier = Modifier.heightIn(min = Dimens.accountRowMinHeight).fillMaxWidth(),
+            modifier = Modifier
+                .heightIn(min = Dimens.accountRowMinHeight)
+                .fillMaxWidth(),
         )
     }
 }

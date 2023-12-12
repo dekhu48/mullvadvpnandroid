@@ -19,7 +19,10 @@ sealed interface SendProblemReportResult {
     }
 }
 
-data class UserReport(val email: String?, val description: String)
+data class UserReport(
+    val email: String?,
+    val description: String,
+)
 
 class MullvadProblemReport(context: Context, val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
@@ -31,13 +34,12 @@ class MullvadProblemReport(context: Context, val dispatcher: CoroutineDispatcher
         System.loadLibrary("mullvad_jni")
     }
 
-    suspend fun collectLogs(): Boolean =
-        withContext(dispatcher) {
-            // Delete any old report
-            deleteLogs()
+    suspend fun collectLogs(): Boolean = withContext(dispatcher) {
+        // Delete any old report
+        deleteLogs()
 
-            collectReport(logDirectory.absolutePath, logsPath.absolutePath)
-        }
+        collectReport(logDirectory.absolutePath, logsPath.absolutePath)
+    }
 
     suspend fun sendReport(userReport: UserReport): SendProblemReportResult {
         // If report is not collected then, collect it, if it fails then return error
@@ -45,15 +47,14 @@ class MullvadProblemReport(context: Context, val dispatcher: CoroutineDispatcher
             return SendProblemReportResult.Error.CollectLog
         }
 
-        val sentSuccessfully =
-            withContext(dispatcher) {
-                sendProblemReport(
-                    userReport.email ?: "",
-                    userReport.description,
-                    logsPath.absolutePath,
-                    cacheDirectory.absolutePath,
-                )
-            }
+        val sentSuccessfully = withContext(dispatcher) {
+            sendProblemReport(
+                userReport.email ?: "",
+                userReport.description,
+                logsPath.absolutePath,
+                cacheDirectory.absolutePath,
+            )
+        }
 
         return if (sentSuccessfully) {
             deleteLogs()

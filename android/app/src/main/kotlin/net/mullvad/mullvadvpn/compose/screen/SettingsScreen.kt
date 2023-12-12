@@ -41,8 +41,7 @@ import net.mullvad.mullvadvpn.util.appendHideNavOnPlayBuild
 private fun PreviewSettings() {
     AppTheme {
         SettingsScreen(
-            uiState =
-            SettingsUiState(
+            uiState = SettingsUiState(
                 appVersion = "2222.22",
                 isLoggedIn = true,
                 isUpdateAvailable = true,
@@ -76,7 +75,9 @@ fun SettingsScreen(
         navigationIcon = { NavigateBackDownIconButton(onBackClick) },
     ) { modifier, lazyListState ->
         LazyColumn(
-            modifier = modifier.testTag(LAZY_LIST_TEST_TAG).animateContentSize(),
+            modifier = modifier
+                .testTag(LAZY_LIST_TEST_TAG)
+                .animateContentSize(),
             state = lazyListState,
         ) {
             item { Spacer(modifier = Modifier.height(Dimens.cellLabelVerticalPadding)) }
@@ -103,19 +104,16 @@ fun SettingsScreen(
                     onClick = {
                         context.openLink(
                             Uri.parse(
-                                context.resources
-                                    .getString(R.string.download_url)
+                                context.resources.getString(R.string.download_url)
                                     .appendHideNavOnPlayBuild(),
                             ),
                         )
                     },
-                    bodyView =
-                    @Composable {
+                    bodyView = @Composable {
                         if (IS_PLAY_BUILD.not()) {
                             NavigationCellBody(
                                 content = uiState.appVersion,
-                                contentBodyDescription =
-                                stringResource(id = R.string.app_version),
+                                contentBodyDescription = stringResource(id = R.string.app_version),
                                 isExternalLink = true,
                             )
                         } else {
@@ -136,8 +134,8 @@ fun SettingsScreen(
                         text = stringResource(id = R.string.update_available_footer),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSecondary,
-                        modifier =
-                        Modifier.background(MaterialTheme.colorScheme.secondary)
+                        modifier = Modifier
+                            .background(MaterialTheme.colorScheme.secondary)
                             .padding(
                                 start = Dimens.cellStartPadding,
                                 top = Dimens.cellTopPadding,
@@ -179,8 +177,7 @@ fun SettingsScreen(
                     onClick = {
                         context.openLink(
                             Uri.parse(
-                                context.resources
-                                    .getString(R.string.privacy_policy_url)
+                                context.resources.getString(R.string.privacy_policy_url)
                                     .appendHideNavOnPlayBuild(),
                             ),
                         )

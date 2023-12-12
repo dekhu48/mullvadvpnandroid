@@ -64,14 +64,11 @@ private fun PreviewWelcomeScreen() {
     AppTheme {
         WelcomeScreen(
             showSitePayment = true,
-            uiState =
-            WelcomeUiState(
+            uiState = WelcomeUiState(
                 accountNumber = "4444555566667777",
                 deviceName = "Happy Mole",
-                billingPaymentState =
-                PaymentState.PaymentAvailable(
-                    products =
-                    listOf(
+                billingPaymentState = PaymentState.PaymentAvailable(
+                    products = listOf(
                         PaymentProduct(ProductId("product"), ProductPrice("$44"), null),
                     ),
                 ),
@@ -105,8 +102,10 @@ fun WelcomeScreen(
     LaunchedEffect(Unit) {
         uiSideEffect.collect { uiSideEffect ->
             when (uiSideEffect) {
-                is WelcomeViewModel.UiSideEffect.OpenAccountView ->
-                    context.openAccountPageInBrowser(uiSideEffect.token)
+                is WelcomeViewModel.UiSideEffect.OpenAccountView -> context.openAccountPageInBrowser(
+                    uiSideEffect.token,
+                )
+
                 WelcomeViewModel.UiSideEffect.OpenConnectScreen -> openConnectScreen()
             }
         }
@@ -129,33 +128,29 @@ fun WelcomeScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     ScaffoldWithTopBar(
-        topBarColor =
-        if (uiState.tunnelState.isSecured()) {
+        topBarColor = if (uiState.tunnelState.isSecured()) {
             MaterialTheme.colorScheme.inversePrimary
         } else {
             MaterialTheme.colorScheme.error
         },
-        statusBarColor =
-        if (uiState.tunnelState.isSecured()) {
+        statusBarColor = if (uiState.tunnelState.isSecured()) {
             MaterialTheme.colorScheme.inversePrimary
         } else {
             MaterialTheme.colorScheme.error
         },
         navigationBarColor = MaterialTheme.colorScheme.background,
-        iconTintColor =
-        if (uiState.tunnelState.isSecured()) {
+        iconTintColor = if (uiState.tunnelState.isSecured()) {
             MaterialTheme.colorScheme.onPrimary
         } else {
             MaterialTheme.colorScheme.onError
-        }
-            .copy(alpha = AlphaTopBar),
+        }.copy(alpha = AlphaTopBar),
         onSettingsClicked = onSettingsClick,
         onAccountClicked = onAccountClick,
         snackbarHostState = snackbarHostState,
     ) {
         Column(
-            modifier =
-            Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(it)
                 .verticalScroll(scrollState)
                 .drawVerticalScrollbar(
@@ -191,8 +186,8 @@ private fun WelcomeInfo(
     Column {
         Text(
             text = stringResource(id = R.string.congrats),
-            modifier =
-            Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(
                     top = Dimens.screenVerticalMargin,
                     start = Dimens.sideMargin,
@@ -205,8 +200,8 @@ private fun WelcomeInfo(
         )
         Text(
             text = stringResource(id = R.string.here_is_your_account_number),
-            modifier =
-            Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(
                     horizontal = Dimens.sideMargin,
                     vertical = Dimens.smallPadding,
@@ -220,16 +215,14 @@ private fun WelcomeInfo(
         DeviceNameRow(deviceName = uiState.deviceName)
 
         Text(
-            text =
-            buildString {
+            text = buildString {
                 append(stringResource(id = R.string.pay_to_start_using))
                 if (showSitePayment) {
                     append(" ")
                     append(stringResource(id = R.string.add_time_to_account))
                 }
             },
-            modifier =
-            Modifier.padding(
+            modifier = Modifier.padding(
                 top = Dimens.smallPadding,
                 bottom = Dimens.verticalSpace,
                 start = Dimens.sideMargin,
@@ -252,14 +245,16 @@ private fun AccountNumberRow(snackbarHostState: SnackbarHostState, uiState: Welc
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier =
-        Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .clickable(onClick = onCopyToClipboard)
             .padding(horizontal = Dimens.sideMargin),
     ) {
         Text(
             text = uiState.accountNumber?.groupWithSpaces() ?: "",
-            modifier = Modifier.weight(1f).padding(vertical = Dimens.smallPadding),
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = Dimens.smallPadding),
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onPrimary,
         )
@@ -276,8 +271,7 @@ fun DeviceNameRow(deviceName: String?) {
     ) {
         Text(
             modifier = Modifier.weight(1f, fill = false),
-            text =
-            buildString {
+            text = buildString {
                 append(stringResource(id = R.string.device_name))
                 append(": ")
                 append(deviceName)
@@ -316,8 +310,8 @@ private fun PaymentPanel(
 ) {
     val context = LocalContext.current
     Column(
-        modifier =
-        Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(top = Dimens.mediumPadding)
             .background(color = MaterialTheme.colorScheme.background),
     ) {
@@ -329,12 +323,12 @@ private fun PaymentPanel(
                     onPurchaseBillingProductClick(productId) { context as Activity }
                 },
                 onInfoClick = onPaymentInfoClick,
-                modifier =
-                Modifier.padding(
-                    start = Dimens.sideMargin,
-                    end = Dimens.sideMargin,
-                    bottom = Dimens.buttonSpacing,
-                )
+                modifier = Modifier
+                    .padding(
+                        start = Dimens.sideMargin,
+                        end = Dimens.sideMargin,
+                        bottom = Dimens.buttonSpacing,
+                    )
                     .align(Alignment.CenterHorizontally),
             )
         }
@@ -342,8 +336,7 @@ private fun PaymentPanel(
             SitePaymentButton(
                 onClick = onSitePaymentClick,
                 isEnabled = true,
-                modifier =
-                Modifier.padding(
+                modifier = Modifier.padding(
                     start = Dimens.sideMargin,
                     end = Dimens.sideMargin,
                     bottom = Dimens.buttonSpacing,
@@ -353,8 +346,7 @@ private fun PaymentPanel(
         RedeemVoucherButton(
             onClick = onRedeemVoucherClick,
             isEnabled = true,
-            modifier =
-            Modifier.padding(
+            modifier = Modifier.padding(
                 start = Dimens.sideMargin,
                 end = Dimens.sideMargin,
                 bottom = Dimens.screenVerticalMargin,

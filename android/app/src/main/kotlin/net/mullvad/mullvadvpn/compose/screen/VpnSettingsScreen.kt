@@ -87,8 +87,7 @@ import net.mullvad.mullvadvpn.viewmodel.CustomDnsItem
 private fun PreviewVpnSettings() {
     AppTheme {
         VpnSettingsScreen(
-            uiState =
-            VpnSettingsUiState.createDefault(
+            uiState = VpnSettingsUiState.createDefault(
                 isAutoConnectEnabled = true,
                 mtu = "1337",
                 isCustomDnsEnabled = true,
@@ -185,6 +184,7 @@ fun VpnSettingsScreen(
                 onDismiss = { onCancelMtuDialogClick() },
             )
         }
+
         is VpnSettingsDialog.Dns -> {
             DnsDialog(
                 stagedDns = dialog.stagedDns,
@@ -195,27 +195,35 @@ fun VpnSettingsScreen(
                 onDismiss = { onCancelDnsDialogClick() },
             )
         }
+
         is VpnSettingsDialog.LocalNetworkSharingInfo -> {
             LocalNetworkSharingInfoDialog(onDismissInfoClick)
         }
+
         is VpnSettingsDialog.ContentBlockersInfo -> {
             ContentBlockersInfoDialog(onDismissInfoClick)
         }
+
         is VpnSettingsDialog.CustomDnsInfo -> {
             CustomDnsInfoDialog(onDismissInfoClick)
         }
+
         is VpnSettingsDialog.MalwareInfo -> {
             MalwareInfoDialog(onDismissInfoClick)
         }
+
         is VpnSettingsDialog.ObfuscationInfo -> {
             ObfuscationInfoDialog(onDismissInfoClick)
         }
+
         is VpnSettingsDialog.QuantumResistanceInfo -> {
             QuantumResistanceInfoDialog(onDismissInfoClick)
         }
+
         is VpnSettingsDialog.WireguardPortInfo -> {
             WireguardPortInfoDialog(dialog.availablePortRanges, onDismissInfoClick)
         }
+
         is VpnSettingsDialog.CustomPort -> {
             CustomPortDialog(
                 customPort = savedCustomPort.value.toDisplayCustomPort(),
@@ -241,10 +249,7 @@ fun VpnSettingsScreen(
     val topPadding = 6.dp
 
     LaunchedEffect(uiState.selectedWireguardPort) {
-        if (
-            uiState.selectedWireguardPort.isCustom() &&
-            uiState.selectedWireguardPort != savedCustomPort.value
-        ) {
+        if (uiState.selectedWireguardPort.isCustom() && uiState.selectedWireguardPort != savedCustomPort.value) {
             savedCustomPort.value = uiState.selectedWireguardPort
         }
     }
@@ -269,7 +274,9 @@ fun VpnSettingsScreen(
         navigationIcon = { NavigateBackIconButton(onBackClick) },
     ) { modifier, lazyListState ->
         LazyColumn(
-            modifier = modifier.testTag(LAZY_LIST_TEST_TAG).animateContentSize(),
+            modifier = modifier
+                .testTag(LAZY_LIST_TEST_TAG)
+                .animateContentSize(),
             state = lazyListState,
         ) {
             item {
@@ -373,7 +380,8 @@ fun VpnSettingsScreen(
                 if (uiState.isCustomDnsEnabled) {
                     item {
                         ContentBlockersDisableModeCellSubtitle(
-                            Modifier.background(MaterialTheme.colorScheme.secondary)
+                            Modifier
+                                .background(MaterialTheme.colorScheme.secondary)
                                 .padding(
                                     start = Dimens.cellStartPadding,
                                     top = topPadding,
@@ -399,8 +407,7 @@ fun VpnSettingsScreen(
                 itemsIndexed(uiState.customDnsItems) { index, item ->
                     DnsCell(
                         address = item.address,
-                        isUnreachableLocalDnsWarningVisible =
-                        item.isLocal && uiState.isAllowLanEnabled.not(),
+                        isUnreachableLocalDnsWarningVisible = item.isLocal && uiState.isAllowLanEnabled.not(),
                         onClick = { onDnsClick(index) },
                         modifier = Modifier.animateItemPlacement(),
                     )
@@ -426,8 +433,8 @@ fun VpnSettingsScreen(
             item {
                 CustomDnsCellSubtitle(
                     isCellClickable = uiState.contentBlockersOptions.isAnyBlockerEnabled().not(),
-                    modifier =
-                    Modifier.background(MaterialTheme.colorScheme.secondary)
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.secondary)
                         .padding(
                             start = Dimens.cellStartPadding,
                             top = topPadding,
@@ -468,8 +475,7 @@ fun VpnSettingsScreen(
                 CustomPortCell(
                     title = stringResource(id = R.string.wireguard_custon_port_title),
                     isSelected = uiState.selectedWireguardPort.isCustom(),
-                    port =
-                    if (uiState.selectedWireguardPort.isCustom()) {
+                    port = if (uiState.selectedWireguardPort.isCustom()) {
                         uiState.selectedWireguardPort.toDisplayCustomPort()
                     } else {
                         savedCustomPort.value.toDisplayCustomPort()
