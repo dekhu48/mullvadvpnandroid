@@ -7,5 +7,6 @@ sealed class LocationConstraint : Parcelable {
     @Parcelize
     data class Location(val location: GeographicLocationConstraint) : LocationConstraint()
 
-    @Parcelize data class CustomList(val listId: String) : LocationConstraint()
+    @Parcelize
+    data class CustomList(val listId: String) : LocationConstraint()
 }

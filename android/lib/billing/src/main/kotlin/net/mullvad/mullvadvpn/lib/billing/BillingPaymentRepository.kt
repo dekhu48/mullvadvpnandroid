@@ -33,13 +33,10 @@ class BillingPaymentRepository(
     override fun queryPaymentAvailability(): Flow<PaymentAvailability> = flow {
         emit(PaymentAvailability.Loading)
         val purchases = billingRepository.queryPurchases()
-        val productIdToPaymentStatus =
-            purchases.purchasesList
-                .filter { it.products.isNotEmpty() }
-                .associate { it.products.first() to it.purchaseState.toPaymentStatus() }
+        val productIdToPaymentStatus = purchases.purchasesList.filter { it.products.isNotEmpty() }
+            .associate { it.products.first() to it.purchaseState.toPaymentStatus() }
         emit(
-            billingRepository
-                .queryProducts(listOf(ProductIds.OneMonth))
+            billingRepository.queryProducts(listOf(ProductIds.OneMonth))
                 .toPaymentAvailability(productIdToPaymentStatus),
         )
     }
@@ -52,43 +49,40 @@ class BillingPaymentRepository(
 
         val productDetailsResult = billingRepository.queryProducts(listOf(productId.value))
 
-        val productDetails =
-            when (productDetailsResult.responseCode()) {
-                BillingResponseCode.OK -> {
-                    productDetailsResult.getProductDetails(productId.value)
-                        ?: run {
-                            emit(PurchaseResult.Error.NoProductFound(productId))
-                            return@flow
-                        }
-                }
-                else -> {
-                    emit(
-                        PurchaseResult.Error.FetchProductsError(
-                            productId,
-                            productDetailsResult.toBillingException(),
-                        ),
-                    )
+        val productDetails = when (productDetailsResult.responseCode()) {
+            BillingResponseCode.OK -> {
+                productDetailsResult.getProductDetails(productId.value) ?: run {
+                    emit(PurchaseResult.Error.NoProductFound(productId))
                     return@flow
                 }
             }
+
+            else -> {
+                emit(
+                    PurchaseResult.Error.FetchProductsError(
+                        productId,
+                        productDetailsResult.toBillingException(),
+                    ),
+                )
+                return@flow
+            }
+        }
 
         // Get transaction id
         emit(PurchaseResult.FetchingObfuscationId)
-        val obfuscatedId: String =
-            when (val result = initialisePurchase()) {
-                is PlayPurchaseInitResult.Ok -> result.obfuscatedId
-                else -> {
-                    emit(PurchaseResult.Error.TransactionIdError(productId, null))
-                    return@flow
-                }
+        val obfuscatedId: String = when (val result = initialisePurchase()) {
+            is PlayPurchaseInitResult.Ok -> result.obfuscatedId
+            else -> {
+                emit(PurchaseResult.Error.TransactionIdError(productId, null))
+                return@flow
             }
+        }
 
-        val result =
-            billingRepository.startPurchaseFlow(
-                productDetails = productDetails,
-                obfuscatedId = obfuscatedId,
-                activityProvider = activityProvider,
-            )
+        val result = billingRepository.startPurchaseFlow(
+            productDetails = productDetails,
+            obfuscatedId = obfuscatedId,
+            activityProvider = activityProvider,
+        )
 
         if (result.responseCode == BillingResponseCode.OK) {
             emit(PurchaseResult.BillingFlowStarted)
@@ -105,12 +99,10 @@ class BillingPaymentRepository(
         when (val event = billingRepository.purchaseEvents.firstOrNull()) {
             is PurchaseEvent.Error -> emit(event.toPurchaseResult())
             is PurchaseEvent.Completed -> {
-                val purchase =
-                    event.purchases.firstOrNull()
-                        ?: run {
-                            emit(PurchaseResult.Error.BillingError(null))
-                            return@flow
-                        }
+                val purchase = event.purchases.firstOrNull() ?: run {
+                    emit(PurchaseResult.Error.BillingError(null))
+                    return@flow
+                }
                 if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
                     emit(PurchaseResult.Completed.Pending)
                 } else {
@@ -122,6 +114,7 @@ class BillingPaymentRepository(
                     }
                 }
             }
+
             PurchaseEvent.UserCanceled -> emit(event.toPurchaseResult())
             else -> emit(PurchaseResult.Error.BillingError(null))
         }
@@ -138,8 +131,10 @@ class BillingPaymentRepository(
                     val verificationResult = verifyPurchase(purchases.first())
                     emit(
                         when (verificationResult) {
-                            is PlayPurchaseVerifyResult.Error ->
-                                VerificationResult.Error.VerificationError(null)
+                            is PlayPurchaseVerifyResult.Error -> VerificationResult.Error.VerificationError(
+                                null,
+                            )
+
                             PlayPurchaseVerifyResult.Ok -> VerificationResult.Success
                         },
                     )
@@ -147,8 +142,8 @@ class BillingPaymentRepository(
                     emit(VerificationResult.NothingToVerify)
                 }
             }
-            else ->
-                emit(VerificationResult.Error.BillingError(purchasesResult.toBillingException()))
+
+            else -> emit(VerificationResult.Error.BillingError(purchasesResult.toBillingException()))
         }
     }
 

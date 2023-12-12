@@ -21,8 +21,7 @@ fun String.groupWithSpaces(groupCharSize: Int = 4): String {
             formattedText.append(SPACE_CHAR)
         }
         formattedText.append(nextDigit)
-    }
-        .toString()
+    }.toString()
 }
 
 fun String.groupPasswordModeWithSpaces(groupCharSize: Int = 4): String {

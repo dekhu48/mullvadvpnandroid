@@ -19,16 +19,16 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 abstract class EndToEndTest {
 
-    @Rule @JvmField
+    @Rule
+    @JvmField
     val rule = CaptureScreenshotOnFailedTestRule(LOG_TAG)
 
     @Rule
     @JvmField
-    val permissionRule: GrantPermissionRule =
-        GrantPermissionRule.grant(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-        )
+    val permissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+    )
 
     lateinit var device: UiDevice
     lateinit var targetContext: Context
@@ -41,12 +41,10 @@ abstract class EndToEndTest {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         targetContext = InstrumentationRegistry.getInstrumentation().targetContext
 
-        validTestAccountToken =
-            InstrumentationRegistry.getArguments()
-                .getRequiredArgument(VALID_TEST_ACCOUNT_TOKEN_ARGUMENT_KEY)
-        invalidTestAccountToken =
-            InstrumentationRegistry.getArguments()
-                .getRequiredArgument(INVALID_TEST_ACCOUNT_TOKEN_ARGUMENT_KEY)
+        validTestAccountToken = InstrumentationRegistry.getArguments()
+            .getRequiredArgument(VALID_TEST_ACCOUNT_TOKEN_ARGUMENT_KEY)
+        invalidTestAccountToken = InstrumentationRegistry.getArguments()
+            .getRequiredArgument(INVALID_TEST_ACCOUNT_TOKEN_ARGUMENT_KEY)
 
         app = AppInteractor(device, targetContext)
     }

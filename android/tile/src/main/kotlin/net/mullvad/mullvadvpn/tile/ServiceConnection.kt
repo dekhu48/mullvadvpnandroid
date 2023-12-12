@@ -49,30 +49,26 @@ class ServiceConnection(context: Context, scope: CoroutineScope) {
         Channel<ServiceResult.ConnectionState>(Channel.RENDEZVOUS)
 
     init {
-        val dispatcher =
-            handler.filterNotNull().dispatchTo {
-                listenerRegistrations =
-                    subscribeToState(Event.ListenerReady::class, scope) {
-                        Pair(connection, listenerId)
-                    }
-
-                val tunnelStateEvents =
-                    subscribeToState(
-                        Event.TunnelStateChange::class,
-                        scope,
-                        TunnelState.Disconnected,
-                    ) {
-                        tunnelState
-                    }
-
-                tunnelState =
-                    tunnelStateEvents.combine(serviceConnectionStateChannel.consumeAsFlow()) {
-                            tunnelState,
-                            serviceConnectionState,
-                        ->
-                        tunnelState to serviceConnectionState
-                    }
+        val dispatcher = handler.filterNotNull().dispatchTo {
+            listenerRegistrations = subscribeToState(Event.ListenerReady::class, scope) {
+                Pair(connection, listenerId)
             }
+
+            val tunnelStateEvents = subscribeToState(
+                Event.TunnelStateChange::class,
+                scope,
+                TunnelState.Disconnected,
+            ) {
+                tunnelState
+            }
+
+            tunnelState = tunnelStateEvents.combine(serviceConnectionStateChannel.consumeAsFlow()) {
+                    tunnelState,
+                    serviceConnectionState,
+                ->
+                tunnelState to serviceConnectionState
+            }
+        }
 
         scope.launch { connect(context) }
         scope.launch { dispatcher.collect() }
@@ -83,9 +79,7 @@ class ServiceConnection(context: Context, scope: CoroutineScope) {
     private suspend fun connect(context: Context) {
         val intent = Intent().apply { setClassName(context.packageName, VPN_SERVICE_CLASS) }
 
-        context
-            .bindServiceFlow(intent)
-            .onStart { emit(ServiceResult.NOT_CONNECTED) }
+        context.bindServiceFlow(intent).onStart { emit(ServiceResult.NOT_CONNECTED) }
             .onEach { result -> serviceConnectionStateChannel.send(result.connectionState) }
             .collect { result ->
                 activeListeners.value = null
@@ -103,8 +97,7 @@ class ServiceConnection(context: Context, scope: CoroutineScope) {
     private suspend fun unregisterOldListeners() {
         var oldListener: Pair<Messenger, Int>? = null
 
-        activeListeners
-            .onCompletion { oldListener?.let(::unregisterListener) }
+        activeListeners.onCompletion { oldListener?.let(::unregisterListener) }
             .collect { newListener ->
                 oldListener?.let(::unregisterListener)
                 oldListener = newListener

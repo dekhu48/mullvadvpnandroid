@@ -39,14 +39,15 @@ class BillingRepository(context: Context) {
                         PurchaseEvent.Completed(purchases?.toList() ?: emptyList()),
                     )
                 }
+
                 BillingResponseCode.USER_CANCELED -> {
                     _purchaseEvents.tryEmit(PurchaseEvent.UserCanceled)
                 }
+
                 else -> {
                     _purchaseEvents.tryEmit(
                         PurchaseEvent.Error(
-                            exception =
-                            BillingException(
+                            exception = BillingException(
                                 responseCode = result.responseCode,
                                 message = result.debugMessage,
                             ),
@@ -60,28 +61,21 @@ class BillingRepository(context: Context) {
     val purchaseEvents = _purchaseEvents.asSharedFlow()
 
     init {
-        billingClient =
-            BillingClient.newBuilder(context)
-                .enablePendingPurchases()
-                .setListener(purchaseUpdateListener)
-                .build()
+        billingClient = BillingClient.newBuilder(context).enablePendingPurchases()
+            .setListener(purchaseUpdateListener).build()
     }
 
     private val ensureConnectedMutex = Mutex()
 
-    private suspend fun ensureConnected() =
-        ensureConnectedMutex.withLock {
-            suspendCoroutine {
-                if (
-                    billingClient.isReady &&
-                    billingClient.connectionState == BillingClient.ConnectionState.CONNECTED
-                ) {
-                    it.resume(Unit)
-                } else {
-                    startConnection(it)
-                }
+    private suspend fun ensureConnected() = ensureConnectedMutex.withLock {
+        suspendCoroutine {
+            if (billingClient.isReady && billingClient.connectionState == BillingClient.ConnectionState.CONNECTED) {
+                it.resume(Unit)
+            } else {
+                startConnection(it)
             }
         }
+    }
 
     private fun startConnection(continuation: Continuation<Unit>) {
         billingClient.startConnection(
@@ -115,18 +109,14 @@ class BillingRepository(context: Context) {
         return try {
             ensureConnected()
 
-            val productDetailsParamsList =
-                listOf(
-                    BillingFlowParams.ProductDetailsParams.newBuilder()
-                        .setProductDetails(productDetails)
-                        .build(),
-                )
+            val productDetailsParamsList = listOf(
+                BillingFlowParams.ProductDetailsParams.newBuilder()
+                    .setProductDetails(productDetails).build(),
+            )
 
             val billingFlowParams =
-                BillingFlowParams.newBuilder()
-                    .setProductDetailsParamsList(productDetailsParamsList)
-                    .setObfuscatedAccountId(obfuscatedId)
-                    .build()
+                BillingFlowParams.newBuilder().setProductDetailsParamsList(productDetailsParamsList)
+                    .setObfuscatedAccountId(obfuscatedId).build()
 
             val activity = activityProvider()
             // Launch the billing flow
@@ -145,8 +135,7 @@ class BillingRepository(context: Context) {
             ensureConnected()
 
             val queryPurchaseHistoryParams: QueryPurchasesParams =
-                QueryPurchasesParams.newBuilder()
-                    .setProductType(BillingClient.ProductType.INAPP)
+                QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP)
                     .build()
 
             billingClient.queryPurchasesAsync(queryPurchaseHistoryParams)
@@ -163,13 +152,10 @@ class BillingRepository(context: Context) {
         return try {
             ensureConnected()
 
-            val productList =
-                productIds.map { productId ->
-                    Product.newBuilder()
-                        .setProductId(productId)
-                        .setProductType(BillingClient.ProductType.INAPP)
-                        .build()
-                }
+            val productList = productIds.map { productId ->
+                Product.newBuilder().setProductId(productId)
+                    .setProductType(BillingClient.ProductType.INAPP).build()
+            }
             val params = QueryProductDetailsParams.newBuilder()
             params.setProductList(productList)
 

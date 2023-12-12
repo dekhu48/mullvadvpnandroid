@@ -5,7 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class QuantumResistantState : Parcelable {
-    Auto,
-    On,
-    Off,
+    Auto, On, Off,
 }

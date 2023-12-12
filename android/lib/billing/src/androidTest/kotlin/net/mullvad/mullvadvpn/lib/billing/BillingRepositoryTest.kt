@@ -43,7 +43,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class BillingRepositoryTest {
-    @get:Rule val testCoroutineRule = TestCoroutineRule()
+    @get:Rule
+    val testCoroutineRule = TestCoroutineRule()
 
     private val mockContext: Context = mockk()
     private lateinit var billingRepository: BillingRepository
@@ -64,8 +65,7 @@ class BillingRepositoryTest {
 
         every { BillingClient.newBuilder(any()) } returns mockBillingClientBuilder
         every { mockBillingClientBuilder.enablePendingPurchases() } returns mockBillingClientBuilder
-        every { mockBillingClientBuilder.setListener(capture(purchaseUpdatedListenerSlot)) } returns
-            mockBillingClientBuilder
+        every { mockBillingClientBuilder.setListener(capture(purchaseUpdatedListenerSlot)) } returns mockBillingClientBuilder
         every { mockBillingClientBuilder.build() } returns mockBillingClient
 
         billingRepository = BillingRepository(mockContext)
@@ -89,8 +89,7 @@ class BillingRepositoryTest {
         every { mockBillingResult.responseCode } returns BillingResponseCode.OK
         every { mockBillingClient.isReady } returns true
         every { mockBillingClient.connectionState } returns BillingClient.ConnectionState.CONNECTED
-        coEvery { mockBillingClient.queryProductDetails(any()) } returns
-            expectedProductDetailsResult
+        coEvery { mockBillingClient.queryProductDetails(any()) } returns expectedProductDetailsResult
         every { expectedProductDetailsResult.billingResult } returns mockBillingResult
         every { expectedProductDetailsResult.productDetailsList } returns listOf(mockProductDetails)
         every { mockProductDetails.productId } returns productId
@@ -160,12 +159,11 @@ class BillingRepositoryTest {
         every { mockActivityProvider() } returns mockk()
 
         // Act
-        val result =
-            billingRepository.startPurchaseFlow(
-                mockProductDetails,
-                transactionId,
-                mockActivityProvider,
-            )
+        val result = billingRepository.startPurchaseFlow(
+            mockProductDetails,
+            transactionId,
+            mockActivityProvider,
+        )
 
         // Assert
         assertEquals(mockBillingResult, result)
@@ -186,12 +184,11 @@ class BillingRepositoryTest {
         every { mockActivityProvider() } returns mockk()
 
         // Act
-        val result =
-            billingRepository.startPurchaseFlow(
-                mockProductDetails,
-                transactionId,
-                mockActivityProvider,
-            )
+        val result = billingRepository.startPurchaseFlow(
+            mockProductDetails,
+            transactionId,
+            mockActivityProvider,
+        )
 
         // Assert
         assertEquals(mockBillingResult, result)
@@ -206,8 +203,7 @@ class BillingRepositoryTest {
         every { mockResult.purchasesList } returns listOf(mockPurchase)
         every { mockBillingClient.isReady } returns true
         every { mockBillingClient.connectionState } returns BillingClient.ConnectionState.CONNECTED
-        coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns
-            mockResult
+        coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns mockResult
         every { BillingFlowParams.newBuilder() } returns mockk(relaxed = true)
 
         // Act
@@ -225,8 +221,7 @@ class BillingRepositoryTest {
         every { mockResult.purchasesList } returns emptyList()
         every { mockBillingClient.isReady } returns true
         every { mockBillingClient.connectionState } returns BillingClient.ConnectionState.CONNECTED
-        coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns
-            mockResult
+        coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns mockResult
         every { BillingFlowParams.newBuilder() } returns mockk(relaxed = true)
 
         // Act
@@ -248,8 +243,7 @@ class BillingRepositoryTest {
         every { mockResult.purchasesList } returns emptyList()
         every { mockBillingClient.isReady } returns true
         every { mockBillingClient.connectionState } returns BillingClient.ConnectionState.CONNECTED
-        coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns
-            mockResult
+        coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns mockResult
         every { BillingFlowParams.newBuilder() } returns mockk(relaxed = true)
 
         // Act
@@ -323,16 +317,14 @@ class BillingRepositoryTest {
         // Arrange
         val mockStartConnectionResult: BillingResult = mockk()
         every { mockBillingClient.isReady } returns false
-        every { mockBillingClient.connectionState } returns
-            BillingClient.ConnectionState.DISCONNECTED
-        every { mockBillingClient.startConnection(any()) } answers
-            {
-                firstArg<BillingClientStateListener>()
-                    .onBillingSetupFinished(mockStartConnectionResult)
-            }
+        every { mockBillingClient.connectionState } returns BillingClient.ConnectionState.DISCONNECTED
+        every { mockBillingClient.startConnection(any()) } answers {
+            firstArg<BillingClientStateListener>().onBillingSetupFinished(mockStartConnectionResult)
+        }
         every { mockStartConnectionResult.responseCode } returns BillingResponseCode.OK
-        coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns
-            mockk(relaxed = true)
+        coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns mockk(
+            relaxed = true,
+        )
 
         // Act
         billingRepository.queryPurchases()
@@ -344,40 +336,37 @@ class BillingRepositoryTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun testEnsureConnectedOnlyOneSuccessfulConnection() =
-        runTest(UnconfinedTestDispatcher()) {
-            // Arrange
-            var hasConnected = false
-            val mockStartConnectionResult: BillingResult = mockk()
-            every { mockBillingClient.isReady } answers { hasConnected }
-            every { mockBillingClient.connectionState } answers
-                {
-                    if (hasConnected) {
-                        BillingClient.ConnectionState.CONNECTED
-                    } else {
-                        BillingClient.ConnectionState.DISCONNECTED
-                    }
-                }
-            every { mockBillingClient.startConnection(any()) } answers
-                {
-                    hasConnected = true
-                    firstArg<BillingClientStateListener>()
-                        .onBillingSetupFinished(mockStartConnectionResult)
-                }
-            every { mockStartConnectionResult.responseCode } returns BillingResponseCode.OK
-            coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns
-                mockk(relaxed = true)
-            coEvery { mockBillingClient.queryProductDetails(any()) } returns mockk(relaxed = true)
-
-            // Act
-            launch { billingRepository.queryPurchases() }
-            launch { billingRepository.queryProducts(listOf("MOCK")) }
-
-            // Assert
-            verify(exactly = 1) { mockBillingClient.startConnection(any()) }
-            coVerify { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) }
-            coVerify { mockBillingClient.queryProductDetails(any()) }
+    fun testEnsureConnectedOnlyOneSuccessfulConnection() = runTest(UnconfinedTestDispatcher()) {
+        // Arrange
+        var hasConnected = false
+        val mockStartConnectionResult: BillingResult = mockk()
+        every { mockBillingClient.isReady } answers { hasConnected }
+        every { mockBillingClient.connectionState } answers {
+            if (hasConnected) {
+                BillingClient.ConnectionState.CONNECTED
+            } else {
+                BillingClient.ConnectionState.DISCONNECTED
+            }
         }
+        every { mockBillingClient.startConnection(any()) } answers {
+            hasConnected = true
+            firstArg<BillingClientStateListener>().onBillingSetupFinished(mockStartConnectionResult)
+        }
+        every { mockStartConnectionResult.responseCode } returns BillingResponseCode.OK
+        coEvery { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) } returns mockk(
+            relaxed = true,
+        )
+        coEvery { mockBillingClient.queryProductDetails(any()) } returns mockk(relaxed = true)
+
+        // Act
+        launch { billingRepository.queryPurchases() }
+        launch { billingRepository.queryProducts(listOf("MOCK")) }
+
+        // Assert
+        verify(exactly = 1) { mockBillingClient.startConnection(any()) }
+        coVerify { mockBillingClient.queryPurchasesAsync(any<QueryPurchasesParams>()) }
+        coVerify { mockBillingClient.queryProductDetails(any()) }
+    }
 
     companion object {
         private const val BILLING_CLIENT_CLASS = "com.android.billingclient.api.BillingClient"

@@ -13,7 +13,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class DeviceRevokedScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {

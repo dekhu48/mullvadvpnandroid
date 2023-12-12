@@ -27,12 +27,11 @@ class VpnPermission(private val context: Context, private val endpoint: ServiceE
         if (intent == null) {
             isGranted.update(true)
         } else {
-            val activityIntent =
-                Intent().apply {
-                    setClassName(context.packageName, MAIN_ACTIVITY_CLASS)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                }
+            val activityIntent = Intent().apply {
+                setClassName(context.packageName, MAIN_ACTIVITY_CLASS)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            }
 
             isGranted.update(null)
             waitingForResponse = true

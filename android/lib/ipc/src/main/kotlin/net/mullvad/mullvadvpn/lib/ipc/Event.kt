@@ -20,40 +20,54 @@ import net.mullvad.mullvadvpn.model.TunnelState
 sealed class Event : Message.EventMessage() {
     override val messageKey = MESSAGE_KEY
 
-    @Parcelize data class AccountCreationEvent(val result: AccountCreationResult) : Event()
+    @Parcelize
+    data class AccountCreationEvent(val result: AccountCreationResult) : Event()
 
-    @Parcelize data class AccountExpiryEvent(val expiry: AccountExpiry) : Event()
+    @Parcelize
+    data class AccountExpiryEvent(val expiry: AccountExpiry) : Event()
 
-    @Parcelize data class AccountHistoryEvent(val history: AccountHistory) : Event()
+    @Parcelize
+    data class AccountHistoryEvent(val history: AccountHistory) : Event()
 
     @Parcelize
     data class AppVersionInfo(val versionInfo: net.mullvad.mullvadvpn.model.AppVersionInfo?) :
         Event()
 
-    @Parcelize data class AuthToken(val token: String?) : Event()
+    @Parcelize
+    data class AuthToken(val token: String?) : Event()
 
-    @Parcelize data class CurrentVersion(val version: String?) : Event()
+    @Parcelize
+    data class CurrentVersion(val version: String?) : Event()
 
-    @Parcelize data class DeviceStateEvent(val newState: DeviceState) : Event()
+    @Parcelize
+    data class DeviceStateEvent(val newState: DeviceState) : Event()
 
-    @Parcelize data class DeviceListUpdate(val event: DeviceListEvent) : Event()
+    @Parcelize
+    data class DeviceListUpdate(val event: DeviceListEvent) : Event()
 
     @Parcelize
     data class DeviceRemovalEvent(val deviceId: String, val result: RemoveDeviceResult) : Event()
 
-    @Parcelize data class ListenerReady(val connection: Messenger, val listenerId: Int) : Event()
+    @Parcelize
+    data class ListenerReady(val connection: Messenger, val listenerId: Int) : Event()
 
-    @Parcelize data class LoginEvent(val result: LoginResult) : Event()
+    @Parcelize
+    data class LoginEvent(val result: LoginResult) : Event()
 
-    @Parcelize data class NewLocation(val location: GeoIpLocation?) : Event()
+    @Parcelize
+    data class NewLocation(val location: GeoIpLocation?) : Event()
 
-    @Parcelize data class NewRelayList(val relayList: RelayList?) : Event()
+    @Parcelize
+    data class NewRelayList(val relayList: RelayList?) : Event()
 
-    @Parcelize data class SettingsUpdate(val settings: Settings?) : Event()
+    @Parcelize
+    data class SettingsUpdate(val settings: Settings?) : Event()
 
-    @Parcelize data class SplitTunnelingUpdate(val excludedApps: List<String>?) : Event()
+    @Parcelize
+    data class SplitTunnelingUpdate(val excludedApps: List<String>?) : Event()
 
-    @Parcelize data class TunnelStateChange(val tunnelState: TunnelState) : Event()
+    @Parcelize
+    data class TunnelStateChange(val tunnelState: TunnelState) : Event()
 
     @Parcelize
     data class VoucherSubmissionResult(
@@ -61,12 +75,14 @@ sealed class Event : Message.EventMessage() {
         val result: net.mullvad.mullvadvpn.model.VoucherSubmissionResult,
     ) : Event()
 
-    @Parcelize data class PlayPurchaseInitResultEvent(val result: PlayPurchaseInitResult) : Event()
+    @Parcelize
+    data class PlayPurchaseInitResultEvent(val result: PlayPurchaseInitResult) : Event()
 
     @Parcelize
     data class PlayPurchaseVerifyResultEvent(val result: PlayPurchaseVerifyResult) : Event()
 
-    @Parcelize object VpnPermissionRequest : Event()
+    @Parcelize
+    object VpnPermissionRequest : Event()
 
     companion object {
         private const val MESSAGE_KEY = "event"

@@ -12,42 +12,38 @@ import kotlin.properties.Delegates.observable
 class ConnectivityListener {
     private val availableNetworks = HashSet<Network>()
 
-    private val callback =
-        object : NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                availableNetworks.add(network)
-                isConnected = true
-            }
-
-            override fun onLost(network: Network) {
-                availableNetworks.remove(network)
-                isConnected = !availableNetworks.isEmpty()
-            }
+    private val callback = object : NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            availableNetworks.add(network)
+            isConnected = true
         }
+
+        override fun onLost(network: Network) {
+            availableNetworks.remove(network)
+            isConnected = !availableNetworks.isEmpty()
+        }
+    }
 
     private lateinit var connectivityManager: ConnectivityManager
 
     val connectivityNotifier = EventNotifier(false)
 
-    var isConnected by
-        observable(false) { _, oldValue, newValue ->
-            if (newValue != oldValue) {
-                if (senderAddress != 0L) {
-                    notifyConnectivityChange(newValue, senderAddress)
-                }
-
-                connectivityNotifier.notify(newValue)
+    var isConnected by observable(false) { _, oldValue, newValue ->
+        if (newValue != oldValue) {
+            if (senderAddress != 0L) {
+                notifyConnectivityChange(newValue, senderAddress)
             }
+
+            connectivityNotifier.notify(newValue)
         }
+    }
 
     var senderAddress = 0L
 
     fun register(context: Context) {
         val request =
-            NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN)
-                .build()
+            NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN).build()
 
         connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

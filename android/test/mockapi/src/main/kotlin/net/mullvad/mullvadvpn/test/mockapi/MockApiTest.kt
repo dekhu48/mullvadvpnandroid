@@ -22,7 +22,8 @@ import java.net.InetAddress
 @RunWith(AndroidJUnit4::class)
 abstract class MockApiTest {
 
-    @Rule @JvmField
+    @Rule
+    @JvmField
     val rule = CaptureScreenshotOnFailedTestRule(LOG_TAG)
 
     @Rule

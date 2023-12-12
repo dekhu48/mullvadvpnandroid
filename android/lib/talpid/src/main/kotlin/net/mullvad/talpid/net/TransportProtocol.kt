@@ -5,6 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class TransportProtocol : Parcelable {
-    Tcp,
-    Udp,
+    Tcp, Udp,
 }

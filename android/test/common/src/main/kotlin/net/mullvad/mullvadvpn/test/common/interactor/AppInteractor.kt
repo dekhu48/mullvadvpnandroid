@@ -50,10 +50,9 @@ class AppInteractor(private val device: UiDevice, private val targetContext: Con
     }
 
     fun attemptLogin(accountToken: String) {
-        val loginObject =
-            device.findObjectWithTimeout(By.clazz("android.widget.EditText")).apply {
-                text = accountToken
-            }
+        val loginObject = device.findObjectWithTimeout(By.clazz("android.widget.EditText")).apply {
+            text = accountToken
+        }
         loginObject.parent.findObject(By.clazz(Button::class.java)).click()
     }
 
@@ -63,10 +62,10 @@ class AppInteractor(private val device: UiDevice, private val targetContext: Con
 
     fun extractIpAddress(): String {
         device.findObjectWithTimeout(By.res(TUNNEL_INFO_ID)).click()
-        return device
-            .findObjectWithTimeout(By.res(TUNNEL_OUT_ADDRESS_ID), CONNECTION_TIMEOUT)
-            .text
-            .extractIpAddress()
+        return device.findObjectWithTimeout(
+            By.res(TUNNEL_OUT_ADDRESS_ID),
+            CONNECTION_TIMEOUT,
+        ).text.extractIpAddress()
     }
 
     fun clickSettingsCog() {

@@ -25,8 +25,7 @@ class DaemonInstance(private val vpnService: MullvadVpnService) {
 
     private val commandChannel = spawnActor()
 
-    private var daemon by
-        observable<MullvadDaemon?>(null) { _, oldInstance, _ -> oldInstance?.onDestroy() }
+    private var daemon by observable<MullvadDaemon?>(null) { _, oldInstance, _ -> oldInstance?.onDestroy() }
 
     val intermittentDaemon = Intermittent<MullvadDaemon>()
 
@@ -43,19 +42,18 @@ class DaemonInstance(private val vpnService: MullvadVpnService) {
         intermittentDaemon.onDestroy()
     }
 
-    private fun spawnActor() =
-        GlobalScope.actor(Dispatchers.Default, Channel.UNLIMITED) {
-            var isRunning = true
+    private fun spawnActor() = GlobalScope.actor(Dispatchers.Default, Channel.UNLIMITED) {
+        var isRunning = true
 
-            prepareFiles()
+        prepareFiles()
 
-            while (isRunning) {
-                val startCommand = waitForCommand(channel, Command.Start::class) ?: break
-                startDaemon(startCommand.apiEndpointConfiguration)
-                isRunning = waitForCommand(channel, Command.Stop::class) is Command.Stop
-                stopDaemon()
-            }
+        while (isRunning) {
+            val startCommand = waitForCommand(channel, Command.Start::class) ?: break
+            startDaemon(startCommand.apiEndpointConfiguration)
+            isRunning = waitForCommand(channel, Command.Stop::class) is Command.Stop
+            stopDaemon()
         }
+    }
 
     private suspend fun <T : Command> waitForCommand(
         channel: ReceiveChannel<Command>,
@@ -80,13 +78,12 @@ class DaemonInstance(private val vpnService: MullvadVpnService) {
     }
 
     private suspend fun startDaemon(apiEndpointConfiguration: ApiEndpointConfiguration) {
-        val newDaemon =
-            MullvadDaemon(vpnService, apiEndpointConfiguration).apply {
-                onDaemonStopped = {
-                    intermittentDaemon.spawnUpdate(null)
-                    daemon = null
-                }
+        val newDaemon = MullvadDaemon(vpnService, apiEndpointConfiguration).apply {
+            onDaemonStopped = {
+                intermittentDaemon.spawnUpdate(null)
+                daemon = null
             }
+        }
 
         daemon = newDaemon
         intermittentDaemon.update(newDaemon)

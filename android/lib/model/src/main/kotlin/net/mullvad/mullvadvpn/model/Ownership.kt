@@ -5,6 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class Ownership : Parcelable {
-    MullvadOwned,
-    Rented,
+    MullvadOwned, Rented,
 }

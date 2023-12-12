@@ -38,7 +38,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class VpnSettingsScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {
@@ -57,8 +58,7 @@ class VpnSettingsScreenTest {
 
         composeTestRule.apply { onNodeWithText("Auto-connect").assertExists() }
 
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_LAST_ITEM_TEST_TAG))
 
         // Assert
@@ -78,8 +78,7 @@ class VpnSettingsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_LAST_ITEM_TEST_TAG))
 
         // Assert
@@ -98,8 +97,7 @@ class VpnSettingsScreenTest {
             )
         }
 
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_LAST_ITEM_TEST_TAG))
 
         // Act
@@ -114,8 +112,7 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     dialog = VpnSettingsDialog.Mtu(mtuEditValue = EMPTY_STRING),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
@@ -131,8 +128,7 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     dialog = VpnSettingsDialog.Mtu(mtuEditValue = VALID_DUMMY_MTU_VALUE),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
@@ -148,8 +144,7 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     dialog = VpnSettingsDialog.Mtu(mtuEditValue = EMPTY_STRING),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
@@ -169,8 +164,7 @@ class VpnSettingsScreenTest {
         val mockedSubmitHandler: (Int) -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     dialog = VpnSettingsDialog.Mtu(mtuEditValue = VALID_DUMMY_MTU_VALUE),
                 ),
                 onSaveMtuClick = mockedSubmitHandler,
@@ -190,8 +184,7 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     dialog = VpnSettingsDialog.Mtu(mtuEditValue = INVALID_DUMMY_MTU_VALUE),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
@@ -208,8 +201,7 @@ class VpnSettingsScreenTest {
         val mockedClickHandler: () -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     dialog = VpnSettingsDialog.Mtu(mtuEditValue = EMPTY_STRING),
                 ),
                 onRestoreMtuClick = mockedClickHandler,
@@ -230,8 +222,7 @@ class VpnSettingsScreenTest {
         val mockedClickHandler: () -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     dialog = VpnSettingsDialog.Mtu(mtuEditValue = EMPTY_STRING),
                 ),
                 onCancelMtuDialogClick = mockedClickHandler,
@@ -251,12 +242,10 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     isCustomDnsEnabled = true,
                     isAllowLanEnabled = false,
-                    customDnsItems =
-                    listOf(
+                    customDnsItems = listOf(
                         CustomDnsItem(address = DUMMY_DNS_ADDRESS, false),
                         CustomDnsItem(address = DUMMY_DNS_ADDRESS_2, false),
                         CustomDnsItem(address = DUMMY_DNS_ADDRESS_3, false),
@@ -280,16 +269,14 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     isCustomDnsEnabled = false,
                     customDnsItems = listOf(CustomDnsItem(address = DUMMY_DNS_ADDRESS, false)),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
             )
         }
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_LAST_ITEM_TEST_TAG))
         // Assert
         composeTestRule.onNodeWithText(DUMMY_DNS_ADDRESS).assertDoesNotExist()
@@ -301,12 +288,15 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     isCustomDnsEnabled = true,
                     isAllowLanEnabled = true,
-                    customDnsItems =
-                    listOf(CustomDnsItem(address = DUMMY_DNS_ADDRESS, isLocal = true)),
+                    customDnsItems = listOf(
+                        CustomDnsItem(
+                            address = DUMMY_DNS_ADDRESS,
+                            isLocal = true,
+                        ),
+                    ),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
             )
@@ -321,12 +311,15 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     isCustomDnsEnabled = true,
                     isAllowLanEnabled = false,
-                    customDnsItems =
-                    listOf(CustomDnsItem(address = DUMMY_DNS_ADDRESS, isLocal = false)),
+                    customDnsItems = listOf(
+                        CustomDnsItem(
+                            address = DUMMY_DNS_ADDRESS,
+                            isLocal = false,
+                        ),
+                    ),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
             )
@@ -341,12 +334,15 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     isCustomDnsEnabled = true,
                     isAllowLanEnabled = true,
-                    customDnsItems =
-                    listOf(CustomDnsItem(address = DUMMY_DNS_ADDRESS, isLocal = false)),
+                    customDnsItems = listOf(
+                        CustomDnsItem(
+                            address = DUMMY_DNS_ADDRESS,
+                            isLocal = false,
+                        ),
+                    ),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
             )
@@ -361,12 +357,15 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     isCustomDnsEnabled = true,
                     isAllowLanEnabled = false,
-                    customDnsItems =
-                    listOf(CustomDnsItem(address = DUMMY_DNS_ADDRESS, isLocal = true)),
+                    customDnsItems = listOf(
+                        CustomDnsItem(
+                            address = DUMMY_DNS_ADDRESS,
+                            isLocal = true,
+                        ),
+                    ),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
             )
@@ -402,12 +401,9 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.Dns(
-                        stagedDns =
-                        StagedDns.NewDns(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.Dns(
+                        stagedDns = StagedDns.NewDns(
                             item = CustomDnsItem(DUMMY_DNS_ADDRESS, isLocal = false),
                         ),
                     ),
@@ -425,12 +421,9 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.Dns(
-                        stagedDns =
-                        StagedDns.EditDns(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.Dns(
+                        stagedDns = StagedDns.EditDns(
                             item = CustomDnsItem(DUMMY_DNS_ADDRESS, isLocal = false),
                             index = 0,
                         ),
@@ -449,12 +442,9 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.Dns(
-                        stagedDns =
-                        StagedDns.NewDns(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.Dns(
+                        stagedDns = StagedDns.NewDns(
                             item = CustomDnsItem(DUMMY_DNS_ADDRESS, isLocal = true),
                             validationResult = StagedDns.ValidationResult.Success,
                         ),
@@ -474,12 +464,9 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.Dns(
-                        stagedDns =
-                        StagedDns.NewDns(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.Dns(
+                        stagedDns = StagedDns.NewDns(
                             item = CustomDnsItem(DUMMY_DNS_ADDRESS, isLocal = true),
                             validationResult = StagedDns.ValidationResult.Success,
                         ),
@@ -499,12 +486,9 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.Dns(
-                        stagedDns =
-                        StagedDns.NewDns(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.Dns(
+                        stagedDns = StagedDns.NewDns(
                             item = CustomDnsItem(DUMMY_DNS_ADDRESS, isLocal = false),
                             validationResult = StagedDns.ValidationResult.Success,
                         ),
@@ -524,12 +508,9 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.Dns(
-                        stagedDns =
-                        StagedDns.NewDns(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.Dns(
+                        stagedDns = StagedDns.NewDns(
                             item = CustomDnsItem(DUMMY_DNS_ADDRESS, isLocal = false),
                             validationResult = StagedDns.ValidationResult.Success,
                         ),
@@ -549,12 +530,9 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.Dns(
-                        stagedDns =
-                        StagedDns.NewDns(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.Dns(
+                        stagedDns = StagedDns.NewDns(
                             item = CustomDnsItem(DUMMY_DNS_ADDRESS, isLocal = false),
                             validationResult = StagedDns.ValidationResult.InvalidAddress,
                         ),
@@ -573,15 +551,11 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.Dns(
-                        stagedDns =
-                        StagedDns.NewDns(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.Dns(
+                        stagedDns = StagedDns.NewDns(
                             item = CustomDnsItem(DUMMY_DNS_ADDRESS, isLocal = false),
-                            validationResult =
-                            StagedDns.ValidationResult.DuplicateAddress,
+                            validationResult = StagedDns.ValidationResult.DuplicateAddress,
                         ),
                     ),
                 ),
@@ -598,19 +572,18 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(quantumResistant = QuantumResistantState.On),
+                uiState = VpnSettingsUiState.createDefault(quantumResistant = QuantumResistantState.On),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
             )
         }
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_QUANTUM_ITEM_OFF_TEST_TAG))
 
         // Assert
-        composeTestRule
-            .onNodeWithTagAndText(testTag = LAZY_LIST_QUANTUM_ITEM_ON_TEST_TAG, text = "On")
-            .assertExists()
+        composeTestRule.onNodeWithTagAndText(
+            testTag = LAZY_LIST_QUANTUM_ITEM_ON_TEST_TAG,
+            text = "On",
+        ).assertExists()
     }
 
     @Test
@@ -620,22 +593,21 @@ class VpnSettingsScreenTest {
             mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     quantumResistant = QuantumResistantState.Auto,
                 ),
                 onSelectQuantumResistanceSetting = mockSelectQuantumResistantSettingListener,
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
             )
         }
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_QUANTUM_ITEM_OFF_TEST_TAG))
 
         // Assert
-        composeTestRule
-            .onNodeWithTagAndText(testTag = LAZY_LIST_QUANTUM_ITEM_ON_TEST_TAG, text = "On")
-            .performClick()
+        composeTestRule.onNodeWithTagAndText(
+            testTag = LAZY_LIST_QUANTUM_ITEM_ON_TEST_TAG,
+            text = "On",
+        ).performClick()
         verify(exactly = 1) {
             mockSelectQuantumResistantSettingListener.invoke(QuantumResistantState.On)
         }
@@ -646,8 +618,7 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     dialog = VpnSettingsDialog.QuantumResistanceInfo,
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
@@ -663,8 +634,7 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     selectedWireguardPort = Constraint.Only(Port(53)),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
@@ -672,19 +642,15 @@ class VpnSettingsScreenTest {
         }
 
         // Act
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
-            .performScrollToNode(
-                hasTestTag(String.format(LAZY_LIST_WIREGUARD_PORT_ITEM_X_TEST_TAG, 53)),
-            )
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG).performScrollToNode(
+            hasTestTag(String.format(LAZY_LIST_WIREGUARD_PORT_ITEM_X_TEST_TAG, 53)),
+        )
 
         // Assert
-        composeTestRule
-            .onNodeWithTagAndText(
-                testTag = String.format(LAZY_LIST_WIREGUARD_PORT_ITEM_X_TEST_TAG, 51820),
-                text = "51820",
-            )
-            .assertExists()
+        composeTestRule.onNodeWithTagAndText(
+            testTag = String.format(LAZY_LIST_WIREGUARD_PORT_ITEM_X_TEST_TAG, 51820),
+            text = "51820",
+        ).assertExists()
     }
 
     @Test
@@ -694,8 +660,7 @@ class VpnSettingsScreenTest {
             mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     selectedWireguardPort = Constraint.Only(Port(53)),
                 ),
                 onWireguardPortSelected = mockSelectWireguardPortSelectionListener,
@@ -704,17 +669,13 @@ class VpnSettingsScreenTest {
         }
 
         // Act
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
-            .performScrollToNode(
-                hasTestTag(String.format(LAZY_LIST_WIREGUARD_PORT_ITEM_X_TEST_TAG, 53)),
-            )
-        composeTestRule
-            .onNodeWithTagAndText(
-                testTag = String.format(LAZY_LIST_WIREGUARD_PORT_ITEM_X_TEST_TAG, 51820),
-                text = "51820",
-            )
-            .performClick()
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG).performScrollToNode(
+            hasTestTag(String.format(LAZY_LIST_WIREGUARD_PORT_ITEM_X_TEST_TAG, 53)),
+        )
+        composeTestRule.onNodeWithTagAndText(
+            testTag = String.format(LAZY_LIST_WIREGUARD_PORT_ITEM_X_TEST_TAG, 51820),
+            text = "51820",
+        ).performClick()
 
         // Assert
         verify(exactly = 1) {
@@ -727,10 +688,8 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.WireguardPortInfo(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.WireguardPortInfo(
                         availablePortRanges = listOf(PortRange(53, 53), PortRange(120, 121)),
                     ),
                 ),
@@ -739,11 +698,9 @@ class VpnSettingsScreenTest {
         }
 
         // Assert
-        composeTestRule
-            .onNodeWithText(
-                "The automatic setting will randomly choose from the valid port ranges shown below.",
-            )
-            .assertExists()
+        composeTestRule.onNodeWithText(
+            "The automatic setting will randomly choose from the valid port ranges shown below.",
+        ).assertExists()
     }
 
     @Test
@@ -751,10 +708,8 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.CustomPort(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.CustomPort(
                         availablePortRanges = listOf(PortRange(53, 53), PortRange(120, 121)),
                     ),
                 ),
@@ -771,8 +726,7 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     selectedWireguardPort = Constraint.Only(Port(4000)),
                 ),
                 toastMessagesSharedFlow = MutableSharedFlow<String>().asSharedFlow(),
@@ -780,8 +734,7 @@ class VpnSettingsScreenTest {
         }
 
         // Act
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_WIREGUARD_CUSTOM_PORT_TEXT_TEST_TAG))
 
         // Assert
@@ -801,8 +754,7 @@ class VpnSettingsScreenTest {
         }
 
         // Act
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_WIREGUARD_CUSTOM_PORT_TEXT_TEST_TAG))
         composeTestRule.onNodeWithTag(LAZY_LIST_WIREGUARD_CUSTOM_PORT_TEXT_TEST_TAG).performClick()
 
@@ -816,8 +768,7 @@ class VpnSettingsScreenTest {
         val mockOnShowCustomPortDialog: () -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     selectedWireguardPort = Constraint.Only(Port(4000)),
                 ),
                 onShowCustomPortDialog = mockOnShowCustomPortDialog,
@@ -826,11 +777,9 @@ class VpnSettingsScreenTest {
         }
 
         // Act
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_WIREGUARD_CUSTOM_PORT_TEXT_TEST_TAG))
-        composeTestRule
-            .onNodeWithTag(testTag = LAZY_LIST_WIREGUARD_CUSTOM_PORT_NUMBER_TEST_TAG)
+        composeTestRule.onNodeWithTag(testTag = LAZY_LIST_WIREGUARD_CUSTOM_PORT_NUMBER_TEST_TAG)
             .performClick()
 
         // Assert
@@ -843,8 +792,7 @@ class VpnSettingsScreenTest {
         val onWireguardPortSelected: (Constraint<Port>) -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
+                uiState = VpnSettingsUiState.createDefault(
                     selectedWireguardPort = Constraint.Only(Port(4000)),
                 ),
                 onWireguardPortSelected = onWireguardPortSelected,
@@ -853,11 +801,9 @@ class VpnSettingsScreenTest {
         }
 
         // Act
-        composeTestRule
-            .onNodeWithTag(LAZY_LIST_TEST_TAG)
+        composeTestRule.onNodeWithTag(LAZY_LIST_TEST_TAG)
             .performScrollToNode(hasTestTag(LAZY_LIST_WIREGUARD_CUSTOM_PORT_TEXT_TEST_TAG))
-        composeTestRule
-            .onNodeWithTag(testTag = LAZY_LIST_WIREGUARD_CUSTOM_PORT_TEXT_TEST_TAG)
+        composeTestRule.onNodeWithTag(testTag = LAZY_LIST_WIREGUARD_CUSTOM_PORT_TEXT_TEST_TAG)
             .performClick()
 
         // Assert
@@ -872,10 +818,8 @@ class VpnSettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             VpnSettingsScreen(
-                uiState =
-                VpnSettingsUiState.createDefault(
-                    dialog =
-                    VpnSettingsDialog.CustomPort(
+                uiState = VpnSettingsUiState.createDefault(
+                    dialog = VpnSettingsDialog.CustomPort(
                         availablePortRanges = listOf(PortRange(53, 53), PortRange(120, 121)),
                     ),
                 ),
@@ -884,20 +828,17 @@ class VpnSettingsScreenTest {
         }
 
         // Act
-        composeTestRule
-            .onNodeWithTag(CUSTOM_PORT_DIALOG_INPUT_TEST_TAG)
+        composeTestRule.onNodeWithTag(CUSTOM_PORT_DIALOG_INPUT_TEST_TAG)
             .performTextInput("21474836471")
 
         // Assert
-        composeTestRule
-            .onNodeWithTagAndText(CUSTOM_PORT_DIALOG_INPUT_TEST_TAG, "21474836471")
+        composeTestRule.onNodeWithTagAndText(CUSTOM_PORT_DIALOG_INPUT_TEST_TAG, "21474836471")
             .assertDoesNotExist()
     }
 
     companion object {
         private const val LOCAL_DNS_SERVER_WARNING =
-            "The local DNS server will not work unless you enable " +
-                "\"Local Network Sharing\" under Preferences."
+            "The local DNS server will not work unless you enable " + "\"Local Network Sharing\" under Preferences."
         private const val EMPTY_STRING = ""
         private const val VALID_DUMMY_MTU_VALUE = "1337"
         private const val INVALID_DUMMY_MTU_VALUE = "1111"

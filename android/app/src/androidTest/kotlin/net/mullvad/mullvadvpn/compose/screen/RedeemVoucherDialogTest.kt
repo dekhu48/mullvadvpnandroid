@@ -18,7 +18,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class RedeemVoucherDialogTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {
@@ -51,8 +52,7 @@ class RedeemVoucherDialogTest {
         val mockedClickHandler: (Boolean) -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             RedeemVoucherDialogScreen(
-                uiState =
-                VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Success(0)),
+                uiState = VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Success(0)),
                 onVoucherInputChange = {},
                 onRedeem = {},
                 onDismiss = mockedClickHandler,
@@ -91,8 +91,7 @@ class RedeemVoucherDialogTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             RedeemVoucherDialogScreen(
-                uiState =
-                VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Verifying),
+                uiState = VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Verifying),
                 onVoucherInputChange = {},
                 onRedeem = {},
                 onDismiss = {},
@@ -108,8 +107,7 @@ class RedeemVoucherDialogTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             RedeemVoucherDialogScreen(
-                uiState =
-                VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Success(0)),
+                uiState = VoucherDialogUiState(voucherViewModelState = VoucherDialogState.Success(0)),
                 onVoucherInputChange = {},
                 onRedeem = {},
                 onDismiss = {},
@@ -125,8 +123,7 @@ class RedeemVoucherDialogTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             RedeemVoucherDialogScreen(
-                uiState =
-                VoucherDialogUiState(
+                uiState = VoucherDialogUiState(
                     voucherViewModelState = VoucherDialogState.Error(ERROR_MESSAGE),
                 ),
                 onVoucherInputChange = {},

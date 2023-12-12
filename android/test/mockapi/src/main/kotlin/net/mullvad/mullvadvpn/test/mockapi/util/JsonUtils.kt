@@ -3,13 +3,12 @@ package net.mullvad.mullvadvpn.test.mockapi.util
 import org.joda.time.DateTime
 import org.json.JSONObject
 
-fun accountInfoJson(id: String, expiry: DateTime) =
-    JSONObject().apply {
-        put("id", id)
-        put("expiry", expiry.formatStrictlyAccordingToIso8601AndRfc3339())
-        put("max_devices", 5)
-        put("can_add_devices", true)
-    }
+fun accountInfoJson(id: String, expiry: DateTime) = JSONObject().apply {
+    put("id", id)
+    put("expiry", expiry.formatStrictlyAccordingToIso8601AndRfc3339())
+    put("max_devices", 5)
+    put("can_add_devices", true)
+}
 
 fun deviceJson(id: String, name: String, publicKey: String, creationDate: DateTime) =
     JSONObject().apply {
@@ -22,8 +21,7 @@ fun deviceJson(id: String, name: String, publicKey: String, creationDate: DateTi
         put("ipv6_address", "fc00::1/128")
     }
 
-fun accessTokenJsonResponse(accessToken: String, expiry: DateTime) =
-    JSONObject().apply {
-        put("access_token", accessToken)
-        put("expiry", expiry.formatStrictlyAccordingToIso8601AndRfc3339())
-    }
+fun accessTokenJsonResponse(accessToken: String, expiry: DateTime) = JSONObject().apply {
+    put("access_token", accessToken)
+    put("expiry", expiry.formatStrictlyAccordingToIso8601AndRfc3339())
+}

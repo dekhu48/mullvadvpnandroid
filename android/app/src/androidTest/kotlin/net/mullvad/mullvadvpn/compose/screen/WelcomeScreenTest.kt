@@ -28,7 +28,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class WelcomeScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {
@@ -83,8 +84,7 @@ class WelcomeScreenTest {
             onNodeWithText(
                 "Either buy credit on our website or redeem a voucher.",
                 substring = true,
-            )
-                .assertDoesNotExist()
+            ).assertDoesNotExist()
             onNodeWithText("Buy credit").assertDoesNotExist()
         }
     }
@@ -120,8 +120,7 @@ class WelcomeScreenTest {
             WelcomeScreen(
                 showSitePayment = true,
                 uiState = WelcomeUiState(),
-                uiSideEffect =
-                MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenAccountView("222")),
+                uiSideEffect = MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenAccountView("222")),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
                 onSettingsClick = {},
@@ -217,8 +216,7 @@ class WelcomeScreenTest {
         composeTestRule.setContentWithTheme {
             WelcomeScreen(
                 showSitePayment = true,
-                uiState =
-                WelcomeUiState(
+                uiState = WelcomeUiState(
                     paymentDialogData = PurchaseResult.Completed.Success.toPaymentDialogData(),
                 ),
                 uiSideEffect = MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenConnectScreen),
@@ -242,10 +240,9 @@ class WelcomeScreenTest {
         composeTestRule.setContentWithTheme {
             WelcomeScreen(
                 showSitePayment = true,
-                uiState =
-                WelcomeUiState(
-                    paymentDialogData =
-                    PurchaseResult.Error.VerificationError(null).toPaymentDialogData(),
+                uiState = WelcomeUiState(
+                    paymentDialogData = PurchaseResult.Error.VerificationError(null)
+                        .toPaymentDialogData(),
                 ),
                 uiSideEffect = MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},
@@ -268,13 +265,12 @@ class WelcomeScreenTest {
         composeTestRule.setContentWithTheme {
             WelcomeScreen(
                 showSitePayment = true,
-                uiState =
-                WelcomeUiState()
-                    .copy(
-                        paymentDialogData =
-                        PurchaseResult.Error.FetchProductsError(ProductId(""), null)
-                            .toPaymentDialogData(),
-                    ),
+                uiState = WelcomeUiState().copy(
+                    paymentDialogData = PurchaseResult.Error.FetchProductsError(
+                        ProductId(""),
+                        null,
+                    ).toPaymentDialogData(),
+                ),
                 uiSideEffect = MutableSharedFlow<WelcomeViewModel.UiSideEffect>().asSharedFlow(),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -321,10 +317,8 @@ class WelcomeScreenTest {
         composeTestRule.setContentWithTheme {
             WelcomeScreen(
                 showSitePayment = true,
-                uiState =
-                WelcomeUiState(
-                    billingPaymentState =
-                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = WelcomeUiState(
+                    billingPaymentState = PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
                 ),
                 uiSideEffect = MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},
@@ -350,12 +344,13 @@ class WelcomeScreenTest {
         composeTestRule.setContentWithTheme {
             WelcomeScreen(
                 showSitePayment = true,
-                uiState =
-                WelcomeUiState()
-                    .copy(
-                        billingPaymentState =
-                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = WelcomeUiState().copy(
+                    billingPaymentState = PaymentState.PaymentAvailable(
+                        listOf(
+                            mockPaymentProduct,
+                        ),
                     ),
+                ),
                 uiSideEffect = MutableSharedFlow<WelcomeViewModel.UiSideEffect>().asSharedFlow(),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -380,12 +375,13 @@ class WelcomeScreenTest {
         composeTestRule.setContentWithTheme {
             WelcomeScreen(
                 showSitePayment = true,
-                uiState =
-                WelcomeUiState()
-                    .copy(
-                        billingPaymentState =
-                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = WelcomeUiState().copy(
+                    billingPaymentState = PaymentState.PaymentAvailable(
+                        listOf(
+                            mockPaymentProduct,
+                        ),
                     ),
+                ),
                 uiSideEffect = MutableSharedFlow<WelcomeViewModel.UiSideEffect>().asSharedFlow(),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -401,11 +397,9 @@ class WelcomeScreenTest {
         composeTestRule.onNodeWithTag(PLAY_PAYMENT_INFO_ICON_TEST_TAG).performClick()
 
         // Assert
-        composeTestRule
-            .onNodeWithText(
-                "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful.",
-            )
-            .assertExists()
+        composeTestRule.onNodeWithText(
+            "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful.",
+        ).assertExists()
     }
 
     @Test
@@ -417,12 +411,13 @@ class WelcomeScreenTest {
         composeTestRule.setContentWithTheme {
             WelcomeScreen(
                 showSitePayment = true,
-                uiState =
-                WelcomeUiState()
-                    .copy(
-                        billingPaymentState =
-                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = WelcomeUiState().copy(
+                    billingPaymentState = PaymentState.PaymentAvailable(
+                        listOf(
+                            mockPaymentProduct,
+                        ),
                     ),
+                ),
                 uiSideEffect = MutableSharedFlow<WelcomeViewModel.UiSideEffect>().asSharedFlow(),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
@@ -449,10 +444,8 @@ class WelcomeScreenTest {
         composeTestRule.setContentWithTheme {
             WelcomeScreen(
                 showSitePayment = true,
-                uiState =
-                WelcomeUiState(
-                    billingPaymentState =
-                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = WelcomeUiState(
+                    billingPaymentState = PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
                 ),
                 uiSideEffect = MutableStateFlow(WelcomeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},

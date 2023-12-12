@@ -11,8 +11,8 @@ class ClassTests {
             val companionObject =
                 it.objects(includeNested = false).lastOrNull { obj -> obj.hasCompanionModifier }
             if (companionObject != null) {
-                it.declarations(includeNested = false, includeLocal = false).last() ==
-                    companionObject
+                it.declarations(includeNested = false, includeLocal = false)
+                    .last() == companionObject
             } else {
                 true
             }

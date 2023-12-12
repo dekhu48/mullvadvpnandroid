@@ -32,10 +32,8 @@ class LoginMockApiTest : MockApiTest() {
         app.attemptLogin(validAccountToken)
 
         // Assert
-        val result =
-            device
-                .findObject(By.res(LOGIN_TITLE_TEST_TAG))
-                .wait(Until.textEquals("Login failed"), DEFAULT_INTERACTION_TIMEOUT)
+        val result = device.findObject(By.res(LOGIN_TITLE_TEST_TAG))
+            .wait(Until.textEquals("Login failed"), DEFAULT_INTERACTION_TIMEOUT)
 
         assertTrue(result)
     }

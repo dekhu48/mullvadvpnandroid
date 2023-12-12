@@ -25,10 +25,9 @@ class RelayListListener(
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
     private val daemon = endpoint.intermittentDaemon
 
-    var relayList by
-        observable<RelayList?>(null) { _, _, relays ->
-            endpoint.sendEvent(Event.NewRelayList(relays))
-        }
+    var relayList by observable<RelayList?>(null) { _, _, relays ->
+        endpoint.sendEvent(Event.NewRelayList(relays))
+    }
         private set
 
     init {
@@ -40,28 +39,22 @@ class RelayListListener(
         }
 
         scope.launch {
-            endpoint.dispatcher.parsedMessages
-                .filterIsInstance<Request.SetRelayLocation>()
+            endpoint.dispatcher.parsedMessages.filterIsInstance<Request.SetRelayLocation>()
                 .collect { request ->
-                    val update =
-                        getCurrentRelayConstraints()
-                            .copy(
-                                location =
-                                Constraint.Only(
-                                    LocationConstraint.Location(request.relayLocation),
-                                ),
-                            )
+                    val update = getCurrentRelayConstraints().copy(
+                        location = Constraint.Only(
+                            LocationConstraint.Location(request.relayLocation),
+                        ),
+                    )
                     daemon.await().setRelaySettings(RelaySettings.Normal(update))
                 }
         }
 
         scope.launch {
-            endpoint.dispatcher.parsedMessages
-                .filterIsInstance<Request.SetWireguardConstraints>()
+            endpoint.dispatcher.parsedMessages.filterIsInstance<Request.SetWireguardConstraints>()
                 .collect { request ->
                     val update =
-                        getCurrentRelayConstraints()
-                            .copy(wireguardConstraints = request.wireguardConstraints)
+                        getCurrentRelayConstraints().copy(wireguardConstraints = request.wireguardConstraints)
                     daemon.await().setRelaySettings(RelaySettings.Normal(update))
                 }
         }
@@ -73,12 +66,12 @@ class RelayListListener(
         }
 
         scope.launch {
-            endpoint.dispatcher.parsedMessages
-                .filterIsInstance<Request.SetOwnershipAndProviders>()
+            endpoint.dispatcher.parsedMessages.filterIsInstance<Request.SetOwnershipAndProviders>()
                 .collect { request ->
-                    val update =
-                        getCurrentRelayConstraints()
-                            .copy(ownership = request.ownership, providers = request.providers)
+                    val update = getCurrentRelayConstraints().copy(
+                        ownership = request.ownership,
+                        providers = request.providers,
+                    )
                     daemon.await().setRelaySettings(RelaySettings.Normal(update))
                 }
         }
@@ -104,12 +97,11 @@ class RelayListListener(
     private suspend fun getCurrentRelayConstraints(): RelayConstraints =
         when (val relaySettings = daemon.await().getSettings()?.relaySettings) {
             is RelaySettings.Normal -> relaySettings.relayConstraints
-            else ->
-                RelayConstraints(
-                    location = Constraint.Any(),
-                    providers = Constraint.Any(),
-                    ownership = Constraint.Any(),
-                    wireguardConstraints = WireguardConstraints(Constraint.Any()),
-                )
+            else -> RelayConstraints(
+                location = Constraint.Any(),
+                providers = Constraint.Any(),
+                ownership = Constraint.Any(),
+                wireguardConstraints = WireguardConstraints(Constraint.Any()),
+            )
         }
 }

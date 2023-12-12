@@ -8,8 +8,7 @@ import androidx.compose.ui.unit.TextUnit
 
 // Add text styles not in the material theme here
 val Typography.listItemText: TextStyle
-    @Composable
-    get() {
+    @Composable get() {
         return TextStyle(
             fontWeight = FontWeight.Normal,
             letterSpacing = TextUnit.Unspecified,
@@ -18,8 +17,7 @@ val Typography.listItemText: TextStyle
     }
 
 val Typography.listItemSubText: TextStyle
-    @Composable
-    get() {
+    @Composable get() {
         return TextStyle(
             fontWeight = FontWeight.SemiBold,
             letterSpacing = TextUnit.Unspecified,
@@ -28,8 +26,7 @@ val Typography.listItemSubText: TextStyle
     }
 
 val Typography.connectionStatus: TextStyle
-    @Composable
-    get() {
+    @Composable get() {
         return TextStyle(
             fontWeight = FontWeight.Bold,
             letterSpacing = TextUnit.Unspecified,

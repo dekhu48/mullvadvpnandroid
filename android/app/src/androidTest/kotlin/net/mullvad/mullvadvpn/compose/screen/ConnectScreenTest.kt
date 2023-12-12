@@ -39,7 +39,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class ConnectScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {
@@ -74,8 +75,7 @@ class ConnectScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connecting(null, null),
@@ -109,13 +109,11 @@ class ConnectScreenTest {
         every { mockTunnelEndpoint.quantumResistant } returns true
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connecting(endpoint = mockTunnelEndpoint, null),
-                    tunnelRealState =
-                    TunnelState.Connecting(endpoint = mockTunnelEndpoint, null),
+                    tunnelRealState = TunnelState.Connecting(endpoint = mockTunnelEndpoint, null),
                     inAddress = null,
                     outAddress = "",
                     showLocation = false,
@@ -144,8 +142,7 @@ class ConnectScreenTest {
         val mockTunnelEndpoint: TunnelEndpoint = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
@@ -177,8 +174,7 @@ class ConnectScreenTest {
         every { mockTunnelEndpoint.quantumResistant } returns true
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
@@ -211,8 +207,7 @@ class ConnectScreenTest {
         every { mockRelayLocation.locationName } returns mockLocationName
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = mockRelayLocation,
                     tunnelUiState = TunnelState.Disconnecting(ActionAfterDisconnect.Nothing),
@@ -245,8 +240,7 @@ class ConnectScreenTest {
         every { mockRelayLocation.locationName } returns mockLocationName
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = mockRelayLocation,
                     tunnelUiState = TunnelState.Disconnected,
@@ -279,22 +273,28 @@ class ConnectScreenTest {
         every { mockRelayLocation.locationName } returns mockLocationName
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = mockRelayLocation,
-                    tunnelUiState =
-                    TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, true)),
-                    tunnelRealState =
-                    TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, true)),
+                    tunnelUiState = TunnelState.Error(
+                        ErrorState(
+                            ErrorStateCause.StartTunnelError,
+                            true,
+                        ),
+                    ),
+                    tunnelRealState = TunnelState.Error(
+                        ErrorState(
+                            ErrorStateCause.StartTunnelError,
+                            true,
+                        ),
+                    ),
                     inAddress = null,
                     outAddress = "",
                     showLocation = true,
                     isTunnelInfoExpanded = false,
                     deviceName = "",
                     daysLeftUntilExpiry = null,
-                    inAppNotification =
-                    InAppNotification.TunnelStateError(
+                    inAppNotification = InAppNotification.TunnelStateError(
                         ErrorState(ErrorStateCause.StartTunnelError, true),
                     ),
                 ),
@@ -319,22 +319,28 @@ class ConnectScreenTest {
         every { mockRelayLocation.locationName } returns mockLocationName
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = mockRelayLocation,
-                    tunnelUiState =
-                    TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, false)),
-                    tunnelRealState =
-                    TunnelState.Error(ErrorState(ErrorStateCause.StartTunnelError, false)),
+                    tunnelUiState = TunnelState.Error(
+                        ErrorState(
+                            ErrorStateCause.StartTunnelError,
+                            false,
+                        ),
+                    ),
+                    tunnelRealState = TunnelState.Error(
+                        ErrorState(
+                            ErrorStateCause.StartTunnelError,
+                            false,
+                        ),
+                    ),
                     inAddress = null,
                     outAddress = "",
                     showLocation = true,
                     isTunnelInfoExpanded = false,
                     deviceName = "",
                     daysLeftUntilExpiry = null,
-                    inAppNotification =
-                    InAppNotification.TunnelStateError(
+                    inAppNotification = InAppNotification.TunnelStateError(
                         ErrorState(ErrorStateCause.StartTunnelError, false),
                     ),
                 ),
@@ -347,8 +353,10 @@ class ConnectScreenTest {
             onNodeWithText("FAILED TO SECURE CONNECTION").assertExists()
             onNodeWithText(mockLocationName).assertExists()
             onNodeWithText("Dismiss").assertExists()
-            onNodeWithText(text = "Critical error (your attention is required)", ignoreCase = true)
-                .assertExists()
+            onNodeWithText(
+                text = "Critical error (your attention is required)",
+                ignoreCase = true,
+            ).assertExists()
         }
     }
 
@@ -357,13 +365,11 @@ class ConnectScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Disconnecting(ActionAfterDisconnect.Reconnect),
-                    tunnelRealState =
-                    TunnelState.Disconnecting(ActionAfterDisconnect.Reconnect),
+                    tunnelRealState = TunnelState.Disconnecting(ActionAfterDisconnect.Reconnect),
                     inAddress = null,
                     outAddress = "",
                     showLocation = false,
@@ -394,8 +400,7 @@ class ConnectScreenTest {
         every { mockRelayLocation.locationName } returns mockLocationName
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = mockRelayLocation,
                     tunnelUiState = TunnelState.Disconnecting(ActionAfterDisconnect.Block),
@@ -430,8 +435,7 @@ class ConnectScreenTest {
         val mockedClickHandler: () -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = mockRelayLocation,
                     tunnelUiState = TunnelState.Disconnected,
@@ -463,8 +467,7 @@ class ConnectScreenTest {
         val mockedClickHandler: () -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
@@ -496,8 +499,7 @@ class ConnectScreenTest {
         val mockedClickHandler: () -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
@@ -528,8 +530,7 @@ class ConnectScreenTest {
         val mockedClickHandler: () -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Disconnected,
@@ -560,8 +561,7 @@ class ConnectScreenTest {
         val mockedClickHandler: () -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connecting(null, null),
@@ -593,8 +593,7 @@ class ConnectScreenTest {
         val dummyLocation = GeoIpLocation(null, null, "dummy country", null, "dummy hostname")
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = dummyLocation,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connecting(null, null),
@@ -633,8 +632,7 @@ class ConnectScreenTest {
         every { mockLocation.hostname } returns mockHostName
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = mockLocation,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connected(mockTunnelEndpoint, null),
@@ -663,17 +661,15 @@ class ConnectScreenTest {
     @Test
     fun testOutdatedVersionNotification() {
         // Arrange
-        val versionInfo =
-            VersionInfo(
-                currentVersion = "1.0",
-                upgradeVersion = "1.1",
-                isOutdated = true,
-                isSupported = true,
-            )
+        val versionInfo = VersionInfo(
+            currentVersion = "1.0",
+            upgradeVersion = "1.1",
+            isOutdated = true,
+            isSupported = true,
+        )
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connecting(null, null),
@@ -700,17 +696,15 @@ class ConnectScreenTest {
     @Test
     fun testUnsupportedVersionNotification() {
         // Arrange
-        val versionInfo =
-            VersionInfo(
-                currentVersion = "1.0",
-                upgradeVersion = "1.1",
-                isOutdated = true,
-                isSupported = false,
-            )
+        val versionInfo = VersionInfo(
+            currentVersion = "1.0",
+            upgradeVersion = "1.1",
+            isOutdated = true,
+            isSupported = false,
+        )
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connecting(null, null),
@@ -732,8 +726,7 @@ class ConnectScreenTest {
             onNodeWithText("UNSUPPORTED VERSION").assertExists()
             onNodeWithText(
                 "Your privacy might be at risk with this unsupported app version. Please update now.",
-            )
-                .assertExists()
+            ).assertExists()
         }
     }
 
@@ -743,8 +736,7 @@ class ConnectScreenTest {
         val expiryDate = DateTime(2020, 11, 11, 10, 10)
         composeTestRule.setContentWithTheme {
             ConnectScreen(
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connecting(null, null),
@@ -772,18 +764,16 @@ class ConnectScreenTest {
     fun testOnUpdateVersionClick() {
         // Arrange
         val mockedClickHandler: () -> Unit = mockk(relaxed = true)
-        val versionInfo =
-            VersionInfo(
-                currentVersion = "1.0",
-                upgradeVersion = "1.1",
-                isOutdated = true,
-                isSupported = false,
-            )
+        val versionInfo = VersionInfo(
+            currentVersion = "1.0",
+            upgradeVersion = "1.1",
+            isOutdated = true,
+            isSupported = false,
+        )
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 onUpdateVersionClick = mockedClickHandler,
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connecting(null, null),
@@ -815,8 +805,7 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 onManageAccountClick = mockedClickHandler,
-                uiState =
-                ConnectUiState(
+                uiState = ConnectUiState(
                     location = null,
                     relayLocation = null,
                     tunnelUiState = TunnelState.Connecting(null, null),
@@ -846,8 +835,7 @@ class ConnectScreenTest {
         composeTestRule.setContentWithTheme {
             ConnectScreen(
                 uiState = ConnectUiState.INITIAL,
-                uiSideEffect =
-                MutableStateFlow(
+                uiSideEffect = MutableStateFlow(
                     ConnectViewModel.UiSideEffect.OpenAccountManagementPageInBrowser("222"),
                 ),
             )

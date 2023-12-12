@@ -31,14 +31,11 @@ import kotlin.properties.Delegates.observable
 class MullvadVpnService : TalpidVpnService() {
 
     private enum class PendingAction {
-        Connect,
-        Disconnect,
+        Connect, Disconnect,
     }
 
     private enum class State {
-        Running,
-        Stopping,
-        Stopped,
+        Running, Stopping, Stopped,
     }
 
     private val connectionProxy
@@ -54,10 +51,9 @@ class MullvadVpnService : TalpidVpnService() {
     private lateinit var keyguardManager: KeyguardManager
     private lateinit var notificationManager: ForegroundNotificationManager
 
-    private var pendingAction by
-        observable<PendingAction?>(null) { _, _, _ ->
-            endpoint.settingsListener.settings?.let { settings -> handlePendingAction(settings) }
-        }
+    private var pendingAction by observable<PendingAction?>(null) { _, _, _ ->
+        endpoint.settingsListener.settings?.let { settings -> handlePendingAction(settings) }
+    }
 
     private lateinit var apiEndpointConfiguration: ApiEndpointConfiguration
 
@@ -72,13 +68,12 @@ class MullvadVpnService : TalpidVpnService() {
         daemonInstance = DaemonInstance(this)
         keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
-        endpoint =
-            ServiceEndpoint(
-                Looper.getMainLooper(),
-                daemonInstance.intermittentDaemon,
-                connectivityListener,
-                this,
-            )
+        endpoint = ServiceEndpoint(
+            Looper.getMainLooper(),
+            daemonInstance.intermittentDaemon,
+            connectivityListener,
+            this,
+        )
 
         endpoint.splitTunneling.onChange.subscribe(this@MullvadVpnService) { excludedApps ->
             disallowedApps = excludedApps
@@ -89,12 +84,11 @@ class MullvadVpnService : TalpidVpnService() {
         notificationManager =
             ForegroundNotificationManager(this, connectionProxy, daemonInstance.intermittentDaemon)
 
-        accountExpiryNotification =
-            AccountExpiryNotification(
-                this,
-                daemonInstance.intermittentDaemon,
-                endpoint.accountCache,
-            )
+        accountExpiryNotification = AccountExpiryNotification(
+            this,
+            daemonInstance.intermittentDaemon,
+            endpoint.accountCache,
+        )
 
         // Remove any leftover tunnel state persistence data
         getSharedPreferences("tunnel_state", MODE_PRIVATE).edit().clear().commit()
@@ -103,12 +97,11 @@ class MullvadVpnService : TalpidVpnService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d(TAG, "Starting service")
 
-        val intentProvidedConfiguration =
-            if (BuildConfig.DEBUG) {
-                intent?.getApiEndpointConfigurationExtras()
-            } else {
-                null
-            }
+        val intentProvidedConfiguration = if (BuildConfig.DEBUG) {
+            intent?.getApiEndpointConfigurationExtras()
+        } else {
+            null
+        }
 
         apiEndpointConfiguration = intentProvidedConfiguration ?: get()
 
@@ -210,18 +203,17 @@ class MullvadVpnService : TalpidVpnService() {
         }
     }
 
-    private fun setUpDaemon(daemon: MullvadDaemon) =
-        GlobalScope.launch(Dispatchers.Main) {
-            if (state != State.Stopped) {
-                val settings = daemon.getSettings()
+    private fun setUpDaemon(daemon: MullvadDaemon) = GlobalScope.launch(Dispatchers.Main) {
+        if (state != State.Stopped) {
+            val settings = daemon.getSettings()
 
-                if (settings != null) {
-                    handlePendingAction(settings)
-                } else {
-                    restart()
-                }
+            if (settings != null) {
+                handlePendingAction(settings)
+            } else {
+                restart()
             }
         }
+    }
 
     private fun stop() {
         Log.d(TAG, "Stopping service")
@@ -254,6 +246,7 @@ class MullvadVpnService : TalpidVpnService() {
                     openUi()
                 }
             }
+
             PendingAction.Disconnect -> connectionProxy.disconnect()
             null -> return
         }
@@ -262,12 +255,11 @@ class MullvadVpnService : TalpidVpnService() {
     }
 
     private fun openUi() {
-        val intent =
-            Intent().apply {
-                setClassName(applicationContext.packageName, MAIN_ACTIVITY_CLASS)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            }
+        val intent = Intent().apply {
+            setClassName(applicationContext.packageName, MAIN_ACTIVITY_CLASS)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        }
 
         startActivity(intent)
     }

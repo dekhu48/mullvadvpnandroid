@@ -5,9 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class LoginResult : Parcelable {
-    Ok,
-    InvalidAccount,
-    MaxDevicesReached,
-    RpcError,
-    OtherError,
+    Ok, InvalidAccount, MaxDevicesReached, RpcError, OtherError,
 }

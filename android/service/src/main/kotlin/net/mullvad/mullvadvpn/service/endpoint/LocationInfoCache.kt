@@ -23,12 +23,11 @@ import kotlin.properties.Delegates.observable
 
 class LocationInfoCache(private val endpoint: ServiceEndpoint) {
 
-    private val fetchRetryDelays =
-        ExponentialBackoff().apply {
-            scale = 50
-            cap = 30 /* min */ * 60 /* s */ * 1000 /* ms */
-            count = 17 // ceil(log2(cap / scale) + 1)
-        }
+    private val fetchRetryDelays = ExponentialBackoff().apply {
+        scale = 50
+        cap = 30 /* min */ * 60 /* s */ * 1000 /* ms */
+        count = 17 // ceil(log2(cap / scale) + 1)
+    }
 
     private val fetchRequestChannel = runFetcher()
 
@@ -38,33 +37,40 @@ class LocationInfoCache(private val endpoint: ServiceEndpoint) {
     private var lastKnownRealLocation: GeoIpLocation? = null
     private var selectedRelayLocation: GeoIpLocation? = null
 
-    var location: GeoIpLocation? by
-        observable(null) { _, _, newLocation -> endpoint.sendEvent(Event.NewLocation(newLocation)) }
+    var location: GeoIpLocation? by observable(null) { _, _, newLocation ->
+        endpoint.sendEvent(
+            Event.NewLocation(
+                newLocation,
+            ),
+        )
+    }
 
-    var state by
-        observable<TunnelState>(TunnelState.Disconnected) { _, _, newState ->
-            when (newState) {
-                is TunnelState.Disconnected -> {
-                    location = lastKnownRealLocation
-                    fetchRequestChannel.trySendBlocking(RequestFetch.ForRealLocation)
-                }
-                is TunnelState.Connecting -> location = newState.location
-                is TunnelState.Connected -> {
-                    location = newState.location
-                    fetchRequestChannel.trySendBlocking(RequestFetch.ForRelayLocation)
-                }
-                is TunnelState.Disconnecting -> {
-                    when (newState.actionAfterDisconnect) {
-                        ActionAfterDisconnect.Nothing -> location = lastKnownRealLocation
-                        ActionAfterDisconnect.Block -> location = null
-                        ActionAfterDisconnect.Reconnect -> {
-                            lastKnownRealLocation?.let { location = it }
-                        }
+    var state by observable<TunnelState>(TunnelState.Disconnected) { _, _, newState ->
+        when (newState) {
+            is TunnelState.Disconnected -> {
+                location = lastKnownRealLocation
+                fetchRequestChannel.trySendBlocking(RequestFetch.ForRealLocation)
+            }
+
+            is TunnelState.Connecting -> location = newState.location
+            is TunnelState.Connected -> {
+                location = newState.location
+                fetchRequestChannel.trySendBlocking(RequestFetch.ForRelayLocation)
+            }
+
+            is TunnelState.Disconnecting -> {
+                when (newState.actionAfterDisconnect) {
+                    ActionAfterDisconnect.Nothing -> location = lastKnownRealLocation
+                    ActionAfterDisconnect.Block -> location = null
+                    ActionAfterDisconnect.Reconnect -> {
+                        lastKnownRealLocation?.let { location = it }
                     }
                 }
-                is TunnelState.Error -> location = null
             }
+
+            is TunnelState.Error -> location = null
         }
+    }
 
     init {
         endpoint.connectionProxy.onStateChange.subscribe(this) { newState -> state = newState }
@@ -90,13 +96,12 @@ class LocationInfoCache(private val endpoint: ServiceEndpoint) {
         GlobalScope.actor<RequestFetch>(Dispatchers.Default, Channel.CONFLATED) {
             try {
                 fetcherLoop(channel)
-            } catch (exception: ClosedReceiveChannelException) {}
+            } catch (exception: ClosedReceiveChannelException) {
+            }
         }
 
     private suspend fun fetcherLoop(channel: ReceiveChannel<RequestFetch>) {
-        channel
-            .receiveAsFlow()
-            .flatMapLatest(::fetchCurrentLocation)
+        channel.receiveAsFlow().flatMapLatest(::fetchCurrentLocation)
             .collect(::handleFetchedLocation)
     }
 
@@ -132,8 +137,7 @@ class LocationInfoCache(private val endpoint: ServiceEndpoint) {
 
     companion object {
         private enum class RequestFetch {
-            ForRealLocation,
-            ForRelayLocation,
+            ForRealLocation, ForRelayLocation,
         }
     }
 }

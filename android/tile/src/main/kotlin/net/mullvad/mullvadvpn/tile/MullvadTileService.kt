@@ -51,17 +51,15 @@ class MullvadTileService : TileService() {
                     delay(unlockCheckDelayMillis)
                 }
                 return@withTimeoutOrNull true
-            }
-                ?: false
+            } ?: false
         }
 
         unlockAndRun {
             runBlocking {
-                val isUnlockStatusPropagated =
-                    isUnlockStatusPropagatedWithinTimeout(
-                        unlockTimeoutMillis = 1000L,
-                        unlockCheckDelayMillis = 100L,
-                    )
+                val isUnlockStatusPropagated = isUnlockStatusPropagatedWithinTimeout(
+                    unlockTimeoutMillis = 1000L,
+                    unlockCheckDelayMillis = 100L,
+                )
 
                 if (isUnlockStatusPropagated) {
                     toggleTunnel()
@@ -87,30 +85,25 @@ class MullvadTileService : TileService() {
         if (!isSetup) {
             Log.d("MullvadTileService", "VPN service not setup, starting main activity")
 
-            val intent =
-                Intent().apply {
-                    setClassName(applicationContext.packageName, MAIN_ACTIVITY_CLASS)
-                    flags =
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                        Intent.FLAG_ACTIVITY_SINGLE_TOP or
-                        Intent.FLAG_ACTIVITY_NEW_TASK
-                    action = Intent.ACTION_MAIN
-                }
+            val intent = Intent().apply {
+                setClassName(applicationContext.packageName, MAIN_ACTIVITY_CLASS)
+                flags =
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                action = Intent.ACTION_MAIN
+            }
             startActivityAndCollapseCompat(intent)
             return
         } else {
             Log.d("MullvadTileService", "VPN service is setup")
         }
-        val intent =
-            Intent().apply {
-                setClassName(applicationContext.packageName, VPN_SERVICE_CLASS)
-                action =
-                    if (qsTile.state == Tile.STATE_INACTIVE) {
-                        KEY_CONNECT_ACTION
-                    } else {
-                        KEY_DISCONNECT_ACTION
-                    }
+        val intent = Intent().apply {
+            setClassName(applicationContext.packageName, VPN_SERVICE_CLASS)
+            action = if (qsTile.state == Tile.STATE_INACTIVE) {
+                KEY_CONNECT_ACTION
+            } else {
+                KEY_DISCONNECT_ACTION
             }
+        }
 
         // Always start as foreground in case tile is out-of-sync.
         startForegroundService(intent)
@@ -119,13 +112,12 @@ class MullvadTileService : TileService() {
     @SuppressLint("StartActivityAndCollapseDeprecated")
     private fun MullvadTileService.startActivityAndCollapseCompat(intent: Intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            val pendingIntent =
-                PendingIntent.getActivity(
-                    applicationContext,
-                    0,
-                    intent,
-                    SdkUtils.getSupportedPendingIntentFlags(),
-                )
+            val pendingIntent = PendingIntent.getActivity(
+                applicationContext,
+                0,
+                intent,
+                SdkUtils.getSupportedPendingIntentFlags(),
+            )
             startActivityAndCollapse(pendingIntent)
         } else {
             startActivityAndCollapse(intent)
@@ -134,9 +126,7 @@ class MullvadTileService : TileService() {
 
     @OptIn(FlowPreview::class)
     private fun CoroutineScope.launchListenToTunnelState() = launch {
-        ServiceConnection(this@MullvadTileService, this)
-            .tunnelState
-            .debounce(300L)
+        ServiceConnection(this@MullvadTileService, this).tunnelState.debounce(300L)
             .map { (tunnelState, connectionState) -> mapToTileState(tunnelState, connectionState) }
             .collect { updateTileState(it) }
     }
@@ -157,6 +147,7 @@ class MullvadTileService : TileService() {
                         Tile.STATE_INACTIVE
                     }
                 }
+
                 is TunnelState.Error -> {
                     if (tunnelState.errorState.isBlocking) {
                         Tile.STATE_ACTIVE

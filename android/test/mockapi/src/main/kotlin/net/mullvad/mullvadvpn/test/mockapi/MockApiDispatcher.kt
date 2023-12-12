@@ -35,12 +35,15 @@ class MockApiDispatcher : Dispatcher() {
                     "get",
                     "GET",
                     -> handleDeviceListRequest()
+
                     "post",
                     "POST",
                     -> handleDeviceCreationRequest(request.body)
+
                     else -> MockResponse().setResponseCode(404)
                 }
             }
+
             "$DEVICES_URL_PATH/$DUMMY_ID" -> handleDeviceInfoRequest()
             ACCOUNT_URL_PATH -> handleAccountInfoRequest()
             else -> MockResponse().setResponseCode(404)
@@ -53,16 +56,12 @@ class MockApiDispatcher : Dispatcher() {
         val accountToken = requestBody.getAccountToken()
 
         return if (accountToken != null && accountToken == expectedAccountToken) {
-            MockResponse()
-                .setResponseCode(200)
-                .addJsonHeader()
-                .setBody(
-                    accessTokenJsonResponse(
-                        accessToken = DUMMY_ACCESS_TOKEN,
-                        expiry = currentUtcTimeWithOffsetZero().plusDays(1),
-                    )
-                        .toString(),
-                )
+            MockResponse().setResponseCode(200).addJsonHeader().setBody(
+                accessTokenJsonResponse(
+                    accessToken = DUMMY_ACCESS_TOKEN,
+                    expiry = currentUtcTimeWithOffsetZero().plusDays(1),
+                ).toString(),
+            )
         } else {
             Log.e(
                 LOG_TAG,
@@ -74,71 +73,50 @@ class MockApiDispatcher : Dispatcher() {
 
     private fun handleAccountInfoRequest(): MockResponse {
         return accountExpiry?.let { expiry ->
-            MockResponse()
-                .setResponseCode(200)
-                .addJsonHeader()
+            MockResponse().setResponseCode(200).addJsonHeader()
                 .setBody(accountInfoJson(id = DUMMY_ID, expiry = expiry).toString())
-        }
-            ?: MockResponse().setResponseCode(400)
+        } ?: MockResponse().setResponseCode(400)
     }
 
     private fun handleDeviceInfoRequest(): MockResponse {
         return cachedPubKeyFromAppUnderTest?.let { cachedKey ->
-            MockResponse()
-                .setResponseCode(200)
-                .addJsonHeader()
-                .setBody(
+            MockResponse().setResponseCode(200).addJsonHeader().setBody(
+                deviceJson(
+                    id = DUMMY_ID,
+                    name = DUMMY_DEVICE_NAME,
+                    publicKey = cachedKey,
+                    creationDate = currentUtcTimeWithOffsetZero().minusDays(1),
+                ).toString(),
+            )
+        } ?: MockResponse().setResponseCode(400)
+    }
+
+    private fun handleDeviceCreationRequest(body: Buffer): MockResponse {
+        return body.getPubKey().also { newKey -> cachedPubKeyFromAppUnderTest = newKey }
+            ?.let { newKey ->
+                MockResponse().setResponseCode(201).addJsonHeader().setBody(
+                    deviceJson(
+                        id = DUMMY_ID,
+                        name = DUMMY_DEVICE_NAME,
+                        publicKey = newKey,
+                        creationDate = currentUtcTimeWithOffsetZero().minusDays(1),
+                    ).toString(),
+                )
+            } ?: MockResponse().setResponseCode(400)
+    }
+
+    private fun handleDeviceListRequest(): MockResponse {
+        return cachedPubKeyFromAppUnderTest?.let { cachedKey ->
+            MockResponse().setResponseCode(200).addJsonHeader().setBody(
+                JSONArray().put(
                     deviceJson(
                         id = DUMMY_ID,
                         name = DUMMY_DEVICE_NAME,
                         publicKey = cachedKey,
                         creationDate = currentUtcTimeWithOffsetZero().minusDays(1),
-                    )
-                        .toString(),
-                )
-        }
-            ?: MockResponse().setResponseCode(400)
-    }
-
-    private fun handleDeviceCreationRequest(body: Buffer): MockResponse {
-        return body
-            .getPubKey()
-            .also { newKey -> cachedPubKeyFromAppUnderTest = newKey }
-            ?.let { newKey ->
-                MockResponse()
-                    .setResponseCode(201)
-                    .addJsonHeader()
-                    .setBody(
-                        deviceJson(
-                            id = DUMMY_ID,
-                            name = DUMMY_DEVICE_NAME,
-                            publicKey = newKey,
-                            creationDate = currentUtcTimeWithOffsetZero().minusDays(1),
-                        )
-                            .toString(),
-                    )
-            }
-            ?: MockResponse().setResponseCode(400)
-    }
-
-    private fun handleDeviceListRequest(): MockResponse {
-        return cachedPubKeyFromAppUnderTest?.let { cachedKey ->
-            MockResponse()
-                .setResponseCode(200)
-                .addJsonHeader()
-                .setBody(
-                    JSONArray()
-                        .put(
-                            deviceJson(
-                                id = DUMMY_ID,
-                                name = DUMMY_DEVICE_NAME,
-                                publicKey = cachedKey,
-                                creationDate = currentUtcTimeWithOffsetZero().minusDays(1),
-                            ),
-                        )
-                        .toString(),
-                )
-        }
-            ?: MockResponse().setResponseCode(400)
+                    ),
+                ).toString(),
+            )
+        } ?: MockResponse().setResponseCode(400)
     }
 }

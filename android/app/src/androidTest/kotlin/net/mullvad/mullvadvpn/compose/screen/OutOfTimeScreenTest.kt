@@ -29,7 +29,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class OutOfTimeScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {
@@ -58,8 +59,7 @@ class OutOfTimeScreenTest {
             onNodeWithText(
                 "Either buy credit on our website or redeem a voucher.",
                 substring = true,
-            )
-                .assertDoesNotExist()
+            ).assertDoesNotExist()
             onNodeWithText("Buy credit").assertDoesNotExist()
         }
     }
@@ -71,8 +71,7 @@ class OutOfTimeScreenTest {
             OutOfTimeScreen(
                 showSitePayment = true,
                 uiState = OutOfTimeUiState(deviceName = ""),
-                uiSideEffect =
-                MutableStateFlow(OutOfTimeViewModel.UiSideEffect.OpenAccountView("222")),
+                uiSideEffect = MutableStateFlow(OutOfTimeViewModel.UiSideEffect.OpenAccountView("222")),
                 onSitePaymentClick = {},
                 onRedeemVoucherClick = {},
                 onSettingsClick = {},
@@ -165,8 +164,7 @@ class OutOfTimeScreenTest {
         composeTestRule.setContentWithTheme {
             OutOfTimeScreen(
                 showSitePayment = true,
-                uiState =
-                OutOfTimeUiState(
+                uiState = OutOfTimeUiState(
                     tunnelState = TunnelState.Connecting(null, null),
                     deviceName = "",
                 ),
@@ -193,8 +191,7 @@ class OutOfTimeScreenTest {
         composeTestRule.setContentWithTheme {
             OutOfTimeScreen(
                 showSitePayment = true,
-                uiState =
-                OutOfTimeUiState(
+                uiState = OutOfTimeUiState(
                     paymentDialogData = PurchaseResult.Completed.Success.toPaymentDialogData(),
                 ),
                 uiSideEffect = MutableStateFlow(OutOfTimeViewModel.UiSideEffect.OpenConnectScreen),
@@ -217,10 +214,9 @@ class OutOfTimeScreenTest {
         composeTestRule.setContentWithTheme {
             OutOfTimeScreen(
                 showSitePayment = true,
-                uiState =
-                OutOfTimeUiState(
-                    paymentDialogData =
-                    PurchaseResult.Error.VerificationError(null).toPaymentDialogData(),
+                uiState = OutOfTimeUiState(
+                    paymentDialogData = PurchaseResult.Error.VerificationError(null)
+                        .toPaymentDialogData(),
                 ),
                 uiSideEffect = MutableStateFlow(OutOfTimeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},
@@ -242,13 +238,12 @@ class OutOfTimeScreenTest {
         composeTestRule.setContentWithTheme {
             OutOfTimeScreen(
                 showSitePayment = true,
-                uiState =
-                OutOfTimeUiState()
-                    .copy(
-                        paymentDialogData =
-                        PurchaseResult.Error.FetchProductsError(ProductId(""), null)
-                            .toPaymentDialogData(),
-                    ),
+                uiState = OutOfTimeUiState().copy(
+                    paymentDialogData = PurchaseResult.Error.FetchProductsError(
+                        ProductId(""),
+                        null,
+                    ).toPaymentDialogData(),
+                ),
                 uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
@@ -287,10 +282,8 @@ class OutOfTimeScreenTest {
         composeTestRule.setContentWithTheme {
             OutOfTimeScreen(
                 showSitePayment = true,
-                uiState =
-                OutOfTimeUiState(
-                    billingPaymentState =
-                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = OutOfTimeUiState(
+                    billingPaymentState = PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
                 ),
                 uiSideEffect = MutableStateFlow(OutOfTimeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},
@@ -315,12 +308,13 @@ class OutOfTimeScreenTest {
         composeTestRule.setContentWithTheme {
             OutOfTimeScreen(
                 showSitePayment = true,
-                uiState =
-                OutOfTimeUiState()
-                    .copy(
-                        billingPaymentState =
-                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = OutOfTimeUiState().copy(
+                    billingPaymentState = PaymentState.PaymentAvailable(
+                        listOf(
+                            mockPaymentProduct,
+                        ),
                     ),
+                ),
                 uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
@@ -338,12 +332,13 @@ class OutOfTimeScreenTest {
         composeTestRule.setContentWithTheme {
             OutOfTimeScreen(
                 showSitePayment = true,
-                uiState =
-                OutOfTimeUiState()
-                    .copy(
-                        billingPaymentState =
-                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = OutOfTimeUiState().copy(
+                    billingPaymentState = PaymentState.PaymentAvailable(
+                        listOf(
+                            mockPaymentProduct,
+                        ),
                     ),
+                ),
                 uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
@@ -352,11 +347,9 @@ class OutOfTimeScreenTest {
         composeTestRule.onNodeWithTag(PLAY_PAYMENT_INFO_ICON_TEST_TAG).performClick()
 
         // Assert
-        composeTestRule
-            .onNodeWithText(
-                "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful.",
-            )
-            .assertExists()
+        composeTestRule.onNodeWithText(
+            "We are currently verifying your purchase, this might take some time. Your time will be added if the verification is successful.",
+        ).assertExists()
     }
 
     @Test
@@ -368,12 +361,13 @@ class OutOfTimeScreenTest {
         composeTestRule.setContentWithTheme {
             OutOfTimeScreen(
                 showSitePayment = true,
-                uiState =
-                OutOfTimeUiState()
-                    .copy(
-                        billingPaymentState =
-                        PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = OutOfTimeUiState().copy(
+                    billingPaymentState = PaymentState.PaymentAvailable(
+                        listOf(
+                            mockPaymentProduct,
+                        ),
                     ),
+                ),
                 uiSideEffect = MutableSharedFlow<OutOfTimeViewModel.UiSideEffect>().asSharedFlow(),
             )
         }
@@ -393,10 +387,8 @@ class OutOfTimeScreenTest {
         composeTestRule.setContentWithTheme {
             OutOfTimeScreen(
                 showSitePayment = true,
-                uiState =
-                OutOfTimeUiState(
-                    billingPaymentState =
-                    PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
+                uiState = OutOfTimeUiState(
+                    billingPaymentState = PaymentState.PaymentAvailable(listOf(mockPaymentProduct)),
                 ),
                 uiSideEffect = MutableStateFlow(OutOfTimeViewModel.UiSideEffect.OpenConnectScreen),
                 onSitePaymentClick = {},

@@ -8,7 +8,11 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.trySendBlocking
 import net.mullvad.mullvadvpn.lib.ipc.Event
 import net.mullvad.mullvadvpn.lib.ipc.Request
-import net.mullvad.mullvadvpn.model.*
+import net.mullvad.mullvadvpn.model.DnsOptions
+import net.mullvad.mullvadvpn.model.ObfuscationSettings
+import net.mullvad.mullvadvpn.model.QuantumResistantState
+import net.mullvad.mullvadvpn.model.RelaySettings
+import net.mullvad.mullvadvpn.model.Settings
 import net.mullvad.mullvadvpn.service.MullvadDaemon
 import net.mullvad.talpid.util.EventNotifier
 
@@ -121,23 +125,22 @@ class SettingsListener(endpoint: ServiceEndpoint) {
         }
     }
 
-    private fun spawnActor() =
-        GlobalScope.actor<Command>(Dispatchers.Default, Channel.UNLIMITED) {
-            try {
-                for (command in channel) {
-                    when (command) {
-                        is Command.SetAllowLan -> daemon.await().setAllowLan(command.allow)
-                        is Command.SetAutoConnect ->
-                            daemon.await().setAutoConnect(command.autoConnect)
-                        is Command.SetWireGuardMtu -> daemon.await().setWireguardMtu(command.mtu)
-                        is Command.SetObfuscationSettings ->
-                            daemon.await().setObfuscationSettings(command.settings)
-                        is Command.SetQuantumResistant ->
-                            daemon.await().setQuantumResistant(command.quantumResistant)
-                    }
+    private fun spawnActor() = GlobalScope.actor<Command>(Dispatchers.Default, Channel.UNLIMITED) {
+        try {
+            for (command in channel) {
+                when (command) {
+                    is Command.SetAllowLan -> daemon.await().setAllowLan(command.allow)
+                    is Command.SetAutoConnect -> daemon.await().setAutoConnect(command.autoConnect)
+                    is Command.SetWireGuardMtu -> daemon.await().setWireguardMtu(command.mtu)
+                    is Command.SetObfuscationSettings -> daemon.await()
+                        .setObfuscationSettings(command.settings)
+
+                    is Command.SetQuantumResistant -> daemon.await()
+                        .setQuantumResistant(command.quantumResistant)
                 }
-            } catch (exception: ClosedReceiveChannelException) {
-                // Closed sender, so stop the actor
             }
+        } catch (exception: ClosedReceiveChannelException) {
+            // Closed sender, so stop the actor
         }
+    }
 }

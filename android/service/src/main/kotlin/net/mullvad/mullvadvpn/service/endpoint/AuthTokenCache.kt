@@ -14,8 +14,13 @@ class AuthTokenCache(endpoint: ServiceEndpoint) {
     private val daemon = endpoint.intermittentDaemon
     private val requestQueue = spawnActor()
 
-    var authToken by
-        observable<String?>(null) { _, _, token -> endpoint.sendEvent(Event.AuthToken(token)) }
+    var authToken by observable<String?>(null) { _, _, token ->
+        endpoint.sendEvent(
+            Event.AuthToken(
+                token,
+            ),
+        )
+    }
         private set
 
     init {
@@ -28,18 +33,17 @@ class AuthTokenCache(endpoint: ServiceEndpoint) {
         requestQueue.close()
     }
 
-    private fun spawnActor() =
-        GlobalScope.actor<Command>(Dispatchers.Default, Channel.UNLIMITED) {
-            try {
-                for (command in channel) {
-                    when (command) {
-                        Command.Fetch -> authToken = daemon.await().getWwwAuthToken()
-                    }
+    private fun spawnActor() = GlobalScope.actor<Command>(Dispatchers.Default, Channel.UNLIMITED) {
+        try {
+            for (command in channel) {
+                when (command) {
+                    Command.Fetch -> authToken = daemon.await().getWwwAuthToken()
                 }
-            } catch (exception: ClosedReceiveChannelException) {
-                // Closed sender, so stop the actor
             }
+        } catch (exception: ClosedReceiveChannelException) {
+            // Closed sender, so stop the actor
         }
+    }
 
     companion object {
         private enum class Command {

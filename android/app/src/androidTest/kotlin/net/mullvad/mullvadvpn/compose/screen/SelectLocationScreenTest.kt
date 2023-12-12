@@ -26,7 +26,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class SelectLocationScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {
@@ -53,8 +54,7 @@ class SelectLocationScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             SelectLocationScreen(
-                uiState =
-                SelectLocationUiState.ShowData(
+                uiState = SelectLocationUiState.ShowData(
                     countries = DUMMY_RELAY_COUNTRIES,
                     selectedRelay = null,
                 ),
@@ -76,22 +76,20 @@ class SelectLocationScreenTest {
 
     @Test
     fun testShowRelayListStateSelected() {
-        val updatedDummyList =
-            DUMMY_RELAY_COUNTRIES.let {
-                val cities = it[0].cities.toMutableList()
-                val city = cities.removeAt(0)
-                cities.add(0, city.copy(expanded = true))
+        val updatedDummyList = DUMMY_RELAY_COUNTRIES.let {
+            val cities = it[0].cities.toMutableList()
+            val city = cities.removeAt(0)
+            cities.add(0, city.copy(expanded = true))
 
-                val mutableRelayList = it.toMutableList()
-                mutableRelayList[0] = it[0].copy(expanded = true, cities = cities.toList())
-                mutableRelayList
-            }
+            val mutableRelayList = it.toMutableList()
+            mutableRelayList[0] = it[0].copy(expanded = true, cities = cities.toList())
+            mutableRelayList
+        }
 
         // Arrange
         composeTestRule.setContentWithTheme {
             SelectLocationScreen(
-                uiState =
-                SelectLocationUiState.ShowData(
+                uiState = SelectLocationUiState.ShowData(
                     countries = updatedDummyList,
                     selectedRelay = updatedDummyList[0].cities[0].relays[0],
                 ),
@@ -117,8 +115,10 @@ class SelectLocationScreenTest {
         val mockedSearchTermInput: (String) -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             SelectLocationScreen(
-                uiState =
-                SelectLocationUiState.ShowData(countries = emptyList(), selectedRelay = null),
+                uiState = SelectLocationUiState.ShowData(
+                    countries = emptyList(),
+                    selectedRelay = null,
+                ),
                 uiCloseAction = MutableSharedFlow(),
                 enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
                 onSearchTermInput = mockedSearchTermInput,
@@ -155,22 +155,20 @@ class SelectLocationScreenTest {
     }
 
     companion object {
-        private val DUMMY_RELAY_1 =
-            net.mullvad.mullvadvpn.model.Relay(
-                hostname = "Relay host 1",
-                active = true,
-                endpointData = RelayEndpointData.Wireguard(WireguardRelayEndpointData),
-                owned = true,
-                provider = "PROVIDER",
-            )
-        private val DUMMY_RELAY_2 =
-            net.mullvad.mullvadvpn.model.Relay(
-                hostname = "Relay host 2",
-                active = true,
-                endpointData = RelayEndpointData.Wireguard(WireguardRelayEndpointData),
-                owned = true,
-                provider = "PROVIDER",
-            )
+        private val DUMMY_RELAY_1 = net.mullvad.mullvadvpn.model.Relay(
+            hostname = "Relay host 1",
+            active = true,
+            endpointData = RelayEndpointData.Wireguard(WireguardRelayEndpointData),
+            owned = true,
+            provider = "PROVIDER",
+        )
+        private val DUMMY_RELAY_2 = net.mullvad.mullvadvpn.model.Relay(
+            hostname = "Relay host 2",
+            active = true,
+            endpointData = RelayEndpointData.Wireguard(WireguardRelayEndpointData),
+            owned = true,
+            provider = "PROVIDER",
+        )
         private val DUMMY_RELAY_CITY_1 =
             RelayListCity("Relay City 1", "RCi1", arrayListOf(DUMMY_RELAY_1))
         private val DUMMY_RELAY_CITY_2 =
@@ -184,11 +182,9 @@ class SelectLocationScreenTest {
         private val DUMMY_WIREGUARD_ENDPOINT_DATA =
             WireguardEndpointData(DUMMY_WIREGUARD_PORT_RANGES)
 
-        private val DUMMY_RELAY_COUNTRIES =
-            RelayList(
-                arrayListOf(DUMMY_RELAY_COUNTRY_1, DUMMY_RELAY_COUNTRY_2),
-                DUMMY_WIREGUARD_ENDPOINT_DATA,
-            )
-                .toRelayCountries(ownership = Constraint.Any(), providers = Constraint.Any())
+        private val DUMMY_RELAY_COUNTRIES = RelayList(
+            arrayListOf(DUMMY_RELAY_COUNTRY_1, DUMMY_RELAY_COUNTRY_2),
+            DUMMY_WIREGUARD_ENDPOINT_DATA,
+        ).toRelayCountries(ownership = Constraint.Any(), providers = Constraint.Any())
     }
 }

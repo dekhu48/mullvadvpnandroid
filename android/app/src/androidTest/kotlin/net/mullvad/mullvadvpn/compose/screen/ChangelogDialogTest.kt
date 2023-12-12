@@ -19,9 +19,11 @@ import org.junit.Rule
 import org.junit.Test
 
 class ChangelogDialogTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
-    @MockK lateinit var mockedViewModel: ChangelogViewModel
+    @MockK
+    lateinit var mockedViewModel: ChangelogViewModel
 
     @Before
     fun setup() {
@@ -31,8 +33,11 @@ class ChangelogDialogTest {
     @Test
     fun testShowChangeLogWhenNeeded() {
         // Arrange
-        every { mockedViewModel.uiState } returns
-            MutableStateFlow(ChangelogDialogUiState.Show(listOf(CHANGELOG_ITEM)))
+        every { mockedViewModel.uiState } returns MutableStateFlow(
+            ChangelogDialogUiState.Show(
+                listOf(CHANGELOG_ITEM),
+            ),
+        )
         every { mockedViewModel.dismissChangelogDialog() } just Runs
 
         composeTestRule.setContentWithTheme {

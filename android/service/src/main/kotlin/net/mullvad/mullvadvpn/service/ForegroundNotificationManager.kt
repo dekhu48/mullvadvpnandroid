@@ -9,7 +9,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.trySendBlocking
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import net.mullvad.mullvadvpn.lib.common.util.Intermittent
 import net.mullvad.mullvadvpn.lib.common.util.JobTracker
@@ -37,8 +36,7 @@ class ForegroundNotificationManager(
 
     private val tunnelStateNotification = TunnelStateNotification(service)
 
-    private var loggedIn by
-        observable(false) { _, _, _ -> updater.trySendBlocking(UpdaterMessage.UpdateAction()) }
+    private var loggedIn by observable(false) { _, _, _ -> updater.trySendBlocking(UpdaterMessage.UpdateAction()) }
 
     private val tunnelState
         get() = connectionProxy.onStateChange.latestEvent
@@ -49,10 +47,9 @@ class ForegroundNotificationManager(
     var onForeground = false
         private set
 
-    var lockedToForeground by
-        observable(false) { _, _, _ ->
-            updater.trySendBlocking(UpdaterMessage.UpdateNotification())
-        }
+    var lockedToForeground by observable(false) { _, _, _ ->
+        updater.trySendBlocking(UpdaterMessage.UpdateNotification())
+    }
 
     init {
         connectionProxy.onStateChange.subscribe(this) { newState ->
@@ -61,10 +58,9 @@ class ForegroundNotificationManager(
 
         intermittentDaemon.registerListener(this) { daemon ->
             jobTracker.newBackgroundJob("notificationLoggedInJob") {
-                daemon
-                    ?.deviceStateUpdates
-                    ?.onStart { daemon.getAndEmitDeviceState()?.let { emit(it) } }
-                    ?.collect { deviceState -> loggedIn = deviceState is DeviceState.LoggedIn }
+                daemon?.deviceStateUpdates?.onStart {
+                    daemon.getAndEmitDeviceState()?.let { emit(it) }
+                }?.collect { deviceState -> loggedIn = deviceState is DeviceState.LoggedIn }
             }
         }
 

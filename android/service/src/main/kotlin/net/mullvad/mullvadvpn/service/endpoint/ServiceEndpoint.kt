@@ -108,6 +108,7 @@ class ServiceEndpoint(
 
                             registerListener(command.listener)
                         }
+
                         is Command.UnregisterListener -> unregisterListener(command.listenerId)
                     }
                 }
@@ -122,28 +123,26 @@ class ServiceEndpoint(
 
             listeners.put(listenerId, listener)
 
-            val initialEvents =
-                mutableListOf(
-                    Event.TunnelStateChange(connectionProxy.state),
-                    Event.AccountHistoryEvent(accountCache.onAccountHistoryChange.latestEvent),
-                    Event.SettingsUpdate(settingsListener.settings),
-                    Event.NewLocation(locationInfoCache.location),
-                    Event.SplitTunnelingUpdate(splitTunneling.onChange.latestEvent),
-                    Event.CurrentVersion(appVersionInfoCache.currentVersion),
-                    Event.AppVersionInfo(appVersionInfoCache.appVersionInfo),
-                    Event.NewRelayList(relayListListener.relayList),
-                    Event.AuthToken(authTokenCache.authToken),
-                    Event.ListenerReady(messenger, listenerId),
-                )
+            val initialEvents = mutableListOf(
+                Event.TunnelStateChange(connectionProxy.state),
+                Event.AccountHistoryEvent(accountCache.onAccountHistoryChange.latestEvent),
+                Event.SettingsUpdate(settingsListener.settings),
+                Event.NewLocation(locationInfoCache.location),
+                Event.SplitTunnelingUpdate(splitTunneling.onChange.latestEvent),
+                Event.CurrentVersion(appVersionInfoCache.currentVersion),
+                Event.AppVersionInfo(appVersionInfoCache.appVersionInfo),
+                Event.NewRelayList(relayListListener.relayList),
+                Event.AuthToken(authTokenCache.authToken),
+                Event.ListenerReady(messenger, listenerId),
+            )
 
             if (vpnPermission.waitingForResponse) {
                 initialEvents.add(Event.VpnPermissionRequest)
             }
 
-            val didSuccessfullySendAllMessages =
-                initialEvents.all { event ->
-                    listener.trySendEvent(event, SHOULD_LOG_DEAD_OBJECT_EXCEPTION)
-                }
+            val didSuccessfullySendAllMessages = initialEvents.all { event ->
+                listener.trySendEvent(event, SHOULD_LOG_DEAD_OBJECT_EXCEPTION)
+            }
             if (didSuccessfullySendAllMessages.not()) {
                 listeners.remove(listenerId)
             }

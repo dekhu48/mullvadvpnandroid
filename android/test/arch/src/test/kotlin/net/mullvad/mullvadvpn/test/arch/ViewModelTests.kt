@@ -19,10 +19,10 @@ class ViewModelTests {
     // properties that shouldn't be exposed.
     @Test
     fun `ensure public properties use permitted names`() =
-        allViewModels().properties(includeNested = false).withPublicOrDefaultModifier().assert {
-                property ->
-            property.name == "uiState" || property.name == "uiSideEffect"
-        }
+        allViewModels().properties(includeNested = false).withPublicOrDefaultModifier()
+            .assert { property ->
+                property.name == "uiState" || property.name == "uiSideEffect"
+            }
 
     @Test
     fun `ensure public functions have no return type`() =

@@ -5,8 +5,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class VoucherSubmissionError : Parcelable {
-    InvalidVoucher,
-    VoucherAlreadyUsed,
-    RpcError,
-    OtherError,
+    InvalidVoucher, VoucherAlreadyUsed, RpcError, OtherError,
 }

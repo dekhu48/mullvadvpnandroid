@@ -30,7 +30,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class BillingPaymentRepositoryTest {
-    @get:Rule val testCoroutineRule = TestCoroutineRule()
+    @get:Rule
+    val testCoroutineRule = TestCoroutineRule()
 
     private val mockBillingRepository: BillingRepository = mockk()
     private val mockPlayPurchaseRepository: PlayPurchaseRepository = mockk()
@@ -45,11 +46,10 @@ class BillingPaymentRepositoryTest {
 
         every { mockBillingRepository.purchaseEvents } returns purchaseEventFlow
 
-        paymentRepository =
-            BillingPaymentRepository(
-                billingRepository = mockBillingRepository,
-                playPurchaseRepository = mockPlayPurchaseRepository,
-            )
+        paymentRepository = BillingPaymentRepository(
+            billingRepository = mockBillingRepository,
+            playPurchaseRepository = mockPlayPurchaseRepository,
+        )
     }
 
     @Test
@@ -98,8 +98,7 @@ class BillingPaymentRepositoryTest {
     fun testQueryAvailablePaymentBillingUnavailableError() = runTest {
         // Arrange
         val mockResult: ProductDetailsResult = mockk()
-        every { mockResult.billingResult.responseCode } returns
-            BillingResponseCode.BILLING_UNAVAILABLE
+        every { mockResult.billingResult.responseCode } returns BillingResponseCode.BILLING_UNAVAILABLE
         coEvery { mockBillingRepository.queryPurchases() } returns mockk(relaxed = true)
         coEvery { mockBillingRepository.queryProducts(any()) } returns mockResult
 
@@ -118,11 +117,9 @@ class BillingPaymentRepositoryTest {
         // Arrange
         val mockProductId = ProductId("MOCK")
         val mockProductDetailsResult = mockk<ProductDetailsResult>()
-        every { mockProductDetailsResult.billingResult.responseCode } returns
-            BillingResponseCode.BILLING_UNAVAILABLE
+        every { mockProductDetailsResult.billingResult.responseCode } returns BillingResponseCode.BILLING_UNAVAILABLE
         every { mockProductDetailsResult.billingResult.debugMessage } returns "ERROR"
-        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns
-            mockProductDetailsResult
+        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns mockProductDetailsResult
 
         // Act, Assert
         paymentRepository.purchaseProduct(mockProductId, mockk()).test {
@@ -140,8 +137,7 @@ class BillingPaymentRepositoryTest {
         val mockProductDetailsResult = mockk<ProductDetailsResult>()
         every { mockProductDetailsResult.billingResult.responseCode } returns BillingResponseCode.OK
         every { mockProductDetailsResult.productDetailsList } returns emptyList()
-        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns
-            mockProductDetailsResult
+        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns mockProductDetailsResult
 
         // Act, Assert
         paymentRepository.purchaseProduct(mockProductId, mockk()).test {
@@ -161,10 +157,10 @@ class BillingPaymentRepositoryTest {
         every { mockProductDetails.productId } returns mockProductId.value
         every { mockProductDetailsResult.billingResult.responseCode } returns BillingResponseCode.OK
         every { mockProductDetailsResult.productDetailsList } returns listOf(mockProductDetails)
-        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns
-            mockProductDetailsResult
-        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
-            PlayPurchaseInitResult.Error(PlayPurchaseInitError.OtherError)
+        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns mockProductDetailsResult
+        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns PlayPurchaseInitResult.Error(
+            PlayPurchaseInitError.OtherError,
+        )
 
         // Act, Assert
         paymentRepository.purchaseProduct(mockProductId, mockk()).test {
@@ -185,8 +181,7 @@ class BillingPaymentRepositoryTest {
         every { mockProductDetails.productId } returns mockProductId.value
         every { mockProductDetailsResult.billingResult.responseCode } returns BillingResponseCode.OK
         every { mockProductDetailsResult.productDetailsList } returns listOf(mockProductDetails)
-        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns
-            mockProductDetailsResult
+        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns mockProductDetailsResult
         val mockBillingResult: BillingResult = mockk()
         every { mockBillingResult.responseCode } returns BillingResponseCode.BILLING_UNAVAILABLE
         every { mockBillingResult.debugMessage } returns "Mock error"
@@ -197,8 +192,9 @@ class BillingPaymentRepositoryTest {
                 activityProvider = any(),
             )
         } returns mockBillingResult
-        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
-            PlayPurchaseInitResult.Ok("MOCK")
+        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns PlayPurchaseInitResult.Ok(
+            "MOCK",
+        )
 
         // Act, Assert
         paymentRepository.purchaseProduct(mockProductId, mockk()).test {
@@ -220,8 +216,7 @@ class BillingPaymentRepositoryTest {
         every { mockProductDetails.productId } returns mockProductId.value
         every { mockProductDetailsResult.billingResult.responseCode } returns BillingResponseCode.OK
         every { mockProductDetailsResult.productDetailsList } returns listOf(mockProductDetails)
-        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns
-            mockProductDetailsResult
+        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns mockProductDetailsResult
         val mockObfuscatedId = "MOCK-ID"
         val mockBillingResult: BillingResult = mockk()
         every { mockBillingResult.responseCode } returns BillingResponseCode.OK
@@ -232,8 +227,9 @@ class BillingPaymentRepositoryTest {
                 activityProvider = any(),
             )
         } returns mockBillingResult
-        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
-            PlayPurchaseInitResult.Ok(mockObfuscatedId)
+        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns PlayPurchaseInitResult.Ok(
+            mockObfuscatedId,
+        )
 
         // Act, Assert
         paymentRepository.purchaseProduct(mockProductId, mockk()).test {
@@ -256,8 +252,7 @@ class BillingPaymentRepositoryTest {
         every { mockProductDetails.productId } returns mockProductId.value
         every { mockProductDetailsResult.billingResult.responseCode } returns BillingResponseCode.OK
         every { mockProductDetailsResult.productDetailsList } returns listOf(mockProductDetails)
-        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns
-            mockProductDetailsResult
+        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns mockProductDetailsResult
         val mockPurchaseToken = "TOKEN"
         val mockBillingPurchase: Purchase = mockk()
         val mockBillingResult: BillingResult = mockk()
@@ -272,10 +267,12 @@ class BillingPaymentRepositoryTest {
                 activityProvider = any(),
             )
         } returns mockBillingResult
-        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
-            PlayPurchaseInitResult.Ok("MOCK-ID")
-        coEvery { mockPlayPurchaseRepository.verifyPlayPurchase(any()) } returns
-            PlayPurchaseVerifyResult.Error(PlayPurchaseVerifyError.OtherError)
+        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns PlayPurchaseInitResult.Ok(
+            "MOCK-ID",
+        )
+        coEvery { mockPlayPurchaseRepository.verifyPlayPurchase(any()) } returns PlayPurchaseVerifyResult.Error(
+            PlayPurchaseVerifyError.OtherError,
+        )
 
         // Act, Assert
         paymentRepository.purchaseProduct(mockProductId, mockk()).test {
@@ -299,8 +296,7 @@ class BillingPaymentRepositoryTest {
         every { mockProductDetails.productId } returns mockProductId.value
         every { mockProductDetailsResult.billingResult.responseCode } returns BillingResponseCode.OK
         every { mockProductDetailsResult.productDetailsList } returns listOf(mockProductDetails)
-        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns
-            mockProductDetailsResult
+        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns mockProductDetailsResult
         val mockPurchaseToken = "TOKEN"
         val mockBillingPurchase: Purchase = mockk()
         val mockBillingResult: BillingResult = mockk()
@@ -315,10 +311,10 @@ class BillingPaymentRepositoryTest {
                 activityProvider = any(),
             )
         } returns mockBillingResult
-        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
-            PlayPurchaseInitResult.Ok("MOCK")
-        coEvery { mockPlayPurchaseRepository.verifyPlayPurchase(any()) } returns
-            PlayPurchaseVerifyResult.Ok
+        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns PlayPurchaseInitResult.Ok(
+            "MOCK",
+        )
+        coEvery { mockPlayPurchaseRepository.verifyPlayPurchase(any()) } returns PlayPurchaseVerifyResult.Ok
 
         // Act, Assert
         paymentRepository.purchaseProduct(mockProductId, mockk()).test {
@@ -342,8 +338,7 @@ class BillingPaymentRepositoryTest {
         every { mockProductDetails.productId } returns mockProductId.value
         every { mockProductDetailsResult.billingResult.responseCode } returns BillingResponseCode.OK
         every { mockProductDetailsResult.productDetailsList } returns listOf(mockProductDetails)
-        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns
-            mockProductDetailsResult
+        coEvery { mockBillingRepository.queryProducts(listOf(mockProductId.value)) } returns mockProductDetailsResult
         val mockBillingPurchase: Purchase = mockk()
         val mockBillingResult: BillingResult = mockk()
         every { mockBillingPurchase.purchaseState } returns Purchase.PurchaseState.PENDING
@@ -355,8 +350,9 @@ class BillingPaymentRepositoryTest {
                 activityProvider = any(),
             )
         } returns mockBillingResult
-        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns
-            PlayPurchaseInitResult.Ok("MOCK")
+        coEvery { mockPlayPurchaseRepository.initializePlayPurchase() } returns PlayPurchaseInitResult.Ok(
+            "MOCK",
+        )
 
         // Act, Assert
         paymentRepository.purchaseProduct(mockProductId, mockk()).test {

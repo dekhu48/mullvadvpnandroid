@@ -9,21 +9,26 @@ import net.mullvad.talpid.tunnel.ErrorStateCause
 import net.mullvad.talpid.tunnel.FirewallPolicyError
 
 sealed class TunnelState : Parcelable {
-    @Parcelize object Disconnected : TunnelState(), Parcelable
+    @Parcelize
+    object Disconnected : TunnelState(), Parcelable
 
     @Parcelize
     class Connecting(val endpoint: TunnelEndpoint?, val location: GeoIpLocation?) :
-        TunnelState(), Parcelable
+        TunnelState(),
+        Parcelable
 
     @Parcelize
     class Connected(val endpoint: TunnelEndpoint, val location: GeoIpLocation?) :
-        TunnelState(), Parcelable
+        TunnelState(),
+        Parcelable
 
     @Parcelize
     class Disconnecting(val actionAfterDisconnect: ActionAfterDisconnect) :
-        TunnelState(), Parcelable
+        TunnelState(),
+        Parcelable
 
-    @Parcelize class Error(val errorState: ErrorState) : TunnelState(), Parcelable
+    @Parcelize
+    class Error(val errorState: ErrorState) : TunnelState(), Parcelable
 
     fun isSecured(): Boolean {
         return when (this) {
@@ -31,31 +36,32 @@ sealed class TunnelState : Parcelable {
             is Connecting,
             is Disconnecting,
             -> true
+
             is Disconnected -> false
             is Error -> this.errorState.isBlocking
         }
     }
 
-    override fun toString(): String =
-        when (this) {
-            is Disconnected -> DISCONNECTED
-            is Connecting -> CONNECTING
-            is Connected -> CONNECTED
-            is Disconnecting -> {
-                if (actionAfterDisconnect == ActionAfterDisconnect.Reconnect) {
-                    RECONNECTING
-                } else {
-                    DISCONNECTING
-                }
-            }
-            is Error -> {
-                if (errorState.isBlocking) {
-                    BLOCKING
-                } else {
-                    ERROR
-                }
+    override fun toString(): String = when (this) {
+        is Disconnected -> DISCONNECTED
+        is Connecting -> CONNECTING
+        is Connected -> CONNECTED
+        is Disconnecting -> {
+            if (actionAfterDisconnect == ActionAfterDisconnect.Reconnect) {
+                RECONNECTING
+            } else {
+                DISCONNECTING
             }
         }
+
+        is Error -> {
+            if (errorState.isBlocking) {
+                BLOCKING
+            } else {
+                ERROR
+            }
+        }
+    }
 
     companion object {
         const val DISCONNECTED = "disconnected"
@@ -82,13 +88,13 @@ sealed class TunnelState : Parcelable {
                         ),
                     )
                 }
-                else ->
-                    Error(
-                        ErrorState(
-                            ErrorStateCause.SetFirewallPolicyError(FirewallPolicyError.Generic),
-                            false,
-                        ),
-                    )
+
+                else -> Error(
+                    ErrorState(
+                        ErrorStateCause.SetFirewallPolicyError(FirewallPolicyError.Generic),
+                        false,
+                    ),
+                )
             }
         }
     }

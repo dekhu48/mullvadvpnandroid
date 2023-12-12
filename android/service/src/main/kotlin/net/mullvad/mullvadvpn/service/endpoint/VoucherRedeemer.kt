@@ -31,25 +31,24 @@ class VoucherRedeemer(
         voucherChannel.close()
     }
 
-    private fun spawnActor() =
-        GlobalScope.actor<String>(Dispatchers.Default, Channel.UNLIMITED) {
-            try {
-                for (voucher in channel) {
-                    val result = daemon.await().submitVoucher(voucher)
+    private fun spawnActor() = GlobalScope.actor<String>(Dispatchers.Default, Channel.UNLIMITED) {
+        try {
+            for (voucher in channel) {
+                val result = daemon.await().submitVoucher(voucher)
 
-                    // Let AccountCache know about the new expiry
-                    if (result is VoucherSubmissionResult.Ok) {
-                        val newExpiry = result.submission.newExpiry.parseAsDateTime()
-                        if (newExpiry != null) {
-                            accountCache.onAccountExpiryChange.notify(
-                                AccountExpiry.Available(newExpiry),
-                            )
-                        }
+                // Let AccountCache know about the new expiry
+                if (result is VoucherSubmissionResult.Ok) {
+                    val newExpiry = result.submission.newExpiry.parseAsDateTime()
+                    if (newExpiry != null) {
+                        accountCache.onAccountExpiryChange.notify(
+                            AccountExpiry.Available(newExpiry),
+                        )
                     }
-                    endpoint.sendEvent(Event.VoucherSubmissionResult(voucher, result))
                 }
-            } catch (exception: ClosedReceiveChannelException) {
-                // Voucher channel was closed, stop the actor
+                endpoint.sendEvent(Event.VoucherSubmissionResult(voucher, result))
             }
+        } catch (exception: ClosedReceiveChannelException) {
+            // Voucher channel was closed, stop the actor
         }
+    }
 }

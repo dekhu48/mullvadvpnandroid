@@ -18,9 +18,11 @@ fun ErrorState.getErrorNotificationResources(context: Context): ErrorNotificatio
                 },
             )
         }
+
         cause is ErrorStateCause.VpnPermissionDenied -> {
             resolveAlwaysOnVpnErrorNotificationMessage(context.getAlwaysOnVpnAppName())
         }
+
         isBlocking -> ErrorNotificationMessage(R.string.blocking_internet, cause.errorMessageId())
         else -> ErrorNotificationMessage(R.string.critical_error, R.string.failed_to_block_internet)
     }
@@ -59,12 +61,14 @@ fun ErrorStateCause.errorMessageId(): Int {
                 -> {
                     R.string.no_matching_relay
                 }
+
                 ParameterGenerationError.NoWireguardKey -> R.string.no_wireguard_key
                 ParameterGenerationError.CustomTunnelHostResultionError -> {
                     R.string.custom_tunnel_host_resolution_error
                 }
             }
         }
+
         is ErrorStateCause.VpnPermissionDenied -> R.string.vpn_permission_denied_error
     }
 }

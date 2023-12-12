@@ -13,11 +13,10 @@ data class CustomApiEndpointConfiguration(
     val disableTls: Boolean = false,
     val forceDirectConnection: Boolean = true,
 ) : ApiEndpointConfiguration {
-    override fun apiEndpoint() =
-        ApiEndpoint(
-            address = InetSocketAddress(hostname, port),
-            disableAddressCache = disableAddressCache,
-            disableTls = disableTls,
-            forceDirectConnection = forceDirectConnection,
-        )
+    override fun apiEndpoint() = ApiEndpoint(
+        address = InetSocketAddress(hostname, port),
+        disableAddressCache = disableAddressCache,
+        disableTls = disableTls,
+        forceDirectConnection = forceDirectConnection,
+    )
 }

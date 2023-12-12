@@ -34,24 +34,22 @@ class AccountExpiryNotification(
 
     private val buyMoreTimeUrl = resources.getString(R.string.account_url)
 
-    private val channel =
-        NotificationChannel(
-            context,
-            "mullvad_account_time",
-            NotificationCompat.VISIBILITY_PRIVATE,
-            R.string.account_time_notification_channel_name,
-            R.string.account_time_notification_channel_description,
-            NotificationManager.IMPORTANCE_HIGH,
-            true,
-            true,
-        )
+    private val channel = NotificationChannel(
+        context,
+        "mullvad_account_time",
+        NotificationCompat.VISIBILITY_PRIVATE,
+        R.string.account_time_notification_channel_name,
+        R.string.account_time_notification_channel_description,
+        NotificationManager.IMPORTANCE_HIGH,
+        true,
+        true,
+    )
 
-    var accountExpiry by
-        observable<AccountExpiry>(AccountExpiry.Missing) { _, oldValue, newValue ->
-            if (oldValue != newValue) {
-                jobTracker.newUiJob("update") { update(newValue) }
-            }
+    var accountExpiry by observable<AccountExpiry>(AccountExpiry.Missing) { _, oldValue, newValue ->
+        if (oldValue != newValue) {
+            jobTracker.newUiJob("update") { update(newValue) }
         }
+    }
 
     init {
         accountCache.onAccountExpiryChange.subscribe(this) { expiry -> accountExpiry = expiry }
@@ -93,20 +91,18 @@ class AccountExpiryNotification(
     }
 
     private suspend fun build(expiry: DateTime, remainingTime: Duration): Notification {
-        val url =
-            jobTracker.runOnBackground {
-                Uri.parse("$buyMoreTimeUrl?token=${daemon.await().getWwwAuthToken()}")
+        val url = jobTracker.runOnBackground {
+            Uri.parse("$buyMoreTimeUrl?token=${daemon.await().getWwwAuthToken()}")
+        }
+        val intent = if (IS_PLAY_BUILD) {
+            Intent().apply {
+                setClassName(context.packageName, MAIN_ACTIVITY_CLASS)
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                action = Intent.ACTION_MAIN
             }
-        val intent =
-            if (IS_PLAY_BUILD) {
-                Intent().apply {
-                    setClassName(context.packageName, MAIN_ACTIVITY_CLASS)
-                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                    action = Intent.ACTION_MAIN
-                }
-            } else {
-                Intent(Intent.ACTION_VIEW, url)
-            }
+        } else {
+            Intent(Intent.ACTION_VIEW, url)
+        }
         val pendingIntent =
             PendingIntent.getActivity(context, 1, intent, SdkUtils.getSupportedPendingIntentFlags())
 

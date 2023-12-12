@@ -68,11 +68,10 @@ class Intermittent<T> {
         synchronized(this@Intermittent) {
             val previousUpdate = updateJob
 
-            updateJob =
-                GlobalScope.launch(Dispatchers.Default) {
-                    previousUpdate?.join()
-                    update(newValue)
-                }
+            updateJob = GlobalScope.launch(Dispatchers.Default) {
+                previousUpdate?.join()
+                update(newValue)
+            }
         }
     }
 

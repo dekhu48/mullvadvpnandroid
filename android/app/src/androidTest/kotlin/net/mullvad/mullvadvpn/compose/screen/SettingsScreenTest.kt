@@ -13,7 +13,8 @@ import org.junit.Rule
 import org.junit.Test
 
 class SettingsScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     @Before
     fun setup() {
@@ -26,8 +27,11 @@ class SettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             SettingsScreen(
-                uiState =
-                SettingsUiState(appVersion = "", isLoggedIn = true, isUpdateAvailable = true),
+                uiState = SettingsUiState(
+                    appVersion = "",
+                    isLoggedIn = true,
+                    isUpdateAvailable = true,
+                ),
                 enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }
@@ -45,8 +49,11 @@ class SettingsScreenTest {
         // Arrange
         composeTestRule.setContentWithTheme {
             SettingsScreen(
-                uiState =
-                SettingsUiState(appVersion = "", isLoggedIn = false, isUpdateAvailable = true),
+                uiState = SettingsUiState(
+                    appVersion = "",
+                    isLoggedIn = false,
+                    isUpdateAvailable = true,
+                ),
                 enterTransitionEndAction = MutableSharedFlow<Unit>().asSharedFlow(),
             )
         }

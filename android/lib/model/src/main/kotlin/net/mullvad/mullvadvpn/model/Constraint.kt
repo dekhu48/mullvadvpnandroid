@@ -8,5 +8,6 @@ sealed class Constraint<T> : Parcelable {
     @Suppress("PARCELABLE_PRIMARY_CONSTRUCTOR_IS_EMPTY")
     class Any<T> : Constraint<T>()
 
-    @Parcelize data class Only<T : Parcelable>(val value: T) : Constraint<T>()
+    @Parcelize
+    data class Only<T : Parcelable>(val value: T) : Constraint<T>()
 }

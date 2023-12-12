@@ -9,11 +9,10 @@ import net.mullvad.mullvadvpn.test.common.extension.findObjectByCaseInsensitiveT
 
 class SystemSettingsInteractor(private val uiDevice: UiDevice, private val context: Context) {
     fun openVpnSettings() {
-        val intent =
-            Intent("com.intent.MAIN").apply {
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
+        val intent = Intent("com.intent.MAIN").apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         intent.component =
             ComponentName.unflattenFromString("com.android.settings/.Settings\$VpnSettingsActivity")
         context.startActivity(intent)

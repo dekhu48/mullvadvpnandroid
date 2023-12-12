@@ -34,7 +34,6 @@ data class Device(
 }
 
 private fun String.capitalizeFirstCharOfEachWord(): String {
-    return split(" ")
-        .joinToString(" ") { word -> word.replaceFirstChar { firstChar -> firstChar.uppercase() } }
+    return split(" ").joinToString(" ") { word -> word.replaceFirstChar { firstChar -> firstChar.uppercase() } }
         .trimEnd()
 }

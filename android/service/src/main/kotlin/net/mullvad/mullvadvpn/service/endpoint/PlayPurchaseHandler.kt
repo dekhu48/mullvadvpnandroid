@@ -21,14 +21,12 @@ class PlayPurchaseHandler(
 
     init {
         scope.launch {
-            endpoint.dispatcher.parsedMessages
-                .filterIsInstance<Request.InitPlayPurchase>()
+            endpoint.dispatcher.parsedMessages.filterIsInstance<Request.InitPlayPurchase>()
                 .collect { initializePurchase() }
         }
 
         scope.launch {
-            endpoint.dispatcher.parsedMessages
-                .filterIsInstance<Request.VerifyPlayPurchase>()
+            endpoint.dispatcher.parsedMessages.filterIsInstance<Request.VerifyPlayPurchase>()
                 .collect { verifyPlayPurchase(it.playPurchase) }
         }
     }

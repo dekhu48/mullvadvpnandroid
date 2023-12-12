@@ -39,6 +39,7 @@ class HandlerFlowTest {
     companion object {
         const val DATA_KEY = "data"
 
-        @Parcelize data class Data(val id: Int) : Parcelable
+        @Parcelize
+        data class Data(val id: Int) : Parcelable
     }
 }

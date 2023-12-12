@@ -19,17 +19,16 @@ fun <T> SendChannel<T>.safeOffer(element: T): Boolean {
 }
 
 fun Context.bindServiceFlow(intent: Intent, flags: Int = 0): Flow<ServiceResult> = callbackFlow {
-    val connectionCallback =
-        object : ServiceConnection {
-            override fun onServiceConnected(className: ComponentName, binder: IBinder) {
-                safeOffer(ServiceResult(binder))
-            }
-
-            override fun onServiceDisconnected(className: ComponentName) {
-                safeOffer(ServiceResult.NOT_CONNECTED)
-                bindService(intent, this, flags)
-            }
+    val connectionCallback = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, binder: IBinder) {
+            safeOffer(ServiceResult(binder))
         }
+
+        override fun onServiceDisconnected(className: ComponentName) {
+            safeOffer(ServiceResult.NOT_CONNECTED)
+            bindService(intent, this, flags)
+        }
+    }
 
     bindService(intent, connectionCallback, flags)
 

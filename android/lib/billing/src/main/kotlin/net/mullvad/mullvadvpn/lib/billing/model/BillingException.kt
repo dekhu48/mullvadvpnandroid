@@ -6,9 +6,7 @@ import com.android.billingclient.api.PurchasesResult
 class BillingException(private val responseCode: Int, message: String) : Throwable(message) {
 
     fun toBillingResult(): BillingResult =
-        BillingResult.newBuilder()
-            .setResponseCode(responseCode)
-            .setDebugMessage(message ?: "")
+        BillingResult.newBuilder().setResponseCode(responseCode).setDebugMessage(message ?: "")
             .build()
 
     fun toPurchasesResult(): PurchasesResult = PurchasesResult(toBillingResult(), emptyList())

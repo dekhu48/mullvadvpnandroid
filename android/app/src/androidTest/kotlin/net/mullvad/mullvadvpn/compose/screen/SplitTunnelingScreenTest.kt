@@ -22,7 +22,8 @@ import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 
 class SplitTunnelingScreenTest {
-    @get:Rule val composeTestRule = createComposeRule()
+    @get:Rule
+    val composeTestRule = createComposeRule()
 
     private val mockBitmap: Bitmap = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888)
     private val testModule = module {
@@ -71,8 +72,7 @@ class SplitTunnelingScreenTest {
             AppData(packageName = INCLUDED_APP_PACKAGE_NAME, iconRes = 0, name = INCLUDED_APP_NAME)
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
-                uiState =
-                SplitTunnelingUiState.ShowAppList(
+                uiState = SplitTunnelingUiState.ShowAppList(
                     excludedApps = listOf(excludedApp),
                     includedApps = listOf(includedApp),
                     showSystemApps = false,
@@ -99,8 +99,7 @@ class SplitTunnelingScreenTest {
             AppData(packageName = INCLUDED_APP_PACKAGE_NAME, iconRes = 0, name = INCLUDED_APP_NAME)
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
-                uiState =
-                SplitTunnelingUiState.ShowAppList(
+                uiState = SplitTunnelingUiState.ShowAppList(
                     excludedApps = emptyList(),
                     includedApps = listOf(includedApp),
                     showSystemApps = false,
@@ -130,8 +129,7 @@ class SplitTunnelingScreenTest {
         val mockedClickHandler: (String) -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
-                uiState =
-                SplitTunnelingUiState.ShowAppList(
+                uiState = SplitTunnelingUiState.ShowAppList(
                     excludedApps = listOf(excludedApp),
                     includedApps = listOf(includedApp),
                     showSystemApps = false,
@@ -157,8 +155,7 @@ class SplitTunnelingScreenTest {
         val mockedClickHandler: (String) -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
-                uiState =
-                SplitTunnelingUiState.ShowAppList(
+                uiState = SplitTunnelingUiState.ShowAppList(
                     excludedApps = listOf(excludedApp),
                     includedApps = listOf(includedApp),
                     showSystemApps = false,
@@ -184,8 +181,7 @@ class SplitTunnelingScreenTest {
         val mockedClickHandler: (Boolean) -> Unit = mockk(relaxed = true)
         composeTestRule.setContentWithTheme {
             SplitTunnelingScreen(
-                uiState =
-                SplitTunnelingUiState.ShowAppList(
+                uiState = SplitTunnelingUiState.ShowAppList(
                     excludedApps = listOf(excludedApp),
                     includedApps = listOf(includedApp),
                     showSystemApps = false,

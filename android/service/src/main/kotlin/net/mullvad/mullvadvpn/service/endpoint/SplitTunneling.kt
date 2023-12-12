@@ -9,13 +9,12 @@ import kotlin.properties.Delegates.observable
 class SplitTunneling(persistence: SplitTunnelingPersistence, endpoint: ServiceEndpoint) {
     private val excludedApps = persistence.excludedApps.toMutableSet()
 
-    private var enabled by
-        observable(persistence.enabled) { _, wasEnabled, isEnabled ->
-            if (wasEnabled != isEnabled) {
-                persistence.enabled = isEnabled
-                update()
-            }
+    private var enabled by observable(persistence.enabled) { _, wasEnabled, isEnabled ->
+        if (wasEnabled != isEnabled) {
+            persistence.enabled = isEnabled
+            update()
         }
+    }
 
     val onChange = EventNotifier<List<String>?>(excludedApps.toList())
 

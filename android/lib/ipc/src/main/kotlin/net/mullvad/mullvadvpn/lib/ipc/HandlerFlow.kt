@@ -15,7 +15,8 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.onCompletion
 
 class HandlerFlow<T>(looper: Looper, private val extractor: (Message) -> T) :
-    Handler(looper), Flow<T> {
+    Handler(looper),
+    Flow<T> {
     private val channel = Channel<T>(Channel.UNLIMITED)
     private val flow = channel.consumeAsFlow().onCompletion { removeCallbacksAndMessages(null) }
 
@@ -35,6 +36,7 @@ class HandlerFlow<T>(looper: Looper, private val extractor: (Message) -> T) :
                     Log.w("mullvad", "Received a message after HandlerFlow was closed", exception)
                     removeCallbacksAndMessages(null)
                 }
+
                 else -> throw exception
             }
         }

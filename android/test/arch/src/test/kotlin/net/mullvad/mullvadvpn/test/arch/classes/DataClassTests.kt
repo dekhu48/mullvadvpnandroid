@@ -9,9 +9,6 @@ import org.junit.Test
 class DataClasses {
     @Test
     fun `ensure data classes only use immutable properties`() =
-        Konsist.scopeFromProject()
-            .classes(includeNested = true)
-            .withDataModifier()
-            .properties(includeNested = false, includeLocal = false)
-            .assertNot { it.hasVarModifier }
+        Konsist.scopeFromProject().classes(includeNested = true).withDataModifier()
+            .properties(includeNested = false, includeLocal = false).assertNot { it.hasVarModifier }
 }

@@ -11,20 +11,19 @@ private const val ALWAYS_ON_VPN_APP = "always_on_vpn_app"
 
 fun Context.openAccountPageInBrowser(authToken: String) {
     startActivity(
-        Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.account_url) + "?token=$authToken")),
+        Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(getString(R.string.account_url) + "?token=$authToken"),
+        ),
     )
 }
 
 fun Context.getAlwaysOnVpnAppName(): String? {
-    return resolveAlwaysOnVpnPackageName()
-        ?.let { currentAlwaysOnVpn ->
-            packageManager.getInstalledPackagesList(0).singleOrNull {
-                it.packageName == currentAlwaysOnVpn && it.packageName != packageName
-            }
+    return resolveAlwaysOnVpnPackageName()?.let { currentAlwaysOnVpn ->
+        packageManager.getInstalledPackagesList(0).singleOrNull {
+            it.packageName == currentAlwaysOnVpn && it.packageName != packageName
         }
-        ?.applicationInfo
-        ?.loadLabel(packageManager)
-        ?.toString()
+    }?.applicationInfo?.loadLabel(packageManager)?.toString()
 }
 
 // NOTE: This function will return the current Always-on VPN package's name. In case of either

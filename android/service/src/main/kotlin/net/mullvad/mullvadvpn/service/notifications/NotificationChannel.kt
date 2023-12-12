@@ -26,13 +26,9 @@ class NotificationChannel(
         val channelName = context.getString(name)
         val channelDescription = context.getString(description)
 
-        val channel =
-            NotificationChannelCompat.Builder(id, importance)
-                .setName(channelName)
-                .setDescription(channelDescription)
-                .setShowBadge(isBadgeEnabled)
-                .setVibrationEnabled(isVibrationEnabled)
-                .build()
+        val channel = NotificationChannelCompat.Builder(id, importance).setName(channelName)
+            .setDescription(channelDescription).setShowBadge(isBadgeEnabled)
+            .setVibrationEnabled(isVibrationEnabled).build()
 
         notificationManager.createNotificationChannel(channel)
     }
@@ -79,13 +75,9 @@ class NotificationChannel(
         isOngoing: Boolean = false,
     ): Notification {
         val builder =
-            NotificationCompat.Builder(context, id)
-                .setSmallIcon(R.drawable.small_logo_black)
-                .setColor(badgeColor)
-                .setContentTitle(title)
-                .setContentIntent(pendingIntent)
-                .setVisibility(visibility)
-                .setOngoing(isOngoing)
+            NotificationCompat.Builder(context, id).setSmallIcon(R.drawable.small_logo_black)
+                .setColor(badgeColor).setContentTitle(title).setContentIntent(pendingIntent)
+                .setVisibility(visibility).setOngoing(isOngoing)
         for (action in actions) {
             builder.addAction(action)
         }
