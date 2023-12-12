@@ -46,7 +46,11 @@ private fun MtuTitle(modifier: Modifier) {
 
 @Composable
 private fun MtuBodyView(mtuValue: String, modifier: Modifier) {
-    Row(modifier = modifier.wrapContentWidth1().wrapContentHeight()) {
+    Row(
+        modifier = modifier
+            .wrapContentWidth1()
+            .wrapContentHeight(),
+    ) {
         Text(
             text = mtuValue.ifEmpty { stringResource(id = R.string.hint_default) },
             color = MaterialTheme.colorScheme.onPrimary,

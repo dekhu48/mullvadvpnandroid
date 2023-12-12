@@ -33,46 +33,34 @@ class AccountRepository(
     val cachedCreatedAccount = _cachedCreatedAccount.asStateFlow()
 
     private val accountCreationEvents: SharedFlow<AccountCreationResult> =
-        messageHandler
-            .events<Event.AccountCreationEvent>()
-            .map { it.result }
-            .onEach {
-                _cachedCreatedAccount.value = (it as? AccountCreationResult.Success)?.accountToken
-            }
-            .shareIn(CoroutineScope(dispatcher), SharingStarted.WhileSubscribed())
+        messageHandler.events<Event.AccountCreationEvent>().map { it.result }.onEach {
+            _cachedCreatedAccount.value = (it as? AccountCreationResult.Success)?.accountToken
+        }.shareIn(CoroutineScope(dispatcher), SharingStarted.WhileSubscribed())
 
     val accountExpiryState: StateFlow<AccountExpiry> =
-        messageHandler
-            .events<Event.AccountExpiryEvent>()
-            .map { it.expiry }
+        messageHandler.events<Event.AccountExpiryEvent>().map { it.expiry }
             .stateIn(CoroutineScope(dispatcher), SharingStarted.Eagerly, AccountExpiry.Missing)
 
     val accountHistory: StateFlow<AccountHistory> =
-        messageHandler
-            .events<Event.AccountHistoryEvent>()
-            .map { it.history }
+        messageHandler.events<Event.AccountHistoryEvent>().map { it.history }
             .onStart { fetchAccountHistory() }
             .stateIn(CoroutineScope(dispatcher), SharingStarted.Lazily, AccountHistory.Missing)
 
     private val loginEvents: SharedFlow<LoginResult> =
-        messageHandler
-            .events<Event.LoginEvent>()
-            .map { it.result }
+        messageHandler.events<Event.LoginEvent>().map { it.result }
             .shareIn(CoroutineScope(dispatcher), SharingStarted.WhileSubscribed())
 
-    suspend fun createAccount(): AccountCreationResult =
-        withContext(dispatcher) {
-            val deferred = async { accountCreationEvents.first() }
-            messageHandler.trySendRequest(Request.CreateAccount)
-            deferred.await()
-        }
+    suspend fun createAccount(): AccountCreationResult = withContext(dispatcher) {
+        val deferred = async { accountCreationEvents.first() }
+        messageHandler.trySendRequest(Request.CreateAccount)
+        deferred.await()
+    }
 
-    suspend fun login(accountToken: String): LoginResult =
-        withContext(Dispatchers.IO) {
-            val deferred = async { loginEvents.first() }
-            messageHandler.trySendRequest(Request.Login(accountToken))
-            deferred.await()
-        }
+    suspend fun login(accountToken: String): LoginResult = withContext(Dispatchers.IO) {
+        val deferred = async { loginEvents.first() }
+        messageHandler.trySendRequest(Request.Login(accountToken))
+        deferred.await()
+    }
 
     fun logout() {
         clearCreatedAccountCache()

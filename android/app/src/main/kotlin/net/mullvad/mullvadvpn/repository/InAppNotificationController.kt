@@ -15,9 +15,7 @@ import org.joda.time.DateTime
 import java.util.UUID
 
 enum class StatusLevel {
-    Error,
-    Warning,
-    Info,
+    Error, Warning, Info,
 }
 
 sealed class InAppNotification {
@@ -64,22 +62,19 @@ class InAppNotificationController(
     scope: CoroutineScope,
 ) {
 
-    val notifications =
-        combine(
-            tunnelStateNotificationUseCase.notifications(),
-            versionNotificationUseCase.notifications(),
-            accountExpiryNotificationUseCase.notifications(),
-            newDeviceNotificationUseCase.notifications(),
-        ) { a, b, c, d ->
-            a + b + c + d
-        }
-            .map {
-                it.sortedWith(
-                    compareBy(
-                        { notification -> notification.statusLevel.ordinal },
-                        { notification -> -notification.priority },
-                    ),
-                )
-            }
-            .stateIn(scope, SharingStarted.Eagerly, emptyList())
+    val notifications = combine(
+        tunnelStateNotificationUseCase.notifications(),
+        versionNotificationUseCase.notifications(),
+        accountExpiryNotificationUseCase.notifications(),
+        newDeviceNotificationUseCase.notifications(),
+    ) { a, b, c, d ->
+        a + b + c + d
+    }.map {
+        it.sortedWith(
+            compareBy(
+                { notification -> notification.statusLevel.ordinal },
+                { notification -> -notification.priority },
+            ),
+        )
+    }.stateIn(scope, SharingStarted.Eagerly, emptyList())
 }

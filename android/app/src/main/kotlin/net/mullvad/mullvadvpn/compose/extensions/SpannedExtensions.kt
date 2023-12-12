@@ -16,11 +16,9 @@ fun Spanned.toAnnotatedString(boldFontWeight: FontWeight = FontWeight.Bold): Ann
             val start = getSpanStart(span)
             val end = getSpanEnd(span)
             when (span) {
-                is StyleSpan ->
-                    when (span.style) {
-                        Typeface.BOLD ->
-                            addStyle(SpanStyle(fontWeight = boldFontWeight), start, end)
-                    }
+                is StyleSpan -> when (span.style) {
+                    Typeface.BOLD -> addStyle(SpanStyle(fontWeight = boldFontWeight), start, end)
+                }
             }
         }
     }
@@ -34,10 +32,9 @@ fun Spanned.toAnnotatedString(
         val start = getSpanStart(span)
         val end = getSpanEnd(span)
         when (span) {
-            is StyleSpan ->
-                when (span.style) {
-                    Typeface.BOLD -> addStyle(boldSpanStyle, start, end)
-                }
+            is StyleSpan -> when (span.style) {
+                Typeface.BOLD -> addStyle(boldSpanStyle, start, end)
+            }
         }
     }
 }

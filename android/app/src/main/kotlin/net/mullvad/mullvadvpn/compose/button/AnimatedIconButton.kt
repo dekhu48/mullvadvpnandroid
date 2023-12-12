@@ -39,18 +39,19 @@ fun AnimatedIconButton(
         }
     }
     Box(
-        modifier =
-        modifier
+        modifier = modifier
             .clickable {
                 when (state) {
                     ButtonState.IDLE -> {
                         state = if (isToggleButton) ButtonState.TOGGLED else ButtonState.PRESSED
                         onClick()
                     }
+
                     ButtonState.TOGGLED -> {
                         state = ButtonState.IDLE
                         onClick()
                     }
+
                     ButtonState.PRESSED -> {}
                 }
             }
@@ -66,11 +67,13 @@ fun AnimatedIconButton(
                     colorFilter = defaultIconColorFilter
                     imageModifier = modifier
                 }
+
                 ButtonState.TOGGLED -> {
                     iconPainter = secondaryIcon
                     colorFilter = secondaryIconColorFilter
                     imageModifier = modifier
                 }
+
                 ButtonState.PRESSED -> {
                     iconPainter = secondaryIcon
                     colorFilter = secondaryIconColorFilter
@@ -89,7 +92,5 @@ fun AnimatedIconButton(
 }
 
 enum class ButtonState {
-    IDLE,
-    TOGGLED,
-    PRESSED,
+    IDLE, TOGGLED, PRESSED,
 }

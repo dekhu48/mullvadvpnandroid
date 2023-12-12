@@ -35,24 +35,19 @@ class VoucherDialogViewModel(
     private val voucherInput = MutableStateFlow("")
 
     private val _shared: SharedFlow<ServiceConnectionContainer> =
-        serviceConnectionManager.connectionState
-            .flatMapLatest { state ->
-                if (state is ServiceConnectionState.ConnectedReady) {
-                    flowOf(state.container)
-                } else {
-                    emptyFlow()
-                }
+        serviceConnectionManager.connectionState.flatMapLatest { state ->
+            if (state is ServiceConnectionState.ConnectedReady) {
+                flowOf(state.container)
+            } else {
+                emptyFlow()
             }
-            .shareIn(viewModelScope, SharingStarted.WhileSubscribed())
+        }.shareIn(viewModelScope, SharingStarted.WhileSubscribed())
 
-    var uiState =
-        _shared
-            .flatMapLatest {
-                combine(vmState, voucherInput) { state, input ->
-                    VoucherDialogUiState(voucherInput = input, voucherViewModelState = state)
-                }
-            }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), VoucherDialogUiState.INITIAL)
+    var uiState = _shared.flatMapLatest {
+        combine(vmState, voucherInput) { state, input ->
+            VoucherDialogUiState(voucherInput = input, voucherViewModelState = state)
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), VoucherDialogUiState.INITIAL)
 
     fun onRedeem(voucherCode: String) {
         vmState.update { VoucherDialogState.Verifying }
@@ -71,8 +66,7 @@ class VoucherDialogViewModel(
         if (VoucherRegexHelper.validate(voucherString)) {
             val trimmedVoucher = VoucherRegexHelper.trim(voucherString)
             voucherInput.value =
-                trimmedVoucher
-                    .substring(0, Integer.min(VOUCHER_LENGTH, trimmedVoucher.length))
+                trimmedVoucher.substring(0, Integer.min(VOUCHER_LENGTH, trimmedVoucher.length))
                     .uppercase()
         }
     }
@@ -83,14 +77,13 @@ class VoucherDialogViewModel(
 
     private fun setError(error: VoucherSubmissionError) {
         viewModelScope.launch {
-            val message =
-                resources.getString(
-                    when (error) {
-                        VoucherSubmissionError.InvalidVoucher -> R.string.invalid_voucher
-                        VoucherSubmissionError.VoucherAlreadyUsed -> R.string.voucher_already_used
-                        else -> R.string.error_occurred
-                    },
-                )
+            val message = resources.getString(
+                when (error) {
+                    VoucherSubmissionError.InvalidVoucher -> R.string.invalid_voucher
+                    VoucherSubmissionError.VoucherAlreadyUsed -> R.string.voucher_already_used
+                    else -> R.string.error_occurred
+                },
+            )
             vmState.update { VoucherDialogState.Error(message) }
         }
     }

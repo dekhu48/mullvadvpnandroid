@@ -18,11 +18,15 @@ fun VerticalDivider(
     thickness: Dp = DividerDefaults.Thickness,
     color: Color = DividerDefaults.color,
 ) {
-    val targetThickness =
-        if (thickness == Dp.Hairline) {
-            (1f / LocalDensity.current.density).dp
-        } else {
-            thickness
-        }
-    Box(modifier.fillMaxHeight().width(targetThickness).background(color = color))
+    val targetThickness = if (thickness == Dp.Hairline) {
+        (1f / LocalDensity.current.density).dp
+    } else {
+        thickness
+    }
+    Box(
+        modifier
+            .fillMaxHeight()
+            .width(targetThickness)
+            .background(color = color),
+    )
 }

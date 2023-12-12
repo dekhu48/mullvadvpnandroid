@@ -16,53 +16,47 @@ fun RelayList.toRelayCountries(
     ownership: Constraint<Ownership>,
     providers: Constraint<Providers>,
 ): List<RelayCountry> {
-    val relayCountries =
-        this.countries
-            .map { country ->
-                val cities = mutableListOf<RelayCity>()
-                val relayCountry = RelayCountry(country.name, country.code, false, cities)
+    val relayCountries = this.countries.map { country ->
+        val cities = mutableListOf<RelayCity>()
+        val relayCountry = RelayCountry(country.name, country.code, false, cities)
 
-                for (city in country.cities) {
-                    val relays = mutableListOf<Relay>()
-                    val relayCity =
-                        RelayCity(
-                            name = city.name,
-                            code = city.code,
-                            location = GeographicLocationConstraint.City(country.code, city.code),
-                            expanded = false,
-                            relays = relays,
-                        )
+        for (city in country.cities) {
+            val relays = mutableListOf<Relay>()
+            val relayCity = RelayCity(
+                name = city.name,
+                code = city.code,
+                location = GeographicLocationConstraint.City(country.code, city.code),
+                expanded = false,
+                relays = relays,
+            )
 
-                    val validCityRelays =
-                        city.relays.filterValidRelays(ownership = ownership, providers = providers)
+            val validCityRelays =
+                city.relays.filterValidRelays(ownership = ownership, providers = providers)
 
-                    for (relay in validCityRelays) {
-                        relays.add(
-                            Relay(
-                                name = relay.hostname,
-                                location =
-                                GeographicLocationConstraint.Hostname(
-                                    country.code,
-                                    city.code,
-                                    relay.hostname,
-                                ),
-                                locationName = "${city.name} (${relay.hostname})",
-                                active = relay.active,
-                            ),
-                        )
-                    }
-                    relays.sortWith(RelayNameComparator)
-
-                    if (relays.isNotEmpty()) {
-                        cities.add(relayCity)
-                    }
-                }
-
-                cities.sortBy { it.name }
-                relayCountry
+            for (relay in validCityRelays) {
+                relays.add(
+                    Relay(
+                        name = relay.hostname,
+                        location = GeographicLocationConstraint.Hostname(
+                            country.code,
+                            city.code,
+                            relay.hostname,
+                        ),
+                        locationName = "${city.name} (${relay.hostname})",
+                        active = relay.active,
+                    ),
+                )
             }
-            .filter { country -> country.cities.isNotEmpty() }
-            .toMutableList()
+            relays.sortWith(RelayNameComparator)
+
+            if (relays.isNotEmpty()) {
+                cities.add(relayCity)
+            }
+        }
+
+        cities.sortBy { it.name }
+        relayCountry
+    }.filter { country -> country.cities.isNotEmpty() }.toMutableList()
 
     relayCountries.sortBy { it.name }
 
@@ -79,11 +73,13 @@ fun List<RelayCountry>.findItemForLocation(
                 is GeographicLocationConstraint.Country -> {
                     this.find { country -> country.code == location.countryCode }
                 }
+
                 is GeographicLocationConstraint.City -> {
                     val country = this.find { country -> country.code == location.countryCode }
 
                     country?.cities?.find { city -> city.code == location.cityCode }
                 }
+
                 is GeographicLocationConstraint.Hostname -> {
                     val country = this.find { country -> country.code == location.countryCode }
 
@@ -180,24 +176,20 @@ fun List<RelayCountry>.filterOnSearchTerm(
 private fun List<DaemonRelay>.filterValidRelays(
     ownership: Constraint<Ownership>,
     providers: Constraint<Providers>,
-): List<DaemonRelay> =
-    filter { it.isWireguardRelay }
-        .filter {
-            when (ownership) {
-                is Constraint.Any -> true
-                is Constraint.Only ->
-                    when (ownership.value) {
-                        Ownership.MullvadOwned -> it.owned
-                        Ownership.Rented -> !it.owned
-                    }
-            }
+): List<DaemonRelay> = filter { it.isWireguardRelay }.filter {
+    when (ownership) {
+        is Constraint.Any -> true
+        is Constraint.Only -> when (ownership.value) {
+            Ownership.MullvadOwned -> it.owned
+            Ownership.Rented -> !it.owned
         }
-        .filter { relay ->
-            when (providers) {
-                is Constraint.Any -> true
-                is Constraint.Only -> providers.value.providers.contains(relay.provider)
-            }
-        }
+    }
+}.filter { relay ->
+    when (providers) {
+        is Constraint.Any -> true
+        is Constraint.Only -> providers.value.providers.contains(relay.provider)
+    }
+}
 
 /** Expand the parent(s), if any, for the current selected item */
 private fun List<RelayCountry>.expandItemForSelection(
@@ -208,6 +200,7 @@ private fun List<RelayCountry>.expandItemForSelection(
             is GeographicLocationConstraint.Country -> {
                 this
             }
+
             is GeographicLocationConstraint.City -> {
                 this.map { country ->
                     if (country.code == location.countryCode) {
@@ -217,13 +210,13 @@ private fun List<RelayCountry>.expandItemForSelection(
                     }
                 }
             }
+
             is GeographicLocationConstraint.Hostname -> {
                 this.map { country ->
                     if (country.code == location.countryCode) {
                         country.copy(
                             expanded = true,
-                            cities =
-                            country.cities.map { city ->
+                            cities = country.cities.map { city ->
                                 if (city.code == location.cityCode) {
                                     city.copy(expanded = true)
                                 } else {
@@ -237,8 +230,7 @@ private fun List<RelayCountry>.expandItemForSelection(
                 }
             }
         }
-    }
-        ?: this
+    } ?: this
 }
 
 private const val MIN_SEARCH_LENGTH = 2

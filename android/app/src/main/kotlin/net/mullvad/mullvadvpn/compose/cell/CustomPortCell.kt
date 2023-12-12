@@ -56,13 +56,15 @@ fun CustomPortCell(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
-        modifier = Modifier.height(Dimens.cellHeight).fillMaxWidth(),
+        modifier = Modifier
+            .height(Dimens.cellHeight)
+            .fillMaxWidth(),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
-            modifier =
-            Modifier.clickable { onMainCellClicked() }
+            modifier = Modifier
+                .clickable { onMainCellClicked() }
                 .height(Dimens.cellHeight)
                 .weight(1f)
                 .background(
@@ -79,8 +81,8 @@ fun CustomPortCell(
                 painter = painterResource(id = R.drawable.icon_tick),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onPrimary,
-                modifier =
-                Modifier.padding(end = Dimens.selectableCellTextMargin)
+                modifier = Modifier
+                    .padding(end = Dimens.selectableCellTextMargin)
                     .alpha(if (isSelected) AlphaVisible else AlphaInvisible),
             )
             BaseCellTitle(
@@ -91,8 +93,8 @@ fun CustomPortCell(
         }
         Spacer(modifier = Modifier.width(Dimens.verticalSpacer))
         Box(
-            modifier =
-            Modifier.clickable { onPortCellClicked() }
+            modifier = Modifier
+                .clickable { onPortCellClicked() }
                 .height(Dimens.cellHeight)
                 .wrapContentWidth()
                 .defaultMinSize(minWidth = Dimens.customPortBoxMinWidth)

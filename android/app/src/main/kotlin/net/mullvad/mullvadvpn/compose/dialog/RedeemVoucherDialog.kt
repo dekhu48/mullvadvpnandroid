@@ -119,10 +119,8 @@ fun RedeemVoucherDialog(
                     )
                 }
                 PrimaryButton(
-                    text =
-                    stringResource(
-                        id =
-                        if (uiState.voucherViewModelState is VoucherDialogState.Success) {
+                    text = stringResource(
+                        id = if (uiState.voucherViewModelState is VoucherDialogState.Success) {
                             R.string.got_it
                         } else {
                             R.string.cancel
@@ -141,30 +139,27 @@ fun RedeemVoucherDialog(
             ) {
                 if (uiState.voucherViewModelState is VoucherDialogState.Success) {
                     val days: Int =
-                        (
-                            uiState.voucherViewModelState.addedTime /
-                                DateTimeConstants.SECONDS_PER_DAY
-                            )
-                            .toInt()
-                    val message =
-                        stringResource(
-                            R.string.added_to_your_account,
-                            when (days) {
-                                0 -> {
-                                    stringResource(R.string.less_than_one_day)
-                                }
-                                in 1..59 -> {
-                                    pluralStringResource(id = R.plurals.days, count = days, days)
-                                }
-                                else -> {
-                                    pluralStringResource(
-                                        id = R.plurals.months,
-                                        count = days / 30,
-                                        days / 30,
-                                    )
-                                }
-                            },
-                        )
+                        (uiState.voucherViewModelState.addedTime / DateTimeConstants.SECONDS_PER_DAY).toInt()
+                    val message = stringResource(
+                        R.string.added_to_your_account,
+                        when (days) {
+                            0 -> {
+                                stringResource(R.string.less_than_one_day)
+                            }
+
+                            in 1..59 -> {
+                                pluralStringResource(id = R.plurals.days, count = days, days)
+                            }
+
+                            else -> {
+                                pluralStringResource(
+                                    id = R.plurals.months,
+                                    count = days / 30,
+                                    days / 30,
+                                )
+                            }
+                        },
+                    )
                     RedeemSuccessBody(message = message)
                 } else {
                     EnterVoucherBody(
@@ -180,10 +175,8 @@ fun RedeemVoucherDialog(
         onDismissRequest = {
             onDismiss(uiState.voucherViewModelState is VoucherDialogState.Success)
         },
-        properties =
-        DialogProperties(
-            securePolicy =
-            if (BuildConfig.DEBUG) SecureFlagPolicy.Inherit else SecureFlagPolicy.SecureOn,
+        properties = DialogProperties(
+            securePolicy = if (BuildConfig.DEBUG) SecureFlagPolicy.Inherit else SecureFlagPolicy.SecureOn,
         ),
     )
 }
@@ -193,15 +186,17 @@ private fun RedeemSuccessBody(message: String) {
     Image(
         painter = painterResource(R.drawable.icon_success),
         contentDescription = null,
-        modifier = Modifier.fillMaxWidth().height(Dimens.buttonHeight),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(Dimens.buttonHeight),
     )
     Text(
         text = stringResource(id = R.string.voucher_success_title),
-        modifier =
-        Modifier.padding(
-            start = Dimens.smallPadding,
-            top = Dimens.successIconVerticalPadding,
-        )
+        modifier = Modifier
+            .padding(
+                start = Dimens.smallPadding,
+                top = Dimens.successIconVerticalPadding,
+            )
             .fillMaxWidth(),
         color = MaterialTheme.colorScheme.onPrimary,
         style = MaterialTheme.typography.titleMedium,
@@ -209,8 +204,8 @@ private fun RedeemSuccessBody(message: String) {
 
     Text(
         text = message,
-        modifier =
-        Modifier.padding(start = Dimens.smallPadding, top = Dimens.cellTopPadding)
+        modifier = Modifier
+            .padding(start = Dimens.smallPadding, top = Dimens.cellTopPadding)
             .fillMaxWidth(),
         color = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaDescription),
         style = MaterialTheme.typography.labelMedium,
@@ -231,8 +226,7 @@ private fun EnterVoucherBody(
             }
         },
         onValueChanged = { input -> onVoucherInputChange(input) },
-        isValidValue =
-        uiState.voucherInput.isEmpty() || uiState.voucherInput.length == MAX_VOUCHER_LENGTH,
+        isValidValue = uiState.voucherInput.isEmpty() || uiState.voucherInput.length == MAX_VOUCHER_LENGTH,
         keyboardType = KeyboardType.Password,
         placeholderText = stringResource(id = R.string.voucher_hint),
         visualTransformation = vouchersVisualTransformation(),
@@ -242,7 +236,9 @@ private fun EnterVoucherBody(
     Spacer(modifier = Modifier.height(Dimens.smallPadding))
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.height(Dimens.listIconSize).fillMaxWidth(),
+        modifier = Modifier
+            .height(Dimens.listIconSize)
+            .fillMaxWidth(),
     ) {
         if (uiState.voucherViewModelState is VoucherDialogState.Verifying) {
             MullvadCircularProgressIndicatorSmall()

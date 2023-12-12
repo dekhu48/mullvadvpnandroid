@@ -42,21 +42,24 @@ fun DeviceRemovalDialog(onDismiss: () -> Unit, onConfirm: () -> Unit, device: De
         title = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(top = 0.dp).fillMaxWidth(),
+                modifier = Modifier
+                    .padding(top = 0.dp)
+                    .fillMaxWidth(),
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.icon_alert),
                     contentDescription = "Remove",
-                    modifier = Modifier.width(50.dp).height(50.dp),
+                    modifier = Modifier
+                        .width(50.dp)
+                        .height(50.dp),
                 )
             }
         },
         text = {
-            val htmlFormattedDialogText =
-                textResource(
-                    id = R.string.max_devices_confirm_removal_description,
-                    device.displayName(),
-                )
+            val htmlFormattedDialogText = textResource(
+                id = R.string.max_devices_confirm_removal_description,
+                device.displayName(),
+            )
 
             HtmlText(htmlFormattedString = htmlFormattedDialogText, textSize = 16.sp.value)
         },

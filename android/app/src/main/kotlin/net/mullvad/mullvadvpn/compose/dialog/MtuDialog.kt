@@ -70,8 +70,7 @@ fun MtuDialog(
                 )
 
                 Text(
-                    text =
-                    stringResource(
+                    text = stringResource(
                         id = R.string.wireguard_mtu_footer,
                         MTU_MIN_VALUE,
                         MTU_MAX_VALUE,

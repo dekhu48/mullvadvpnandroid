@@ -7,8 +7,7 @@ import net.mullvad.mullvadvpn.R
 @Composable
 fun DeviceNameInfoDialog(onDismiss: () -> Unit) {
     InfoDialog(
-        message =
-        buildString {
+        message = buildString {
             appendLine(stringResource(id = R.string.device_name_info_first_paragraph))
             appendLine()
             appendLine(stringResource(id = R.string.device_name_info_second_paragraph))

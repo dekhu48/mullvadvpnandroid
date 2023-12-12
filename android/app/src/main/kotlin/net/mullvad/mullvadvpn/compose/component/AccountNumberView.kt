@@ -12,8 +12,7 @@ fun AccountNumberView(
     modifier: Modifier = Modifier,
 ) {
     InformationView(
-        content =
-        if (obfuscateWithPasswordDots) {
+        content = if (obfuscateWithPasswordDots) {
             accountNumber.groupPasswordModeWithSpaces()
         } else {
             accountNumber.groupWithSpaces()

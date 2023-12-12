@@ -33,22 +33,33 @@ fun ConnectionStatusText(state: TunnelState, modifier: Modifier = Modifier) {
         is TunnelState.Disconnecting -> {
             when (state.actionAfterDisconnect) {
                 ActionAfterDisconnect.Nothing -> DisconnectedText(modifier = modifier)
-                ActionAfterDisconnect.Block ->
-                    ConnectedText(isQuantumResistant = false, modifier = modifier)
-                ActionAfterDisconnect.Reconnect ->
-                    ConnectingText(isQuantumResistant = false, modifier = modifier)
+                ActionAfterDisconnect.Block -> ConnectedText(
+                    isQuantumResistant = false,
+                    modifier = modifier,
+                )
+
+                ActionAfterDisconnect.Reconnect -> ConnectingText(
+                    isQuantumResistant = false,
+                    modifier = modifier,
+                )
             }
         }
+
         is TunnelState.Disconnected -> DisconnectedText(modifier = modifier)
-        is TunnelState.Connecting ->
-            ConnectingText(
-                isQuantumResistant = state.endpoint?.quantumResistant == true,
-                modifier = modifier,
-            )
-        is TunnelState.Connected ->
-            ConnectedText(isQuantumResistant = state.endpoint.quantumResistant, modifier = modifier)
-        is TunnelState.Error ->
-            ErrorText(isBlocking = state.errorState.isBlocking, modifier = modifier)
+        is TunnelState.Connecting -> ConnectingText(
+            isQuantumResistant = state.endpoint?.quantumResistant == true,
+            modifier = modifier,
+        )
+
+        is TunnelState.Connected -> ConnectedText(
+            isQuantumResistant = state.endpoint.quantumResistant,
+            modifier = modifier,
+        )
+
+        is TunnelState.Error -> ErrorText(
+            isBlocking = state.errorState.isBlocking,
+            modifier = modifier,
+        )
     }
 }
 
@@ -65,10 +76,8 @@ private fun DisconnectedText(modifier: Modifier) {
 @Composable
 private fun ConnectingText(isQuantumResistant: Boolean, modifier: Modifier) {
     Text(
-        text =
-        textResource(
-            id =
-            if (isQuantumResistant) {
+        text = textResource(
+            id = if (isQuantumResistant) {
                 R.string.quantum_creating_secure_connection
             } else {
                 R.string.creating_secure_connection
@@ -83,10 +92,8 @@ private fun ConnectingText(isQuantumResistant: Boolean, modifier: Modifier) {
 @Composable
 private fun ConnectedText(isQuantumResistant: Boolean, modifier: Modifier) {
     Text(
-        text =
-        textResource(
-            id =
-            if (isQuantumResistant) {
+        text = textResource(
+            id = if (isQuantumResistant) {
                 R.string.quantum_secure_connection
             } else {
                 R.string.secure_connection
@@ -101,12 +108,10 @@ private fun ConnectedText(isQuantumResistant: Boolean, modifier: Modifier) {
 @Composable
 private fun ErrorText(isBlocking: Boolean, modifier: Modifier) {
     Text(
-        text =
-        textResource(
+        text = textResource(
             id = if (isBlocking) R.string.blocked_connection else R.string.error_state,
         ),
-        color =
-        if (isBlocking) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.error,
+        color = if (isBlocking) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.error,
         style = MaterialTheme.typography.connectionStatus,
         modifier = modifier,
     )

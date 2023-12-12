@@ -25,9 +25,7 @@ class RelayListListener(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     val relayListEvents: StateFlow<RelayList> =
-        messageHandler
-            .events<Event.NewRelayList>()
-            .map { it.relayList ?: defaultRelayList() }
+        messageHandler.events<Event.NewRelayList>().map { it.relayList ?: defaultRelayList() }
             // This is added so that we always have a relay list. Otherwise sometimes there would
             // not be a relay list since the fetching of a relay list would be done before the
             // event stream is available.

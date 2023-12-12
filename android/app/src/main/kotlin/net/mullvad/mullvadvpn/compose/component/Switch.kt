@@ -65,32 +65,23 @@ fun MullvadSwitch(
 }
 
 @Composable
-fun mullvadSwitchColors(): SwitchColors =
-    SwitchDefaults.colors(
-        checkedThumbColor = MaterialTheme.colorScheme.selected,
-        checkedTrackColor = Color.Transparent,
-        checkedBorderColor = MaterialTheme.colorScheme.onPrimary,
-        //    checkedIconColor= SwitchTokens.SelectedIconColor.toColor(),
-        uncheckedThumbColor = MaterialTheme.colorScheme.error,
-        uncheckedTrackColor = Color.Transparent,
-        uncheckedBorderColor = MaterialTheme.colorScheme.onPrimary,
-        //    uncheckedIconColor= SwitchTokens.UnselectedIconColor.toColor(),
-        disabledCheckedThumbColor =
-        MaterialTheme.colorScheme.selected
-            .copy(alpha = AlphaDisabled)
-            .compositeOver(MaterialTheme.colorScheme.primary),
-        disabledCheckedTrackColor = Color.Transparent,
-        disabledCheckedBorderColor =
-        MaterialTheme.colorScheme.onPrimary
-            .copy(alpha = AlphaDisabled)
-            .compositeOver(MaterialTheme.colorScheme.primary),
-        disabledUncheckedThumbColor =
-        MaterialTheme.colorScheme.error
-            .copy(alpha = AlphaDisabled)
-            .compositeOver(MaterialTheme.colorScheme.primary),
-        disabledUncheckedTrackColor = Color.Transparent,
-        disabledUncheckedBorderColor =
-        MaterialTheme.colorScheme.onPrimary
-            .copy(alpha = AlphaDisabled)
-            .compositeOver(MaterialTheme.colorScheme.primary),
-    )
+fun mullvadSwitchColors(): SwitchColors = SwitchDefaults.colors(
+    checkedThumbColor = MaterialTheme.colorScheme.selected,
+    checkedTrackColor = Color.Transparent,
+    checkedBorderColor = MaterialTheme.colorScheme.onPrimary,
+    //    checkedIconColor= SwitchTokens.SelectedIconColor.toColor(),
+    uncheckedThumbColor = MaterialTheme.colorScheme.error,
+    uncheckedTrackColor = Color.Transparent,
+    uncheckedBorderColor = MaterialTheme.colorScheme.onPrimary,
+    //    uncheckedIconColor= SwitchTokens.UnselectedIconColor.toColor(),
+    disabledCheckedThumbColor = MaterialTheme.colorScheme.selected.copy(alpha = AlphaDisabled)
+        .compositeOver(MaterialTheme.colorScheme.primary),
+    disabledCheckedTrackColor = Color.Transparent,
+    disabledCheckedBorderColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaDisabled)
+        .compositeOver(MaterialTheme.colorScheme.primary),
+    disabledUncheckedThumbColor = MaterialTheme.colorScheme.error.copy(alpha = AlphaDisabled)
+        .compositeOver(MaterialTheme.colorScheme.primary),
+    disabledUncheckedTrackColor = Color.Transparent,
+    disabledUncheckedBorderColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaDisabled)
+        .compositeOver(MaterialTheme.colorScheme.primary),
+)

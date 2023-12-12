@@ -58,14 +58,12 @@ class ConnectFragment : BaseFragment() {
     }
 
     private fun openDownloadUrl() {
-        val intent =
-            Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(
-                    requireContext().getString(R.string.download_url).appendHideNavOnPlayBuild(),
-                ),
-            )
-                .apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(
+                requireContext().getString(R.string.download_url).appendHideNavOnPlayBuild(),
+            ),
+        ).apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK }
         requireContext().startActivity(intent)
     }
 

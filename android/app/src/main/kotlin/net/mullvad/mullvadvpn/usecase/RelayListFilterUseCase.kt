@@ -34,11 +34,8 @@ class RelayListFilterUseCase(
 
     fun availableProviders(): Flow<List<Provider>> =
         relayListListener.relayListEvents.map { relayList ->
-            relayList.countries
-                .flatMap(RelayListCountry::cities)
-                .flatMap(RelayListCity::relays)
+            relayList.countries.flatMap(RelayListCountry::cities).flatMap(RelayListCity::relays)
                 .filter { relay -> relay.isWireguardRelay }
-                .map { relay -> Provider(relay.provider, relay.owned) }
-                .distinct()
+                .map { relay -> Provider(relay.provider, relay.owned) }.distinct()
         }
 }

@@ -70,19 +70,14 @@ fun NegativeButton(
     onClick: () -> Unit,
     text: String,
     modifier: Modifier = Modifier,
-    colors: ButtonColors =
-        ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.error,
-            contentColor = MaterialTheme.colorScheme.onError,
-            disabledContentColor =
-            MaterialTheme.colorScheme.onError
-                .copy(alpha = AlphaInactive)
-                .compositeOver(MaterialTheme.colorScheme.background),
-            disabledContainerColor =
-            MaterialTheme.colorScheme.error
-                .copy(alpha = AlphaInactive)
-                .compositeOver(MaterialTheme.colorScheme.background),
-        ),
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        containerColor = MaterialTheme.colorScheme.error,
+        contentColor = MaterialTheme.colorScheme.onError,
+        disabledContentColor = MaterialTheme.colorScheme.onError.copy(alpha = AlphaInactive)
+            .compositeOver(MaterialTheme.colorScheme.background),
+        disabledContainerColor = MaterialTheme.colorScheme.error.copy(alpha = AlphaInactive)
+            .compositeOver(MaterialTheme.colorScheme.background),
+    ),
     isEnabled: Boolean = true,
     icon: @Composable (() -> Unit)? = null,
 ) {
@@ -102,19 +97,14 @@ fun VariantButton(
     text: String,
     modifier: Modifier = Modifier,
     background: Color = MaterialTheme.colorScheme.background,
-    colors: ButtonColors =
-        ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.variant,
-            contentColor = MaterialTheme.colorScheme.onVariant,
-            disabledContentColor =
-            MaterialTheme.colorScheme.onVariant
-                .copy(alpha = AlphaInactive)
-                .compositeOver(background),
-            disabledContainerColor =
-            MaterialTheme.colorScheme.variant
-                .copy(alpha = AlphaInactive)
-                .compositeOver(background),
-        ),
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        containerColor = MaterialTheme.colorScheme.variant,
+        contentColor = MaterialTheme.colorScheme.onVariant,
+        disabledContentColor = MaterialTheme.colorScheme.onVariant.copy(alpha = AlphaInactive)
+            .compositeOver(background),
+        disabledContainerColor = MaterialTheme.colorScheme.variant.copy(alpha = AlphaInactive)
+            .compositeOver(background),
+    ),
     isEnabled: Boolean = true,
     icon: @Composable (() -> Unit)? = null,
 ) {
@@ -133,19 +123,14 @@ fun PrimaryButton(
     onClick: () -> Unit,
     text: String,
     modifier: Modifier = Modifier,
-    colors: ButtonColors =
-        ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            disabledContentColor =
-            MaterialTheme.colorScheme.onPrimary
-                .copy(alpha = Alpha20)
-                .compositeOver(MaterialTheme.colorScheme.background),
-            disabledContainerColor =
-            MaterialTheme.colorScheme.primary
-                .copy(alpha = AlphaInactive)
-                .compositeOver(MaterialTheme.colorScheme.background),
-        ),
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary,
+        disabledContentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = Alpha20)
+            .compositeOver(MaterialTheme.colorScheme.background),
+        disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = AlphaInactive)
+            .compositeOver(MaterialTheme.colorScheme.background),
+    ),
     isEnabled: Boolean = true,
     icon: @Composable (() -> Unit)? = null,
 ) {
@@ -172,16 +157,23 @@ private fun BaseButton(
         onClick = onClick,
         colors = colors,
         enabled = isEnabled,
-        contentPadding =
-        icon?.let { PaddingValues(horizontal = 0.dp, vertical = Dimens.buttonVerticalPadding) }
-            ?: ButtonDefaults.ContentPadding,
-        modifier = modifier.wrapContentHeight().fillMaxWidth(),
+        contentPadding = icon?.let {
+            PaddingValues(
+                horizontal = 0.dp,
+                vertical = Dimens.buttonVerticalPadding,
+            )
+        } ?: ButtonDefaults.ContentPadding,
+        modifier = modifier
+            .wrapContentHeight()
+            .fillMaxWidth(),
         shape = MaterialTheme.shapes.small,
     ) {
         // Used to center the text
         icon?.let {
             Box(
-                modifier = Modifier.padding(horizontal = Dimens.smallPadding).alpha(AlphaInvisible),
+                modifier = Modifier
+                    .padding(horizontal = Dimens.smallPadding)
+                    .alpha(AlphaInvisible),
             ) {
                 icon()
             }
@@ -196,8 +188,8 @@ private fun BaseButton(
         )
         icon?.let {
             Box(
-                modifier =
-                Modifier.padding(horizontal = Dimens.smallPadding)
+                modifier = Modifier
+                    .padding(horizontal = Dimens.smallPadding)
                     .alpha(if (isEnabled) AlphaVisible else AlphaDisabled),
             ) {
                 icon()

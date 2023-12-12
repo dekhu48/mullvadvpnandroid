@@ -65,9 +65,9 @@ fun CustomPortDialog(
                 PrimaryButton(
                     text = stringResource(id = R.string.custom_port_dialog_submit),
                     onClick = { onSave(port.value) },
-                    isEnabled =
-                    port.value.isNotEmpty() &&
-                        allowedPortRanges.isPortInValidRanges(port.value.toIntOrNull() ?: 0),
+                    isEnabled = port.value.isNotEmpty() && allowedPortRanges.isPortInValidRanges(
+                        port.value.toIntOrNull() ?: 0,
+                    ),
                 )
                 if (showReset) {
                     NegativeButton(
@@ -86,24 +86,25 @@ fun CustomPortDialog(
                 CustomPortTextField(
                     value = port.value,
                     onSubmit = { input ->
-                        if (
-                            input.isNotEmpty() &&
-                            allowedPortRanges.isPortInValidRanges(input.toIntOrNull() ?: 0)
+                        if (input.isNotEmpty() && allowedPortRanges.isPortInValidRanges(
+                                input.toIntOrNull() ?: 0,
+                            )
                         ) {
                             onSave(input)
                         }
                     },
                     onValueChanged = { input -> port.value = input },
-                    isValidValue =
-                    port.value.isNotEmpty() &&
-                        allowedPortRanges.isPortInValidRanges(port.value.toIntOrNull() ?: 0),
+                    isValidValue = port.value.isNotEmpty() && allowedPortRanges.isPortInValidRanges(
+                        port.value.toIntOrNull() ?: 0,
+                    ),
                     maxCharLength = 5,
-                    modifier = Modifier.testTag(CUSTOM_PORT_DIALOG_INPUT_TEST_TAG).fillMaxWidth(),
+                    modifier = Modifier
+                        .testTag(CUSTOM_PORT_DIALOG_INPUT_TEST_TAG)
+                        .fillMaxWidth(),
                 )
                 Spacer(modifier = Modifier.height(Dimens.smallPadding))
                 Text(
-                    text =
-                    stringResource(
+                    text = stringResource(
                         id = R.string.custom_port_dialog_valid_ranges,
                         allowedPortRanges.asString(),
                     ),

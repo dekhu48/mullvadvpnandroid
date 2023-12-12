@@ -46,11 +46,10 @@ class PrivacyDisclaimerFragment : Fragment() {
     }
 
     private fun openPrivacyPolicy() {
-        val privacyPolicyUrlIntent =
-            Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(getString(R.string.privacy_policy_url).appendHideNavOnPlayBuild()),
-            )
+        val privacyPolicyUrlIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(getString(R.string.privacy_policy_url).appendHideNavOnPlayBuild()),
+        )
         context?.startActivity(privacyPolicyUrlIntent)
     }
 }

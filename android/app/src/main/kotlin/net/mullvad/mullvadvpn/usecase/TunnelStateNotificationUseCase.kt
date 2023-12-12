@@ -16,29 +16,22 @@ class TunnelStateNotificationUseCase(
     private val serviceConnectionManager: ServiceConnectionManager,
 ) {
     fun notifications(): Flow<List<InAppNotification>> =
-        serviceConnectionManager.connectionState
-            .flatMapReadyConnectionOrDefault(flowOf(emptyList())) {
-                it.container.connectionProxy
-                    .tunnelUiStateFlow()
-                    .distinctUntilChanged()
-                    .map(::tunnelStateNotification)
-                    .map(::listOfNotNull)
-            }
-            .distinctUntilChanged()
+        serviceConnectionManager.connectionState.flatMapReadyConnectionOrDefault(flowOf(emptyList())) {
+            it.container.connectionProxy.tunnelUiStateFlow().distinctUntilChanged()
+                .map(::tunnelStateNotification).map(::listOfNotNull)
+        }.distinctUntilChanged()
 
     private fun tunnelStateNotification(tunnelUiState: TunnelState): InAppNotification? =
         when (tunnelUiState) {
             is TunnelState.Connecting -> InAppNotification.TunnelStateBlocked
             is TunnelState.Disconnecting -> {
-                if (
-                    tunnelUiState.actionAfterDisconnect == ActionAfterDisconnect.Block ||
-                    tunnelUiState.actionAfterDisconnect == ActionAfterDisconnect.Reconnect
-                ) {
+                if (tunnelUiState.actionAfterDisconnect == ActionAfterDisconnect.Block || tunnelUiState.actionAfterDisconnect == ActionAfterDisconnect.Reconnect) {
                     InAppNotification.TunnelStateBlocked
                 } else {
                     null
                 }
             }
+
             is TunnelState.Error -> InAppNotification.TunnelStateError(tunnelUiState.errorState)
             is TunnelState.Connected,
             TunnelState.Disconnected,

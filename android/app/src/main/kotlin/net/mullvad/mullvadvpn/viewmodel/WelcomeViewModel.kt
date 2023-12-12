@@ -46,34 +46,30 @@ class WelcomeViewModel(
     private val _uiSideEffect = MutableSharedFlow<UiSideEffect>(extraBufferCapacity = 1)
     val uiSideEffect = _uiSideEffect.asSharedFlow()
 
-    val uiState =
-        serviceConnectionManager.connectionState
-            .flatMapLatest { state ->
-                if (state is ServiceConnectionState.ConnectedReady) {
-                    flowOf(state.container)
-                } else {
-                    emptyFlow()
-                }
-            }
-            .flatMapLatest { serviceConnection ->
-                combine(
-                    serviceConnection.connectionProxy.tunnelUiStateFlow(),
-                    deviceRepository.deviceState.debounce {
-                        it.addDebounceForUnknownState(UNKNOWN_STATE_DEBOUNCE_DELAY_MILLISECONDS)
-                    },
-                    paymentUseCase.paymentAvailability,
-                    paymentUseCase.purchaseResult,
-                ) { tunnelState, deviceState, paymentAvailability, purchaseResult ->
-                    WelcomeUiState(
-                        tunnelState = tunnelState,
-                        accountNumber = deviceState.token(),
-                        deviceName = deviceState.deviceName(),
-                        billingPaymentState = paymentAvailability?.toPaymentState(),
-                        paymentDialogData = purchaseResult?.toPaymentDialogData(),
-                    )
-                }
-            }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), WelcomeUiState())
+    val uiState = serviceConnectionManager.connectionState.flatMapLatest { state ->
+        if (state is ServiceConnectionState.ConnectedReady) {
+            flowOf(state.container)
+        } else {
+            emptyFlow()
+        }
+    }.flatMapLatest { serviceConnection ->
+        combine(
+            serviceConnection.connectionProxy.tunnelUiStateFlow(),
+            deviceRepository.deviceState.debounce {
+                it.addDebounceForUnknownState(UNKNOWN_STATE_DEBOUNCE_DELAY_MILLISECONDS)
+            },
+            paymentUseCase.paymentAvailability,
+            paymentUseCase.purchaseResult,
+        ) { tunnelState, deviceState, paymentAvailability, purchaseResult ->
+            WelcomeUiState(
+                tunnelState = tunnelState,
+                accountNumber = deviceState.token(),
+                deviceName = deviceState.deviceName(),
+                billingPaymentState = paymentAvailability?.toPaymentState(),
+                paymentDialogData = purchaseResult?.toPaymentDialogData(),
+            )
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), WelcomeUiState())
 
     init {
         viewModelScope.launch {

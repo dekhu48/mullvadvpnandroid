@@ -14,7 +14,12 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
@@ -37,8 +42,9 @@ import net.mullvad.mullvadvpn.lib.theme.typeface.listItemText
 private fun PreviewTunnelingCell() {
     AppTheme {
         Column(
-            modifier =
-            Modifier.background(color = MaterialTheme.colorScheme.background).padding(20.dp),
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(20.dp),
         ) {
             SplitTunnelingCell(title = "Mullvad VPN", packageName = "", isSelected = false)
             SplitTunnelingCell(title = "Mullvad VPN", packageName = "", isSelected = true)
@@ -63,8 +69,7 @@ fun SplitTunnelingCell(
         }
     }
     Row(
-        modifier =
-        modifier
+        modifier = modifier
             .wrapContentHeight()
             .defaultMinSize(minHeight = Dimens.listItemHeightExtra)
             .fillMaxWidth()
@@ -80,8 +85,8 @@ fun SplitTunnelingCell(
             painter = icon?.let { iconImage -> BitmapPainter(iconImage) }
                 ?: painterResource(id = R.drawable.ic_icons_missing),
             contentDescription = null,
-            modifier =
-            Modifier.padding(start = Dimens.cellStartPadding)
+            modifier = Modifier
+                .padding(start = Dimens.cellStartPadding)
                 .align(Alignment.CenterVertically)
                 .size(width = Dimens.listIconSize, height = Dimens.listIconSize),
         )
@@ -89,16 +94,14 @@ fun SplitTunnelingCell(
             text = title,
             style = MaterialTheme.typography.listItemText,
             color = MaterialTheme.colorScheme.onPrimary,
-            modifier =
-            Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
                 .padding(horizontal = Dimens.mediumPadding, vertical = Dimens.smallPadding)
                 .align(Alignment.CenterVertically),
         )
         Icon(
-            painter =
-            painterResource(
-                id =
-                if (isSelected) {
+            painter = painterResource(
+                id = if (isSelected) {
                     R.drawable.ic_icons_remove
                 } else {
                     R.drawable.ic_icons_add
@@ -106,8 +109,8 @@ fun SplitTunnelingCell(
             ),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onBackground.copy(alpha = Alpha40),
-            modifier =
-            Modifier.padding(end = Dimens.cellStartPadding)
+            modifier = Modifier
+                .padding(end = Dimens.cellStartPadding)
                 .align(Alignment.CenterVertically)
                 .padding(horizontal = Dimens.loadingSpinnerPadding),
         )

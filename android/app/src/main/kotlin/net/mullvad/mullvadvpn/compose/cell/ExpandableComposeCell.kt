@@ -78,13 +78,15 @@ private fun ExpandableComposeCellBody(
     onInfoClicked: (() -> Unit)? = null,
 ) {
     Row(
-        modifier = modifier.wrapContentWidth().wrapContentHeight(),
+        modifier = modifier
+            .wrapContentWidth()
+            .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onInfoClicked != null) {
             Icon(
-                modifier =
-                Modifier.clickable { onInfoClicked() }
+                modifier = Modifier
+                    .clickable { onInfoClicked() }
                     .padding(
                         start = Dimens.mediumPadding,
                         end = Dimens.mediumPadding,
@@ -107,14 +109,13 @@ private fun ExpandableComposeCellBody(
 
 @Composable
 fun ContentBlockersDisableModeCellSubtitle(modifier: Modifier) {
-    val spanned =
-        HtmlCompat.fromHtml(
-            textResource(
-                id = R.string.dns_content_blockers_subtitle,
-                stringResource(id = R.string.enable_custom_dns),
-            ),
-            HtmlCompat.FROM_HTML_MODE_COMPACT,
-        )
+    val spanned = HtmlCompat.fromHtml(
+        textResource(
+            id = R.string.dns_content_blockers_subtitle,
+            stringResource(id = R.string.enable_custom_dns),
+        ),
+        HtmlCompat.FROM_HTML_MODE_COMPACT,
+    )
     Text(
         text = spanned.toAnnotatedString(boldFontWeight = FontWeight.ExtraBold),
         style = MaterialTheme.typography.labelMedium,

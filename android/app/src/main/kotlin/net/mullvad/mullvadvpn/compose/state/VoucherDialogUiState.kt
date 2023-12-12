@@ -10,7 +10,6 @@ data class VoucherDialogUiState(
 }
 
 sealed interface VoucherDialogState {
-
     data object Default : VoucherDialogState
 
     data object Verifying : VoucherDialogState

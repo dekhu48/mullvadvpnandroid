@@ -35,10 +35,8 @@ private fun PreviewPlayPaymentPaymentAvailable() {
     AppTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
             PlayPayment(
-                billingPaymentState =
-                PaymentState.PaymentAvailable(
-                    products =
-                    listOf(
+                billingPaymentState = PaymentState.PaymentAvailable(
+                    products = listOf(
                         PaymentProduct(
                             productId = ProductId("test"),
                             price = ProductPrice("$10"),
@@ -75,10 +73,8 @@ private fun PreviewPlayPaymentPaymentPending() {
     AppTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
             PlayPayment(
-                billingPaymentState =
-                PaymentState.PaymentAvailable(
-                    products =
-                    listOf(
+                billingPaymentState = PaymentState.PaymentAvailable(
+                    products = listOf(
                         PaymentProduct(
                             productId = ProductId("test"),
                             price = ProductPrice("$10"),
@@ -100,10 +96,8 @@ private fun PreviewPlayPaymentVerificationInProgress() {
     AppTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
             PlayPayment(
-                billingPaymentState =
-                PaymentState.PaymentAvailable(
-                    products =
-                    listOf(
+                billingPaymentState = PaymentState.PaymentAvailable(
+                    products = listOf(
                         PaymentProduct(
                             productId = ProductId("test"),
                             price = ProductPrice("$10"),
@@ -132,24 +126,25 @@ fun PlayPayment(
                 MullvadCircularProgressIndicatorSmall(modifier = modifier)
             }
         }
+
         PaymentState.NoPayment,
         PaymentState.NoProductsFounds,
         -> {
             // Show nothing
         }
+
         is PaymentState.PaymentAvailable -> {
             billingPaymentState.products.forEach { product ->
                 Column(modifier = modifier) {
-                    val statusMessage =
-                        when (product.status) {
-                            PaymentStatus.PENDING ->
-                                stringResource(id = R.string.payment_status_pending)
-                            PaymentStatus.VERIFICATION_IN_PROGRESS ->
-                                stringResource(
-                                    id = R.string.payment_status_verification_in_progress,
-                                )
-                            else -> null
-                        }
+                    val statusMessage = when (product.status) {
+                        PaymentStatus.PENDING -> stringResource(id = R.string.payment_status_pending)
+
+                        PaymentStatus.VERIFICATION_IN_PROGRESS -> stringResource(
+                            id = R.string.payment_status_verification_in_progress,
+                        )
+
+                        else -> null
+                    }
                     statusMessage?.let {
                         Row(verticalAlignment = Alignment.Bottom) {
                             Text(
@@ -171,8 +166,10 @@ fun PlayPayment(
                         }
                     }
                     VariantButton(
-                        text =
-                        stringResource(id = R.string.add_30_days_time_x, product.price.value),
+                        text = stringResource(
+                            id = R.string.add_30_days_time_x,
+                            product.price.value,
+                        ),
                         onClick = { onPurchaseBillingProductClick(product.productId) },
                         isEnabled = product.status == null,
                     )

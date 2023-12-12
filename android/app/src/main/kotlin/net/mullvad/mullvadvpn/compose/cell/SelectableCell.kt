@@ -42,8 +42,8 @@ fun SelectableCell(
             painter = painterResource(id = R.drawable.icon_tick),
             contentDescription = iconContentDescription,
             tint = MaterialTheme.colorScheme.onPrimary,
-            modifier =
-            Modifier.padding(end = Dimens.selectableCellTextMargin)
+            modifier = Modifier
+                .padding(end = Dimens.selectableCellTextMargin)
                 .alpha(if (isSelected) AlphaVisible else AlphaInvisible),
         )
     },
@@ -57,8 +57,7 @@ fun SelectableCell(
     BaseCell(
         onCellClicked = onCellClicked,
         title = { BaseCellTitle(title = title, style = titleStyle) },
-        background =
-        if (isSelected) {
+        background = if (isSelected) {
             selectedColor
         } else {
             backgroundColor

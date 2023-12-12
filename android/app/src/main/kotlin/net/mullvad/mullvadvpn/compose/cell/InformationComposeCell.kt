@@ -64,13 +64,15 @@ fun InformationComposeCell(
 private fun InformationComposeCellBody(modifier: Modifier, onInfoClicked: (() -> Unit)? = null) {
     val verticalPadding = 13.dp
     Row(
-        modifier = modifier.wrapContentWidth().wrapContentHeight(),
+        modifier = modifier
+            .wrapContentWidth()
+            .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onInfoClicked != null) {
             Icon(
-                modifier =
-                Modifier.clickable { onInfoClicked() }
+                modifier = Modifier
+                    .clickable { onInfoClicked() }
                     .padding(
                         start = Dimens.mediumPadding,
                         end = Dimens.mediumPadding,

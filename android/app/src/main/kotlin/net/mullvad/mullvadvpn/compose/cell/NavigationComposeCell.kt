@@ -129,7 +129,9 @@ internal fun NavigationCellBody(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.wrapContentWidth().wrapContentHeight(),
+        modifier = modifier
+            .wrapContentWidth()
+            .wrapContentHeight(),
     ) {
         Text(text = content, style = MaterialTheme.typography.labelMedium, color = contentColor)
         Spacer(modifier = Modifier.width(Dimens.sideMargin))

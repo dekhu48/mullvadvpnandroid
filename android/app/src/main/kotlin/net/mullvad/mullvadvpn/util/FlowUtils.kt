@@ -14,24 +14,21 @@ import net.mullvad.mullvadvpn.ui.serviceconnection.ServiceConnectionState
 import net.mullvad.talpid.util.EventNotifier
 import kotlin.coroutines.EmptyCoroutineContext
 
-fun Animation.transitionFinished(): Flow<Unit> =
-    callbackFlow {
-        val transitionAnimationListener =
-            object : Animation.AnimationListener {
-                override fun onAnimationStart(animation: Animation?) {}
+fun Animation.transitionFinished(): Flow<Unit> = callbackFlow {
+    val transitionAnimationListener = object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation?) {}
 
-                override fun onAnimationEnd(animation: Animation?) {
-                    safeOffer(Unit)
-                }
-
-                override fun onAnimationRepeat(animation: Animation?) {}
-            }
-        setAnimationListener(transitionAnimationListener)
-        awaitClose {
-            Dispatchers.Main.dispatch(EmptyCoroutineContext) { setAnimationListener(null) }
+        override fun onAnimationEnd(animation: Animation?) {
+            safeOffer(Unit)
         }
+
+        override fun onAnimationRepeat(animation: Animation?) {}
     }
-        .take(1)
+    setAnimationListener(transitionAnimationListener)
+    awaitClose {
+        Dispatchers.Main.dispatch(EmptyCoroutineContext) { setAnimationListener(null) }
+    }
+}.take(1)
 
 fun <R> Flow<ServiceConnectionState>.flatMapReadyConnectionOrDefault(
     default: Flow<R>,
@@ -61,7 +58,8 @@ inline fun <T1, T2, T3, T4, T5, T6, R> combine(
     flow6: Flow<T6>,
     crossinline transform: suspend (T1, T2, T3, T4, T5, T6) -> R,
 ): Flow<R> {
-    return kotlinx.coroutines.flow.combine(flow, flow2, flow3, flow4, flow5, flow6) { args: Array<*>,
+    return kotlinx.coroutines.flow.combine(flow, flow2, flow3, flow4, flow5, flow6) {
+            args: Array<*>,
         ->
         @Suppress("UNCHECKED_CAST")
         transform(
@@ -85,8 +83,15 @@ inline fun <T1, T2, T3, T4, T5, T6, T7, R> combine(
     flow7: Flow<T7>,
     crossinline transform: suspend (T1, T2, T3, T4, T5, T6, T7) -> R,
 ): Flow<R> {
-    return kotlinx.coroutines.flow.combine(flow, flow2, flow3, flow4, flow5, flow6, flow7) {
-            args: Array<*> ->
+    return kotlinx.coroutines.flow.combine(
+        flow,
+        flow2,
+        flow3,
+        flow4,
+        flow5,
+        flow6,
+        flow7,
+    ) { args: Array<*> ->
         @Suppress("UNCHECKED_CAST")
         transform(
             args[0] as T1,
@@ -111,8 +116,16 @@ inline fun <T1, T2, T3, T4, T5, T6, T7, T8, R> combine(
     flow8: Flow<T8>,
     crossinline transform: suspend (T1, T2, T3, T4, T5, T6, T7, T8) -> R,
 ): Flow<R> {
-    return kotlinx.coroutines.flow.combine(flow, flow2, flow3, flow4, flow5, flow6, flow7, flow8) {
-            args: Array<*> ->
+    return kotlinx.coroutines.flow.combine(
+        flow,
+        flow2,
+        flow3,
+        flow4,
+        flow5,
+        flow6,
+        flow7,
+        flow8,
+    ) { args: Array<*> ->
         @Suppress("UNCHECKED_CAST")
         transform(
             args[0] as T1,

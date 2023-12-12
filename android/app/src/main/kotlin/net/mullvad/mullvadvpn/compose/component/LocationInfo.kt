@@ -50,19 +50,18 @@ fun LocationInfo(
     outAddress: String,
 ) {
     Column(
-        modifier =
-        if (isVisible) {
-            Modifier.clickable { onToggleTunnelInfo() }.alpha(AlphaVisible)
+        modifier = if (isVisible) {
+            Modifier
+                .clickable { onToggleTunnelInfo() }
+                .alpha(AlphaVisible)
         } else {
             Modifier.alpha(AlphaInvisible)
-        }
-            .then(modifier),
+        }.then(modifier),
     ) {
         Row {
             Text(
                 text = location?.hostname ?: "",
-                color =
-                if (isExpanded) {
+                color = if (isExpanded) {
                     colorExpanded
                 } else {
                     colorCollapsed
@@ -71,8 +70,7 @@ fun LocationInfo(
             )
             ChevronView(
                 isExpanded = isExpanded,
-                color =
-                if (isExpanded) {
+                color = if (isExpanded) {
                     colorExpanded
                 } else {
                     colorCollapsed
@@ -81,8 +79,7 @@ fun LocationInfo(
             )
         }
         Text(
-            text =
-            if (isExpanded) {
+            text = if (isExpanded) {
                 stringResource(id = R.string.wireguard)
             } else {
                 ""
@@ -90,16 +87,13 @@ fun LocationInfo(
             color = colorExpanded,
             style = MaterialTheme.typography.labelMedium,
         )
-        val textInAddress =
-            inAddress?.let {
-                val protocol =
-                    when (inAddress.third) {
-                        TransportProtocol.Tcp -> stringResource(id = R.string.tcp)
-                        TransportProtocol.Udp -> stringResource(id = R.string.udp)
-                    }
-                "${inAddress.first}:${inAddress.second} $protocol"
+        val textInAddress = inAddress?.let {
+            val protocol = when (inAddress.third) {
+                TransportProtocol.Tcp -> stringResource(id = R.string.tcp)
+                TransportProtocol.Udp -> stringResource(id = R.string.udp)
             }
-                ?: ""
+            "${inAddress.first}:${inAddress.second} $protocol"
+        } ?: ""
         Text(
             text = "${stringResource(id = R.string.in_address)} $textInAddress",
             color = colorExpanded,
@@ -110,8 +104,7 @@ fun LocationInfo(
             text = "${stringResource(id = R.string.out_address)} $outAddress",
             color = colorExpanded,
             style = MaterialTheme.typography.labelMedium,
-            modifier =
-            Modifier.alpha(
+            modifier = Modifier.alpha(
                 if (isExpanded && outAddress.isNotEmpty()) AlphaVisible else AlphaInvisible,
             ),
         )

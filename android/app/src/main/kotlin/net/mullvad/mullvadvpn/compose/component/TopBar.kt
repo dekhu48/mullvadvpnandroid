@@ -124,22 +124,20 @@ fun MullvadTopBar(
                         val logoHeight = Dimens.mediumPadding
                         val logoStartEndPadding = Dimens.mediumPadding
 
-                        val shouldShowText =
-                            remember(maxWidth) {
-                                val logoHeightWidthRatio =
-                                    logoTextPainter.intrinsicSize.width /
-                                        logoTextPainter.intrinsicSize.height
-                                val expectedLength = logoHeightWidthRatio * logoHeight.value
-                                maxWidth > (expectedLength + logoStartEndPadding.value * 2).dp
-                            }
+                        val shouldShowText = remember(maxWidth) {
+                            val logoHeightWidthRatio =
+                                logoTextPainter.intrinsicSize.width / logoTextPainter.intrinsicSize.height
+                            val expectedLength = logoHeightWidthRatio * logoHeight.value
+                            maxWidth > (expectedLength + logoStartEndPadding.value * 2).dp
+                        }
 
                         if (shouldShowText) {
                             Icon(
                                 painter = painterResource(id = R.drawable.logo_text),
                                 tint = iconTintColor,
                                 contentDescription = null, // No meaningful user info or action.
-                                modifier =
-                                Modifier.padding(horizontal = Dimens.mediumPadding)
+                                modifier = Modifier
+                                    .padding(horizontal = Dimens.mediumPadding)
                                     .height(logoHeight),
                             )
                         }
@@ -168,8 +166,7 @@ fun MullvadTopBar(
                 }
             }
         },
-        colors =
-        TopAppBarDefaults.topAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = containerColor,
             actionIconContentColor = iconTintColor,
         ),
@@ -215,8 +212,7 @@ fun MullvadMediumTopBar(
         title = { Text(text = title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
         navigationIcon = navigationIcon,
         scrollBehavior = scrollBehavior,
-        colors =
-        TopAppBarDefaults.mediumTopAppBarColors(
+        colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary.copy(AlphaTopBar),
         ),
@@ -279,15 +275,14 @@ fun MullvadTopBarWithDeviceName(
         )
 
         // Align animation of extra row with the rest of the Topbar
-        val appBarContainerColor by
-            animateColorAsState(
-                targetValue = containerColor,
-                animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-                label = "ColorAnimation",
-            )
+        val appBarContainerColor by animateColorAsState(
+            targetValue = containerColor,
+            animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+            label = "ColorAnimation",
+        )
         Row(
-            modifier =
-            Modifier.background(appBarContainerColor)
+            modifier = Modifier
+                .background(appBarContainerColor)
                 .padding(
                     bottom = Dimens.smallPadding,
                     start = Dimens.mediumPadding,
@@ -299,11 +294,9 @@ fun MullvadTopBarWithDeviceName(
         ) {
             Text(
                 modifier = Modifier.weight(1f, fill = false),
-                text =
-                deviceName?.let {
+                text = deviceName?.let {
                     stringResource(id = R.string.top_bar_device_name, deviceName)
-                }
-                    ?: "",
+                } ?: "",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.bodySmall,
@@ -311,8 +304,7 @@ fun MullvadTopBarWithDeviceName(
             )
             if (daysLeftUntilExpiry != null) {
                 Text(
-                    text =
-                    stringResource(
+                    text = stringResource(
                         id = R.string.top_bar_time_left,
                         if (daysLeftUntilExpiry >= 0) {
                             pluralStringResource(

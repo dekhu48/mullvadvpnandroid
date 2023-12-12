@@ -27,11 +27,9 @@ class SettingsRepository(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     val settingsUpdates: StateFlow<Settings?> =
-        serviceConnectionManager.connectionState
-            .flatMapReadyConnectionOrDefault(flowOf()) { state ->
-                callbackFlowFromNotifier(state.container.settingsListener.settingsNotifier)
-            }
-            .onStart { serviceConnectionManager.settingsListener()?.settingsNotifier?.latestEvent }
+        serviceConnectionManager.connectionState.flatMapReadyConnectionOrDefault(flowOf()) { state ->
+            callbackFlowFromNotifier(state.container.settingsListener.settingsNotifier)
+        }.onStart { serviceConnectionManager.settingsListener()?.settingsNotifier?.latestEvent }
             .stateIn(CoroutineScope(dispatcher), SharingStarted.WhileSubscribed(), null)
 
     fun setDnsOptions(
@@ -39,16 +37,13 @@ class SettingsRepository(
         dnsList: List<InetAddress>,
         contentBlockersOptions: DefaultDnsOptions,
     ) {
-        serviceConnectionManager
-            .customDns()
-            ?.setDnsOptions(
-                dnsOptions =
-                DnsOptions(
-                    state = if (isCustomDnsEnabled) DnsState.Custom else DnsState.Default,
-                    customOptions = CustomDnsOptions(ArrayList(dnsList)),
-                    defaultOptions = contentBlockersOptions,
-                ),
-            )
+        serviceConnectionManager.customDns()?.setDnsOptions(
+            dnsOptions = DnsOptions(
+                state = if (isCustomDnsEnabled) DnsState.Custom else DnsState.Default,
+                customOptions = CustomDnsOptions(ArrayList(dnsList)),
+                defaultOptions = contentBlockersOptions,
+            ),
+        )
     }
 
     fun setWireguardMtu(value: Int?) {

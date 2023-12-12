@@ -35,45 +35,37 @@ class SplitTunnelingViewModel(
     private val showSystemApps = MutableStateFlow(false)
 
     private val _shared: SharedFlow<ServiceConnectionContainer> =
-        serviceConnectionManager.connectionState
-            .flatMapLatest { state ->
-                if (state is ServiceConnectionState.ConnectedReady) {
-                    flowOf(state.container)
-                } else {
-                    emptyFlow()
-                }
+        serviceConnectionManager.connectionState.flatMapLatest { state ->
+            if (state is ServiceConnectionState.ConnectedReady) {
+                flowOf(state.container)
+            } else {
+                emptyFlow()
             }
-            .shareIn(viewModelScope, SharingStarted.WhileSubscribed())
+        }.shareIn(viewModelScope, SharingStarted.WhileSubscribed())
 
-    private val vmState =
-        _shared
-            .flatMapLatest { serviceConnection ->
-                combine(
-                    serviceConnection.splitTunneling.excludedAppsCallbackFlow(),
-                    allApps,
-                    showSystemApps,
-                ) { excludedApps, allApps, showSystemApps ->
-                    SplitTunnelingViewModelState(
-                        excludedApps = excludedApps,
-                        allApps = allApps,
-                        showSystemApps = showSystemApps,
-                    )
-                }
-            }
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(),
-                SplitTunnelingViewModelState(),
+    private val vmState = _shared.flatMapLatest { serviceConnection ->
+        combine(
+            serviceConnection.splitTunneling.excludedAppsCallbackFlow(),
+            allApps,
+            showSystemApps,
+        ) { excludedApps, allApps, showSystemApps ->
+            SplitTunnelingViewModelState(
+                excludedApps = excludedApps,
+                allApps = allApps,
+                showSystemApps = showSystemApps,
             )
+        }
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(),
+        SplitTunnelingViewModelState(),
+    )
 
-    val uiState =
-        vmState
-            .map(SplitTunnelingViewModelState::toUiState)
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(),
-                SplitTunnelingUiState.Loading,
-            )
+    val uiState = vmState.map(SplitTunnelingViewModelState::toUiState).stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(),
+        SplitTunnelingUiState.Loading,
+    )
 
     init {
         viewModelScope.launch(dispatcher) {

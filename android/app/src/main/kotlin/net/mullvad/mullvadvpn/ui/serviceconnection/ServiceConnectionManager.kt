@@ -39,28 +39,27 @@ class ServiceConnectionManager(private val context: Context) : MessageHandler {
     private val events =
         connectionState.flatMapReadyConnectionOrDefault(emptyFlow()) { it.container.events }
 
-    private val serviceConnection =
-        object : android.content.ServiceConnection {
-            override fun onServiceConnected(className: ComponentName, binder: IBinder) {
-                Log.d("mullvad", "UI successfully connected to the service")
+    private val serviceConnection = object : android.content.ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, binder: IBinder) {
+            Log.d("mullvad", "UI successfully connected to the service")
 
-                notify(
-                    ServiceConnectionState.ConnectedNotReady(
-                        ServiceConnectionContainer(
-                            Messenger(binder),
-                            ::handleNewServiceConnection,
-                            ::handleVpnPermissionRequest,
-                        ),
+            notify(
+                ServiceConnectionState.ConnectedNotReady(
+                    ServiceConnectionContainer(
+                        Messenger(binder),
+                        ::handleNewServiceConnection,
+                        ::handleVpnPermissionRequest,
                     ),
-                )
-            }
-
-            override fun onServiceDisconnected(className: ComponentName) {
-                Log.d("mullvad", "UI lost the connection to the service")
-                _connectionState.value.readyContainer()?.onDestroy()
-                notify(ServiceConnectionState.Disconnected)
-            }
+                ),
+            )
         }
+
+        override fun onServiceDisconnected(className: ComponentName) {
+            Log.d("mullvad", "UI lost the connection to the service")
+            _connectionState.value.readyContainer()?.onDestroy()
+            notify(ServiceConnectionState.Disconnected)
+        }
+    }
 
     fun bind(
         vpnPermissionRequestHandler: () -> Unit,

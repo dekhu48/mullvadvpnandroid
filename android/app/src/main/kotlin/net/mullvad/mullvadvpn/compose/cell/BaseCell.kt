@@ -70,8 +70,7 @@ internal fun BaseCell(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
-        modifier =
-        modifier
+        modifier = modifier
             .clickable(isRowEnabled, onClick = onCellClicked)
             .wrapContentHeight()
             .defaultMinSize(minHeight = minHeight)
@@ -84,7 +83,11 @@ internal fun BaseCell(
 
         title()
 
-        Column(modifier = Modifier.wrapContentWidth().wrapContentHeight()) { bodyView() }
+        Column(
+            modifier = Modifier
+                .wrapContentWidth()
+                .wrapContentHeight(),
+        ) { bodyView() }
     }
 }
 
@@ -112,8 +115,7 @@ fun BaseSubtitleCell(text: String, modifier: Modifier = Modifier) {
         text = text,
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.onSecondary,
-        modifier =
-        modifier
+        modifier = modifier
             .padding(
                 start = Dimens.cellStartPadding,
                 top = Dimens.cellFooterTopPadding,

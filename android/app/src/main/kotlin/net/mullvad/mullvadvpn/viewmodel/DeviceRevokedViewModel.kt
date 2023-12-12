@@ -24,8 +24,7 @@ class DeviceRevokedViewModel(
 ) : ViewModel() {
 
     val uiState =
-        serviceConnectionManager.connectionState
-            .map { connectionState -> connectionState.readyContainer()?.connectionProxy }
+        serviceConnectionManager.connectionState.map { connectionState -> connectionState.readyContainer()?.connectionProxy }
             .flatMapLatest { proxy ->
                 proxy?.onUiStateChange?.callbackFlowFromSubscription(this)?.map {
                     if (it.isSecured()) {
@@ -33,10 +32,8 @@ class DeviceRevokedViewModel(
                     } else {
                         DeviceRevokedUiState.UNSECURED
                     }
-                }
-                    ?: flowOf(DeviceRevokedUiState.UNKNOWN)
-            }
-            .stateIn(
+                } ?: flowOf(DeviceRevokedUiState.UNKNOWN)
+            }.stateIn(
                 scope = CoroutineScope(dispatcher),
                 started = SharingStarted.WhileSubscribed(),
                 initialValue = DeviceRevokedUiState.UNKNOWN,

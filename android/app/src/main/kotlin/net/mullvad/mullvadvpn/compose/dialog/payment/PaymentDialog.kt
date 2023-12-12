@@ -22,8 +22,7 @@ import net.mullvad.mullvadvpn.lib.theme.color.AlphaDescription
 private fun PreviewPaymentDialogPurchaseCompleted() {
     AppTheme {
         PaymentDialog(
-            paymentDialogData =
-            PaymentDialogData(
+            paymentDialogData = PaymentDialogData(
                 title = R.string.payment_completed_dialog_title,
                 message = R.string.payment_completed_dialog_message,
                 icon = PaymentDialogIcon.SUCCESS,
@@ -41,8 +40,7 @@ private fun PreviewPaymentDialogPurchaseCompleted() {
 private fun PreviewPaymentDialogPurchasePending() {
     AppTheme {
         PaymentDialog(
-            paymentDialogData =
-            PaymentDialogData(
+            paymentDialogData = PaymentDialogData(
                 title = R.string.payment_pending_dialog_title,
                 message = R.string.payment_pending_dialog_message,
                 confirmAction = PaymentDialogAction.Close,
@@ -59,8 +57,7 @@ private fun PreviewPaymentDialogPurchasePending() {
 private fun PreviewPaymentDialogGenericError() {
     AppTheme {
         PaymentDialog(
-            paymentDialogData =
-            PaymentDialogData(
+            paymentDialogData = PaymentDialogData(
                 title = R.string.error_occurred,
                 message = R.string.try_again,
                 icon = PaymentDialogIcon.FAIL,
@@ -77,8 +74,7 @@ private fun PreviewPaymentDialogGenericError() {
 private fun PreviewPaymentDialogLoading() {
     AppTheme {
         PaymentDialog(
-            paymentDialogData =
-            PaymentDialogData(
+            paymentDialogData = PaymentDialogData(
                 title = R.string.loading_connecting,
                 icon = PaymentDialogIcon.LOADING,
                 closeOnDismiss = false,
@@ -94,8 +90,7 @@ private fun PreviewPaymentDialogLoading() {
 private fun PreviewPaymentDialogPaymentAvailabilityError() {
     AppTheme {
         PaymentDialog(
-            paymentDialogData =
-            PaymentDialogData(
+            paymentDialogData = PaymentDialogData(
                 title = R.string.payment_billing_error_dialog_title,
                 message = R.string.payment_billing_error_dialog_message,
                 icon = PaymentDialogIcon.FAIL,
@@ -123,16 +118,16 @@ fun PaymentDialog(
     AlertDialog(
         icon = {
             when (paymentDialogData.icon) {
-                PaymentDialogIcon.SUCCESS ->
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_success),
-                        contentDescription = null,
-                    )
-                PaymentDialogIcon.FAIL ->
-                    Icon(
-                        painter = painterResource(id = R.drawable.icon_fail),
-                        contentDescription = null,
-                    )
+                PaymentDialogIcon.SUCCESS -> Icon(
+                    painter = painterResource(id = R.drawable.icon_success),
+                    contentDescription = null,
+                )
+
+                PaymentDialogIcon.FAIL -> Icon(
+                    painter = painterResource(id = R.drawable.icon_fail),
+                    contentDescription = null,
+                )
+
                 PaymentDialogIcon.LOADING -> MullvadCircularProgressIndicatorMedium()
                 else -> {}
             }
@@ -145,8 +140,7 @@ fun PaymentDialog(
                 )
             }
         },
-        text =
-        paymentDialogData.message?.let {
+        text = paymentDialogData.message?.let {
             {
                 Text(
                     text = stringResource(id = paymentDialogData.message),
@@ -157,9 +151,7 @@ fun PaymentDialog(
         containerColor = MaterialTheme.colorScheme.background,
         titleContentColor = MaterialTheme.colorScheme.onBackground,
         iconContentColor = Color.Unspecified,
-        textContentColor =
-        MaterialTheme.colorScheme.onBackground
-            .copy(alpha = AlphaDescription)
+        textContentColor = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDescription)
             .compositeOver(MaterialTheme.colorScheme.background),
         onDismissRequest = {
             if (paymentDialogData.closeOnDismiss) {

@@ -55,7 +55,6 @@ import net.mullvad.mullvadvpn.viewmodel.ChangelogDialogUiState
 import net.mullvad.mullvadvpn.viewmodel.ChangelogViewModel
 import org.koin.android.ext.android.getKoin
 import org.koin.core.context.loadKoinModules
-import org.koin.dsl.bind
 
 open class MainActivity : FragmentActivity() {
     private val requestNotificationPermissionLauncher =
@@ -90,12 +89,11 @@ open class MainActivity : FragmentActivity() {
             changelogViewModel = get()
         }
 
-        requestedOrientation =
-            if (deviceIsTv) {
-                ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
-            } else {
-                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            }
+        requestedOrientation = if (deviceIsTv) {
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+        } else {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
 
         super.onCreate(savedInstanceState)
 
@@ -177,35 +175,32 @@ open class MainActivity : FragmentActivity() {
     private fun launchDeviceStateHandler(): Job {
         return lifecycleScope.launch {
             launch {
-                deviceRepository.deviceState
-                    .debounce {
-                        // Debounce DeviceState.Unknown to delay view transitions during reconnect.
-                        it.addDebounceForUnknownState(UNKNOWN_STATE_DEBOUNCE_DELAY_MILLISECONDS)
-                    }
-                    .collect { newState ->
-                        if (newState != currentDeviceState) {
-                            when (newState) {
-                                is DeviceState.Initial,
-                                is DeviceState.Unknown,
-                                -> openLaunchView()
-                                is DeviceState.LoggedOut -> openLoginView()
-                                is DeviceState.Revoked -> openRevokedView()
-                                is DeviceState.LoggedIn -> {
-                                    openLoggedInView(
-                                        accountToken = newState.accountAndDevice.account_token,
-                                        shouldDelayLogin =
-                                        currentDeviceState is DeviceState.LoggedOut,
-                                    )
-                                }
+                deviceRepository.deviceState.debounce {
+                    // Debounce DeviceState.Unknown to delay view transitions during reconnect.
+                    it.addDebounceForUnknownState(UNKNOWN_STATE_DEBOUNCE_DELAY_MILLISECONDS)
+                }.collect { newState ->
+                    if (newState != currentDeviceState) {
+                        when (newState) {
+                            is DeviceState.Initial,
+                            is DeviceState.Unknown,
+                            -> openLaunchView()
+
+                            is DeviceState.LoggedOut -> openLoginView()
+                            is DeviceState.Revoked -> openRevokedView()
+                            is DeviceState.LoggedIn -> {
+                                openLoggedInView(
+                                    accountToken = newState.accountAndDevice.account_token,
+                                    shouldDelayLogin = currentDeviceState is DeviceState.LoggedOut,
+                                )
                             }
                         }
-                        currentDeviceState = newState
                     }
+                    currentDeviceState = newState
+                }
             }
 
             lifecycleScope.launch {
-                deviceRepository.deviceState
-                    .filter { it is DeviceState.LoggedIn || it is DeviceState.LoggedOut }
+                deviceRepository.deviceState.filter { it is DeviceState.LoggedIn || it is DeviceState.LoggedOut }
                     .collect { loadChangelogComponent() }
             }
         }
@@ -255,22 +250,22 @@ open class MainActivity : FragmentActivity() {
         val isNewAccount = accountToken == accountRepository.cachedCreatedAccount.value
         val isExpired = isNewAccount.not() && isExpired(LOGIN_AWAIT_EXPIRY_MILLIS)
 
-        val fragment =
-            when {
-                isNewAccount -> WelcomeFragment()
-                isExpired -> {
-                    if (shouldDelayLogin) {
-                        delay(LOGIN_DELAY_MILLIS)
-                    }
-                    OutOfTimeFragment()
+        val fragment = when {
+            isNewAccount -> WelcomeFragment()
+            isExpired -> {
+                if (shouldDelayLogin) {
+                    delay(LOGIN_DELAY_MILLIS)
                 }
-                else -> {
-                    if (shouldDelayLogin) {
-                        delay(LOGIN_DELAY_MILLIS)
-                    }
-                    ConnectFragment()
-                }
+                OutOfTimeFragment()
             }
+
+            else -> {
+                if (shouldDelayLogin) {
+                    delay(LOGIN_DELAY_MILLIS)
+                }
+                ConnectFragment()
+            }
+        }
 
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.main_fragment, fragment)
@@ -280,13 +275,9 @@ open class MainActivity : FragmentActivity() {
 
     private suspend fun isExpired(timeoutMillis: Long): Boolean {
         return withTimeoutOrNull(timeoutMillis) {
-            accountRepository.accountExpiryState
-                .onSubscription { accountRepository.fetchAccountExpiry() }
-                .filter { it is AccountExpiry.Available }
-                .map { it.date()?.isBeforeNow }
-                .first()
-        }
-            ?: false
+            accountRepository.accountExpiryState.onSubscription { accountRepository.fetchAccountExpiry() }
+                .filter { it is AccountExpiry.Available }.map { it.date()?.isBeforeNow }.first()
+        } ?: false
     }
 
     private fun openLoginView() {

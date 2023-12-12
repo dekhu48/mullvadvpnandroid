@@ -36,7 +36,9 @@ fun ChangelogDialog(changesList: List<String>, version: String, onDismiss: () ->
         text = {
             val scrollState: ScrollState = rememberScrollState()
             Column(
-                modifier = Modifier.fillMaxWidth().verticalScroll(scrollState),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(Dimens.smallPadding),
             ) {
                 Text(
@@ -87,9 +89,7 @@ private fun PreviewChangelogDialogWithSingleShortItem() {
 @Composable
 private fun PreviewChangelogDialogWithTwoLongItems() {
     val longPreviewText =
-        "This is a sample changelog item of a Compose Preview visualization. " +
-            "The purpose of this specific sample text is to visualize a long text that will result " +
-            "in multiple lines in the changelog dialog."
+        "This is a sample changelog item of a Compose Preview visualization. " + "The purpose of this specific sample text is to visualize a long text that will result " + "in multiple lines in the changelog dialog."
 
     AppTheme {
         ChangelogDialog(
@@ -105,8 +105,7 @@ private fun PreviewChangelogDialogWithTwoLongItems() {
 private fun PreviewChangelogDialogWithTenShortItems() {
     AppTheme {
         ChangelogDialog(
-            changesList =
-            listOf(
+            changesList = listOf(
                 "Item 1",
                 "Item 2",
                 "Item 3",

@@ -1,8 +1,5 @@
 package net.mullvad.mullvadvpn.ui
 
 enum class LoginState {
-    Initial,
-    InProgress,
-    Success,
-    Failure,
+    Initial, InProgress, Success, Failure,
 }

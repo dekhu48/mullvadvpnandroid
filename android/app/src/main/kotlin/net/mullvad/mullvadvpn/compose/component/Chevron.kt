@@ -23,12 +23,11 @@ fun ChevronView(
     val resourceId = R.drawable.icon_chevron
 
     val degree = remember(isExpanded) { if (isExpanded) 270f else 90f }
-    val animatedRotation =
-        animateFloatAsState(
-            targetValue = degree,
-            label = "",
-            animationSpec = TweenSpec(100, easing = LinearEasing),
-        )
+    val animatedRotation = animateFloatAsState(
+        targetValue = degree,
+        label = "",
+        animationSpec = TweenSpec(100, easing = LinearEasing),
+    )
 
     Icon(
         painterResource(id = resourceId),

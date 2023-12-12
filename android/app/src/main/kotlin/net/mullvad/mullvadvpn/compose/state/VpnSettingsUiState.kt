@@ -38,21 +38,20 @@ data class VpnSettingsUiState(
             selectedWireguardPort: Constraint<Port> = Constraint.Any(),
             availablePortRanges: List<PortRange> = emptyList(),
             dialog: VpnSettingsDialog? = null,
-        ) =
-            VpnSettingsUiState(
-                mtu,
-                isAutoConnectEnabled,
-                isLocalNetworkSharingEnabled,
-                isCustomDnsEnabled,
-                customDnsItems,
-                contentBlockersOptions,
-                isAllowLanEnabled,
-                selectedObfuscation,
-                quantumResistant,
-                selectedWireguardPort,
-                availablePortRanges,
-                dialog,
-            )
+        ) = VpnSettingsUiState(
+            mtu,
+            isAutoConnectEnabled,
+            isLocalNetworkSharingEnabled,
+            isCustomDnsEnabled,
+            customDnsItems,
+            contentBlockersOptions,
+            isAllowLanEnabled,
+            selectedObfuscation,
+            quantumResistant,
+            selectedWireguardPort,
+            availablePortRanges,
+            dialog,
+        )
     }
 }
 

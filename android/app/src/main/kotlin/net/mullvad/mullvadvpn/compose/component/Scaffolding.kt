@@ -137,7 +137,9 @@ fun ScaffoldWithMediumTopBar(
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(appBarState, canScroll = { canScroll })
     Scaffold(
-        modifier = modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             MullvadMediumTopBar(
                 title = appBarTitle,
@@ -148,7 +150,8 @@ fun ScaffoldWithMediumTopBar(
         },
         content = {
             content(
-                Modifier.fillMaxSize()
+                Modifier
+                    .fillMaxSize()
                     .padding(it)
                     .drawVerticalScrollbar(state = lazyListState, color = scrollbarColor),
                 lazyListState,
@@ -173,7 +176,9 @@ fun ScaffoldWithMediumTopBar(
     val scrollBehavior =
         TopAppBarDefaults.exitUntilCollapsedScrollBehavior(appBarState, canScroll = { canScroll })
     Scaffold(
-        modifier = modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             MullvadMediumTopBar(
                 title = appBarTitle,
@@ -184,7 +189,8 @@ fun ScaffoldWithMediumTopBar(
         },
         content = {
             content(
-                Modifier.fillMaxSize()
+                Modifier
+                    .fillMaxSize()
                     .padding(it)
                     .drawVerticalScrollbar(state = scrollState, color = scrollbarColor)
                     .verticalScroll(scrollState),

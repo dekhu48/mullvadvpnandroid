@@ -16,8 +16,7 @@ private fun PreviewLocalNetworkSharingInfoDialog() {
 fun LocalNetworkSharingInfoDialog(onDismiss: () -> Unit) {
     InfoDialog(
         message = stringResource(id = R.string.local_network_sharing_info),
-        additionalInfo =
-        buildString {
+        additionalInfo = buildString {
             appendLine(stringResource(id = R.string.local_network_sharing_additional_info))
             appendLine(textResource(id = R.string.local_network_sharing_ip_ranges))
         },

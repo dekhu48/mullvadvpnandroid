@@ -43,31 +43,27 @@ class OutOfTimeViewModel(
     private val _uiSideEffect = MutableSharedFlow<UiSideEffect>(extraBufferCapacity = 1)
     val uiSideEffect = _uiSideEffect.asSharedFlow()
 
-    val uiState =
-        serviceConnectionManager.connectionState
-            .flatMapLatest { state ->
-                if (state is ServiceConnectionState.ConnectedReady) {
-                    flowOf(state.container)
-                } else {
-                    emptyFlow()
-                }
-            }
-            .flatMapLatest { serviceConnection ->
-                combine(
-                    serviceConnection.connectionProxy.tunnelStateFlow(),
-                    deviceRepository.deviceState,
-                    paymentUseCase.paymentAvailability,
-                    paymentUseCase.purchaseResult,
-                ) { tunnelState, deviceState, paymentAvailability, purchaseResult ->
-                    OutOfTimeUiState(
-                        tunnelState = tunnelState,
-                        deviceName = deviceState.deviceName() ?: "",
-                        billingPaymentState = paymentAvailability?.toPaymentState(),
-                        paymentDialogData = purchaseResult?.toPaymentDialogData(),
-                    )
-                }
-            }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), OutOfTimeUiState())
+    val uiState = serviceConnectionManager.connectionState.flatMapLatest { state ->
+        if (state is ServiceConnectionState.ConnectedReady) {
+            flowOf(state.container)
+        } else {
+            emptyFlow()
+        }
+    }.flatMapLatest { serviceConnection ->
+        combine(
+            serviceConnection.connectionProxy.tunnelStateFlow(),
+            deviceRepository.deviceState,
+            paymentUseCase.paymentAvailability,
+            paymentUseCase.purchaseResult,
+        ) { tunnelState, deviceState, paymentAvailability, purchaseResult ->
+            OutOfTimeUiState(
+                tunnelState = tunnelState,
+                deviceName = deviceState.deviceName() ?: "",
+                billingPaymentState = paymentAvailability?.toPaymentState(),
+                paymentDialogData = purchaseResult?.toPaymentDialogData(),
+            )
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), OutOfTimeUiState())
 
     init {
         viewModelScope.launch {

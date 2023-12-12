@@ -63,8 +63,7 @@ class VpnSettingsViewModel(
                 isLocalNetworkSharingEnabled = settings?.allowLan ?: false,
                 isCustomDnsEnabled = settings?.isCustomDnsEnabled() ?: false,
                 customDnsList = settings?.addresses()?.asStringAddressList() ?: listOf(),
-                contentBlockersOptions = settings?.contentBlockersSettings()
-                    ?: DefaultDnsOptions(),
+                contentBlockersOptions = settings?.contentBlockersSettings() ?: DefaultDnsOptions(),
                 isAllowLanEnabled = settings?.allowLan ?: false,
                 selectedObfuscation = settings?.selectedObfuscationSettings()
                     ?: SelectedObfuscation.Off,
@@ -73,39 +72,33 @@ class VpnSettingsViewModel(
                 selectedWireguardPort = settings?.getWireguardPort() ?: Constraint.Any(),
                 availablePortRanges = portRanges,
             )
-        }
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(),
-                VpnSettingsViewModelState.default(),
-            )
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(),
+            VpnSettingsViewModelState.default(),
+        )
 
-    val uiState =
-        vmState
-            .map(VpnSettingsViewModelState::toUiState)
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(),
-                VpnSettingsUiState.createDefault(),
-            )
+    val uiState = vmState.map(VpnSettingsViewModelState::toUiState).stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(),
+        VpnSettingsUiState.createDefault(),
+    )
 
     fun onMtuCellClick() {
         dialogState.update { VpnSettingsDialogState.MtuDialog(vmState.value.mtuValue) }
     }
 
-    fun onSaveMtuClick(mtuValue: Int) =
-        viewModelScope.launch(dispatcher) {
-            if (mtuValue.isValidMtu()) {
-                repository.setWireguardMtu(mtuValue)
-            }
-            hideDialog()
+    fun onSaveMtuClick(mtuValue: Int) = viewModelScope.launch(dispatcher) {
+        if (mtuValue.isValidMtu()) {
+            repository.setWireguardMtu(mtuValue)
         }
+        hideDialog()
+    }
 
-    fun onRestoreMtuClick() =
-        viewModelScope.launch(dispatcher) {
-            repository.setWireguardMtu(null)
-            hideDialog()
-        }
+    fun onRestoreMtuClick() = viewModelScope.launch(dispatcher) {
+        repository.setWireguardMtu(null)
+        hideDialog()
+    }
 
     fun onCancelDialogClick() {
         hideDialog()
@@ -132,17 +125,16 @@ class VpnSettingsViewModel(
     }
 
     fun onDnsClick(index: Int? = null) {
-        val stagedDns =
-            if (index == null) {
-                StagedDns.NewDns(
-                    item = CustomDnsItem.default(),
-                    validationResult = StagedDns.ValidationResult.InvalidAddress,
-                )
-            } else {
-                vmState.value.customDnsList.getOrNull(index)?.let { listItem ->
-                    StagedDns.EditDns(item = listItem, index = index)
-                }
+        val stagedDns = if (index == null) {
+            StagedDns.NewDns(
+                item = CustomDnsItem.default(),
+                validationResult = StagedDns.ValidationResult.InvalidAddress,
+            )
+        } else {
+            vmState.value.customDnsList.getOrNull(index)?.let { listItem ->
+                StagedDns.EditDns(item = listItem, index = index)
             }
+        }
 
         if (stagedDns != null) {
             dialogState.update { VpnSettingsDialogState.DnsDialog(stagedDns) }
@@ -153,23 +145,22 @@ class VpnSettingsViewModel(
         dialogState.update { state ->
             val dialog = state as? VpnSettingsDialogState.DnsDialog ?: return
 
-            val error =
-                when {
-                    ipAddress.isBlank() || ipAddress.isValidIp().not() -> {
-                        StagedDns.ValidationResult.InvalidAddress
-                    }
-                    ipAddress.isDuplicateDns((state.stagedDns as? StagedDns.EditDns)?.index) -> {
-                        StagedDns.ValidationResult.DuplicateAddress
-                    }
-                    else -> StagedDns.ValidationResult.Success
+            val error = when {
+                ipAddress.isBlank() || ipAddress.isValidIp().not() -> {
+                    StagedDns.ValidationResult.InvalidAddress
                 }
 
+                ipAddress.isDuplicateDns((state.stagedDns as? StagedDns.EditDns)?.index) -> {
+                    StagedDns.ValidationResult.DuplicateAddress
+                }
+
+                else -> StagedDns.ValidationResult.Success
+            }
+
             return@update VpnSettingsDialogState.DnsDialog(
-                stagedDns =
-                if (dialog.stagedDns is StagedDns.EditDns) {
+                stagedDns = if (dialog.stagedDns is StagedDns.EditDns) {
                     StagedDns.EditDns(
-                        item =
-                        CustomDnsItem(
+                        item = CustomDnsItem(
                             address = ipAddress,
                             isLocal = ipAddress.isLocalAddress(),
                         ),
@@ -178,8 +169,7 @@ class VpnSettingsViewModel(
                     )
                 } else {
                     StagedDns.NewDns(
-                        item =
-                        CustomDnsItem(
+                        item = CustomDnsItem(
                             address = ipAddress,
                             isLocal = ipAddress.isLocalAddress(),
                         ),
@@ -190,40 +180,31 @@ class VpnSettingsViewModel(
         }
     }
 
-    fun onSaveDnsClick() =
-        viewModelScope.launch(dispatcher) {
-            val dialog =
-                vmState.value.dialogState as? VpnSettingsDialogState.DnsDialog ?: return@launch
+    fun onSaveDnsClick() = viewModelScope.launch(dispatcher) {
+        val dialog = vmState.value.dialogState as? VpnSettingsDialogState.DnsDialog ?: return@launch
 
-            if (dialog.stagedDns.isValid().not()) return@launch
+        if (dialog.stagedDns.isValid().not()) return@launch
 
-            val updatedList =
-                vmState.value.customDnsList
-                    .toMutableList()
-                    .map { it.address }
-                    .toMutableList()
-                    .let { activeList ->
-                        if (dialog.stagedDns is StagedDns.EditDns) {
-                            activeList
-                                .apply {
-                                    set(dialog.stagedDns.index, dialog.stagedDns.item.address)
-                                }
-                                .asInetAddressList()
-                        } else {
-                            activeList
-                                .apply { add(dialog.stagedDns.item.address) }
-                                .asInetAddressList()
-                        }
+        val updatedList =
+            vmState.value.customDnsList.toMutableList().map { it.address }.toMutableList()
+                .let { activeList ->
+                    if (dialog.stagedDns is StagedDns.EditDns) {
+                        activeList.apply {
+                            set(dialog.stagedDns.index, dialog.stagedDns.item.address)
+                        }.asInetAddressList()
+                    } else {
+                        activeList.apply { add(dialog.stagedDns.item.address) }.asInetAddressList()
                     }
+                }
 
-            repository.setDnsOptions(
-                isCustomDnsEnabled = true,
-                dnsList = updatedList,
-                contentBlockersOptions = vmState.value.contentBlockersOptions,
-            )
+        repository.setDnsOptions(
+            isCustomDnsEnabled = true,
+            dnsList = updatedList,
+            contentBlockersOptions = vmState.value.contentBlockersOptions,
+        )
 
-            hideDialog()
-        }
+        hideDialog()
+    }
 
     fun onToggleAutoConnect(isEnabled: Boolean) {
         viewModelScope.launch(dispatcher) { repository.setAutoConnect(isEnabled) }
@@ -283,25 +264,20 @@ class VpnSettingsViewModel(
         showApplySettingChangesWarningToast()
     }
 
-    fun onRemoveDnsClick() =
-        viewModelScope.launch(dispatcher) {
-            val dialog =
-                vmState.value.dialogState as? VpnSettingsDialogState.DnsDialog ?: return@launch
+    fun onRemoveDnsClick() = viewModelScope.launch(dispatcher) {
+        val dialog = vmState.value.dialogState as? VpnSettingsDialogState.DnsDialog ?: return@launch
 
-            val updatedList =
-                vmState.value.customDnsList
-                    .toMutableList()
-                    .filter { it.address != dialog.stagedDns.item.address }
-                    .map { it.address }
-                    .asInetAddressList()
+        val updatedList = vmState.value.customDnsList.toMutableList()
+            .filter { it.address != dialog.stagedDns.item.address }.map { it.address }
+            .asInetAddressList()
 
-            repository.setDnsOptions(
-                isCustomDnsEnabled = vmState.value.isCustomDnsEnabled && updatedList.isNotEmpty(),
-                dnsList = updatedList,
-                contentBlockersOptions = vmState.value.contentBlockersOptions,
-            )
-            hideDialog()
-        }
+        repository.setDnsOptions(
+            isCustomDnsEnabled = vmState.value.isCustomDnsEnabled && updatedList.isNotEmpty(),
+            dnsList = updatedList,
+            contentBlockersOptions = vmState.value.contentBlockersOptions,
+        )
+        hideDialog()
+    }
 
     fun onStopEvent() {
         if (vmState.value.customDnsList.isEmpty()) {
@@ -361,18 +337,14 @@ class VpnSettingsViewModel(
     }
 
     fun onCancelDns() {
-        if (
-            vmState.value.dialogState is VpnSettingsDialogState.DnsDialog &&
-            vmState.value.customDnsList.isEmpty()
-        ) {
+        if (vmState.value.dialogState is VpnSettingsDialogState.DnsDialog && vmState.value.customDnsList.isEmpty()) {
             onToggleDnsClick(false)
         }
         hideDialog()
     }
 
     private fun String.isDuplicateDns(stagedIndex: Int? = null): Boolean {
-        return vmState.value.customDnsList
-            .filterIndexed { index, listItem -> index != stagedIndex && listItem.address == this }
+        return vmState.value.customDnsList.filterIndexed { index, listItem -> index != stagedIndex && listItem.address == this }
             .isNotEmpty()
     }
 
@@ -403,12 +375,10 @@ class VpnSettingsViewModel(
 
     private fun Settings.selectedObfuscationSettings() = obfuscationSettings.selectedObfuscation
 
-    private fun Settings.getWireguardPort() =
-        when (relaySettings) {
-            RelaySettings.CustomTunnelEndpoint -> Constraint.Any()
-            is RelaySettings.Normal ->
-                (relaySettings as RelaySettings.Normal).relayConstraints.wireguardConstraints.port
-        }
+    private fun Settings.getWireguardPort() = when (relaySettings) {
+        RelaySettings.CustomTunnelEndpoint -> Constraint.Any()
+        is RelaySettings.Normal -> (relaySettings as RelaySettings.Normal).relayConstraints.wireguardConstraints.port
+    }
 
     private fun String.isValidIp(): Boolean {
         return inetAddressValidator.isValid(this)

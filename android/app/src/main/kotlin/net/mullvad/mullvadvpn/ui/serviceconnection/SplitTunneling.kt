@@ -7,15 +7,17 @@ import net.mullvad.mullvadvpn.lib.ipc.Request
 import kotlin.properties.Delegates.observable
 
 class SplitTunneling(private val connection: Messenger, eventDispatcher: EventDispatcher) {
-    private var _excludedApps by
-        observable(emptySet<String>()) { _, _, apps -> excludedAppsChange.invoke(apps) }
+    private var _excludedApps by observable(emptySet<String>()) { _, _, apps ->
+        excludedAppsChange.invoke(
+            apps,
+        )
+    }
 
-    var enabled by
-        observable(false) { _, wasEnabled, isEnabled ->
-            if (wasEnabled != isEnabled) {
-                connection.send(Request.SetEnableSplitTunneling(isEnabled).message)
-            }
+    var enabled by observable(false) { _, wasEnabled, isEnabled ->
+        if (wasEnabled != isEnabled) {
+            connection.send(Request.SetEnableSplitTunneling(isEnabled).message)
         }
+    }
 
     var excludedAppsChange: (apps: Set<String>) -> Unit = {}
         set(value) {

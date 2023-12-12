@@ -20,19 +20,18 @@ data class ConnectUiState(
     val daysLeftUntilExpiry: Int?,
 ) {
     companion object {
-        val INITIAL =
-            ConnectUiState(
-                location = null,
-                relayLocation = null,
-                tunnelUiState = TunnelState.Disconnected,
-                tunnelRealState = TunnelState.Disconnected,
-                inAddress = null,
-                outAddress = "",
-                showLocation = false,
-                isTunnelInfoExpanded = false,
-                inAppNotification = null,
-                deviceName = null,
-                daysLeftUntilExpiry = null,
-            )
+        val INITIAL = ConnectUiState(
+            location = null,
+            relayLocation = null,
+            tunnelUiState = TunnelState.Disconnected,
+            tunnelRealState = TunnelState.Disconnected,
+            inAddress = null,
+            outAddress = "",
+            showLocation = false,
+            isTunnelInfoExpanded = false,
+            inAppNotification = null,
+            deviceName = null,
+            daysLeftUntilExpiry = null,
+        )
     }
 }

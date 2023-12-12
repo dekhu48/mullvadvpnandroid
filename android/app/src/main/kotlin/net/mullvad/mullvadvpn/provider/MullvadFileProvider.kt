@@ -30,13 +30,12 @@ fun Context.getLogsShareIntent(shareTitle: String, logContent: String): Intent {
     cacheFile.writeText(logContent)
     val logsUri = MullvadFileProvider.uriForFile(this, cacheFile)
 
-    val sendIntent: Intent =
-        Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "text/plain"
-            putExtra(Intent.EXTRA_STREAM, logsUri)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
+    val sendIntent: Intent = Intent().apply {
+        action = Intent.ACTION_SEND
+        type = "text/plain"
+        putExtra(Intent.EXTRA_STREAM, logsUri)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
     return Intent.createChooser(sendIntent, null)
 }
 

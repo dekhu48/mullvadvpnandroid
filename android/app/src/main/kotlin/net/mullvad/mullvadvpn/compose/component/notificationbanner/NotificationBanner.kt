@@ -47,31 +47,27 @@ private fun PreviewNotificationBanner() {
         Column(
             Modifier.background(color = MaterialTheme.colorScheme.surface),
         ) {
-            val bannerDataList =
-                listOf(
-                    InAppNotification.UnsupportedVersion(
-                        versionInfo =
-                        VersionInfo(
-                            currentVersion = null,
-                            upgradeVersion = null,
-                            isOutdated = true,
-                            isSupported = false,
-                        ),
+            val bannerDataList = listOf(
+                InAppNotification.UnsupportedVersion(
+                    versionInfo = VersionInfo(
+                        currentVersion = null,
+                        upgradeVersion = null,
+                        isOutdated = true,
+                        isSupported = false,
                     ),
-                    InAppNotification.AccountExpiry(expiry = DateTime.now()),
-                    InAppNotification.TunnelStateBlocked,
-                    InAppNotification.NewDevice("Courageous Turtle"),
-                    InAppNotification.TunnelStateError(
-                        error =
-                        ErrorState(
-                            ErrorStateCause.SetFirewallPolicyError(
-                                FirewallPolicyError.Generic,
-                            ),
-                            true,
+                ),
+                InAppNotification.AccountExpiry(expiry = DateTime.now()),
+                InAppNotification.TunnelStateBlocked,
+                InAppNotification.NewDevice("Courageous Turtle"),
+                InAppNotification.TunnelStateError(
+                    error = ErrorState(
+                        ErrorStateCause.SetFirewallPolicyError(
+                            FirewallPolicyError.Generic,
                         ),
+                        true,
                     ),
-                )
-                    .map { it.toNotificationData({}, {}, {}) }
+                ),
+            ).map { it.toNotificationData({}, {}, {}) }
 
             bannerDataList.forEach {
                 MullvadTopBar(
@@ -119,8 +115,8 @@ fun NotificationBanner(
 private fun Notification(notificationBannerData: NotificationData) {
     val (title, message, statusLevel, action) = notificationBannerData
     ConstraintLayout(
-        modifier =
-        Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.background)
             .padding(
                 start = Dimens.notificationBannerStartPadding,
@@ -133,16 +129,15 @@ private fun Notification(notificationBannerData: NotificationData) {
     ) {
         val (status, textTitle, textMessage, actionIcon) = createRefs()
         Box(
-            modifier =
-            Modifier.background(
-                color =
-                when (statusLevel) {
-                    StatusLevel.Error -> MaterialTheme.colorScheme.error
-                    StatusLevel.Warning -> MaterialTheme.colorScheme.errorContainer
-                    StatusLevel.Info -> MaterialTheme.colorScheme.surface
-                },
-                shape = CircleShape,
-            )
+            modifier = Modifier
+                .background(
+                    color = when (statusLevel) {
+                        StatusLevel.Error -> MaterialTheme.colorScheme.error
+                        StatusLevel.Warning -> MaterialTheme.colorScheme.errorContainer
+                        StatusLevel.Info -> MaterialTheme.colorScheme.surface
+                    },
+                    shape = CircleShape,
+                )
                 .size(Dimens.notificationStatusIconSize)
                 .constrainAs(status) {
                     top.linkTo(textTitle.top)
@@ -152,14 +147,14 @@ private fun Notification(notificationBannerData: NotificationData) {
         )
         Text(
             text = title.uppercase(),
-            modifier =
-            Modifier.constrainAs(textTitle) {
-                top.linkTo(parent.top)
-                start.linkTo(status.end)
-                bottom.linkTo(anchor = textMessage.top)
-                end.linkTo(actionIcon.start)
-                width = Dimension.fillToConstraints
-            }
+            modifier = Modifier
+                .constrainAs(textTitle) {
+                    top.linkTo(parent.top)
+                    start.linkTo(status.end)
+                    bottom.linkTo(anchor = textMessage.top)
+                    end.linkTo(actionIcon.start)
+                    width = Dimension.fillToConstraints
+                }
                 .padding(start = Dimens.smallPadding),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onBackground,
@@ -167,18 +162,18 @@ private fun Notification(notificationBannerData: NotificationData) {
         message?.let {
             Text(
                 text = message,
-                modifier =
-                Modifier.constrainAs(textMessage) {
-                    top.linkTo(textTitle.bottom)
-                    start.linkTo(textTitle.start)
-                    bottom.linkTo(parent.bottom)
-                    if (action != null) {
-                        end.linkTo(actionIcon.start)
-                    } else {
-                        end.linkTo(parent.end)
+                modifier = Modifier
+                    .constrainAs(textMessage) {
+                        top.linkTo(textTitle.bottom)
+                        start.linkTo(textTitle.start)
+                        bottom.linkTo(parent.bottom)
+                        if (action != null) {
+                            end.linkTo(actionIcon.start)
+                        } else {
+                            end.linkTo(parent.end)
+                        }
+                        width = Dimension.fillToConstraints
                     }
-                    width = Dimension.fillToConstraints
-                }
                     .padding(start = Dimens.smallPadding),
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDescription),
                 style = MaterialTheme.typography.labelMedium,
@@ -186,12 +181,12 @@ private fun Notification(notificationBannerData: NotificationData) {
         }
         action?.let {
             IconButton(
-                modifier =
-                Modifier.constrainAs(actionIcon) {
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                }
+                modifier = Modifier
+                    .constrainAs(actionIcon) {
+                        top.linkTo(parent.top)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(parent.bottom)
+                    }
                     .testTag(NOTIFICATION_BANNER_ACTION)
                     .padding(all = Dimens.notificationEndIconPadding),
                 onClick = it.onClick,

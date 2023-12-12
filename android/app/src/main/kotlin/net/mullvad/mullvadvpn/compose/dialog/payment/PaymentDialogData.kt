@@ -20,7 +20,5 @@ sealed class PaymentDialogAction(val message: Int) {
 }
 
 enum class PaymentDialogIcon {
-    SUCCESS,
-    FAIL,
-    LOADING,
+    SUCCESS, FAIL, LOADING,
 }

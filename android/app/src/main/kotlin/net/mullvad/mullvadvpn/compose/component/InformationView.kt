@@ -49,6 +49,7 @@ fun InformationView(
                     modifier = modifier.padding(vertical = Dimens.smallPadding),
                 )
             }
+
             MissingPolicy.HIDE_VIEW -> {}
             MissingPolicy.SHOW_SPINNER -> {
                 Row(
@@ -63,7 +64,5 @@ fun InformationView(
 }
 
 enum class MissingPolicy {
-    SHOW_VIEW,
-    HIDE_VIEW,
-    SHOW_SPINNER,
+    SHOW_VIEW, HIDE_VIEW, SHOW_SPINNER,
 }

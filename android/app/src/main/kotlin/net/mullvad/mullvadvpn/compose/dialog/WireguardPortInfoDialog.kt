@@ -17,8 +17,10 @@ private fun PreviewWireguardPortInfoDialog() {
 fun WireguardPortInfoDialog(portRanges: List<PortRange>, onDismiss: () -> Unit) {
     InfoDialog(
         message = stringResource(id = R.string.wireguard_port_info_description),
-        additionalInfo =
-        stringResource(id = R.string.wireguard_port_info_port_range, portRanges.asString()),
+        additionalInfo = stringResource(
+            id = R.string.wireguard_port_info_port_range,
+            portRanges.asString(),
+        ),
         onDismiss = onDismiss,
     )
 }

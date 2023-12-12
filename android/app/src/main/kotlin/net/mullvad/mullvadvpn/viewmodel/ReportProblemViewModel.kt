@@ -38,20 +38,18 @@ class ReportProblemViewModel(
     private val showConfirmNoEmail = MutableStateFlow(false)
     private val sendingState: MutableStateFlow<SendingReportUiState?> = MutableStateFlow(null)
 
-    val uiState =
-        combine(
-            showConfirmNoEmail,
-            sendingState,
-            problemReportRepository.problemReport,
-        ) { showConfirmNoEmail, pendingState, userReport ->
-            ReportProblemUiState(
-                showConfirmNoEmail = showConfirmNoEmail,
-                sendingState = pendingState,
-                email = userReport.email ?: "",
-                description = userReport.description,
-            )
-        }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), ReportProblemUiState())
+    val uiState = combine(
+        showConfirmNoEmail,
+        sendingState,
+        problemReportRepository.problemReport,
+    ) { showConfirmNoEmail, pendingState, userReport ->
+        ReportProblemUiState(
+            showConfirmNoEmail = showConfirmNoEmail,
+            sendingState = pendingState,
+            email = userReport.email ?: "",
+            description = userReport.description,
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), ReportProblemUiState())
 
     fun sendReport(
         email: String,
@@ -100,9 +98,7 @@ class ReportProblemViewModel(
     }
 
     private fun shouldShowConfirmNoEmail(userEmail: String?): Boolean =
-        userEmail.isNullOrEmpty() &&
-            !uiState.value.showConfirmNoEmail &&
-            uiState.value.sendingState !is SendingReportUiState
+        userEmail.isNullOrEmpty() && !uiState.value.showConfirmNoEmail && uiState.value.sendingState !is SendingReportUiState
 
     private fun SendProblemReportResult.toUiResult(email: String?): SendingReportUiState =
         when (this) {

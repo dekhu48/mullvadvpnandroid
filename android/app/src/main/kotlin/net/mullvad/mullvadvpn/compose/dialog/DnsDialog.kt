@@ -27,8 +27,10 @@ import net.mullvad.mullvadvpn.viewmodel.StagedDns
 private fun PreviewDnsDialogNew() {
     AppTheme {
         DnsDialog(
-            stagedDns =
-            StagedDns.NewDns(CustomDnsItem.default(), StagedDns.ValidationResult.Success),
+            stagedDns = StagedDns.NewDns(
+                CustomDnsItem.default(),
+                StagedDns.ValidationResult.Success,
+            ),
             isAllowLanEnabled = true,
             onIpAddressChanged = {},
             onAttemptToSave = {},
@@ -43,8 +45,7 @@ private fun PreviewDnsDialogNew() {
 private fun PreviewDnsDialogEdit() {
     AppTheme {
         DnsDialog(
-            stagedDns =
-            StagedDns.EditDns(
+            stagedDns = StagedDns.EditDns(
                 CustomDnsItem("1.1.1.1", false),
                 StagedDns.ValidationResult.Success,
                 0,
@@ -63,8 +64,7 @@ private fun PreviewDnsDialogEdit() {
 private fun PreviewDnsDialogEditAllowLanDisabled() {
     AppTheme {
         DnsDialog(
-            stagedDns =
-            StagedDns.EditDns(
+            stagedDns = StagedDns.EditDns(
                 CustomDnsItem(address = "1.1.1.1", isLocal = true),
                 StagedDns.ValidationResult.Success,
                 0,
@@ -90,8 +90,7 @@ fun DnsDialog(
     AlertDialog(
         title = {
             Text(
-                text =
-                if (stagedDns is StagedDns.NewDns) {
+                text = if (stagedDns is StagedDns.NewDns) {
                     stringResource(R.string.add_dns_server_dialog_title)
                 } else {
                     stringResource(R.string.update_dns_server_dialog_title)
@@ -112,19 +111,19 @@ fun DnsDialog(
                     modifier = Modifier.fillMaxWidth(),
                 )
 
-                val errorMessage =
-                    when {
-                        stagedDns.validationResult is
-                        StagedDns.ValidationResult.DuplicateAddress -> {
-                            stringResource(R.string.duplicate_address_warning)
-                        }
-                        stagedDns.item.isLocal && isAllowLanEnabled.not() -> {
-                            stringResource(id = R.string.confirm_local_dns)
-                        }
-                        else -> {
-                            null
-                        }
+                val errorMessage = when {
+                    stagedDns.validationResult is StagedDns.ValidationResult.DuplicateAddress -> {
+                        stringResource(R.string.duplicate_address_warning)
                     }
+
+                    stagedDns.item.isLocal && isAllowLanEnabled.not() -> {
+                        stringResource(id = R.string.confirm_local_dns)
+                    }
+
+                    else -> {
+                        null
+                    }
+                }
 
                 if (errorMessage != null) {
                     Text(

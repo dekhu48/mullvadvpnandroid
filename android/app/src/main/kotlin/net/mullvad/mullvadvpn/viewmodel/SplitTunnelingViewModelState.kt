@@ -9,21 +9,17 @@ data class SplitTunnelingViewModelState(
     val showSystemApps: Boolean = false,
 ) {
     fun toUiState(): SplitTunnelingUiState {
-        return allApps
-            ?.partition { appData -> excludedApps.contains(appData.packageName) }
+        return allApps?.partition { appData -> excludedApps.contains(appData.packageName) }
             ?.let { (excluded, included) ->
                 SplitTunnelingUiState.ShowAppList(
                     excludedApps = excluded.sortedBy { it.name },
-                    includedApps =
-                    if (showSystemApps) {
+                    includedApps = if (showSystemApps) {
                         included
                     } else {
                         included.filter { appData -> !appData.isSystemApp }
-                    }
-                        .sortedBy { it.name },
+                    }.sortedBy { it.name },
                     showSystemApps = showSystemApps,
                 )
-            }
-            ?: SplitTunnelingUiState.Loading
+            } ?: SplitTunnelingUiState.Loading
     }
 }

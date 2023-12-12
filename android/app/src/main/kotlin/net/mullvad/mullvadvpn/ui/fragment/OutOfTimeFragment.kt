@@ -48,8 +48,10 @@ class OutOfTimeFragment : BaseFragment() {
     private fun openRedeemVoucherFragment() {
         val transaction = parentFragmentManager.beginTransaction()
         transaction.addToBackStack(null)
-        RedeemVoucherDialogFragment { wasSuccessful -> if (wasSuccessful) advanceToConnectScreen() }
-            .show(transaction, null)
+        RedeemVoucherDialogFragment { wasSuccessful -> if (wasSuccessful) advanceToConnectScreen() }.show(
+            transaction,
+            null,
+        )
     }
 
     private fun advanceToConnectScreen() {

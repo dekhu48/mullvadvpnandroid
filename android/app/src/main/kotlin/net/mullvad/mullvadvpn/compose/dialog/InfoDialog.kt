@@ -32,9 +32,7 @@ import net.mullvad.mullvadvpn.lib.theme.color.AlphaScrollbar
 @Composable
 private fun PreviewChangelogDialogWithTwoLongItems() {
     val longPreviewText =
-        "This is a sample changelog item of a Compose Preview visualization. " +
-            "The purpose of this specific sample text is to visualize a long text that will " +
-            "result in multiple lines in the changelog dialog."
+        "This is a sample changelog item of a Compose Preview visualization. " + "The purpose of this specific sample text is to visualize a long text that will " + "result in multiple lines in the changelog dialog."
 
     AppTheme {
         InfoDialog(message = longPreviewText, additionalInfo = longPreviewText, onDismiss = {})
@@ -47,7 +45,9 @@ fun InfoDialog(message: String, additionalInfo: String? = null, onDismiss: () ->
         onDismissRequest = { onDismiss() },
         title = {
             Icon(
-                modifier = Modifier.fillMaxWidth().height(Dimens.dialogIconHeight),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(Dimens.dialogIconHeight),
                 painter = painterResource(id = R.drawable.icon_info),
                 contentDescription = "",
                 tint = MaterialTheme.colorScheme.onBackground,
@@ -56,10 +56,11 @@ fun InfoDialog(message: String, additionalInfo: String? = null, onDismiss: () ->
         text = {
             val scrollState = rememberScrollState()
             Column(
-                Modifier.drawVerticalScrollbar(
-                    scrollState,
-                    MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaScrollbar),
-                )
+                Modifier
+                    .drawVerticalScrollbar(
+                        scrollState,
+                        MaterialTheme.colorScheme.onPrimary.copy(alpha = AlphaScrollbar),
+                    )
                     .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -87,13 +88,14 @@ fun InfoDialog(message: String, additionalInfo: String? = null, onDismiss: () ->
         },
         confirmButton = {
             PrimaryButton(
-                modifier = Modifier.wrapContentHeight().fillMaxWidth(),
+                modifier = Modifier
+                    .wrapContentHeight()
+                    .fillMaxWidth(),
                 text = stringResource(R.string.got_it),
                 onClick = onDismiss,
             )
         },
-        properties =
-        DialogProperties(
+        properties = DialogProperties(
             dismissOnClickOutside = true,
             dismissOnBackPress = true,
         ),

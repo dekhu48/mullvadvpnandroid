@@ -60,6 +60,8 @@ private fun DnsTitle(address: String, modifier: Modifier = Modifier) {
         color = Color.White,
         style = MaterialTheme.typography.labelLarge,
         textAlign = TextAlign.Start,
-        modifier = modifier.wrapContentWidth(align = Alignment.End).wrapContentHeight(),
+        modifier = modifier
+            .wrapContentWidth(align = Alignment.End)
+            .wrapContentHeight(),
     )
 }

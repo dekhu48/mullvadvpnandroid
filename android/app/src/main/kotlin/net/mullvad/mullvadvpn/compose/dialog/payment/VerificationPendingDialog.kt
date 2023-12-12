@@ -36,9 +36,7 @@ fun VerificationPendingDialog(onClose: () -> Unit) {
         },
         containerColor = MaterialTheme.colorScheme.background,
         titleContentColor = MaterialTheme.colorScheme.onBackground,
-        textContentColor =
-        MaterialTheme.colorScheme.onBackground
-            .copy(alpha = AlphaDescription)
+        textContentColor = MaterialTheme.colorScheme.onBackground.copy(alpha = AlphaDescription)
             .compositeOver(MaterialTheme.colorScheme.background),
         onDismissRequest = onClose,
         confirmButton = {

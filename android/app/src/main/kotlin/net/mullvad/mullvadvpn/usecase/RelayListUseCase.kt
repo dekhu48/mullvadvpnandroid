@@ -40,10 +40,9 @@ class RelayListUseCase(
                 settings?.relaySettings?.relayConstraints()?.providers ?: Constraint.Any()
             val relayCountries =
                 relayList.toRelayCountries(ownership = ownership, providers = providers)
-            val selectedItem =
-                relayCountries.findSelectedRelayItem(
-                    relaySettings = settings?.relaySettings,
-                )
+            val selectedItem = relayCountries.findSelectedRelayItem(
+                relaySettings = settings?.relaySettings,
+            )
             RelayList(relayCountries, selectedItem)
         }
 

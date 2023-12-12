@@ -35,9 +35,8 @@ class SettingsListener(private val connection: Messenger, eventDispatcher: Event
         }
 
     var wireguardQuantumResistant: QuantumResistantState
-        get() =
-            settingsNotifier.latestEvent?.tunnelOptions?.wireguard?.quantumResistant
-                ?: QuantumResistantState.Off
+        get() = settingsNotifier.latestEvent?.tunnelOptions?.wireguard?.quantumResistant
+            ?: QuantumResistantState.Off
         set(value) {
             connection.send(Request.SetWireGuardQuantumResistant(value).message)
         }

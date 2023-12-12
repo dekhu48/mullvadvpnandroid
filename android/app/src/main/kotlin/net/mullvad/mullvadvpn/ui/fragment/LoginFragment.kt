@@ -41,9 +41,9 @@ class LoginFragment : BaseFragment() {
                         vm.uiSideEffect.collect {
                             when (it) {
                                 LoginUiSideEffect.NavigateToWelcome,
-                                LoginUiSideEffect
-                                    .NavigateToConnect,
-                                -> {} // TODO Fix when we redo navigation
+                                LoginUiSideEffect.NavigateToConnect,
+                                -> {
+                                } // TODO Fix when we redo navigation
                                 is LoginUiSideEffect.TooManyDevices -> {
                                     navigateToDeviceListFragment(it.accountToken)
                                 }
@@ -64,11 +64,9 @@ class LoginFragment : BaseFragment() {
     }
 
     private fun navigateToDeviceListFragment(accountToken: AccountToken) {
-        val deviceFragment =
-            DeviceListFragment().apply {
-                arguments =
-                    Bundle().apply { putString(ACCOUNT_TOKEN_ARGUMENT_KEY, accountToken.value) }
-            }
+        val deviceFragment = DeviceListFragment().apply {
+            arguments = Bundle().apply { putString(ACCOUNT_TOKEN_ARGUMENT_KEY, accountToken.value) }
+        }
 
         parentFragmentManager.beginTransaction().apply {
             setCustomAnimations(

@@ -147,13 +147,15 @@ fun SwitchCellView(
     val horizontalPadding = Dimens.mediumPadding
     val verticalPadding = 13.dp
     Row(
-        modifier = modifier.wrapContentWidth().wrapContentHeight(),
+        modifier = modifier
+            .wrapContentWidth()
+            .wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (onInfoClicked != null) {
             Icon(
-                modifier =
-                Modifier.clickable { onInfoClicked() }
+                modifier = Modifier
+                    .clickable { onInfoClicked() }
                     .padding(
                         start = horizontalPadding,
                         end = horizontalPadding,
@@ -173,18 +175,17 @@ fun SwitchCellView(
 
 @Composable
 fun CustomDnsCellSubtitle(isCellClickable: Boolean, modifier: Modifier) {
-    val spanned =
-        HtmlCompat.fromHtml(
-            if (isCellClickable) {
-                textResource(id = R.string.custom_dns_footer)
-            } else {
-                textResource(
-                    id = R.string.custom_dns_disable_mode_subtitle,
-                    textResource(id = R.string.dns_content_blockers_title),
-                )
-            },
-            FROM_HTML_MODE_COMPACT,
-        )
+    val spanned = HtmlCompat.fromHtml(
+        if (isCellClickable) {
+            textResource(id = R.string.custom_dns_footer)
+        } else {
+            textResource(
+                id = R.string.custom_dns_disable_mode_subtitle,
+                textResource(id = R.string.dns_content_blockers_title),
+            )
+        },
+        FROM_HTML_MODE_COMPACT,
+    )
     Text(
         text = spanned.toAnnotatedString(boldFontWeight = FontWeight.ExtraBold),
         style = MaterialTheme.typography.labelMedium,

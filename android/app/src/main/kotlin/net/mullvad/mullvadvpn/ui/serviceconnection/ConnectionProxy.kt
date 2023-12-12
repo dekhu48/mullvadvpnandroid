@@ -83,20 +83,20 @@ class ConnectionProxy(private val connection: Messenger, eventDispatcher: EventD
         synchronized(this) {
             val currentState = uiState
 
-            val willReconnect =
-                when (currentState) {
-                    is TunnelState.Disconnected -> false
-                    is TunnelState.Disconnecting -> {
-                        when (currentState.actionAfterDisconnect) {
-                            ActionAfterDisconnect.Nothing -> false
-                            ActionAfterDisconnect.Reconnect -> true
-                            ActionAfterDisconnect.Block -> true
-                        }
+            val willReconnect = when (currentState) {
+                is TunnelState.Disconnected -> false
+                is TunnelState.Disconnecting -> {
+                    when (currentState.actionAfterDisconnect) {
+                        ActionAfterDisconnect.Nothing -> false
+                        ActionAfterDisconnect.Reconnect -> true
+                        ActionAfterDisconnect.Block -> true
                     }
-                    is TunnelState.Connecting -> true
-                    is TunnelState.Connected -> true
-                    is TunnelState.Error -> true
                 }
+
+                is TunnelState.Connecting -> true
+                is TunnelState.Connected -> true
+                is TunnelState.Error -> true
+            }
 
             if (willReconnect) {
                 scheduleToResetAnticipatedState()
@@ -126,16 +126,15 @@ class ConnectionProxy(private val connection: Messenger, eventDispatcher: EventD
 
         var currentJob: Job? = null
 
-        val newJob =
-            GlobalScope.launch(Dispatchers.Default) {
-                delay(ANTICIPATED_STATE_TIMEOUT_MS)
+        val newJob = GlobalScope.launch(Dispatchers.Default) {
+            delay(ANTICIPATED_STATE_TIMEOUT_MS)
 
-                synchronized(this@ConnectionProxy) {
-                    if (!currentJob!!.isCancelled) {
-                        uiState = state
-                    }
+            synchronized(this@ConnectionProxy) {
+                if (!currentJob!!.isCancelled) {
+                    uiState = state
                 }
             }
+        }
 
         currentJob = newJob
         resetAnticipatedStateJob = newJob

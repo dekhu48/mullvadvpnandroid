@@ -56,14 +56,12 @@ fun CustomTextField(
         enabled = isEnabled,
         singleLine = true,
         placeholder = placeholderText?.let { { Text(text = it) } },
-        keyboardOptions =
-        KeyboardOptions(
+        keyboardOptions = KeyboardOptions(
             keyboardType = keyboardType,
             imeAction = ImeAction.Done,
             autoCorrect = false,
         ),
-        keyboardActions =
-        KeyboardActions(
+        keyboardActions = KeyboardActions(
             onDone = {
                 scope.launch {
                     // https://issuetracker.google.com/issues/305518328
@@ -75,6 +73,8 @@ fun CustomTextField(
         visualTransformation = visualTransformation,
         colors = mullvadDarkTextFieldColors(),
         isError = !isValidValue,
-        modifier = modifier.clip(MaterialTheme.shapes.small).fillMaxWidth(),
+        modifier = modifier
+            .clip(MaterialTheme.shapes.small)
+            .fillMaxWidth(),
     )
 }

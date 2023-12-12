@@ -24,27 +24,24 @@ class SelectLocationViewModel(
     private val _enterTransitionEndAction = MutableSharedFlow<Unit>()
     private val _searchTerm = MutableStateFlow(EMPTY_SEARCH_TERM)
 
-    val uiState =
-        combine(relayListUseCase.relayListWithSelection(), _searchTerm) {
-                (relayCountries, relayItem),
-                searchTerm,
-            ->
-            val filteredRelayCountries =
-                relayCountries.filterOnSearchTerm(searchTerm, relayItem)
-            if (searchTerm.isNotEmpty() && filteredRelayCountries.isEmpty()) {
-                SelectLocationUiState.NoSearchResultFound(searchTerm = searchTerm)
-            } else {
-                SelectLocationUiState.ShowData(
-                    countries = filteredRelayCountries,
-                    selectedRelay = relayItem,
-                )
-            }
-        }
-            .stateIn(
-                viewModelScope,
-                SharingStarted.WhileSubscribed(),
-                SelectLocationUiState.Loading,
+    val uiState = combine(relayListUseCase.relayListWithSelection(), _searchTerm) {
+            (relayCountries, relayItem),
+            searchTerm,
+        ->
+        val filteredRelayCountries = relayCountries.filterOnSearchTerm(searchTerm, relayItem)
+        if (searchTerm.isNotEmpty() && filteredRelayCountries.isEmpty()) {
+            SelectLocationUiState.NoSearchResultFound(searchTerm = searchTerm)
+        } else {
+            SelectLocationUiState.ShowData(
+                countries = filteredRelayCountries,
+                selectedRelay = relayItem,
             )
+        }
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(),
+        SelectLocationUiState.Loading,
+    )
 
     @Suppress("konsist.ensure public properties use permitted names")
     val uiCloseAction = _closeAction.asSharedFlow()

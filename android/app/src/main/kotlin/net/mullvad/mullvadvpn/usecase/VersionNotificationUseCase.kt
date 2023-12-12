@@ -15,16 +15,14 @@ class VersionNotificationUseCase(
 ) {
 
     fun notifications() =
-        serviceConnectionManager.connectionState
-            .flatMapReadyConnectionOrDefault(flowOf(emptyList())) {
-                it.container.appVersionInfoCache.appVersionCallbackFlow().map { versionInfo ->
-                    listOfNotNull(
-                        unsupportedVersionNotification(versionInfo),
-                        updateAvailableNotification(versionInfo),
-                    )
-                }
+        serviceConnectionManager.connectionState.flatMapReadyConnectionOrDefault(flowOf(emptyList())) {
+            it.container.appVersionInfoCache.appVersionCallbackFlow().map { versionInfo ->
+                listOfNotNull(
+                    unsupportedVersionNotification(versionInfo),
+                    updateAvailableNotification(versionInfo),
+                )
             }
-            .distinctUntilChanged()
+        }.distinctUntilChanged()
 
     private fun updateAvailableNotification(versionInfo: VersionInfo): InAppNotification? {
         if (!isVersionInfoNotificationEnabled) {

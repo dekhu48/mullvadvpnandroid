@@ -36,22 +36,20 @@ class AccountViewModel(
 
     val uiSideEffect = _uiSideEffect.asSharedFlow()
 
-    val uiState: StateFlow<AccountUiState> =
-        combine(
-            deviceRepository.deviceState,
-            accountRepository.accountExpiryState,
-            paymentUseCase.purchaseResult,
-            paymentUseCase.paymentAvailability,
-        ) { deviceState, accountExpiry, purchaseResult, paymentAvailability ->
-            AccountUiState(
-                deviceName = deviceState.deviceName() ?: "",
-                accountNumber = deviceState.token() ?: "",
-                accountExpiry = accountExpiry.date(),
-                paymentDialogData = purchaseResult?.toPaymentDialogData(),
-                billingPaymentState = paymentAvailability?.toPaymentState(),
-            )
-        }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), AccountUiState.default())
+    val uiState: StateFlow<AccountUiState> = combine(
+        deviceRepository.deviceState,
+        accountRepository.accountExpiryState,
+        paymentUseCase.purchaseResult,
+        paymentUseCase.paymentAvailability,
+    ) { deviceState, accountExpiry, purchaseResult, paymentAvailability ->
+        AccountUiState(
+            deviceName = deviceState.deviceName() ?: "",
+            accountNumber = deviceState.token() ?: "",
+            accountExpiry = accountExpiry.date(),
+            paymentDialogData = purchaseResult?.toPaymentDialogData(),
+            billingPaymentState = paymentAvailability?.toPaymentState(),
+        )
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), AccountUiState.default())
 
     @Suppress("konsist.ensure public properties use permitted names")
     val enterTransitionEndAction = _enterTransitionEndAction.asSharedFlow()
@@ -127,13 +125,12 @@ data class AccountUiState(
     val paymentDialogData: PaymentDialogData? = null,
 ) {
     companion object {
-        fun default() =
-            AccountUiState(
-                deviceName = DeviceState.Unknown.deviceName(),
-                accountNumber = DeviceState.Unknown.token(),
-                accountExpiry = AccountExpiry.Missing.date(),
-                billingPaymentState = PaymentState.Loading,
-                paymentDialogData = null,
-            )
+        fun default() = AccountUiState(
+            deviceName = DeviceState.Unknown.deviceName(),
+            accountNumber = DeviceState.Unknown.token(),
+            accountExpiry = AccountExpiry.Missing.date(),
+            billingPaymentState = PaymentState.Loading,
+            paymentDialogData = null,
+        )
     }
 }

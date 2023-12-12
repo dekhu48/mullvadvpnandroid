@@ -17,7 +17,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import net.mullvad.mullvadvpn.compose.state.LoginError
 import net.mullvad.mullvadvpn.compose.state.LoginState
-import net.mullvad.mullvadvpn.compose.state.LoginState.*
+import net.mullvad.mullvadvpn.compose.state.LoginState.Idle
+import net.mullvad.mullvadvpn.compose.state.LoginState.Loading
+import net.mullvad.mullvadvpn.compose.state.LoginState.Success
 import net.mullvad.mullvadvpn.compose.state.LoginUiState
 import net.mullvad.mullvadvpn.constant.LOGIN_TIMEOUT_MILLIS
 import net.mullvad.mullvadvpn.model.AccountCreationResult
@@ -50,18 +52,17 @@ class LoginViewModel(
     private val _uiSideEffect = MutableSharedFlow<LoginUiSideEffect>(extraBufferCapacity = 1)
     val uiSideEffect = _uiSideEffect.asSharedFlow()
 
-    private val _uiState =
-        combine(
-            _loginInput,
-            accountRepository.accountHistory,
-            _loginState,
-        ) { loginInput, accountHistoryState, loginState ->
-            LoginUiState(
-                loginInput,
-                accountHistoryState.accountToken()?.let(::AccountToken),
-                loginState,
-            )
-        }
+    private val _uiState = combine(
+        _loginInput,
+        accountRepository.accountHistory,
+        _loginState,
+    ) { loginInput, accountHistoryState, loginState ->
+        LoginUiState(
+            loginInput,
+            accountHistoryState.accountToken()?.let(::AccountToken),
+            loginState,
+        )
+    }
     val uiState: StateFlow<LoginUiState> =
         _uiState.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), LoginUiState.INITIAL)
 
@@ -93,16 +94,16 @@ class LoginViewModel(
                         newDeviceNotificationUseCase.newDeviceCreated()
                         Success
                     }
+
                     LoginResult.InvalidAccount -> Idle(LoginError.InvalidCredentials)
                     LoginResult.MaxDevicesReached -> {
                         // TODO this refresh process should be handled by DeviceListScreen.
-                        val refreshResult =
-                            deviceRepository.refreshAndAwaitDeviceListWithTimeout(
-                                accountToken = accountToken,
-                                shouldClearCache = true,
-                                shouldOverrideCache = true,
-                                timeoutMillis = 5000L,
-                            )
+                        val refreshResult = deviceRepository.refreshAndAwaitDeviceListWithTimeout(
+                            accountToken = accountToken,
+                            shouldClearCache = true,
+                            shouldOverrideCache = true,
+                            timeoutMillis = 5000L,
+                        )
 
                         if (refreshResult.isAvailable()) {
                             // Navigate to device list
@@ -115,6 +116,7 @@ class LoginViewModel(
                             Idle(LoginError.Unknown(result.toString()))
                         }
                     }
+
                     else -> Idle(LoginError.Unknown(result.toString()))
                 }
             _loginState.update { uiState }

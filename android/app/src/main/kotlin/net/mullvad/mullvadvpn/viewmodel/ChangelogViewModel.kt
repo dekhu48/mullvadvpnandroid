@@ -15,19 +15,17 @@ class ChangelogViewModel(
 
     fun refreshChangelogDialogUiState() {
         val shouldShowChangelogDialog =
-            alwaysShowChangelog ||
-                changelogRepository.getVersionCodeOfMostRecentChangelogShowed() < buildVersionCode
-        _uiState.value =
-            if (shouldShowChangelogDialog) {
-                val changelogList = changelogRepository.getLastVersionChanges()
-                if (changelogList.isNotEmpty()) {
-                    ChangelogDialogUiState.Show(changelogList)
-                } else {
-                    ChangelogDialogUiState.Hide
-                }
+            alwaysShowChangelog || changelogRepository.getVersionCodeOfMostRecentChangelogShowed() < buildVersionCode
+        _uiState.value = if (shouldShowChangelogDialog) {
+            val changelogList = changelogRepository.getLastVersionChanges()
+            if (changelogList.isNotEmpty()) {
+                ChangelogDialogUiState.Show(changelogList)
             } else {
                 ChangelogDialogUiState.Hide
             }
+        } else {
+            ChangelogDialogUiState.Hide
+        }
     }
 
     fun dismissChangelogDialog() {

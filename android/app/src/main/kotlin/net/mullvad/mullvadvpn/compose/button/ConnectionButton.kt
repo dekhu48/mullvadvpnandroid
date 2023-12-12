@@ -50,51 +50,47 @@ fun ConnectionButton(
     cancelClick: () -> Unit,
     connectClick: () -> Unit,
 ) {
-    val containerColor =
-        if (state is TunnelState.Disconnected) {
-            MaterialTheme.colorScheme.variant
-        } else {
-            MaterialTheme.colorScheme.error.copy(alpha = AlphaDisconnectButton)
-        }
+    val containerColor = if (state is TunnelState.Disconnected) {
+        MaterialTheme.colorScheme.variant
+    } else {
+        MaterialTheme.colorScheme.error.copy(alpha = AlphaDisconnectButton)
+    }
 
-    val contentColor =
-        if (state is TunnelState.Disconnected) {
-            MaterialTheme.colorScheme.onVariant
-        } else {
-            MaterialTheme.colorScheme.onError
-        }
+    val contentColor = if (state is TunnelState.Disconnected) {
+        MaterialTheme.colorScheme.onVariant
+    } else {
+        MaterialTheme.colorScheme.onError
+    }
 
-    val buttonText =
-        stringResource(
-            id =
-            when (state) {
-                is TunnelState.Disconnected -> R.string.connect
-                is TunnelState.Disconnecting -> R.string.disconnect
-                is TunnelState.Connecting -> R.string.cancel
-                is TunnelState.Connected -> R.string.disconnect
-                is TunnelState.Error -> {
-                    if (state.errorState.isBlocking) {
-                        R.string.disconnect
-                    } else {
-                        R.string.dismiss
-                    }
-                }
-            },
-        )
-
-    val onMainClick =
-        when (state) {
-            is TunnelState.Disconnected -> connectClick
-            is TunnelState.Connecting -> cancelClick
+    val buttonText = stringResource(
+        id = when (state) {
+            is TunnelState.Disconnected -> R.string.connect
+            is TunnelState.Disconnecting -> R.string.disconnect
+            is TunnelState.Connecting -> R.string.cancel
+            is TunnelState.Connected -> R.string.disconnect
             is TunnelState.Error -> {
                 if (state.errorState.isBlocking) {
-                    disconnectClick
+                    R.string.disconnect
                 } else {
-                    cancelClick
+                    R.string.dismiss
                 }
             }
-            else -> disconnectClick
+        },
+    )
+
+    val onMainClick = when (state) {
+        is TunnelState.Disconnected -> connectClick
+        is TunnelState.Connecting -> cancelClick
+        is TunnelState.Error -> {
+            if (state.errorState.isBlocking) {
+                disconnectClick
+            } else {
+                cancelClick
+            }
         }
+
+        else -> disconnectClick
+    }
 
     ConnectionButton(
         modifier = modifier,
@@ -136,7 +132,9 @@ private fun ConnectionButton(
     reconnectButtonTestTag: String = "",
 ) {
     ConstraintLayout(
-        modifier = modifier.padding(vertical = Dimens.connectButtonExtraPadding).fillMaxWidth(),
+        modifier = modifier
+            .padding(vertical = Dimens.connectButtonExtraPadding)
+            .fillMaxWidth(),
     ) {
         // initial height set at 0.dp
         var componentHeight by remember { mutableStateOf(0.dp) }
@@ -152,8 +150,7 @@ private fun ConnectionButton(
 
             Button(
                 onClick = mainClick,
-                shape =
-                if (isReconnectButtonEnabled) {
+                shape = if (isReconnectButtonEnabled) {
                     MaterialTheme.shapes.small.copy(
                         topEnd = CornerSize(percent = 0),
                         bottomEnd = CornerSize(percent = 0),
@@ -161,22 +158,21 @@ private fun ConnectionButton(
                 } else {
                     MaterialTheme.shapes.small
                 },
-                colors =
-                ButtonDefaults.buttonColors(
+                colors = ButtonDefaults.buttonColors(
                     containerColor = containerColor,
                     contentColor = contentColor,
                 ),
-                modifier =
-                Modifier.constrainAs(connectionButton) {
-                    start.linkTo(parent.start)
-                    if (isReconnectButtonEnabled) {
-                        end.linkTo(reconnectButton.start)
-                    } else {
-                        end.linkTo(parent.end)
+                modifier = Modifier
+                    .constrainAs(connectionButton) {
+                        start.linkTo(parent.start)
+                        if (isReconnectButtonEnabled) {
+                            end.linkTo(reconnectButton.start)
+                        } else {
+                            end.linkTo(parent.end)
+                        }
+                        width = Dimension.fillToConstraints
+                        height = Dimension.wrapContent
                     }
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                }
                     .onGloballyPositioned {
                         componentHeight = with(density) { it.size.height.toDp() }
                     },
@@ -188,8 +184,7 @@ private fun ConnectionButton(
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier =
-                    if (isReconnectButtonEnabled) {
+                    modifier = if (isReconnectButtonEnabled) {
                         Modifier.padding(start = componentHeight + Dimens.listItemDivider)
                     } else {
                         Modifier
@@ -199,19 +194,17 @@ private fun ConnectionButton(
 
             if (isReconnectButtonEnabled) {
                 FilledIconButton(
-                    shape =
-                    MaterialTheme.shapes.small.copy(
+                    shape = MaterialTheme.shapes.small.copy(
                         topStart = CornerSize(percent = 0),
                         bottomStart = CornerSize(percent = 0),
                     ),
-                    colors =
-                    IconButtonDefaults.filledIconButtonColors(
+                    colors = IconButtonDefaults.filledIconButtonColors(
                         containerColor = containerColor,
                         contentColor = contentColor,
                     ),
                     onClick = reconnectClick,
-                    modifier =
-                    Modifier.testTag(reconnectButtonTestTag)
+                    modifier = Modifier
+                        .testTag(reconnectButtonTestTag)
                         .constrainAs(reconnectButton) {
                             start.linkTo(connectionButton.end, margin = dividerSize)
                             top.linkTo(connectionButton.top)

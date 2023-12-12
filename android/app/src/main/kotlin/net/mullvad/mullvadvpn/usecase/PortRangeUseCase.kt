@@ -8,7 +8,6 @@ import net.mullvad.mullvadvpn.ui.serviceconnection.RelayListListener
 
 class PortRangeUseCase(private val relayListListener: RelayListListener) {
     fun portRanges(): Flow<List<PortRange>> =
-        relayListListener.relayListEvents
-            .map { it?.wireguardEndpointData?.portRanges ?: emptyList() }
+        relayListListener.relayListEvents.map { it.wireguardEndpointData.portRanges }
             .distinctUntilChanged()
 }
